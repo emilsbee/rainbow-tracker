@@ -1,0 +1,21 @@
+.color-square__container {
+    border-radius: 3px;
+    position: absolute;
+    background-color: white;
+    width: 32px;
+    align-items: center;
+
+}
+
+.color-square {
+    position: relative;
+    height: 22px;
+    width: inherit;
+    border-radius: 3px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+// .color-square__container:hover {
+//     cursor: pointer;
+// } 

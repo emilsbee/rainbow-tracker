@@ -1,0 +1,77 @@
+{
+    "activityConfigs": {
+        "havetos": {
+            "co": true,
+            "d": true, 
+            "t": true
+        }, 
+        "leisure": {
+            "e": true,
+            "m": true,
+            "r": true
+        },
+        "work": {
+            "ed": true,
+            "o": true,
+            "pr": true,
+            "r": true,
+            "ss": true,
+            "sw": true
+        }
+    },
+    "categoryConfigs": {
+        "havetos": "#E9B872",
+        "lesure": "#BBBE64",
+        "sleep": "#6494AA",
+        "work": "#A63D40"
+    },
+    "weeks": {
+        "weekid": {
+            "weekNr": 1,
+            "year": 2020,
+            "days": {
+                "Monday": {
+                    "0": {
+                        "category": "havetos",
+                        "activity": "co",
+                        "note": "Drank piss"
+                    },
+                    "15": {
+                        "category": "leisure",
+                        "activity": "m",
+                        "note": ""
+                    }
+                },
+                "Tuesday": {
+
+                },
+                "Wednesday": {
+
+                },
+                "Thursday": {
+
+                },
+                "Friday": {
+
+                },
+                "Saturday": {
+
+                },
+                "Sunday": {
+
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
