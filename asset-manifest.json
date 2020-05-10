@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/rainbow-tracker/static/css/main.08d2e9df.chunk.css",
+    "main.js": "/rainbow-tracker/static/js/main.034872d5.chunk.js",
+    "main.js.map": "/rainbow-tracker/static/js/main.034872d5.chunk.js.map",
+    "runtime-main.js": "/rainbow-tracker/static/js/runtime-main.6526d97a.js",
+    "runtime-main.js.map": "/rainbow-tracker/static/js/runtime-main.6526d97a.js.map",
+    "static/js/2.985ae717.chunk.js": "/rainbow-tracker/static/js/2.985ae717.chunk.js",
+    "static/js/2.985ae717.chunk.js.map": "/rainbow-tracker/static/js/2.985ae717.chunk.js.map",
+    "index.html": "/rainbow-tracker/index.html",
+    "precache-manifest.7e76f3460384b00b00c4b067516cdb53.js": "/rainbow-tracker/precache-manifest.7e76f3460384b00b00c4b067516cdb53.js",
+    "service-worker.js": "/rainbow-tracker/service-worker.js",
+    "static/css/main.08d2e9df.chunk.css.map": "/rainbow-tracker/static/css/main.08d2e9df.chunk.css.map",
+    "static/js/2.985ae717.chunk.js.LICENSE.txt": "/rainbow-tracker/static/js/2.985ae717.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.6526d97a.js",
+    "static/js/2.985ae717.chunk.js",
+    "static/css/main.08d2e9df.chunk.css",
+    "static/js/main.034872d5.chunk.js"
+  ]
+}
