@@ -12,12 +12,15 @@ const MainDashboardTable  = () => {
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
 
+    const [dragCategory, setDragCategory] = useState('')
+
     useEffect(() => {
         startWeekListener()
         return () => {
             stopWeekListener()
         }
     }, [])
+    console.log(dragCategory)
     return (
         <div>
               <table>
@@ -37,7 +40,14 @@ const MainDashboardTable  = () => {
                                 {Object.keys(currentWeek.days).map((day) => {
                                     return (
                                         <td key={day}>
-                                            <CategoryItem weekid={currentWeek.weekid} day={day} index={index} category={currentWeek.days[day][index].category}></CategoryItem>
+                                            <CategoryItem 
+                                                weekid={currentWeek.weekid} 
+                                                day={day} 
+                                                index={index} 
+                                                category={currentWeek.days[day][index].category}
+                                                setDragCategory={setDragCategory}
+                                            >
+                                            </CategoryItem>
                                         </td>
                                     )
                                 })}

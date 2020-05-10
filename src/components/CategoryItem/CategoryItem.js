@@ -5,17 +5,19 @@ import { useStoreState, useStoreActions } from 'easy-peasy'
 // Internal imports
 import CategoryItemPopover from '../CategoryItemPopover/CategoryItemPopover'
 
-export default ({ category, day,index, weekid} ) => {
+export default ({ category, day,index, weekid, setDragCategory } ) => {
   const categorySettings = useStoreState(state => state.settings.categorySettings)
   const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
 
   const [showPopover, setShowPopover] = useState(false)
   const [mousePos, setMousePos] = useState('')
+  
+
 
   const handleDragStart = (e) => {
       let img = new Image()
       e.dataTransfer.setDragImage(img, 1, 1)
-      
+      setDragCategory(category)
   }
 
   const handleDragEnter = (e) => {
@@ -25,15 +27,8 @@ export default ({ category, day,index, weekid} ) => {
 
   const handleShowPopover = (e) => {
     setMousePos(e.pageY)
-    // console.log('Client: ', e.clientY)
-    // console.log('Movement: ', e.movementY)
-    // console.log('Page: ', e.pageY)
-    // console.log('Screen: ', e.screenY)
-
     setShowPopover(true)
   }
-
-
 
   const handleClick = ({category}) => {
     setShowPopover(false)
