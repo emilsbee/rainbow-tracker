@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "easy-peasy": "^3.3.0",
     "firebase": "^7.14.2",
+    "gh-pages": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",
@@ -15,6 +16,8 @@
     "sass": "^1.26.5"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -40,5 +43,6 @@
   "devDependencies": {},
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "homepage": "https://emilsbee.github.io/rainbow-tracker"
 }

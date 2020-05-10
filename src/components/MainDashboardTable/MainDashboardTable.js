@@ -12,40 +12,55 @@ const MainDashboardTable  = () => {
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
 
-    const [dragCategory, setDragCategory] = useState('')
+    const [localWeek, setLocalWeek] = useState(false)
+    const [dragCategory, setDragCategory] = useState("")
+    const [draggedCategories, setDraggedCategories] = useState([])
+    const [dragIndex, setDragIndex] = useState('')
+    const [dragHover, setDragHover] = useState('')
 
     useEffect(() => {
         startWeekListener()
+        
         return () => {
             stopWeekListener()
         }
     }, [])
-    console.log(dragCategory)
+
+    useEffect(() => {
+        setLocalWeek(currentWeek)
+    }, [currentWeek])
+
+    
     return (
         <div>
               <table>
                   <thead>
                       <tr>
                           <th></th>
-                        {currentWeek && Object.keys(currentWeek.days).map((day) => {
+                        {localWeek && Object.keys(localWeek.days).map((day) => {
                             return <th key={day}>{day}</th>
                         })}
                       </tr>
                   </thead>
                   <tbody>
-                      {currentWeek && Object.keys(currentWeek.days.Friday).map((val, index) => {
+                      {localWeek && Object.keys(localWeek.days.Friday).map((val, index) => {
                           return (
-                            <tr key={index} className="table-row">
-                                <td className="table-time">{timeValues()[index]}</td>
-                                {Object.keys(currentWeek.days).map((day) => {
+                            <tr key={index} className="table-row" onMouseEnter={() => setDragIndex(index)}>
+                                <td className="table-time"  style={{"backgroundColor": dragIndex === index ? "#D3D3D3" : ''}}>{timeValues()[index]}</td>
+                                {Object.keys(localWeek.days).map((day) => {
                                     return (
                                         <td key={day}>
                                             <CategoryItem 
-                                                weekid={currentWeek.weekid} 
+                                                weekid={localWeek.weekid} 
                                                 day={day} 
                                                 index={index} 
-                                                category={currentWeek.days[day][index].category}
+                                                category={localWeek.days[day][index].category}
                                                 setDragCategory={setDragCategory}
+                                                dragCategory={dragCategory}
+                                                localWeek={localWeek}
+                                                draggedCategories={draggedCategories}
+                                                setDraggedCategories={setDraggedCategories}
+                                                setDragIndex={setDragIndex}
                                             >
                                             </CategoryItem>
                                         </td>
