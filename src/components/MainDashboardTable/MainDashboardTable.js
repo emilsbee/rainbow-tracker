@@ -5,12 +5,13 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 // Internal imports 
 import CategoryItem from '../CategoryItem/CategoryItem'
 import {timeValues} from '../../utils/staticData'
+import { orderByDays } from '../../utils/ordering'
 
 const MainDashboardTable  = () => {
     const currentWeek = useStoreState(state => state.weeks.currentWeek)
     const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
-    const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
+    const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
 
     const [localWeek, setLocalWeek] = useState(false)
     const [dragCategory, setDragCategory] = useState("")
@@ -27,9 +28,16 @@ const MainDashboardTable  = () => {
     }, [])
 
     useEffect(() => {
-        setLocalWeek(currentWeek)
+        if(currentWeek) {
+            // setLocalWeek(orderByDays(currentWeek.days))
+            currentWeek["days"] = orderByDays(currentWeek.days)
+            setLocalWeek(currentWeek)
+            
+        } else {
+            setLocalWeek(currentWeek)
+        }
     }, [currentWeek])
-
+    
     
     return (
         <div>
@@ -71,7 +79,10 @@ const MainDashboardTable  = () => {
                       })}
                   </tbody>
               </table>
-              {/* <button onClick={() => randomThunk()}>Press me</button> */}
+              {/* <button 
+                onClick={() => updateWeek()}>
+                    Press me
+            </button> */}
         </div>
     )
 }

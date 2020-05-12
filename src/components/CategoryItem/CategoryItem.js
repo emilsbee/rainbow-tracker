@@ -31,36 +31,41 @@ export default ({
       setDragCategory(localCategory)
   }
 
+
   const handleDragEnter = (e) => {
-    var weekObj = localWeek
-    weekObj["days"][day][index].category = dragCategory
     setDragIndex(index)
 
     if (draggedCategories.length === 0) {
       setLocalCategory(dragCategory)
-      setDraggedCategories([{
-        day,
-        category: dragCategory,
-        index
-      }])
+      var categoryObj = {}
+      categoryObj[day] = [index]
+      setDraggedCategories(categoryObj)
     } else {
-      draggedCategories.forEach((item) => {
-        setLocalCategory(dragCategory)
-        if (item.day === day && item.index === index) {
-           return 
+      setLocalCategory(dragCategory)
+        var copyDraggedCategories = draggedCategories
+        if (copyDraggedCategories[day]) {
+          if (copyDraggedCategories[day].includes(index)) {
+            return 
+          } else {
+            copyDraggedCategories[day].push(index)
+            setDraggedCategories(copyDraggedCategories)
+          }
         } else {
-          setDraggedCategories([...draggedCategories, {
-            day,
-            category: dragCategory,
-            index
-          }])
+          copyDraggedCategories[day] = [index]
+          setDraggedCategories(copyDraggedCategories)
         }
-      })
     }
   }
 
   const handleDragEnd = () => {
-    console.log(draggedCategories)
+    updateWeek({
+      type: 'CATEGORY_MANY',
+      weekid,
+      category: dragCategory,
+      draggedCategories
+    })
+    setDragCategory('')
+    setDraggedCategories([])
   }
 
   const handleShowPopover = (e) => {
