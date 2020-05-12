@@ -2,7 +2,7 @@ export const orderByDays = (data) => {
     const weekExample = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     var daysObj = {}
     Object.keys(data).forEach((day, index) => {
-        daysObj[weekExample[index]] = data[day]
+        daysObj[weekExample[index]] = data[weekExample[index]]
     })
     return daysObj
 } 

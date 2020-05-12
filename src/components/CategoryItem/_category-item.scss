@@ -1,6 +1,6 @@
-.test-item {
+.category-item {
   height: 20px;
-  margin: 1px;
+  margin: 3px;
   padding: none;
   width: 18px;
   border-radius: 3px;
@@ -8,6 +8,19 @@
   // background-color: #f0ead6;
 }
 
-.test-item:hover {
+.category-item:hover {
   cursor: pointer;
 }
+
+.activity-item:hover {
+  cursor: pointer;
+  background-color: #D3D3D3;
+  border-radius: 3px;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

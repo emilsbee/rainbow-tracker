@@ -17,7 +17,7 @@ const CategoryItemPopover  = ({ onClick, handleCloseModal, mousePosition }) => {
             {Object.keys(colors).map((category) => {
                 return <div 
                         className="color-square"  
-                        onClick={() => onClick({category})} 
+                        onClick={() => onClick(category)} 
                         key={category} 
                         style={
                             {

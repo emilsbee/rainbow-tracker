@@ -32,17 +32,27 @@ const weeksModel = {
 
         switch(payload.type) {
             case 'CATEGORY_ONCE':
-                await database.ref(`users/${uid}/weeks/${payload.weekid}/days/${payload.day}/${payload.index}/category`).set(payload.category)
+                var onceUpdates = {}
+                onceUpdates[`users/${uid}/weeks/${payload.weekid}/days/${payload.day}/${payload.index}/category`] = payload.category
+                onceUpdates[`users/${uid}/weeks/${payload.weekid}/days/${payload.day}/${payload.index}/activity`] = ''
+                await database.ref().update(onceUpdates)
+                break;
             case 'CATEGORY_MANY':
                 if(payload.draggedCategories) {
                     var updates = {}
                     Object.keys(payload.draggedCategories).forEach((day) => {
                         payload.draggedCategories[day].forEach((index) => {
                             updates[`users/${uid}/weeks/${payload.weekid}/days/${day}/${index}/category`] = payload.category
+                            updates[`users/${uid}/weeks/${payload.weekid}/days/${day}/${index}/activity`] = payload.activity
                         })
                     })
                     return database.ref().update(updates)
                 }
+                break;
+            case 'ACTIVITY_ONCE':
+                await database.ref(`users/${uid}/weeks/${payload.weekid}/days/${payload.day}/${payload.index}/activity`).set(payload.activity)
+                break;
+
         }
     }),
     randomThunk: thunk(async (actions, payload) => {
