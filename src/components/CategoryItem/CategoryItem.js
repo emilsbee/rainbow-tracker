@@ -5,6 +5,7 @@ import { useStoreState, useStoreActions } from 'easy-peasy'
 // Internal imports
 import CategoryItemPopover from '../CategoryItemPopover/CategoryItemPopover'
 import ActivityItemPopover from "../ActivityItemPopover/ActivityItemPopover";
+import './category-item.scss'
 
 export default ({ 
   category, 
@@ -16,13 +17,11 @@ export default ({
   dragCategory,
   setDragActivity,
   dragActivity,
-  localWeek,
   draggedCategories,
   setDraggedCategories,
   setDragIndex
 }) => {
   const categorySettings = useStoreState(state => state.settings.categorySettings)
-  
   const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
   
   const [showPopover, setShowPopover] = useState(false)
@@ -120,9 +119,9 @@ export default ({
 
 
   return (
-    <div style={{"display": "flex", "justifyContent":"space-between ", "alignItems": "center"}}>
+    <div className="main-container">
 
-      <div  style={{"display": "flex", "justifyContent":"flex-left ", "alignItems": "center", "width": 44 }}>
+      <div className="category-activity-container">
         {/*  Category component  */}
         <div  
             className="category-item" 
@@ -136,15 +135,16 @@ export default ({
         {/*  Category component  */}
 
         {/* Activity componenet */}
-        {localCategory !== '' && localCategory !== 'sleep' && <div 
-          className="activity-item" 
-          onClick={handleActivityPopover}
-          style={{"width": "20px", "height":"20px"}}
-        >
-          {localActivity}
-        </div>}
+        {localCategory !== '' && localCategory !== 'sleep' && 
+          <div 
+            className="activity-item" 
+            onClick={handleActivityPopover}
+          >
+            {localActivity}
+          </div>
+        }
         {/* Activity componenet */}
-    </div>
+      </div>
 
     {/*  Popover components  */}
       {showPopover ? 

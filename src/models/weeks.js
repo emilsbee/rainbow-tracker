@@ -1,11 +1,11 @@
 // External imports
 import { thunk, action } from "easy-peasy"
-
+import moment from 'moment'
 
 // Internal imports
-import database, { firebase, googleAuthProvider } from '../components/firebase/firebase'
+import database from '../components/firebase/firebase'
 import { store } from '../index'
-import { timeIntervals } from '../utils/structure'
+import { indices } from '../utils/staticData'
 
 
 const weeksModel = {
@@ -16,7 +16,7 @@ const weeksModel = {
     startWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         
-        var weeksRef = database.ref(`users/${uid}/weeks/-M6oZ060IUSk8-jKd8MH`)
+        var weeksRef = database.ref(`users/${uid}/weeks/-M7DwNkl5YQUGIyuAcnp`)
         weeksRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
             weekObj["weekid"] = snapshot.key
@@ -25,7 +25,7 @@ const weeksModel = {
     }),
     stopWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        database.ref(`users/${uid}/weeks/-M6oZ060IUSk8-jKd8MH`).off()
+        database.ref(`users/${uid}/weeks/-M7DwNkl5YQUGIyuAcnp`).off()
     }),
     setWeek: action((state, payload) => {
         state.currentWeek = payload
@@ -33,7 +33,7 @@ const weeksModel = {
     startNoteListeners: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 
-        var notesRef = database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH`)
+        var notesRef = database.ref(`users/${uid}/notes/-M7DwNkl5YQUGIyuAcnp`)
         notesRef.on('value', function(snapshot) {
             actions.setNotes({
                 type: 'NOTES',
@@ -41,7 +41,7 @@ const weeksModel = {
             })
         })
 
-        var indexNotesRef = database.ref(`users/${uid}/indexNotes/-M6oZ060IUSk8-jKd8MH`)
+        var indexNotesRef = database.ref(`users/${uid}/indexNotes/-M7DwNkl5YQUGIyuAcnp`)
         indexNotesRef.on('value', function(snapshot) {
             actions.setNotes({
                 type: 'INDEX_NOTES',
@@ -49,7 +49,7 @@ const weeksModel = {
             })
         })
 
-        var noteIndicesRef = database.ref(`users/${uid}/noteIndices/-M6oZ060IUSk8-jKd8MH`)
+        var noteIndicesRef = database.ref(`users/${uid}/noteIndices/-M7DwNkl5YQUGIyuAcnp`)
         noteIndicesRef.on('value', function(snapshot) {
             actions.setNotes({
                 type: 'NOTE_INDICES',
@@ -59,7 +59,7 @@ const weeksModel = {
     }),
     stopNoteListeners: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH`).off()
+        database.ref(`users/${uid}/notes/-M7DwNkl5YQUGIyuAcnp`).off()
         
     }),
     setNotes: action((state, payload) => {
@@ -73,6 +73,8 @@ const weeksModel = {
             case 'NOTE_INDICES': 
                 state.noteIndices = payload.noteIndices
                 break;
+            default:
+                return
         }
     }),
     updateWeek: thunk(async (actions, payload) => {
@@ -100,7 +102,8 @@ const weeksModel = {
             case 'ACTIVITY_ONCE':
                 await database.ref(`users/${uid}/weeks/${payload.weekid}/days/${payload.day}/${payload.index}/activity`).set(payload.activity)
                 break;
-
+            default:
+                return
         }
     }),
     updateNotes: thunk(async (actions, payload) => {
@@ -108,23 +111,78 @@ const weeksModel = {
 
 
     }),
-    randomThunk: thunk(async (actions, payload) => {
+    initialiseUser: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
+        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+        const hasData = await database.ref(`users/${uid}/categoryConfigs`).once('value')
+        
+        if(hasData.val()) {
+            return 
+        } else {
+            const newWeek = await database.ref(`users/${uid}/weeks`).push({weekNr: moment().week(), year: moment().year()})
+            const weekid = newWeek.key
+            var updates = {}
+            updates[`users/${uid}/activityConfigs`] = {
+                havetos: {
+                    co: true,
+                    d: true,
+                    t: true
+                },
+                leisure: {
+                    e: true,
+                    m: true,
+                    r: true
+                },
+                work: {
+                    ed: true,
+                    o: true,
+                    pr: true,
+                    r: true,
+                    ss: true,
+                    sw: true
+                }
+            }
+            updates[`users/${uid}/categoryConfigs`] = {
+                havetos: "#E9B872",
+                leisure: "#BBBE64",
+                sleep: "#6494AA",
+                work: "#a63d40"
+            }
+
+            for (var day in days) {
+
+                for (var i in indices) {
+                    var newNoteKey = database.ref().child(`users/${uid}/notes/${weekid}/${days[day]}`).push().key
+                    updates[`users/${uid}/notes/${weekid}/${days[day]}/${newNoteKey}`] = ""
+                    updates[`users/${uid}/indexNotes/${weekid}/${days[day]}/${i}`] = newNoteKey
+                    var noteIndexObj = {}
+                    noteIndexObj[i] = true
+                    updates[`users/${uid}/noteIndices/${weekid}/${days[day]}/${newNoteKey}`] = noteIndexObj
+                    updates[`users/${uid}/weeks/${weekid}/days/${days[day]}/${i}`] = {activity: '', category: ''}
+                }
+            }
+            
+            return await database.ref().update(updates)
+        }
+    }),
+    randomThunk: thunk(async (actions, payload) => {
+        // const uid = store.getState().auth.uid
         
 
-        var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        days.forEach(async(day) => {
-            var updates = {}
-            var notes = await database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH/${day}`).once("value")
-            var noteKeys = Object.keys(notes.val())
-            for (var i = 0; i < 96; i++) {
-                updates[`users/${uid}/indexNotes/-M6oZ060IUSk8-jKd8MH/${day}/${i}`] = noteKeys[i]
-                var noteIndiceObj = {}
-                noteIndiceObj[i] = true
-                updates[`users/${uid}/noteIndices/-M6oZ060IUSk8-jKd8MH/${day}/${noteKeys[i]}`] = noteIndiceObj
-            }
-            await database.ref().update(updates)    
-        })
+        // var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        // days.forEach(async(day) => {
+        //     var updates = {}
+        //     var notes = await database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH/${day}`).once("value")
+        //     var noteKeys = Object.keys(notes.val())
+        //     for (var i = 0; i < 96; i++) {
+        //         updates[`users/${uid}/indexNotes/-M6oZ060IUSk8-jKd8MH/${day}/${i}`] = noteKeys[i]
+        //         var noteIndiceObj = {}
+        //         noteIndiceObj[i] = true
+        //         updates[`users/${uid}/noteIndices/-M6oZ060IUSk8-jKd8MH/${day}/${noteKeys[i]}`] = noteIndiceObj
+        //     }
+        //     await database.ref().update(updates)    
+        // })
 
     })
     

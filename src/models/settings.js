@@ -3,9 +3,9 @@ import { thunk, action } from "easy-peasy"
 
 
 // Internal imports
-import database, { firebase, googleAuthProvider } from '../components/firebase/firebase'
+import database from '../components/firebase/firebase'
 import { store } from '../index'
-import { timeIntervals } from '../utils/structure'
+
 
 
 const settingsModel = {
@@ -32,6 +32,8 @@ const settingsModel = {
             case 'CATEGORY':
                 state.categorySettings = payload.categorySettings
                 break;
+            default:
+                return
         }
     })
     

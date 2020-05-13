@@ -4,20 +4,24 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { createStore, StoreProvider } from 'easy-peasy'
 
+
 //Internal imports
 import firebaseModel from './models/firebase'
 import weeksModel from './models/weeks'
 import settingsModel from './models/settings'
-import './styles/styles.scss'
 import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
+
+require('dotenv').config()
 
 const store = createStore({
   auth: firebaseModel,
   weeks: weeksModel,
   settings: settingsModel
 })
+
+
 
 const jsx = (
   <StoreProvider store={store}>
@@ -34,9 +38,11 @@ const renderApp = () => {
 }
 ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 
-firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged( async(user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
+    
+        await store.dispatch.weeks.initialiseUser()
         store.dispatch.settings.startSettingsListener()
         renderApp()
         if (history.location.pathname === '/') {

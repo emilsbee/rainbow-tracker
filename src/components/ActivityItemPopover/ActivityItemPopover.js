@@ -1,8 +1,10 @@
 // External imports
-import React, { useEffect, useState, useRef } from 'react'
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import React, { useEffect, useState } from 'react'
+import { useStoreState } from 'easy-peasy'
 
 // Internal imports 
+import './activity-item-popover.scss'
+
 
 const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, category, mousePositionX }) => {
     const activitySettings = useStoreState(state => state.settings.activitySettings)
@@ -14,10 +16,18 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
     
 
     return (
-        <div className="activity-item-popover__container" onMouseLeave={handleCloseModal} style={{"top": mousePositionY - 30,"left": mousePositionX - 13, "cursor": cursorType, "display": category === 'sleep' ? 'none' : ''}}>
+        <div 
+            className="popover_container" 
+            onMouseLeave={handleCloseModal} 
+            style={{
+                "top": mousePositionY - 30,
+                "left": mousePositionX - 13, 
+                "cursor": cursorType, 
+                "display": category === 'sleep' ? 'none' : ''}}
+        >
             {Object.keys(activitySettings[category]).map((activity) => {
-                return <div  
-                            className="activity-item-popover"
+                return <div 
+                            className="popover"
                             onClick={() => onClick(activity)} 
                             key={activity} 
                         >
@@ -25,7 +35,6 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
                         </div>
                     
             })}
-    
         </div>
     )
 }

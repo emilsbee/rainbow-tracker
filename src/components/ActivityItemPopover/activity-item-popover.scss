@@ -1,4 +1,4 @@
-.activity-item-popover__container {
+.popover_container {
     border-radius: 3px;
     position: absolute;
     background-color: white;
@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-.activity-item-popover {
+.popover {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -19,7 +19,3 @@
     margin-top: 1px;
     margin-bottom: 1px;
 }
-
-// .color-square__container:hover {
-//     cursor: pointer;
-// } 

@@ -76,7 +76,7 @@ const MainDashboardTable  = () => {
 
                                     {Object.keys(localWeek.days).map((day) => {
                                         return (
-                                            <td key={day} className="categ-activ-container">
+                                            <td key={day} className="category-cell">
                                                 <CategoryItem 
                                                     weekid={localWeek.weekid} 
                                                     day={day} 
