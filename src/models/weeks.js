@@ -10,13 +10,25 @@ import { indices } from '../utils/staticData'
 
 const weeksModel = {
     currentWeek: false,
-    notes: {},
-    indexNotes: {},
-    noteIndices: {},
+    notes: false,
+    indexNotes: false,
+    noteIndices: false,
     startWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        
-        var weeksRef = database.ref(`users/${uid}/weeks/-M7DwNkl5YQUGIyuAcnp`)
+        var weekid;
+
+        switch(payload.type) {
+            case 'LATEST_WEEK':
+                if (payload.year) {
+                    var latestWeekid = await database.ref(`users/${uid}/yearWeeks/${payload.year}`).orderByKey().limitToLast(1).once('value')
+                } else {
+                    var latestWeekid = await database.ref(`users/${uid}/yearWeekNumbers`).orderByKey().limitToLast(1).once('value')
+                }
+                weekid = latestWeekid.val()[Object.keys(latestWeekid.val())]
+                break;
+        }
+
+        var weeksRef = database.ref(`users/${uid}/weeks/${weekid}`)
         weeksRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
             weekObj["weekid"] = snapshot.key
@@ -25,7 +37,7 @@ const weeksModel = {
     }),
     stopWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        database.ref(`users/${uid}/weeks/-M7DwNkl5YQUGIyuAcnp`).off()
+        database.ref(`users/${uid}/weeks`).off()
     }),
     setWeek: action((state, payload) => {
         state.currentWeek = payload
@@ -33,7 +45,7 @@ const weeksModel = {
     startNoteListeners: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 
-        var notesRef = database.ref(`users/${uid}/notes/-M7DwNkl5YQUGIyuAcnp`)
+        var notesRef = database.ref(`users/${uid}/notes/${payload.weekid}`)
         notesRef.on('value', function(snapshot) {
             actions.setNotes({
                 type: 'NOTES',
@@ -41,7 +53,7 @@ const weeksModel = {
             })
         })
 
-        var indexNotesRef = database.ref(`users/${uid}/indexNotes/-M7DwNkl5YQUGIyuAcnp`)
+        var indexNotesRef = database.ref(`users/${uid}/indexNotes/${payload.weekid}`)
         indexNotesRef.on('value', function(snapshot) {
             actions.setNotes({
                 type: 'INDEX_NOTES',
@@ -49,7 +61,7 @@ const weeksModel = {
             })
         })
 
-        var noteIndicesRef = database.ref(`users/${uid}/noteIndices/-M7DwNkl5YQUGIyuAcnp`)
+        var noteIndicesRef = database.ref(`users/${uid}/noteIndices/${payload.weekid}`)
         noteIndicesRef.on('value', function(snapshot) {
             actions.setNotes({
                 type: 'NOTE_INDICES',
@@ -59,7 +71,9 @@ const weeksModel = {
     }),
     stopNoteListeners: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        database.ref(`users/${uid}/notes/-M7DwNkl5YQUGIyuAcnp`).off()
+        database.ref(`users/${uid}/notes`).off()
+        database.ref(`users/${uid}/indexNotes`).off()
+        database.ref(`users/${uid}/noteIndices`).off()
         
     }),
     setNotes: action((state, payload) => {
@@ -120,9 +134,12 @@ const weeksModel = {
         if(hasData.val()) {
             return 
         } else {
-            const newWeek = await database.ref(`users/${uid}/weeks`).push({weekNr: moment().week(), year: moment().year()})
+            const newWeek = await database.ref(`users/${uid}/weeks`).push({weekNr: moment().week(), year: moment().year(), yearWeekNr: `${moment().year}_${moment().week()}`})
             const weekid = newWeek.key
             var updates = {}
+            updates[`users/${uid}/years/${moment().year()}`] = true
+            updates[`users/${uid}/yearWeeks/${moment().year()}/${moment().week()}`] = weekid
+            updates[`users/${uid}/yearWeekNumbers/${moment().year()}_${moment().week()}`] = weekid
             updates[`users/${uid}/activityConfigs`] = {
                 havetos: {
                     co: true,

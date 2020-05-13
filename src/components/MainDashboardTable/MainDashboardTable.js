@@ -27,8 +27,8 @@ const MainDashboardTable  = () => {
     const [dragIndex, setDragIndex] = useState('')
 
     useEffect(() => {
-        startNoteListeners()
-        startWeekListener()
+        startWeekListener({type: 'LATEST_WEEK'})
+    
         return () => {
             stopWeekListener()
             stopNoteListeners()
@@ -39,7 +39,8 @@ const MainDashboardTable  = () => {
         if(currentWeek) {
             currentWeek["days"] = orderByDays(currentWeek.days)
             setLocalWeek(currentWeek)
-            
+            startNoteListeners({weekid: currentWeek.weekid})
+
         } else {
             setLocalWeek(currentWeek)
         }

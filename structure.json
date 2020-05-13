@@ -53,6 +53,7 @@
         "weekid": {
             "weekNr": 1,
             "year": 2020,
+            "yearWeekNr": "2020_1",
             "days": {
                 "Monday": {
                     "0": {
@@ -84,6 +85,19 @@
                 }
             }
         }
+    },
+    "years": {
+        "2020": true,
+        "2019": true
+    }, 
+    "yearWeeks": {
+        "2018": {
+            "1":"weekid",
+            "2":"weekid"
+        }
+    },
+    "yearWeekNumbers": {
+        "2020_1": "weekid"
     }
 }
 
