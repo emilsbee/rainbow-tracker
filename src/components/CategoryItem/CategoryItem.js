@@ -19,9 +19,7 @@ export default ({
   localWeek,
   draggedCategories,
   setDraggedCategories,
-  setDragIndex,
-  note,
-  noteMultiplier
+  setDragIndex
 }) => {
   const categorySettings = useStoreState(state => state.settings.categorySettings)
   
@@ -119,7 +117,7 @@ export default ({
     })
   }
 
-  
+
 
   return (
     <div style={{"display": "flex", "justifyContent":"space-between ", "alignItems": "center"}}>
@@ -147,27 +145,6 @@ export default ({
         </div>}
         {/* Activity componenet */}
     </div>
-
-    {/* Input field */}
-    {note || note === '' ?
-      <div 
-        style={
-          {
-            "width":"100px", 
-            "height": `${21*noteMultiplier + (noteMultiplier > 1 ? 2*noteMultiplier : 0)}px`,
-            "border":"#D3D3D3 0.5px solid", 
-            "position": noteMultiplier > 1 ? "absolute" : '',
-            "left": noteMultiplier > 1 ? "152px" : '',
-            "top": noteMultiplier > 1 ? "30px" : ''
-          }
-        }
-      >
-        {note}
-      </div>
-      : 
-      null
-    }
-    {/* Input field */}
 
     {/*  Popover components  */}
       {showPopover ? 

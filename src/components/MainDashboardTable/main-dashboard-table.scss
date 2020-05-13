@@ -1,0 +1,34 @@
+.categ-activ-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 160px;
+    height: 27px;
+    padding: 0;
+}
+
+.table-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+table {
+    display: flex;
+    flex-direction: column;
+    width: 1160px;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.table-row {
+    display: flex;
+}
+
+.time-cell {
+    width: 38px;
+}
