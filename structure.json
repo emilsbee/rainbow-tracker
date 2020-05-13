@@ -25,6 +25,30 @@
         "sleep": "#6494AA",
         "work": "#A63D40"
     },
+    "notes": {
+        "weekid": {
+            "Monday": {
+                "noteid":"noteText"
+            }
+        }
+    },
+    "indexNotes": {
+        "weekid": {
+            "Monday": {
+                "0": "noteid", 
+                "1": "noteid", 
+                "2": "noteid"
+            }   
+        }
+    },
+    "noteIndices": {
+        "weekid": {
+            "Monday": {
+                "noteid": {"0": true},
+                "noteid": {"1": true}
+            }
+        }
+    },
     "weeks": {
         "weekid": {
             "weekNr": 1,
@@ -33,13 +57,11 @@
                 "Monday": {
                     "0": {
                         "category": "havetos",
-                        "activity": "co",
-                        "note": "Drank piss"
+                        "activity": "co"
                     },
-                    "15": {
+                    "1": {
                         "category": "leisure",
-                        "activity": "m",
-                        "note": ""
+                        "activity": "m"
                     }
                 },
                 "Tuesday": {

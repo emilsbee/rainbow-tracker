@@ -19,7 +19,9 @@ export default ({
   localWeek,
   draggedCategories,
   setDraggedCategories,
-  setDragIndex
+  setDragIndex,
+  note,
+  noteMultiplier
 }) => {
   const categorySettings = useStoreState(state => state.settings.categorySettings)
   
@@ -117,32 +119,80 @@ export default ({
     })
   }
 
-  const handleCloseModal = () => {
-    setShowPopover(false)
-  }
   
-  return (
-    <div style={{"display": "flex", "justifyContent":"flex-start ", "alignItems": "center"}}>
-    <div  
-        
-        className="category-item" 
-        draggable={true}
-        onDragStart={handleDragStart}
-        onDragEnter={handleDragEnter}
-        style={{"backgroundColor": localCategory !== '' ? categorySettings[localCategory] : "#ebebe0"}}
-        onClick={handleShowPopover}
-        onDragEnd={handleDragEnd}
-    />
-    {localCategory !== '' && localCategory !== 'sleep' && <div 
-      className="activity-item" 
-      onClick={handleActivityPopover}
-      style={{"width": "20px", "height":"20px"}}
-    >
-      {localActivity}
-    </div>}
 
-    {showPopover ? <CategoryItemPopover mousePosition={mousePosY} onClick={pickCategory} handleCloseModal={() => setShowPopover(false)}/> : null}
-    {showActivityPopover ? <ActivityItemPopover category={localCategory} mousePositionY={mousePosY} mousePositionX={mousePosX} onClick={pickActivity} handleCloseModal={() => setShowActivityPopover(false)}/> : null}
+  return (
+    <div style={{"display": "flex", "justifyContent":"space-between ", "alignItems": "center"}}>
+
+      <div  style={{"display": "flex", "justifyContent":"flex-left ", "alignItems": "center", "width": 44 }}>
+        {/*  Category component  */}
+        <div  
+            className="category-item" 
+            draggable={true}
+            onDragStart={handleDragStart}
+            onDragEnter={handleDragEnter}
+            style={{"backgroundColor": localCategory !== '' ? categorySettings[localCategory] : "#ebebe0"}}
+            onClick={handleShowPopover}
+            onDragEnd={handleDragEnd}
+        />
+        {/*  Category component  */}
+
+        {/* Activity componenet */}
+        {localCategory !== '' && localCategory !== 'sleep' && <div 
+          className="activity-item" 
+          onClick={handleActivityPopover}
+          style={{"width": "20px", "height":"20px"}}
+        >
+          {localActivity}
+        </div>}
+        {/* Activity componenet */}
+    </div>
+
+    {/* Input field */}
+    {note || note === '' ?
+      <div 
+        style={
+          {
+            "width":"100px", 
+            "height": `${21*noteMultiplier + (noteMultiplier > 1 ? 2*noteMultiplier : 0)}px`,
+            "border":"#D3D3D3 0.5px solid", 
+            "position": noteMultiplier > 1 ? "absolute" : '',
+            "left": noteMultiplier > 1 ? "152px" : '',
+            "top": noteMultiplier > 1 ? "30px" : ''
+          }
+        }
+      >
+        {note}
+      </div>
+      : 
+      null
+    }
+    {/* Input field */}
+
+    {/*  Popover components  */}
+      {showPopover ? 
+        <CategoryItemPopover 
+          mousePosition={mousePosY} 
+          onClick={pickCategory} 
+          handleCloseModal={() => setShowPopover(false)}
+        /> 
+        : 
+          null
+      }
+
+      {showActivityPopover ? 
+        <ActivityItemPopover 
+          category={localCategory} 
+          mousePositionY={mousePosY} 
+          mousePositionX={mousePosX} 
+          onClick={pickActivity} 
+          handleCloseModal={() => setShowActivityPopover(false)}
+        /> 
+        : 
+        null
+      }
+    {/*  Popover components  */}
+
     </div>
   );
 };

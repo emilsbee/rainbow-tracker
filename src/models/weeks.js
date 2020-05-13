@@ -10,6 +10,9 @@ import { timeIntervals } from '../utils/structure'
 
 const weeksModel = {
     currentWeek: false,
+    notes: {},
+    indexNotes: {},
+    noteIndices: {},
     startWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         
@@ -26,6 +29,51 @@ const weeksModel = {
     }),
     setWeek: action((state, payload) => {
         state.currentWeek = payload
+    }),
+    startNoteListeners: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        var notesRef = database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH`)
+        notesRef.on('value', function(snapshot) {
+            actions.setNotes({
+                type: 'NOTES',
+                notes: snapshot.val()
+            })
+        })
+
+        var indexNotesRef = database.ref(`users/${uid}/indexNotes/-M6oZ060IUSk8-jKd8MH`)
+        indexNotesRef.on('value', function(snapshot) {
+            actions.setNotes({
+                type: 'INDEX_NOTES',
+                indexNotes: snapshot.val()
+            })
+        })
+
+        var noteIndicesRef = database.ref(`users/${uid}/noteIndices/-M6oZ060IUSk8-jKd8MH`)
+        noteIndicesRef.on('value', function(snapshot) {
+            actions.setNotes({
+                type: 'NOTE_INDICES',
+                noteIndices: snapshot.val()
+            })
+        })
+    }),
+    stopNoteListeners: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH`).off()
+        
+    }),
+    setNotes: action((state, payload) => {
+        switch(payload.type) {
+            case 'NOTES': 
+                state.notes = payload.notes
+                break;
+            case 'INDEX_NOTES': 
+                state.indexNotes = payload.indexNotes
+                break;
+            case 'NOTE_INDICES': 
+                state.noteIndices = payload.noteIndices
+                break;
+        }
     }),
     updateWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
@@ -55,13 +103,29 @@ const weeksModel = {
 
         }
     }),
+    updateNotes: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+
+    }),
     randomThunk: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        // var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        // day.forEach((day) => {
-        //     await database.ref(`users/${uid}/weeks/-M6oZ060IUSk8-jKd8MH/${day}`).set(timeIntervals)
-        // })
         
+
+        var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        days.forEach(async(day) => {
+            var updates = {}
+            var notes = await database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH/${day}`).once("value")
+            var noteKeys = Object.keys(notes.val())
+            for (var i = 0; i < 96; i++) {
+                updates[`users/${uid}/indexNotes/-M6oZ060IUSk8-jKd8MH/${day}/${i}`] = noteKeys[i]
+                var noteIndiceObj = {}
+                noteIndiceObj[i] = true
+                updates[`users/${uid}/noteIndices/-M6oZ060IUSk8-jKd8MH/${day}/${noteKeys[i]}`] = noteIndiceObj
+            }
+            await database.ref().update(updates)    
+        })
+
     })
     
 }
