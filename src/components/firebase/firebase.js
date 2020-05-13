@@ -4,7 +4,6 @@ import 'firebase/auth'
 import 'firebase/database'
 
 // Internal imports
-console.log(process.env)
 
 var firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
