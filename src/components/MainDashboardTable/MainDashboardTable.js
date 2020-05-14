@@ -3,33 +3,70 @@ import React, { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports 
+import NoteModal from '../NoteModal/NoteModal'
 import CategoryItem from '../CategoryItem/CategoryItem'
 import Note from '../Note/Note'
 import {timeValues} from '../../utils/staticData'
 import { orderByDays } from '../../utils/ordering'
 import './main-dashboard-table.scss'
 
-const MainDashboardTable  = ({ days, weekid }) => {
+const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) => {
 
-    const notes = useStoreState(state => state.weeks.notes)
-    const indexNotes = useStoreState(state => state.weeks.indexNotes)
-    const noteIndices = useStoreState(state => state.weeks.noteIndices)
-    // const startNoteListeners = useStoreActions(actions => actions.weeks.startNoteListeners)
+    
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
-
+    const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
     const [localWeek, setLocalWeek] = useState(false)
+    
     const [dragCategory, setDragCategory] = useState("")
     const [dragActivity, setDragActivity] = useState("")
     const [draggedCategories, setDraggedCategories] = useState([])
     const [dragIndex, setDragIndex] = useState('')
 
+    const [localNotes, setLocalNotes] = useState(false)
+    const [localIndexNotes, setLocalIndexNotes] = useState(false) 
+    const [localNoteIndices, setLocalNoteIndices] = useState(false)
+    const [noteModal, setNoteModal] = useState(false)
+    const [localNote, setLocalNote] = useState('')
 
     useEffect(() => {
         var currentWeek = {}
-            currentWeek["days"] = orderByDays(days)
-            currentWeek["weekid"] = weekid
-            setLocalWeek(currentWeek)
+        currentWeek["days"] = orderByDays(days)
+        currentWeek["weekid"] = weekid
+        setLocalWeek(currentWeek)
     }, [days])
+
+    useEffect(() => {
+        setLocalNotes(notes)
+    }, [notes])
+
+    useEffect(() => {
+        setLocalIndexNotes(indexNotes)
+    }, [indexNotes])
+
+    useEffect(() => {
+        setLocalNoteIndices(noteIndices)
+    }, [noteIndices])
+
+    const handleNoteClick = ({ day, noteid, note }) => {
+        setLocalNote({
+            day,
+            noteid,
+            note
+        })
+        setNoteModal(true)
+    }
+
+    const handleSaveNote = (note, noteid, day) => {
+        updateWeek({
+            note, 
+            noteid, 
+            day,
+            type: 'UPDATE_NOTE',
+            weekid: localWeek.weekid
+        })
+        setNoteModal(false)
+    }
+
     return (
         <div className="table-container">
             <table>
@@ -43,7 +80,7 @@ const MainDashboardTable  = ({ days, weekid }) => {
                 </thead>
 
                 <tbody>
-                    {localWeek && notes && indexNotes && noteIndices && 
+                    {localWeek && localNotes && localIndexNotes && localNoteIndices && 
                         Object.keys(localWeek.days.Friday).map((val, index) => {
                             return (
                                 <tr 
@@ -79,9 +116,11 @@ const MainDashboardTable  = ({ days, weekid }) => {
                                                 >
                                                 </CategoryItem>
                                                 <Note
-                                                
-                                                    note={indexNotes[day][index] || indexNotes[day][index] === '' ? notes[day][indexNotes[day][index]] : false}
-                                                    noteMultiplier={(indexNotes[day][index] && noteIndices[day][indexNotes[day][index]]) ? Object.values(noteIndices[day][indexNotes[day][index]]).length : 1} 
+                                                    onClick={handleNoteClick}
+                                                    day={day}
+                                                    noteid={localIndexNotes[day][index] && localIndexNotes[day][index]}
+                                                    note={localIndexNotes[day][index] || localIndexNotes[day][index] === '' ? localNotes[day][localIndexNotes[day][index]] : false}
+                                                    noteMultiplier={(localIndexNotes[day][index] && localNoteIndices[day][localIndexNotes[day][index]]) ? Object.values(localNoteIndices[day][localIndexNotes[day][index]]).length : 1} 
                                                 />
                                             </td>
                                         )
@@ -95,6 +134,17 @@ const MainDashboardTable  = ({ days, weekid }) => {
                 onClick={() => randomThunk()}>
                     Press me
             </button> */}
+            {noteModal ? 
+                <NoteModal 
+                    saveNote={handleSaveNote} 
+                    closeModal={() => setNoteModal(false)} 
+                    note={localNote.note}
+                    day={localNote.day}
+                    noteid={localNote.noteid}
+                /> 
+            : 
+                null
+            }
         </div>
     )
 }

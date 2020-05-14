@@ -32,6 +32,7 @@ export default ({
   const [localActivity, setLocalActivity] = useState(activity)
 
 
+
   useEffect(() => {
     setLocalCategory(category)
     setLocalActivity(activity)
@@ -120,6 +121,7 @@ export default ({
       activity
     })
   }
+
 
 
 

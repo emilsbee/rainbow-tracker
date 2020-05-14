@@ -269,6 +269,9 @@ const weeksModel = {
             case 'ACTIVITY_ONCE':
                 await database.ref(`users/${uid}/weeks/${payload.weekid}/days/${payload.day}/${payload.index}/activity`).set(payload.activity)
                 break;
+            case 'UPDATE_NOTE':
+                await database.ref(`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`).set(payload.note)
+                break;
             default:
                 return
         }

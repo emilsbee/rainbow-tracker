@@ -19,6 +19,10 @@ const MainDashboard  = () => {
     const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
     
+    const notes = useStoreState(state => state.weeks.notes)
+    const indexNotes = useStoreState(state => state.weeks.indexNotes)
+    const noteIndices = useStoreState(state => state.weeks.noteIndices)
+
     const currentWeek = useStoreState(state => state.weeks.currentWeek)
     const years = useStoreState(state => state.weeks.years)
     const weeks = useStoreState(state => state.weeks.yearWeeks)
@@ -49,7 +53,15 @@ const MainDashboard  = () => {
     return (
         <div>
             {currentWeek && <MainDashboardNavBar weekNr={currentWeek.weekNr} year={currentWeek.year} years={years} weeks={weeks} weekid={currentWeek.weekid}/>}
-            {currentWeek.days && <MainDashboardTable days={currentWeek.days} weekid={currentWeek.weekid}/>}
+            {currentWeek.days && 
+                <MainDashboardTable 
+                    days={currentWeek.days} 
+                    weekid={currentWeek.weekid}
+                    notes={notes}
+                    indexNotes={indexNotes}
+                    noteIndices={noteIndices}
+                />
+            }
         </div>
     )
 }
