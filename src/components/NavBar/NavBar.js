@@ -15,18 +15,19 @@ const NavBar = () => {
     const beginLogout = () => {
         startLogout()
     }
-    // style={{"width":document.getElementById('root').clientWidth}}
+
     return (    
         <div className="nav-bar" >
             <Link className="navigation-link" to="/dashboard">Dashboard</Link>
             
             
-            <button 
+            <a><button 
             onClick={beginLogout}
             className="logout-button"
             >
             Log out
             </button>
+            </a>
         </div>
     )
 }

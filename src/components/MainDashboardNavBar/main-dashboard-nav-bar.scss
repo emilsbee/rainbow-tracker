@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.banners {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.navigation {
+    padding: 5px;
+    
+}
+
+.new-buttons {
+    padding: 5px;
+}
+
+.year-dropdown {
+    margin: 3px;
+}
+
+.week-dropdown {
+    margin: 3px;
+}
+
+.previous-week {
+    margin: 3px;
+}
+
+.next-week {
+    margin: 3px;
+}
+
+.new-year {
+    margin: 3px;
+}
+
+.new-week {
+    margin: 3px;
+}
+
+.week-banner {
+    margin: 5px;
+}
+
+.year-banner {
+    margin: 5px;
+}
