@@ -9,15 +9,12 @@ import {timeValues} from '../../utils/staticData'
 import { orderByDays } from '../../utils/ordering'
 import './main-dashboard-table.scss'
 
-const MainDashboardTable  = () => {
-    const currentWeek = useStoreState(state => state.weeks.currentWeek)
+const MainDashboardTable  = ({ days, weekid }) => {
+
     const notes = useStoreState(state => state.weeks.notes)
     const indexNotes = useStoreState(state => state.weeks.indexNotes)
     const noteIndices = useStoreState(state => state.weeks.noteIndices)
-    const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
-    const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
-    const startNoteListeners = useStoreActions(actions => actions.weeks.startNoteListeners)
-    const stopNoteListeners = useStoreActions(actions => actions.weeks.stopNoteListeners)
+    // const startNoteListeners = useStoreActions(actions => actions.weeks.startNoteListeners)
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
 
     const [localWeek, setLocalWeek] = useState(false)
@@ -26,27 +23,13 @@ const MainDashboardTable  = () => {
     const [draggedCategories, setDraggedCategories] = useState([])
     const [dragIndex, setDragIndex] = useState('')
 
-    useEffect(() => {
-        startWeekListener({type: 'LATEST_WEEK'})
-    
-        return () => {
-            stopWeekListener()
-            stopNoteListeners()
-        }
-    }, [startNoteListeners, startWeekListener, stopNoteListeners, stopWeekListener])
 
     useEffect(() => {
-        if(currentWeek) {
-            currentWeek["days"] = orderByDays(currentWeek.days)
+        var currentWeek = {}
+            currentWeek["days"] = orderByDays(days)
+            currentWeek["weekid"] = weekid
             setLocalWeek(currentWeek)
-            startNoteListeners({weekid: currentWeek.weekid})
-
-        } else {
-            setLocalWeek(currentWeek)
-        }
-    }, [currentWeek])
-    
-    
+    }, [days])
     return (
         <div className="table-container">
             <table>
@@ -92,14 +75,13 @@ const MainDashboardTable  = () => {
                                                     draggedCategories={draggedCategories}
                                                     setDraggedCategories={setDraggedCategories}
                                                     setDragIndex={setDragIndex}
-                                                    note={indexNotes[day][index] || indexNotes[day][index] === '' ? notes[day][indexNotes[day][index]] : false}
-                                                    noteMultiplier={indexNotes[day][index] ? Object.values(noteIndices[day][indexNotes[day][index]]).length : 1}
+                                    
                                                 >
                                                 </CategoryItem>
                                                 <Note
                                                 
                                                     note={indexNotes[day][index] || indexNotes[day][index] === '' ? notes[day][indexNotes[day][index]] : false}
-                                                    noteMultiplier={indexNotes[day][index] ? Object.values(noteIndices[day][indexNotes[day][index]]).length : 1} 
+                                                    noteMultiplier={(indexNotes[day][index] && noteIndices[day][indexNotes[day][index]]) ? Object.values(noteIndices[day][indexNotes[day][index]]).length : 1} 
                                                 />
                                             </td>
                                         )

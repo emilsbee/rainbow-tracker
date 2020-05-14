@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom'
 import { useStoreState } from 'easy-peasy'
 
 // Internal imports 
+import NavBar from '../components/NavBar/NavBar'
 
 const PrivateRoute = (props) => {
     
@@ -16,6 +17,7 @@ const PrivateRoute = (props) => {
             
             isAuthenticated ? (
                 <div>
+                        <NavBar/>
                     <Component {...props}/>
                 </div>
             ) : (

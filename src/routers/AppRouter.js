@@ -11,7 +11,6 @@ import NotFound from '../components/NotFound/NotFound'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 
-
 export const history = createBrowserHistory()
 
 const AppRouter = () => {

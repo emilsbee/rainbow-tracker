@@ -1,5 +1,5 @@
 // External imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStoreState, useStoreActions } from 'easy-peasy'
 
 // Internal imports
@@ -31,6 +31,11 @@ export default ({
   const [localCategory, setLocalCategory] = useState(category)
   const [localActivity, setLocalActivity] = useState(activity)
 
+
+  useEffect(() => {
+    setLocalCategory(category)
+    setLocalActivity(activity)
+  }, [category,activity])
 
   const handleDragStart = (e) => {
       let img = new Image()

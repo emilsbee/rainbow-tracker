@@ -235,3 +235,5 @@ export const timeIntervals = {
     '94': { category: '', activity: '', note: '' },
     '95': { category: '', activity: '', note: '' }
 }
+
+export const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]

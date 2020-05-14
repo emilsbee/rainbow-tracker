@@ -12,6 +12,7 @@ import settingsModel from './models/settings'
 import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
+import './styles/styles.scss'
 
 require('dotenv').config()
 
@@ -20,7 +21,6 @@ const store = createStore({
   weeks: weeksModel,
   settings: settingsModel
 })
-
 
 
 const jsx = (
