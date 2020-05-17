@@ -17,7 +17,6 @@
 table {
     display: flex;
     flex-direction: column;
-    width: 1160px;
 }
 
 .header-row {
@@ -27,6 +26,7 @@ table {
 
 .table-row {
     display: flex;
+    align-items: center;
 }
 
 .time-cell {

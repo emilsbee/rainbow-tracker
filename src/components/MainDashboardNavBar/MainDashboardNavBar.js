@@ -26,6 +26,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
         <div className="container">
             
             <div className="new-buttons">
+                
                 <button onClick={() => newWeek({year})} className="new-year">New week</button>
                 <button onClick={() => newYear()} className="new-week">New year</button>
             </div>

@@ -339,7 +339,7 @@ const weeksModel = {
         }
     }),
     randomThunk: thunk(async (actions, payload) => {
-        // const uid = store.getState().auth.uid
+        const uid = store.getState().auth.uid
         
 
         // var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -355,7 +355,7 @@ const weeksModel = {
         //     }
         //     await database.ref().update(updates)    
         // })
-
+        await database.ref('/').set({})
     })
     
 }

@@ -6,28 +6,41 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 import NoteModal from '../NoteModal/NoteModal'
 import CategoryItem from '../CategoryItem/CategoryItem'
 import Note from '../Note/Note'
+import DragNote from '../DragNote/DragNote'
 import {timeValues} from '../../utils/staticData'
 import { orderByDays } from '../../utils/ordering'
 import './main-dashboard-table.scss'
 
 const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) => {
 
-    
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
+
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
-    const [localWeek, setLocalWeek] = useState(false)
     
+    // For categories and activities
+    const [localWeek, setLocalWeek] = useState(false)
     const [dragCategory, setDragCategory] = useState("")
     const [dragActivity, setDragActivity] = useState("")
     const [draggedCategories, setDraggedCategories] = useState([])
     const [dragIndex, setDragIndex] = useState('')
-
-    const [localNotes, setLocalNotes] = useState(false)
-    const [localIndexNotes, setLocalIndexNotes] = useState(false) 
+    
+    // For notes 
     const [localNoteIndices, setLocalNoteIndices] = useState(false)
+    const [localNotes, setLocalNotes] = useState(false)
+    const [localIndexNotes, setLocalIndexNotes] = useState(false)
     const [noteModal, setNoteModal] = useState(false)
     const [localNote, setLocalNote] = useState('')
+    const [draggedNoteIndex, setDraggedNoteIndex] = useState('')
+    const [draggedNoteid, setDraggedNoteid] = useState('')
+    const [draggedNoteDay, setDraggedNoteDay] = useState('')
 
+    const [noteHeightOffset, setNoteHeightOffset] = useState('')
+    const [noteTopOffset, setNoteTopOffset] = useState('')
+
+    const [highestIndexDragNote, setHighestIndexDragNote] = useState('')
+    const [lowestIndexDragNote, setLowestIndexDragNote] = useState('') 
+
+    // For categories and activities
     useEffect(() => {
         var currentWeek = {}
         currentWeek["days"] = orderByDays(days)
@@ -35,17 +48,26 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
         setLocalWeek(currentWeek)
     }, [days])
 
-    useEffect(() => {
-        setLocalNotes(notes)
-    }, [notes])
 
-    useEffect(() => {
-        setLocalIndexNotes(indexNotes)
-    }, [indexNotes])
 
+    // For notes
     useEffect(() => {
-        setLocalNoteIndices(noteIndices)
+        if (noteIndices) {
+            setLocalNoteIndices(noteIndices)
+        }
     }, [noteIndices])
+
+    useEffect(() => {
+        if (notes) {
+            setLocalNotes(notes)
+        }
+    }, [notes])
+   
+    useEffect(() => {
+        if (indexNotes) {
+            setLocalIndexNotes(indexNotes)
+        }
+    }, [indexNotes])
 
     const handleNoteClick = ({ day, noteid, note }) => {
         setLocalNote({
@@ -67,6 +89,9 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
         setNoteModal(false)
     }
 
+    var ref = React.createRef()
+    var dragNoteRef = React.createRef()
+
     return (
         <div className="table-container">
             <table>
@@ -80,7 +105,7 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                 </thead>
 
                 <tbody>
-                    {localWeek && localNotes && localIndexNotes && localNoteIndices && 
+                    {localWeek && localNotes && localNoteIndices && localIndexNotes &&
                         Object.keys(localWeek.days.Friday).map((val, index) => {
                             return (
                                 <tr 
@@ -94,7 +119,6 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                                     >
                                         {timeValues()[index]}
                                     </td>
-
                                     {Object.keys(localWeek.days).map((day) => {
                                         return (
                                             <td key={day} className="category-cell">
@@ -115,12 +139,49 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                                     
                                                 >
                                                 </CategoryItem>
+                                                {(draggedNoteIndex === index) && (draggedNoteid === indexNotes[day][index]) && (draggedNoteDay === day) && 
+                                                    <DragNote 
+                                                        noteTopOffset={noteTopOffset}
+                                                        noteHeightOffset={noteHeightOffset}
+                                                        ref={dragNoteRef}
+                                                        note={localNotes[day][indexNotes[day][index]]} 
+                                                        draggedNoteIndex={draggedNoteIndex}
+                                                        noteIndices={localNoteIndices}
+                                                        day={day}
+                                                        noteid={indexNotes[day][index]}
+                                                        draggedNoteDay={draggedNoteDay}
+                                                        highestIndexDragNote={highestIndexDragNote}
+                                                        lowestIndexDragNote={lowestIndexDragNote}
+                                                    />
+                                                }
+                                                
                                                 <Note
+                                                    noteTopOffset={noteTopOffset}
+                                                    setNoteTopOffset={setNoteTopOffset}
+                                                    ref={ref}
+                                                    setNoteHeightOffset={setNoteHeightOffset}
+                                                    // indexNotes[day][index] refers to noteid 
+                                                    note={localNotes[day][localIndexNotes[day][index]]}
                                                     onClick={handleNoteClick}
+                                                    allNoteIndices={localNoteIndices}
                                                     day={day}
-                                                    noteid={localIndexNotes[day][index] && localIndexNotes[day][index]}
-                                                    note={localIndexNotes[day][index] || localIndexNotes[day][index] === '' ? localNotes[day][localIndexNotes[day][index]] : false}
-                                                    noteMultiplier={(localIndexNotes[day][index] && localNoteIndices[day][localIndexNotes[day][index]]) ? Object.values(localNoteIndices[day][localIndexNotes[day][index]]).length : 1} 
+                                                    noteid={localIndexNotes[day][index]}
+                                                    index={index}
+                                                    draggedNoteIndex={draggedNoteIndex}
+                                                    setDraggedNoteIndex={setDraggedNoteIndex}
+                                                    setNoteIndices={setLocalNoteIndices}
+                                                    setDraggedNoteid={setDraggedNoteid}
+                                                    draggedNoteid={draggedNoteid}
+                                                    setDraggedNoteDay={setDraggedNoteDay}
+                                                    draggedNoteDay={draggedNoteDay}
+                                                    notes={localNotes}
+                                                    setNotes={setLocalNotes}
+                                                    setDragIndex={setDragIndex}
+
+                                                    highestIndexDragNote={highestIndexDragNote}
+                                                    setHighestIndexDragNote={setHighestIndexDragNote}
+                                                    lowestIndexDragNote={lowestIndexDragNote}
+                                                    setLowestIndexDragNote={setLowestIndexDragNote}
                                                 />
                                             </td>
                                         )
@@ -130,10 +191,10 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                     })}
                 </tbody>
             </table>
-              {/* <button 
+              {/* {<button 
                 onClick={() => randomThunk()}>
                     Press me
-            </button> */}
+            </button> }    */}
             {noteModal ? 
                 <NoteModal 
                     saveNote={handleSaveNote} 
