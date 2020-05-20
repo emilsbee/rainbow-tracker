@@ -14,7 +14,7 @@ import './main-dashboard-table.scss'
 const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) => {
 
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
-
+    const deleteNoteStack = useStoreActions(actions => actions.weeks.deleteNoteStack)
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
     
     // For categories and activities
@@ -69,11 +69,12 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
         }
     }, [indexNotes])
 
-    const handleNoteClick = ({ day, noteid, note }) => {
+    const handleNoteClick = ({ day, noteid, note, index }) => {
         setLocalNote({
             day,
             noteid,
-            note
+            note,
+            index
         })
         setNoteModal(true)
     }
@@ -121,7 +122,13 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                                     </td>
                                     {Object.keys(localWeek.days).map((day) => {
                                         return (
-                                            <td key={day} className="category-cell">
+                                            <td 
+                                                key={day} 
+                                                className="category-cell"
+                                                style={{ 
+                                                    "pointerEvents":localNotes[day][localIndexNotes[day][index]] === false ? 'none' : 'inherit'
+                                                }}
+                                            >
                                                 <CategoryItem 
                                                     weekid={localWeek.weekid} 
                                                     day={day} 
@@ -177,7 +184,7 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                                                     notes={localNotes}
                                                     setNotes={setLocalNotes}
                                                     setDragIndex={setDragIndex}
-
+                                                    weekid={weekid}
                                                     highestIndexDragNote={highestIndexDragNote}
                                                     setHighestIndexDragNote={setHighestIndexDragNote}
                                                     lowestIndexDragNote={lowestIndexDragNote}
@@ -202,6 +209,9 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                     note={localNote.note}
                     day={localNote.day}
                     noteid={localNote.noteid}
+                    deleteNoteStack={deleteNoteStack}
+                    index={localNote.index}
+                    weekid={weekid}
                 /> 
             : 
                 null

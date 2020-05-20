@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 // Internal imports 
 import './note.scss'
+import { useStoreActions } from 'easy-peasy'
 
 
 const Note  = React.forwardRef(({
@@ -26,12 +27,14 @@ const Note  = React.forwardRef(({
         setNoteHeightOffset,
         setNoteTopOffset,
         noteTopOffset,
-
+        weekid,
         highestIndexDragNote,
         setHighestIndexDragNote,
         lowestIndexDragNote,
         setLowestIndexDragNote
 }, ref) => {
+    const updateNotes = useStoreActions(actions => actions.weeks.updateNotes)
+
     const [localNote, setLocalNote] = useState(false)
     const [localNoteIndices, setLocalNoteIndices] = useState([])
 
@@ -123,7 +126,18 @@ const Note  = React.forwardRef(({
     }
     
     const handleDragEnd = () => {  
-        // console.log(allNoteIndices[draggedNoteDay][draggedNoteid])
+        updateNotes({
+            draggedIndices: allNoteIndices[draggedNoteDay][draggedNoteid],
+            draggedNoteIndex,
+            day: draggedNoteDay,
+            weekid,
+            draggedNoteid
+        })
+        setDraggedNoteDay('')
+        setDraggedNoteIndex('')
+        setDraggedNoteid('')
+        setHighestIndexDragNote('')
+        setLowestIndexDragNote('')
     }
 
     return (
@@ -135,7 +149,7 @@ const Note  = React.forwardRef(({
             }}
             className="note-container"
             draggable={true}
-            onClick={() => onClick({day, noteid, note})}
+            onClick={() => onClick({day, noteid, note, index})}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}
             onDragEnd={handleDragEnd}

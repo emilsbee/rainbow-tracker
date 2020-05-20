@@ -278,8 +278,39 @@ const weeksModel = {
     }),
     updateNotes: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
+        const indexNotes = store.getState().weeks.indexNotes
 
+        var updates = {}
+        
+        var filteredIndices = Object.keys(payload.draggedIndices).filter(index => parseInt(index) !== payload.draggedNoteIndex)
+        for (var i in filteredIndices) {
+            var noteid = indexNotes[payload.day][filteredIndices[i]]
+            updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${noteid}`] = false
+        }
 
+        updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}/${payload.draggedNoteid}`] = payload.draggedIndices
+        await database.ref().update(updates)
+    }),
+    deleteNoteStack: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        const noteIndices = store.getState().weeks.noteIndices
+        const indexNotes = store.getState().weeks.indexNotes
+    
+        var updates = {}
+    
+        var noteIndicesObj = {}
+        noteIndicesObj[payload.index] = true
+        updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}/${payload.noteid}`] =  noteIndicesObj
+    
+    
+        var filteredIndices = Object.keys(noteIndices[payload.day][payload.noteid]).filter(ind => ind !== payload.index)
+        for (var i in filteredIndices) {
+            var weekid = indexNotes[payload.day][filteredIndices[i]]
+            updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${weekid}`] = '' 
+        }
+        
+        await database.ref().update(updates)
     }),
     initialiseUser: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
