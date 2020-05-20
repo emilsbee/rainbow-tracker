@@ -26,6 +26,10 @@ const DragNote  = React.forwardRef(({
     const [topOffset, setTopOffset] = useState(false)
     const [localHeight, setLocalHeight] = useState(false)
 
+    const [currentHeight, setCurrentHeight] = useState(false)
+    const [prevHeight, setPrevHeight] = useState(false)
+    const [scrollFlag, setScrollFlag] = useState(false)
+
     function useCombinedRefs(...refs) {
         const targetRef = React.useRef()
       
@@ -57,7 +61,34 @@ const DragNote  = React.forwardRef(({
         const rect = combinedRef.current.getBoundingClientRect()
         setLocalTop(rect.top)
         setLocalBottom(rect.bottom)
-        setLocalHeight((highestIndexDragNote.bottom - lowestIndexDragNote.top)-1)
+        // setLocalHeight((highestIndexDragNote.bottom - lowestIndexDragNote.top)-1)
+        // console.log('current: ',localHeight)
+        
+        
+        if (scrollFlag) {
+            setCurrentHeight(currentHeight+27)
+        } else if (!currentHeight && !prevHeight) {
+            setCurrentHeight((highestIndexDragNote.bottom - lowestIndexDragNote.top)-1)
+        } else if (currentHeight && !prevHeight) {
+            setCurrentHeight((highestIndexDragNote.bottom - lowestIndexDragNote.top)-1)
+            if (currentHeight- prevHeight !== 27) {
+                setScrollFlag(true)
+            }
+            setPrevHeight(currentHeight)
+        } else if (currentHeight && prevHeight) {
+            if (currentHeight-prevHeight !== 27) {
+                setScrollFlag(true)
+            } else {
+                setCurrentHeight((highestIndexDragNote.bottom - lowestIndexDragNote.top)-1)
+                if (currentHeight- prevHeight !== 27) {
+                    setScrollFlag(true)
+                }
+                setPrevHeight(currentHeight)
+            }
+        }
+
+
+
         setLocalTop(rect.top)
         setTopOffset(lowestIndexDragNote.top - localTop)
     }, [ref, highestIndexDragNote, lowestIndexDragNote])
@@ -65,14 +96,6 @@ const DragNote  = React.forwardRef(({
     
 
     const getHeight = () => {
-        // var highestIndex = Math.max(...Object.keys(noteIndices[day][noteid]))
-        // var lowestIndex = Math.min(...Object.keys(noteIndices[day][noteid])) 
-        // // console.log(highestIndex)
-        // if (highestIndex > draggedNoteIndex) {
-        //     return (noteHeightOffset && localTop) &&(noteHeightOffset - noteTopOffset)-1
-        // } else if (lowestIndex < draggedNoteIndex){
-        //     return (noteHeightOffset && localBottom) && (localBottom - noteHeightOffset)-1
-        // }
         return (highestIndexDragNote.bottom - lowestIndexDragNote.top)
     }
    
@@ -90,11 +113,13 @@ const DragNote  = React.forwardRef(({
             } else if (leng > 2) {
                 return -38.5 + ((leng - 2) * -27)
             }
-        } else  {
+        } else if (lowestIndex === (draggedNoteIndex-1) && highestIndex === (draggedNoteIndex+1)) {
             return -38.5
+        } else  {
+            const lessThanDragIndex = Object.keys(noteIndices[day][noteid]).filter(index => index < draggedNoteIndex)
+            return  -38.5 + ((lessThanDragIndex.length - 1) * -27)
         }
     }
-    console.log(getTopOffset())
     return (
     <div style={{"position":'relative'}} >
         
@@ -104,7 +129,7 @@ const DragNote  = React.forwardRef(({
                 style={{
                     // "height": `${render && (Object.keys(noteIndices[day][noteid]).length * 24)+ whichAddition(Object.keys(noteIndices[day][noteid]).length)}px`,
                     // "height": `${getHeight()}px`,
-                    "height":`${localHeight}px`,
+                    "height":`${currentHeight}px`,
                     "position": `${render && 'absolute'}`,
                     // "top": `${-11.5}px`,
                     "top": `${getTopOffset()}px`,

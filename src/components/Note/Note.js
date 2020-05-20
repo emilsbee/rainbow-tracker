@@ -123,7 +123,7 @@ const Note  = React.forwardRef(({
     }
     
     const handleDragEnd = () => {  
-        console.log(allNoteIndices[draggedNoteDay][draggedNoteid])
+        // console.log(allNoteIndices[draggedNoteDay][draggedNoteid])
     }
 
     return (
