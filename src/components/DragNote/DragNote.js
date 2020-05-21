@@ -15,7 +15,6 @@ const DragNote  = React.forwardRef(({
     highestIndexDragNote,
     lowestIndexDragNote
 }, ref) => {
-    console.log(highestIndexDragNote)
 
     const [render, setRender] = useState(false)
     const [localTop, setLocalTop] = useState(false)
