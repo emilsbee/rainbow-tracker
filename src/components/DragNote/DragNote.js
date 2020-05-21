@@ -12,12 +12,10 @@ const DragNote  = React.forwardRef(({
     noteIndices, 
     draggedNoteIndex, 
     draggedNoteDay, 
-    noteHeightOffset,
-    noteTopOffset,
     highestIndexDragNote,
     lowestIndexDragNote
 }, ref) => {
-
+    console.log(highestIndexDragNote)
 
     const [render, setRender] = useState(false)
     const [localTop, setLocalTop] = useState(false)
@@ -127,11 +125,8 @@ const DragNote  = React.forwardRef(({
                 id="note-drag-container"
                 className="note-container"
                 style={{
-                    // "height": `${render && (Object.keys(noteIndices[day][noteid]).length * 24)+ whichAddition(Object.keys(noteIndices[day][noteid]).length)}px`,
-                    // "height": `${getHeight()}px`,
                     "height":`${currentHeight}px`,
                     "position": `${render && 'absolute'}`,
-                    // "top": `${-11.5}px`,
                     "top": `${getTopOffset()}px`,
                     "left": "0px"
                 }}

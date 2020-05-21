@@ -34,8 +34,6 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
     const [draggedNoteid, setDraggedNoteid] = useState('')
     const [draggedNoteDay, setDraggedNoteDay] = useState('')
 
-    const [noteHeightOffset, setNoteHeightOffset] = useState('')
-    const [noteTopOffset, setNoteTopOffset] = useState('')
 
     const [highestIndexDragNote, setHighestIndexDragNote] = useState('')
     const [lowestIndexDragNote, setLowestIndexDragNote] = useState('') 
@@ -148,8 +146,6 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                                                 </CategoryItem>
                                                 {(draggedNoteIndex === index) && (draggedNoteid === indexNotes[day][index]) && (draggedNoteDay === day) && 
                                                     <DragNote 
-                                                        noteTopOffset={noteTopOffset}
-                                                        noteHeightOffset={noteHeightOffset}
                                                         ref={dragNoteRef}
                                                         note={localNotes[day][indexNotes[day][index]]} 
                                                         draggedNoteIndex={draggedNoteIndex}
@@ -163,10 +159,8 @@ const MainDashboardTable  = ({ days, weekid, notes, indexNotes, noteIndices }) =
                                                 }
                                                 
                                                 <Note
-                                                    noteTopOffset={noteTopOffset}
-                                                    setNoteTopOffset={setNoteTopOffset}
                                                     ref={ref}
-                                                    setNoteHeightOffset={setNoteHeightOffset}
+
                                                     // indexNotes[day][index] refers to noteid 
                                                     note={localNotes[day][localIndexNotes[day][index]]}
                                                     onClick={handleNoteClick}
