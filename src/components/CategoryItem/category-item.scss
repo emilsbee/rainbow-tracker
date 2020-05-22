@@ -1,21 +1,26 @@
+@import '../../styles/base/settings';
+
 .main-container {
+  height: $line-height;
+  width: $sizing-7;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 2px;
 }
 
 .category-activity-container {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 44px;
+  width: $sizing-7;
 }
 
 .category-item {
-  height: 20px;
+  height: $line-height;
   // margin: 3px;
   padding: none;
-  width: 18px;
+  width: $sizing-4;
   border-radius: 3px;
   display: flex;
   // background-color: #f0ead6;
@@ -35,7 +40,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20px;
-  height: 20px;
+  height: $line-height;
+  width: $sizing-4;
+  font-weight: 200;
+  color: $grey-8;
+  font-size: $type-sizing-2
 }
 

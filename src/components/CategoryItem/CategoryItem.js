@@ -7,7 +7,7 @@ import CategoryItemPopover from '../CategoryItemPopover/CategoryItemPopover'
 import ActivityItemPopover from "../ActivityItemPopover/ActivityItemPopover";
 import './category-item.scss'
 
-export default ({ 
+const CategoryItem = ({ 
   category, 
   activity,
   day,
@@ -21,6 +21,7 @@ export default ({
   setDraggedCategories,
   setDragIndex
 }) => {
+  
   const categorySettings = useStoreState(state => state.settings.categorySettings)
   const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
   
@@ -178,3 +179,22 @@ export default ({
     </div>
   );
 };
+
+function areEqual (prevProps, nextProps) {
+  
+  if (
+    prevProps.activity === nextProps.activity &&
+    prevProps.category === nextProps.category &&
+    prevProps.dragCategory === nextProps.dragCategory &&
+    prevProps.dragActivity === nextProps.dragActivity &&
+    JSON.stringify(prevProps.draggedCategories) == JSON.stringify(nextProps.draggedCategories) &&
+    prevProps.weekid === nextProps.weekid 
+  ) {
+    return true
+  } else {
+    return false
+  }
+  
+}
+
+export default React.memo(CategoryItem, areEqual)

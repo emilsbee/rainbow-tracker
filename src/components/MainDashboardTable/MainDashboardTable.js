@@ -38,13 +38,44 @@ const MainDashboardTable  = ({ days, weekid }) => {
             <TimeCell timeValues={timeValues}/>
            {localWeek && Object.keys(localWeek.days).map((day) => {
                var formatDay = localWeek.days[day]
-
-               return formatDay.map((period, index) => {
-                return <p key={index}>{period.category}</p>
-               })
+            
+               return (
+                   <div className="day-container" key={day}>
+                       <div className="day-header">
+                            {day}
+                       </div>
+                        {formatDay.map((period, index) => {
+                            return (
+                                <CategoryItem 
+                                    className="category-cell"
+                                    key={index}
+                                    weekid={localWeek.weekid} 
+                                    day={day} 
+                                    index={index} 
+                                    category={localWeek.days[day][index].category}
+                                    activity={localWeek.days[day][index].activity}
+                                    setDragCategory={setDragCategory}
+                                    dragCategory={dragCategory}
+                                    dragActivity={dragActivity}
+                                    setDragActivity={setDragActivity}
+                                    localWeek={localWeek}
+                                    draggedCategories={draggedCategories}
+                                    setDraggedCategories={setDraggedCategories}
+                                    setDragIndex={setDragIndex}
+                                >
+                                </CategoryItem>
+                            )
+                        })}
+                    </div>
+               )
            })}
         </div>
     )
 }
 
 export default MainDashboardTable
+
+
+
+
+

@@ -1,8 +1,8 @@
 @import '../../styles/base/settings';
 
 .time-cell {
-    height: $sizing-5;
-    width: $sizing-6;
+    height: $line-height;
+    width: $sizing-5;
     margin: none;
     font-weight: 300;
     font-size: $type-sizing-2;
@@ -11,11 +11,12 @@
     justify-content: center;
     align-items: flex-end;
     border-bottom: solid 0.5px $grey-2;
+    margin: 2px;
 }
 
 .time-cell-thick {
-    height: $sizing-5;
-    width: $sizing-6;
+    height: $line-height;
+    width: $sizing-5;
     margin: none;
     font-weight: 300;
     font-size: $type-sizing-2;
@@ -24,12 +25,13 @@
     justify-content: center;
     align-items: flex-end;
     border-bottom: solid 1.3px $grey-7;
+    margin: 2px;
 }
 
 
 .time-cell-container {
-    display: flex; 
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    width: $sizing-5;
+    margin-right: $sizing-5;
+    margin-left: $sizing-4;
+    margin-top: $line-height;
 }

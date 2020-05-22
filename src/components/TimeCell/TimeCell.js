@@ -5,7 +5,7 @@ import React from 'react'
 import './time-cell.scss'
 
 const TimeCell  = ({ timeValues }) => {
-
+    
     return (
         <div className="time-cell-container">
         {timeValues().map((timeVal,index) => {
@@ -22,4 +22,8 @@ const TimeCell  = ({ timeValues }) => {
     )
 }
 
-export default TimeCell
+function areEqual (prevProps, nextProps) {
+    return true
+}
+
+export default React.memo(TimeCell, areEqual)
