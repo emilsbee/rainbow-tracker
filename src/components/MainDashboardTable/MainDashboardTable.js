@@ -32,69 +32,7 @@ const MainDashboardTable  = ({ days, weekid }) => {
     }, [days])
     return (
         <div className="table-container">
-            <table>
-
-                <thead>
-                    <tr className="header-row">
-                        {localWeek && Object.keys(localWeek.days).map((day) => {
-                            return <th key={day}>{day}</th>
-                        })}
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {localWeek && notes && indexNotes && noteIndices && 
-                        Object.keys(localWeek.days.Friday).map((val, index) => {
-                            return (
-                                <tr 
-                                    className="table-row" 
-                                    key={index} 
-                                    onMouseEnter={() => setDragIndex(index)} 
-                                >
-                                    <td 
-                                        className="time-cell"  
-                                        style={{"backgroundColor": dragIndex === index ? "#D3D3D3" : ''}}
-                                    >
-                                        {timeValues()[index]}
-                                    </td>
-
-                                    {Object.keys(localWeek.days).map((day) => {
-                                        return (
-                                            <td key={day} className="category-cell">
-                                                <CategoryItem 
-                                                    weekid={localWeek.weekid} 
-                                                    day={day} 
-                                                    index={index} 
-                                                    category={localWeek.days[day][index].category}
-                                                    activity={localWeek.days[day][index].activity}
-                                                    setDragCategory={setDragCategory}
-                                                    dragCategory={dragCategory}
-                                                    dragActivity={dragActivity}
-                                                    setDragActivity={setDragActivity}
-                                                    localWeek={localWeek}
-                                                    draggedCategories={draggedCategories}
-                                                    setDraggedCategories={setDraggedCategories}
-                                                    setDragIndex={setDragIndex}
-                                    
-                                                >
-                                                </CategoryItem>
-                                                <Note
-                                                
-                                                    note={indexNotes[day][index] || indexNotes[day][index] === '' ? notes[day][indexNotes[day][index]] : false}
-                                                    noteMultiplier={(indexNotes[day][index] && noteIndices[day][indexNotes[day][index]]) ? Object.values(noteIndices[day][indexNotes[day][index]]).length : 1} 
-                                                />
-                                            </td>
-                                        )
-                                    })}
-                                </tr>
-                            )
-                    })}
-                </tbody>
-            </table>
-              {/* <button 
-                onClick={() => randomThunk()}>
-                    Press me
-            </button> */}
+           
         </div>
     )
 }

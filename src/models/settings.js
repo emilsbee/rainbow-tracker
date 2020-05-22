@@ -35,6 +35,48 @@ const settingsModel = {
             default:
                 return
         }
+    }),
+    initialiseUserSettings: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        const hasSettings = await database.ref(`users/${uid}/categoryConfigs`).once('value')
+        
+        if(hasSettings.val()) {
+            actions.startSettingsListener()
+            return
+        } else {
+            var updates = {}
+            updates[`users/${uid}/activityConfigs`] = {
+                havetos: {
+                    co: true,
+                    d: true,
+                    t: true
+                },
+                leisure: {
+                    e: true,
+                    m: true,
+                    r: true
+                },
+                work: {
+                    ed: true,
+                    o: true,
+                    pr: true,
+                    r: true,
+                    ss: true,
+                    sw: true
+                }
+            }
+            updates[`users/${uid}/categoryConfigs`] = {
+                havetos: "#E9B872",
+                leisure: "#BBBE64",
+                sleep: "#6494AA",
+                work: "#a63d40"
+            }
+            
+            database.ref().update(updates, function(error) {
+                actions.startSettingsListener()
+            })
+        }
     })
     
 }

@@ -2,7 +2,7 @@
 import React from 'react'
 
 // Internal imports
-
+import './loading-page.scss'
 
 const LoadingPage = () => (
     <div className="loader">

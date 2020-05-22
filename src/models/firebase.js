@@ -3,7 +3,13 @@ import { thunk, action } from "easy-peasy"
 
 
 // Internal imports
-import database, { firebase, googleAuthProvider } from '../components/firebase/firebase'
+import 
+    database, 
+    { 
+        firebase,
+        googleAuthProvider
+    } 
+from '../components/firebase/firebase'
 
 
 
@@ -19,7 +25,7 @@ const firebaseModel = {
         return database.ref('users/' + payload.userId)
             .once('value')
     }),
-    startLogin: thunk(async (actions, payload) => {
+    startLoginWithGoogle: thunk(async (actions, payload) => {
         await firebase.auth().signInWithPopup(googleAuthProvider)
     }),
     login: action((state, payload) => {

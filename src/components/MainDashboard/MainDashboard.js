@@ -1,7 +1,7 @@
 // External imports
 import React, { useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
-
+import moment from 'moment'
 
 // Internal imports 
 import MainDashboardTable from '../MainDashboardTable/MainDashboardTable'
@@ -23,8 +23,10 @@ const MainDashboard  = () => {
     const years = useStoreState(state => state.weeks.years)
     const weeks = useStoreState(state => state.weeks.yearWeeks)
 
+    
+
     useEffect(() => {
-        startWeekListener({type: 'LATEST_WEEK'})
+        startWeekListener({type: 'CURRENT_WEEK'})
     
         return () => {
             stopWeekListener()
@@ -39,12 +41,6 @@ const MainDashboard  = () => {
         }
     }, [])
 
-    useEffect(() => {
-        startYearWeekListener({type:'LATEST_YEAR', year: Math.max(years)})
-        return () => {
-            stopYearWeekListener()
-        }
-    }, [])
 
     return (
         <div>

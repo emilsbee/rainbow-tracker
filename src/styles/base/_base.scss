@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body { 
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow: auto;
+    // font-family: "-apple-system", "Segoe UI", "Roboto, Noto" "Sans", "Ubuntu", "Cantarell", "Helvetica Neue";
+    font-family: 'helvetica';
+}
+
+button {
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: default;
+}
+

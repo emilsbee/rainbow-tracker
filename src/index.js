@@ -41,9 +41,7 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 firebase.auth().onAuthStateChanged( async(user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
-    
-        await store.dispatch.weeks.initialiseUser()
-        store.dispatch.settings.startSettingsListener()
+        store.dispatch.settings.initialiseUserSettings()
         renderApp()
         if (history.location.pathname === '/') {
             history.push(`/dashboard}`)
@@ -58,3 +56,5 @@ firebase.auth().onAuthStateChanged( async(user) => {
 export { store }
 
 serviceWorker.unregister();
+
+

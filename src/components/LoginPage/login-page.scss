@@ -1,0 +1,73 @@
+@import '../../styles/base/settings';
+
+#login-container {
+    background-color: white;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#login-components {
+    margin: 0;
+    height: $sizing-13;
+    width: $sizing-15;
+    padding: $sizing-5;
+    
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    
+}
+
+#login-text-components {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#login-title {
+    font-size: $type-sizing-9;
+    margin: 0;
+    font-weight: 300;
+    color: $primary-6;
+}
+
+#login-text {
+    font-size: $type-sizing-4;
+    color: $primary-8;
+    font-weight: 300;
+}
+
+#login-button {
+    background-color: $primary-4;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: $sizing-6;
+    width: $sizing-12;
+    border-radius: $sizing-1;
+    border: none;
+    
+}
+
+#login-button:hover {
+    background-color: $primary-5;
+}
+
+#google-logo {
+    height: 60%;
+    margin: $sizing-2;
+}
+
+#login-button-text {
+    font-size: $type-sizing-2;
+    font-weight: 300;
+    color: white;
+}

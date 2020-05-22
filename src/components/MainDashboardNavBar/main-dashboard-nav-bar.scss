@@ -1,52 +1,124 @@
+@import '../../styles/base/settings';
+
 .container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .banners {
+    align-self: center;
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 5px;
 }
 
 .navigation {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: row;
     padding: 5px;
-    
 }
 
 .new-buttons {
     padding: 5px;
 }
 
+.year-dropdown-container {
+    margin: $sizing-1;
+    display: flex;
+    flex-direction: column;
+}
+
 .year-dropdown {
-    margin: 3px;
+    background-color: white;
+    border: $grey-1;
+    appearance: none
+}
+
+.year-dropdown-label {
+    font-size: $type-sizing-2;
+    font-weight: 200;
+    color: $grey-6;
+    margin: $sizing-1;
+}
+
+.week-dropdown-container {
+    margin: $sizing-1;
+    display: flex;
+    flex-direction: column;
+}
+
+.week-dropdown-label {
+    font-size: $type-sizing-2;
+    font-weight: 200;
+    color: $grey-6;
+    margin: $sizing-1;
 }
 
 .week-dropdown {
-    margin: 3px;
+    background-color: $grey-2;
+    border: solid 0.5px $grey-1;
+    width: $sizing-7;
+    height: $sizing-4;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
+.week-dropdown-control {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.week-dropdown-placeholder {
+    font-size: $type-sizing-6;
+    color: $grey-9;
+}
+
+
+
+
+
+
+
 .previous-week {
-    margin: 3px;
+    height: $sizing-5;
+    width: $sizing-9;
+}
+
+.previous-week:hover {
+    cursor: pointer;
+    height: $sizing-6;
 }
 
 .next-week {
-    margin: 3px;
+    height: $sizing-5;
+    width: $sizing-9;
 }
 
-.new-year {
-    margin: 3px;
+.next-week:hover {
+    height: $sizing-6;
+    cursor: pointer;
 }
 
-.new-week {
-    margin: 3px;
-}
+
 
 .week-banner {
     margin: 5px;
+    font-size: $type-sizing-6;
+    font-weight: 300;
+    color: $grey-8;
 }
 
 .year-banner {
     margin: 5px;
+    font-size: $type-sizing-6;
+    font-weight: 300;
+    color: $grey-8;
 }

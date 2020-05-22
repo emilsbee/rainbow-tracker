@@ -1,6 +1,6 @@
 // External imports
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useStoreActions } from 'easy-peasy'
 
 // Internal imports
@@ -18,16 +18,22 @@ const NavBar = () => {
 
     return (    
         <div className="nav-bar" >
-            <Link className="navigation-link" to="/dashboard">Dashboard</Link>
+            <div>
+                <NavLink 
+                    className="dashboard-link" 
+                    to="/dashboard"
+                >
+                    Dashboard
+                </NavLink>
+                <NavLink
+                    className="dashboard-link"
+                    to="/dashboard"
+                >
+                    Settings
+                </NavLink>
+            </div>
             
-            
-            <a><button 
-            onClick={beginLogout}
-            className="logout-button"
-            >
-            Log out
-            </button>
-            </a>
+            <a id="logout-button-text" onClick={beginLogout}>Log out</a>
         </div>
     )
 }
