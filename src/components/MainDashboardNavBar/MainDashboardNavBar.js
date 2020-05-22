@@ -8,6 +8,7 @@ import './main-dashboard-nav-bar.scss'
 import { ReactComponent as BackArrow } from './utils/back.svg'
 import { ReactComponent as NextArrow } from './utils/next.svg'
 import WeekDropdown from '../WeekDropdown/WeekDropdown'
+import YearDropdown from '../YearDropdown/YearDropdown'
 
 const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
     const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
@@ -21,7 +22,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
     }
 
     const handleWeekDropdown = (e) => {
-        startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: parseInt(e.target.value), weekid})
+        startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
     }       
 
     
@@ -32,13 +33,13 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
                 
                 <div className="year-dropdown-container">
                     <p className="year-dropdown-label">Go to year</p>
-                    
+                    <YearDropdown list={years} title={year}/>
                 </div>
                 
                 
                    <div className="week-dropdown-container">
                         <p className="week-dropdown-label">Go to week</p>
-                        <WeekDropdown list={weeks} title={weekNr} right={10}/>
+                        <WeekDropdown list={weeks} title={weekNr} onChange={handleWeekDropdown}/>
                     </div>
                     
                     

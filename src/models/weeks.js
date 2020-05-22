@@ -49,6 +49,7 @@ const weeksModel = {
                 }
                 break;
             case 'SPECIFIC_WEEK':
+            
                 var specificWeek = await database.ref(`users/${uid}/yearWeeks/${payload.year}/${payload.weekNr}`).once('value')
                 if(specificWeek.val() !== null) {
                     weekid = specificWeek.val()
@@ -82,6 +83,7 @@ const weeksModel = {
             actions.setWeek(weekObj)
             actions.setYearWeeks({weeks: moment().weeksInYear(weekObj.year)})
             actions.startNoteListeners({weekid: snapshot.key})
+
         })
     }),
     stopWeekListener: thunk(async (actions, payload) => {
