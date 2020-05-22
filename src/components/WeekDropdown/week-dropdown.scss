@@ -10,13 +10,12 @@
     box-sizing: border-box;
     border: solid 0.7px white;
     border-radius: $sizing-1;
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;
-    width: $sizing-8;
-    height: $sizing-12;
-    position: absolute;
+    width: $sizing-7;
+    position: static;
     top: 80px;
     right: 12px;
     padding: $sizing-1;
@@ -25,7 +24,7 @@
 .dd-header_ {
     border: solid 0.7px white;
     padding: $sizing-1;
-    width: 100%;
+    width: $sizing-7;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -44,7 +43,7 @@
     border: solid 0.9px $primary-6;
     border-radius: $sizing-1;
     padding: $sizing-1;
-    width: 100%;
+    width: $sizing-7;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -59,16 +58,11 @@
 }
 
 
-@keyframes openList {
-    from {height: 0%}
-    to {height: 100%;}
-}
-
-
 .dd-list {
-    
+    position: absolute;
+    height: $sizing-12;
     padding: 0px;
-    width: 100%;
+    width: $sizing-7;
     overflow:  auto;
     list-style: none;
     display: flex;
@@ -80,9 +74,6 @@
     border: solid 0.9px $primary-6;
     border-radius: $sizing-1;
     scrollbar-width: none;
-
-    animation-name: openList;
-    animation-duration: 0.5s;
 }
 
 

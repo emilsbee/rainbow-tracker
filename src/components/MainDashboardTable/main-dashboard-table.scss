@@ -1,3 +1,5 @@
+@import '../../styles/base/settings';
+
 .category-cell {
     display: flex;
     flex-direction: row;
@@ -29,6 +31,4 @@ table {
     display: flex;
 }
 
-.time-cell {
-    width: 38px;
-}
+

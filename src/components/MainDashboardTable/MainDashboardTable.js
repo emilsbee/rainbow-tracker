@@ -5,6 +5,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 // Internal imports 
 import CategoryItem from '../CategoryItem/CategoryItem'
 import Note from '../Note/Note'
+import TimeCell from '../TimeCell/TimeCell'
 import {timeValues} from '../../utils/staticData'
 import { orderByDays } from '../../utils/ordering'
 import './main-dashboard-table.scss'
@@ -30,9 +31,18 @@ const MainDashboardTable  = ({ days, weekid }) => {
             currentWeek["weekid"] = weekid
             setLocalWeek(currentWeek)
     }, [days])
+
+    
     return (
         <div className="table-container">
-           
+            <TimeCell timeValues={timeValues}/>
+           {localWeek && Object.keys(localWeek.days).map((day) => {
+               var formatDay = localWeek.days[day]
+
+               return formatDay.map((period, index) => {
+                return <p key={index}>{period.category}</p>
+               })
+           })}
         </div>
     )
 }

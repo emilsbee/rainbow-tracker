@@ -14,18 +14,18 @@
     flex-direction: column;
     justify-content: stretch;
     align-items: stretch;
-    width: 75px;
+    width: $sizing-8;
     
-    position: absolute;
-    top: 80px;
-    right: 90px;
+    position: static;
+    top: 40px;
+    right: 105px;
     padding: $sizing-1;
 }
 
 .year-dd-header_ {
     border: solid 0.7px white;
     padding: $sizing-1;
-    width: 100%;
+    width: $sizing-8;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -44,7 +44,7 @@
     border: solid 0.9px $primary-6;
     border-radius: $sizing-1;
     padding: $sizing-1;
-    width: 100%;
+    width: $sizing-8;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -59,16 +59,12 @@
 }
 
 
-@keyframes openList {
-    from {height: 0%}
-    to {height: 100%;}
-}
 
 
 .year-dd-list {
-    
+    position: absolute;
     padding: 0px;
-    width: 100%;
+    width: $sizing-8;
     overflow:  auto;
     list-style: none;
     display: flex;
@@ -81,8 +77,6 @@
     border-radius: $sizing-1;
     scrollbar-width: none;
 
-    animation-name: openList;
-    animation-duration: 0.5s;
 }
 
 
