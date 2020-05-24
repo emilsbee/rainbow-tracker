@@ -46,32 +46,48 @@ const settingsModel = {
             return
         } else {
             var updates = {}
-            updates[`users/${uid}/activityConfigs`] = {
-                havetos: {
-                    co: true,
-                    d: true,
-                    t: true
-                },
-                leisure: {
-                    e: true,
-                    m: true,
-                    r: true
-                },
-                work: {
-                    ed: true,
-                    o: true,
-                    pr: true,
-                    r: true,
-                    ss: true,
-                    sw: true
+
+            
+            const categories = ['havetos', 'leisure', 'work', 'sleep']
+            const colors = ["#E9B872","#BBBE64", "#a63d40", "#6494AA"]
+            const activities = [{
+                co: 'cleaning and organising',
+                d: 'driving',
+                t: 'traveling'
+            },{
+                e: 'exercise',
+                m: 'movies',
+                r: 'reading'
+            }, {
+                o: 'other',
+                pr: 'programming',
+                r: 'reading',
+                ss: 'self-study',
+                sw: 'self-work'
+            }]
+            
+
+            for (var i in categories) {
+                var newCategoryKey = database.ref().child(`users/${uid}/categoryConfigs`).push().key
+                updates[`users/${uid}/categoryConfigs/${newCategoryKey}/category`] = categories[i] 
+                updates[`users/${uid}/categoryConfigs/${newCategoryKey}/color`] = colors[i]
+                
+                if (categories[i] === 'sleep') {
+                        
+                } else {
+                    for (var j in Object.keys(activities[i])) {
+                        var newActivityKey = database.ref().child(`users/${uid}/activityConfigs/${newCategoryKey}`).push().key
+                        var newActivityObj = {
+                            short: Object.keys(activities[i])[j],
+                            long: activities[i][Object.keys(activities[i])[j]]
+                        }
+                        updates[`users/${uid}/activityConfigs/${newCategoryKey}/${newActivityKey}`] = newActivityObj
+                    }  
                 }
             }
-            updates[`users/${uid}/categoryConfigs`] = {
-                havetos: "#E9B872",
-                leisure: "#BBBE64",
-                sleep: "#6494AA",
-                work: "#a63d40"
-            }
+
+            
+
             
             database.ref().update(updates, function(error) {
                 actions.startSettingsListener()
@@ -87,29 +103,41 @@ const settingsModel = {
         switch (payload.type) {
             case 'ADD':
                 const randomColor = getRandomColor()
-                updates[`users/${uid}/categoryConfigs/${payload.category}`] = randomColor
+                var newCatObj = {
+                    color: randomColor,
+                    category: payload.category
+                }
+                var newCategoryKey = database.ref().child(`users/${uid}/categoryConfigs`).push().key
+                updates[`users/${uid}/categoryConfigs/${newCategoryKey}`] = newCatObj
                 break;
             case 'UPDATE': 
-                var catObj = {}
-                catObj[payload.category] = payload.color
-                updates[`users/${uid}/categoryConfigs/${payload.category}`] = catObj
+                updates[`users/${uid}/categoryConfigs/${payload.categoryid}`] = payload.categoryObj
                 break;
-        }
+            case 'REMOVE':
+                updates[`users/${uid}/categoryConfigs/${payload.categoryid}`] = null
+                updates[`users/${uid}/activityConfigs/${payload.categoryid}`] = null
+                break;
+            }
+            
 
         
         await database.ref().update(updates)
     }),
     editActivity: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-
         var updates = {}
         
         switch (payload.type) {
-            case 'ADD/EDIT':
-                updates[`users/${uid}/activityConfigs/${payload.category}/${payload.activityShort}`] = payload.activityLong
+            case 'ADD': 
+                var newActivityid = database.ref().child(`users/${uid}/activityConfigs/${payload.categoryid}`).push().key
+                updates[`users/${uid}/activityConfigs/${payload.categoryid}/${newActivityid}`] = payload.activityObj
+                break;
+            case 'EDIT':
+
+                updates[`users/${uid}/activityConfigs/${payload.categoryid}/${payload.activityid}`] = payload.activityObj
                 break;
             case 'REMOVE':
-                updates[`users/${uid}/activitiyConfigs/${payload.category}/${payload.activityShort}`] = null
+                await database.ref(`users/${uid}/activityConfigs/${payload.categoryid}/${payload.activityid}`).set({})
                 break;
         }
         await database.ref().update(updates)

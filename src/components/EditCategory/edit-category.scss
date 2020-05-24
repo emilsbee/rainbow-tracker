@@ -1,6 +1,7 @@
 @import '../../styles/base/settings';
 
 .edit-category-container {
+    position: relative;
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -73,48 +74,65 @@
     margin-bottom: $sizing-1;
 }
 
-.edit-category-activity-list-short {
 
-    border: none;
-    display: inline-block;
-    font-weight: 300;
-    font-size: $type-sizing-2;
-    color: $grey-9;
-    width: $sizing-5;
-    margin-right: $sizing-2;
-}
-
-.edit-category-activity-list-long {
-    font-family: 'helvetica';
-    height: $sizing-6;
-    resize: none;
-    word-wrap: break-word;
-    width: $sizing-10;
-    margin-left: $sizing-3;
-    border: none;
-    display: inline-block;
-    font-weight: 200;
-    font-size: $type-sizing-2;
-    color: $grey-9;
-}
 
 .edit-category-activity-list {
     
     width: $sizing-14;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
 }
 
 .edit-category-activities-banner {
-    margin-right: $sizing-9+6px;
+    margin-right: 111px;
     display: flex;
     width: 100%;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
     font-family: 'helvetica';
-        font-weight: 200;
+    font-weight: 200;
     font-size: $type-sizing-2;
     color: $grey-9;
     
+}
+
+.edit-category-activities-list-items {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.edit-category-activity-add-button {
+    position: relative;
+    z-index: 10;
+    left: -8px;
+    top: -10px;
+    display: inline-block;
+    width: $sizing-7;
+    height: $sizing-7;
+    background-color: white;
+    border: none;
+    font-size: $type-sizing-6;
+    color: $primary-8;
+    padding: 0;
+}
+
+.edit-category-activity-add-button:hover {
+    font-size: $type-sizing-7;
+}
+
+.edit-category-trash-icon {
+    bottom: $sizing-1;
+    left: 240px;
+    position: relative;
+    height: $sizing-6;
+    width: $sizing-4;
+}
+
+.edit-category-trash-icon:hover {
+    cursor: pointer;
+    height: $sizing-6;
+    width: $sizing-5;
 }

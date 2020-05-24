@@ -13,16 +13,16 @@ import NewCategoryForm from '../NewCategoryForm/NewCategoryForm'
 function EditCategories ({ categorySettings, activitySettings }) {
     const updateCategory = useStoreActions(actions => actions.settings.editCategory)
 
-    const addActivity = useStoreActions(actions => actions.settings.addActivity)
+    const editActivity = useStoreActions(actions => actions.settings.editActivity)
 
     const [hoverCat, setHoverCat] = useState('')
     
     const [isInput, setIsInput] = useState(false)
 
-    const [editCategory, setEditCategory] = useState('')
+    const [editCategoryid, setEditCategoryid] = useState('')
 
 
-    
+
 
     return (
         <div className="edit-categories-container">
@@ -31,17 +31,17 @@ function EditCategories ({ categorySettings, activitySettings }) {
             </div>
             <div className="category-container">
                 <div className="category-names-list">
-                    {Object.keys(categorySettings).map((category) => {
+                    {Object.keys(categorySettings).map((key) => {
                         return (
                             <div 
-                                key={category} 
+                                key={key} 
                                 className="category-settings-item"
-                                onMouseOver={() => setHoverCat(category)}
+                                onMouseOver={() => setHoverCat(key)}
                                 onMouseLeave={() => setHoverCat('')}
-                                onClick={() => setEditCategory(category)}
+                                onClick={() => setEditCategoryid(key)}
                             >
-                                {category}
-                                {hoverCat === category && <Next className="next-icon"/>}
+                                {categorySettings[key].category}
+                                {(hoverCat === key || editCategoryid === key) && <Next className="next-icon"/>}
                             </div>
                         )
                     })}
@@ -50,16 +50,17 @@ function EditCategories ({ categorySettings, activitySettings }) {
                     }   
                     <button onClick={() => setIsInput(true)} className="category-add-button">+</button>
                 </div>
-                {editCategory && 
-                    <EditCategory 
-                        activities={activitySettings[editCategory] && activitySettings[editCategory]} 
-                        closeWindow={() => setEditCategory('')} 
-                        category={editCategory} 
-                        color={categorySettings[editCategory]}
+                {editCategoryid && 
+                    <EditCategory
+                        categoryid={editCategoryid} 
+                        activities={activitySettings[editCategoryid] && activitySettings[editCategoryid]} 
+                        closeWindow={() => setEditCategoryid('')} 
+                        category={categorySettings[editCategoryid].category} 
+                        color={categorySettings[editCategoryid].color}
                     />
                 }
             </div>
-            {/* <button onClick={addActivity}>ADD</button> */}
+            {/* <button onClick={editActivity}>ADD</button> */}
         </div>
     )
 }

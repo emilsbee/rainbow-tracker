@@ -8,8 +8,12 @@ import './new-category-form.scss'
 function NewCategoryForm  ({ onSubmit,setIsInput }) {
     const [localCategoryName, setLocalCategoryName] = useState('')
 
-    const handleCategorySubmit = () => {
-        onSubmit({category: localCategoryName})
+    const handleCategorySubmit = (e) => {
+        e.preventDefault()
+        onSubmit({
+            type: 'ADD',
+            category: localCategoryName,
+        })
         setIsInput(false)
         setLocalCategoryName('')
     }

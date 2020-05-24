@@ -1,15 +1,17 @@
 // External imports
 import React, { useState, useEffect } from 'react'
 import EditColorPicker from '../EditColorPicker/EditColorPicker'
+import { useStoreActions } from 'easy-peasy'
 
 
 // Internal imports 
+import EditActivity from '../EditActivity/EditActivity'
+import { ReactComponent as Trash } from './trash.svg'
 import './edit-category.scss'
-import { useStoreActions } from 'easy-peasy'
 
-const EditCategory  = ({ category, closeWindow, color, activities }) => {
+const EditCategory  = ({ category, closeWindow, color, activities, categoryid }) => {
     const editCategory = useStoreActions(actions => actions.settings.editCategory)
-    const updateActivity = useStoreActions(actions => actions.settings.updateActivity)
+    const editActivity = useStoreActions(actions => actions.settings.editActivity)
 
     const [localColor, setLocalColor] = useState(color)
     const [localCategory, setLocalCategory] = useState(category)
@@ -28,22 +30,56 @@ const EditCategory  = ({ category, closeWindow, color, activities }) => {
         e.preventDefault()
         editCategory({
             type: 'UPDATE',
-            category: localCategory,
-            color: localColor
+            categoryObj: {
+                category: localCategory,
+                color: localColor,
+            },
+            categoryid
+        })
+    }
+
+    const handleSetLocalColor = (color) => {
+        setLocalColor(color)
+        editCategory({
+            type: 'UPDATE',
+            categoryObj: {
+                category: localCategory,
+                color: localColor,
+            },
+            categoryid
+        })
+    }
+
+    const handleAddCategory = () => {
+        editActivity({
+            type: 'ADD',
+            categoryid,
+            activityObj: {
+                short: "",
+                long: ""
+            }
+        })
+    }
+
+    const handleRemoveCategory = () => {
+        closeWindow()
+        editCategory({
+            type:'REMOVE',
+            categoryid
         })
     }
 
     return (
         <div className="edit-category-container">
+            <Trash onClick={handleRemoveCategory} className="edit-category-trash-icon"/>
             <div className="edit-category-name">
                 <div className="edit-category-name-label">
                     category name
                 </div>     
                 <form onBlur={submitLocalCategory} onSubmit={submitLocalCategory}>
                     <input 
-                        spellcheck="false"
-                        ref={input => input && input.focus()} 
-                        autoFocus={true} 
+                        spellCheck="false"
+                    
                         className="edit-category-name-input" 
                         value={localCategory}
                         onChange={(e) => setLocalCategory(e.target.value)}
@@ -59,7 +95,12 @@ const EditCategory  = ({ category, closeWindow, color, activities }) => {
 
                 </div>
                 {colorPicker && 
-                    <EditColorPicker localColor={localColor} setLocalColor={setLocalColor} toggleColorPicker={toggleColorPicker}/>
+                    <EditColorPicker 
+        
+                        localColor={localColor} 
+                        setLocalColor={handleSetLocalColor} 
+                        toggleColorPicker={toggleColorPicker}
+                    />
                 }   
             </div>
             <div className="edit-category-activities">
@@ -67,28 +108,29 @@ const EditCategory  = ({ category, closeWindow, color, activities }) => {
                     activities     
                 </div>
                 <div className="edit-category-activity-list">
-                    <form>
-                        {activities ? Object.keys(activities).map((activity) => {
-                                return (
-                                    <div className="edit-category-activities-items">
-                                        <input spellcheck="false" maxLength="2"  key={activity} value={activity} className="edit-category-activity-list-short"/>
-                                        :
-                                        <textarea spellcheck="false" key={activities[activity]} value={activities[activity]} className="edit-category-activity-list-long"/>
-                                    </div>
-                                )
-                            })
-                        :
-                        <div className="edit-category-activities-banner">
-                            No activities
-                        </div>    
+                    
+                        {
+                        
+                        activities && 
+                        <div className="edit-category-activities-list-items">
+                            {Object.keys(activities).map((activityid) => {
+                                    return <EditActivity 
+                                                removeActivity={editActivity}
+                                                key={activityid}
+                                                short={activities[activityid].short}
+                                                long={activities[activityid].long}
+                                                editActivity={editActivity}
+                                                categoryid={categoryid}
+                                                activityid={activityid}
+                                        />
+                                })}
+                            </div>
                         }
-                    </form>
+                        <div className="edit-category-activities-banner">
+                            <button onClick={handleAddCategory} className="edit-category-activity-add-button">+</button>
+                        </div>    
                 </div>
             </div>
-            {/* <div className="edit-category-buttons">
-                <button onClick={closeWindow}>Cancel</button>
-                <button>Save</button>
-            </div> */}
         </div>
     )
 }

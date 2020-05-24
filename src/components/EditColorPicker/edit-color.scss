@@ -1,6 +1,7 @@
 @import '../../styles/base/settings';
 
 .category-color-picker {
+    z-index: 100;
     position: absolute;
     left: 215px;
     top: 40px;

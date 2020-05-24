@@ -1,0 +1,64 @@
+@import '../../styles/base/settings';
+
+.edit-category-activity-list-short {
+
+    border: none;
+    display: inline-block;
+    font-weight: 300;
+    font-size: $type-sizing-2;
+    color: $grey-9;
+    width: $sizing-5;
+    margin-right: $sizing-2;
+}
+
+.edit-category-activity-list-long {
+    font-family: 'helvetica';
+    height: $sizing-6;
+    resize: none;
+    word-wrap: break-word;
+    width: $sizing-10;
+    margin-left: $sizing-3;
+    border: none;
+    display: inline-block;
+    font-weight: 200;
+    font-size: $type-sizing-2;
+    color: $grey-9;
+}
+
+.edit-activity-list {
+    height: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.edit-category-delete-activity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: $sizing-3;
+    position: relative;
+}
+
+.edit-category-delete-activity:hover {
+    cursor: pointer;
+}
+
+.edit-activity-list-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.edit-activity-delete-floater {
+    cursor: pointer;
+    position: absolute;
+    left: 290px;
+    height: $sizing-5;
+    width: $sizing-5;
+    background-color: white;
+}
+
+.edit-activity-delete-floater:hover {
+    cursor: pointer;
+}
