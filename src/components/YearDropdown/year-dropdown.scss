@@ -34,14 +34,14 @@
 }
 
 .year-dd-header_:hover {
-    border: solid 0.9px $primary-6;
+    border: solid 0.9px $primary-7;
     cursor: pointer;
     border-radius: $sizing-1;
 }
 
 .year-dd-header_is-open{
     cursor: pointer;
-    border: solid 0.9px $primary-6;
+    border: solid 0.9px $primary-7;
     border-radius: $sizing-1;
     padding: $sizing-1;
     width: $sizing-8;
@@ -73,10 +73,10 @@
     justify-content: center;
     align-items: center;
     scrollbar-color: $primary-6 white;
-    border: solid 0.9px $primary-6;
+    border: solid 0.9px $primary-7;
     border-radius: $sizing-1;
     scrollbar-width: none;
-
+    background-color: white;
 }
 
 

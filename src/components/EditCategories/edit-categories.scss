@@ -1,0 +1,69 @@
+@import '../../styles/base/settings';
+
+.edit-categories-container {
+    width: $sizing-16;
+    height: $sizing-14;
+}
+
+.edit-categories-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-weight: 300;
+    font-size: $type-sizing-5;
+    margin-bottom: $sizing-2;
+    border-bottom: solid 0.3px $grey-8;
+}
+
+.category-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.category-names-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: $sizing-13;
+}
+
+.category-settings-item {
+    font-weight: 200;
+    font-size: $type-sizing-4;
+    padding-top: $sizing-3;
+    padding-bottom: $sizing-3;
+    display: inline-block;
+    align-content: center;
+}
+
+.category-settings-item:hover {
+    cursor: pointer;
+}
+
+.next-icon {
+    height: $sizing-3;
+    width: $sizing-3;
+    margin-left: $sizing-1;
+}
+
+.category-add-button {
+    position: relative;
+    left: -8px;
+    top: -15px;
+    display: inline-block;
+    width: $sizing-7;
+    height: $sizing-7;
+    background-color: white;
+    border: none;
+    font-size: $type-sizing-6;
+    color: $primary-8;
+    padding: 0;
+}
+
+.category-add-button:hover {
+    font-size: $type-sizing-7;
+}
+

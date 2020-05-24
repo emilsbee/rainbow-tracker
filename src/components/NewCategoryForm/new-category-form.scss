@@ -1,0 +1,13 @@
+@import '../../styles/base/settings';
+.new-category-form {
+    margin-bottom: $sizing-4;
+    
+}
+
+.new-category-input {
+    width: $sizing-11;
+    border: none;
+    border-bottom: solid 0.4px $grey-8;
+    font-size: $type-sizing-4;
+    font-weight: 200;
+}

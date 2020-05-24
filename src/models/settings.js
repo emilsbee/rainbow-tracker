@@ -5,7 +5,7 @@ import { thunk, action } from "easy-peasy"
 // Internal imports
 import database from '../components/firebase/firebase'
 import { store } from '../index'
-
+import { getRandomColor } from './utils/settings_utils'
 
 
 const settingsModel = {
@@ -77,6 +77,42 @@ const settingsModel = {
                 actions.startSettingsListener()
             })
         }
+    }),
+    editCategory: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        
+        var updates = {}
+
+        switch (payload.type) {
+            case 'ADD':
+                const randomColor = getRandomColor()
+                updates[`users/${uid}/categoryConfigs/${payload.category}`] = randomColor
+                break;
+            case 'UPDATE': 
+                var catObj = {}
+                catObj[payload.category] = payload.color
+                updates[`users/${uid}/categoryConfigs/${payload.category}`] = catObj
+                break;
+        }
+
+        
+        await database.ref().update(updates)
+    }),
+    editActivity: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        var updates = {}
+        
+        switch (payload.type) {
+            case 'ADD/EDIT':
+                updates[`users/${uid}/activityConfigs/${payload.category}/${payload.activityShort}`] = payload.activityLong
+                break;
+            case 'REMOVE':
+                updates[`users/${uid}/activitiyConfigs/${payload.category}/${payload.activityShort}`] = null
+                break;
+        }
+        await database.ref().update(updates)
     })
     
 }

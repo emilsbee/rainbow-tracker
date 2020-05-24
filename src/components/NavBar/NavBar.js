@@ -27,7 +27,7 @@ const NavBar = () => {
                 </NavLink>
                 <NavLink
                     className="dashboard-link"
-                    to="/dashboard"
+                    to="/settings"
                 >
                     Settings
                 </NavLink>
