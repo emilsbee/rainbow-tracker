@@ -23,6 +23,7 @@ const CategoryItem = ({
 }) => {
   
   const categorySettings = useStoreState(state => state.settings.categorySettings)
+  const activitySettings = useStoreState(state => state.settings.activitySettings)
   const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
   
   const [showPopover, setShowPopover] = useState(false)
@@ -122,7 +123,7 @@ const CategoryItem = ({
     })
   }
 
-
+  console.log(localCategory)
 
   return (
     <div className="main-container">
@@ -134,19 +135,20 @@ const CategoryItem = ({
             draggable={true}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}
-            style={{"backgroundColor": localCategory !== '' ? categorySettings[localCategory] : "#ebebe0"}}
+            style={{"backgroundColor": localCategory !== '' ? categorySettings[localCategory].color : "#ebebe0"}}
             onClick={handleShowPopover}
             onDragEnd={handleDragEnd}
         />
         {/*  Category component  */}
 
         {/* Activity componenet */}
-        {localCategory !== '' && localCategory !== 'sleep' && 
+        {localCategory !== ''  && 
+    
           <div 
-            className="activity-item" 
+            className="activity-item"
             onClick={handleActivityPopover}
           >
-            {localActivity}
+            {localActivity && localCategory && activitySettings[localCategory][localActivity] && activitySettings[localCategory][localActivity].short}
           </div>
         }
         {/* Activity componenet */}

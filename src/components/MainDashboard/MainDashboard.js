@@ -10,9 +10,6 @@ import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 const MainDashboard  = () => {
     const startYearListener = useStoreActions(actions => actions.weeks.startYearListener)
     const stopYearListener = useStoreActions(actions => actions.weeks.stopYearListener)
-    
-    const startYearWeekListener = useStoreActions(actions => actions.weeks.startYearWeekListener)
-    const stopYearWeekListener = useStoreActions(actions => actions.weeks.stopYearWeekListener)
 
     const stopNoteListeners = useStoreActions(actions => actions.weeks.stopNoteListeners)
     
@@ -23,11 +20,11 @@ const MainDashboard  = () => {
     const years = useStoreState(state => state.weeks.years)
     const weeks = useStoreState(state => state.weeks.yearWeeks)
 
-    
+    const startSettingsListener = useStoreActions(actions => actions.settings.startSettingsListener)
 
     useEffect(() => {
         startWeekListener({type: 'CURRENT_WEEK'})
-    
+        startSettingsListener()
         return () => {
             stopWeekListener()
             stopNoteListeners()

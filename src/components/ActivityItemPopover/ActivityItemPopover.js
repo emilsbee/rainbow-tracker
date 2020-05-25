@@ -13,7 +13,7 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
     useEffect(() => {
         setCursorType('pointer')
     }, [])  
-    
+    console.log(activitySettings,category)
 
     return (
         <div 
@@ -25,13 +25,13 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
                 "cursor": cursorType, 
                 "display": category === 'sleep' ? 'none' : ''}}
         >
-            {Object.keys(activitySettings[category]).map((activity) => {
+            {activitySettings[category] && Object.keys(activitySettings[category]).map((activityid) => {
                 return <div 
                             className="popover"
-                            onClick={() => onClick(activity)} 
-                            key={activity} 
+                            onClick={() => onClick(activityid)} 
+                            key={activityid} 
                         >
-                            {activity}
+                            {activitySettings[category][activityid].short}
                         </div>
                     
             })}

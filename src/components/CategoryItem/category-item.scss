@@ -34,6 +34,7 @@
   cursor: pointer;
   background-color: #D3D3D3;
   border-radius: 3px;
+  
 }
 
 .activity-item {
@@ -44,6 +45,7 @@
   width: $sizing-4;
   font-weight: 200;
   color: $grey-8;
-  font-size: $type-sizing-2
+  font-size: $type-sizing-2;
+  margin-left: $sizing-1;
 }
 

@@ -44,7 +44,7 @@ const EditCategory  = ({ category, closeWindow, color, activities, categoryid })
             type: 'UPDATE',
             categoryObj: {
                 category: localCategory,
-                color: localColor,
+                color,
             },
             categoryid
         })
