@@ -13,9 +13,9 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
     useEffect(() => {
         setCursorType('pointer')
     }, [])  
-    console.log(activitySettings,category)
 
     return (
+        <div style={{"position":"relative", "left":"-20px", "z-index":"200"}}>
         <div 
             className="popover_container" 
             onMouseLeave={handleCloseModal} 
@@ -35,6 +35,7 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
                         </div>
                     
             })}
+        </div>
         </div>
     )
 }

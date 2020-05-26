@@ -1,0 +1,91 @@
+@import '../../styles/base/settings';
+
+.note-modal-container {
+    display: flex;
+    flex-direction: column;
+    width: $sizing-14;
+    height: $sizing-11;
+    background-color: white;
+    border-radius: $sizing-3;
+    border: solid 0.8px $grey-9;
+    box-shadow: $shadow-1;
+}
+
+.note-modal-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    height: $sizing-5;
+}
+
+.note-modal-title {
+    font-size: $type-sizing-5;
+    color: $grey-7;
+    font-weight: 300;
+    width: $sizing-1;
+    height: $sizing-1;
+    margin-right: $sizing-4;
+    margin-top: $sizing-1;
+}
+
+.note-modal-title:hover {
+    cursor: pointer;
+    color: $primary-8;
+}
+
+    /* Modal Content/Box */
+.modal-textarea {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+    
+.input {
+    border: 1px solid $grey-2;
+    border-radius: $sizing-2;
+    padding: $sizing-2;
+    width: 90%;
+    height: $sizing-10;
+    resize: none;
+    font-family: Helvetica;
+    font-weight: 300;
+    font-size: $type-sizing-2;
+}
+    
+.note-modal-button-container {
+    width: 100%;
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.note-modal-save-button {
+    display: inline-block;
+    color: $grey-9;
+    font-size: $type-sizing-3;
+    font-weight: 300;
+    margin-left: $sizing-6;
+}
+
+.note-modal-save-button:hover {
+    cursor: pointer;
+    color: $primary-8;
+    
+}
+
+.note-modal-delete-button {
+    display: inline-block;
+    color: $grey-9;
+    font-size: $type-sizing-3;
+    font-weight: 300;
+    margin-left: $sizing-5;
+}
+
+.note-modal-delete-button:hover {
+    cursor: pointer;
+    color: $primary-8;
+}

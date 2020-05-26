@@ -10,20 +10,27 @@ import {timeValues} from '../../utils/staticData'
 import { orderByDays } from '../../utils/ordering'
 import './main-dashboard-table.scss'
 
-const MainDashboardTable  = ({ days, weekid }) => {
-
-    const notes = useStoreState(state => state.weeks.notes)
-    const indexNotes = useStoreState(state => state.weeks.indexNotes)
-    const noteIndices = useStoreState(state => state.weeks.noteIndices)
-    // const startNoteListeners = useStoreActions(actions => actions.weeks.startNoteListeners)
+const MainDashboardTable = ({ days, weekid,notes, indexNotes, noteIndices }) => {
+    
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
+    const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
 
+    // Category/activtiy items
     const [localWeek, setLocalWeek] = useState(false)
     const [dragCategory, setDragCategory] = useState("")
     const [dragActivity, setDragActivity] = useState("")
     const [draggedCategories, setDraggedCategories] = useState([])
     const [dragIndex, setDragIndex] = useState('')
 
+    // Notes
+    
+    const [localNotes, setLocalNotes] = useState(false)
+    
+    const [dragNoteObj, setDragNoteObj] = useState(false) 
+    const [localNoteIndices, setLocalNoteIndices] = useState(false)
+    
+    
+    
 
     useEffect(() => {
         var currentWeek = {}
@@ -32,11 +39,29 @@ const MainDashboardTable  = ({ days, weekid }) => {
             setLocalWeek(currentWeek)
     }, [days])
 
+
     
+    useEffect(() => {
+        setLocalNotes(notes)
+    }, [notes])
+
+    useEffect(() => {
+        
+        setLocalNoteIndices(noteIndices)
+    }, [noteIndices])
+
+    const handleSetDragNoteObj = (data) => { 
+        setDragNoteObj(data)
+    }
+    
+    const handleSetLocalNoteIndices = (data) => {
+        setLocalNoteIndices(data)
+    }   
+
     return (
         <div className="table-container">
             <TimeCell timeValues={timeValues}/>
-           {localWeek && Object.keys(localWeek.days).map((day) => {
+           {localWeek && noteIndices && Object.keys(localWeek.days).map((day) => {
                var formatDay = localWeek.days[day]
             
                return (
@@ -44,11 +69,25 @@ const MainDashboardTable  = ({ days, weekid }) => {
                        <div className="day-header">
                             {day}
                        </div>
-                        {formatDay.map((period, index) => {
+                        {localNotes && localNoteIndices && formatDay.map((period, index) => {
+                            var noteid = indexNotes[day][index]
+                            var noteText = localNotes[day][noteid]
+                            var noteExtension = localNoteIndices[day][noteid]
+                            
+                            var isFirst;
+                            var nrNoteArray = [] 
+                            for (var i = 0; i < Object.keys(noteExtension).length; i++) nrNoteArray.push(parseInt(Object.keys(noteExtension)[i]))
+                            // if (day === 'Monday' && index === 4) console.log(Object.keys(noteExtension))
+                            if (Math.min(...Object.keys(noteExtension)) === index) {
+                                    isFirst = true
+                            } else {
+                                    isFirst = false      
+                            }
+                            
                             return (
+                                <div key={index} className="category-note-container">
                                 <CategoryItem 
                                     className="category-cell"
-                                    key={index}
                                     weekid={localWeek.weekid} 
                                     day={day} 
                                     index={index} 
@@ -64,6 +103,20 @@ const MainDashboardTable  = ({ days, weekid }) => {
                                     setDragIndex={setDragIndex}
                                 >
                                 </CategoryItem>
+                                {isFirst && <Note 
+                                    setDragNoteObj={handleSetDragNoteObj}
+                                    dragNoteObj={dragNoteObj}
+                                    index={index}
+                                    note={noteText} 
+                                    noteid={noteid}
+                                    day={day}
+                                    weekid={weekid}
+                                    indices={Object.keys(noteExtension)} 
+                                    noteIndices={noteIndices}
+                                    setLocalNoteIndices={handleSetLocalNoteIndices}
+                                    indexNotes={indexNotes}
+                                />}
+                                </div>
                             )
                         })}
                     </div>
@@ -73,9 +126,26 @@ const MainDashboardTable  = ({ days, weekid }) => {
     )
 }
 
+// function areEqual (prevProps, nextProps) {
+//     if (
+//       prevProps.weekid === nextProps.weekid &&
+//       JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
+//       JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
+//       JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
+//       JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) &&
+//       JSON.stringify(prevProps.dragNoteObj) === JSON.stringify(nextProps.dragNoteObj) &&
+//       JSON.stringify(prevProps.localNoteIndices) === JSON.stringify(nextProps.localNoteIndices) 
+//     ) {
+//       return true
+//     } else {
+//       return false
+//     }
+    
+//   }
+
+// export default React.memo(MainDashboardTable, areEqual)
+
+
 export default MainDashboardTable
-
-
-
 
 

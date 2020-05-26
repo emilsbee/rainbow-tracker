@@ -7,24 +7,25 @@ import './category-item-popover.scss'
 
 
 
-const CategoryItemPopover  = ({ onClick, handleCloseModal, mousePosition }) => {
+const CategoryItemPopover  = ({ onClick, handleCloseModal, mousePositionX, mousePositionY }) => {
     const colors = useStoreState(state => state.settings.categorySettings)  
     const [cursorType, setCursorType] = useState(null)
     
     useEffect(() => {
         setCursorType('pointer')
     }, [])
-
     return (
+
         <div 
             className="popover-container" 
             onMouseLeave={handleCloseModal} 
             style={{
-                "top": mousePosition - 30, 
+                // "left": `${mousePositionX-200}px`,
+                "top": 30, 
                 "cursor": cursorType}}
         >
             {Object.keys(colors).map((category) => {
-                console.log(category)
+                
                 return <div 
                             className="color-square"  
                             onClick={() => onClick(category)} 

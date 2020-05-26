@@ -2,10 +2,10 @@
 
 .popover_container {
     border-radius: 3px;
-    position: absolute;
     background-color: white;
     width: 32px;
     align-items: center;
+    z-index: 100;
 }
 
 
@@ -18,7 +18,7 @@
     justify-content: center;
     align-items: center;
     border: #D3D3D3 0.1px solid;
-    position: relative;
+    // position: relative;
     height: 22px;
     width: inherit;
     border-radius: 3px;

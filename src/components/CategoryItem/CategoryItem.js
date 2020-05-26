@@ -7,7 +7,7 @@ import CategoryItemPopover from '../CategoryItemPopover/CategoryItemPopover'
 import ActivityItemPopover from "../ActivityItemPopover/ActivityItemPopover";
 import './category-item.scss'
 
-const CategoryItem = ({ 
+function CategoryItem  ({ 
   category, 
   activity,
   day,
@@ -20,8 +20,8 @@ const CategoryItem = ({
   draggedCategories,
   setDraggedCategories,
   setDragIndex
-}) => {
-  
+}) {
+ 
   const categorySettings = useStoreState(state => state.settings.categorySettings)
   const activitySettings = useStoreState(state => state.settings.activitySettings)
   const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
@@ -88,7 +88,9 @@ const CategoryItem = ({
   }
 
   const handleShowPopover = (e) => {
+    console.log(e)
     setMousePosY(e.pageY)
+    setMousePosX(e.pageX)
     setShowPopover(true)
   }
 
@@ -123,19 +125,19 @@ const CategoryItem = ({
     })
   }
 
-  console.log(localCategory)
 
   return (
     <div className="main-container">
 
       <div className="category-activity-container">
         {/*  Category component  */}
+        
         <div  
             className="category-item" 
             draggable={true}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}
-            style={{"backgroundColor": localCategory !== '' ? categorySettings[localCategory].color : "#ebebe0"}}
+            style={{"backgroundColor": (localCategory !== '' && categorySettings[localCategory]) ? categorySettings[localCategory].color : "#ebebe0"}}
             onClick={handleShowPopover}
             onDragEnd={handleDragEnd}
         />
@@ -148,7 +150,7 @@ const CategoryItem = ({
             className="activity-item"
             onClick={handleActivityPopover}
           >
-            {localActivity && localCategory && activitySettings[localCategory][localActivity] && activitySettings[localCategory][localActivity].short}
+            {categorySettings[localCategory] && localActivity && localCategory && activitySettings[localCategory][localActivity] && activitySettings[localCategory][localActivity].short}
           </div>
         }
         {/* Activity componenet */}
@@ -157,7 +159,8 @@ const CategoryItem = ({
     {/*  Popover components  */}
       {showPopover ? 
         <CategoryItemPopover 
-          mousePosition={mousePosY} 
+          mousePositionY={mousePosY} 
+          mousePositionX={mousePosX}
           onClick={pickCategory} 
           handleCloseModal={() => setShowPopover(false)}
         /> 
@@ -166,6 +169,7 @@ const CategoryItem = ({
       }
 
       {showActivityPopover ? 
+      <div>
         <ActivityItemPopover 
           category={localCategory} 
           mousePositionY={mousePosY} 
@@ -173,6 +177,7 @@ const CategoryItem = ({
           onClick={pickActivity} 
           handleCloseModal={() => setShowActivityPopover(false)}
         /> 
+        </div>
         : 
         null
       }

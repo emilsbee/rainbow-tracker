@@ -2,18 +2,20 @@
 
 .popover-container {
     border-radius: 3px;
-    position: absolute;
+    position: relative;
     background-color: white;
     width: 32px;
     align-items: center;
+    z-index: 100;
 }
 
 .color-square {
-    position: relative;
+    // position: relative;
     height: 22px;
     width: inherit;
     border-radius: 3px;
     margin-top: 1px;
     margin-bottom: 1px;
+    border: solid 0.3px $grey-4
 }
 

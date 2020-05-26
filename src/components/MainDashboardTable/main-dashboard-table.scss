@@ -10,6 +10,14 @@
     margin-top: $sizing-4;
 }
 
+.category-note-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: 20px;
+    margin-bottom: 2px;
+}
+
 .category-cell {
     display: flex;
     flex-direction: row;
