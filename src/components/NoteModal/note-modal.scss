@@ -40,14 +40,17 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
+    flex-grow: 2;
 }
     
 .input {
     border: 1px solid $grey-2;
     border-radius: $sizing-2;
     padding: $sizing-2;
-    width: 90%;
-    height: $sizing-10;
+    width: 95%;
+    height: 85%;
+    
     resize: none;
     font-family: Helvetica;
     font-weight: 300;
@@ -55,12 +58,13 @@
 }
     
 .note-modal-button-container {
+    flex-grow: 1;
     width: 100%;
     height: 38px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .note-modal-save-button {
@@ -82,7 +86,7 @@
     color: $grey-9;
     font-size: $type-sizing-3;
     font-weight: 300;
-    margin-left: $sizing-5;
+    // margin-left: $sizing-5;
 }
 
 .note-modal-delete-button:hover {

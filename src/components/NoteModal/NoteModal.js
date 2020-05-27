@@ -36,12 +36,16 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
         setLocalNote(e.target.value)
     }
     
+    const handleKeyDown = (e) => {
+        if (e.keyCode === (27)) {
+            saveNote({note: localNote, noteid, day})
+            closeModal()
+        }   
+    }
+
     return (
         
-            <div className="note-modal-container">
-                {/* <div className="note-modal-header">
-                    <span className="note-modal-title" onClick={handleSaveNote}>&times;</span>
-                </div>   */}
+            <div className="note-modal-container" onKeyDown={handleKeyDown}>
                 <div className="modal-textarea">
                     <textarea 
                         autoFocus={true}  
@@ -53,23 +57,15 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
                     />
                 </div>
                 <div>
-                    {/* <div className="note-modal-button-container">
-                        <div 
-                            className="note-modal-save-button" 
-                            onClick={handleSaveNote}
-                        >
-                            Save
-                        </div>
-                        {indices.length > 1 && 
+                    { indices.length > 1 && <div className="note-modal-button-container">
                             <div 
                                 className="note-modal-delete-button"  
                                 onClick={handleDeleteNoteStack}
                             >
                                 Delete
                             </div>
-                        }
-                        
-                    </div> */}
+                        </div>
+                    }
                 </div>
             </div>
         

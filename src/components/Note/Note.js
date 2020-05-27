@@ -77,10 +77,18 @@ const Note  = ({
         localRef.addEventListener('dragend', handleDragEnd)
         if (dragNoteObj !== false && day === dragNoteObj.day) {
 
-                if (!dragNoteObj.indices.includes(index)) {
-                    var newObj = dragNoteObj
-                    newObj.indices.push(parseInt(index))
-                    setDragNoteObj(newObj)
+                if (indices.length > 1) {
+                    var newMultiIndiceObj = dragNoteObj
+                    indices.forEach((i) => {
+                        newMultiIndiceObj.indices.push(parseInt(i))
+                    })
+                    setDragNoteObj(newMultiIndiceObj)
+                } else {
+                    if (!dragNoteObj.indices.includes(index)) {
+                        var newObj = dragNoteObj
+                        newObj.indices.push(parseInt(index))
+                        setDragNoteObj(newObj)
+                    }
                 }
 
                 setDragNoteObj({
