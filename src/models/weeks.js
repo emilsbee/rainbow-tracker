@@ -82,7 +82,9 @@ const weeksModel = {
             weekObj["weekid"] = snapshot.key
             actions.setWeek(weekObj)
             actions.setYearWeeks({weeks: moment().weeksInYear(weekObj.year)})
-            actions.startNoteListeners({weekid: snapshot.key})
+            actions.startNotesListener({weekid: snapshot.key})
+            actions.startIndexNotesListener({weekid: snapshot.key})
+            actions.startnoteIndicesListener({weekid: snapshot.key})
 
         })
     }),
@@ -162,7 +164,7 @@ const weeksModel = {
         
         state.yearWeeks = weeksArr
     }),
-    startNoteListeners: thunk(async (actions, payload) => {
+    startNotesListener: thunk( async (actions, payload) => {
         const uid = store.getState().auth.uid
         
         var notesRef = database.ref(`users/${uid}/notes/${payload.weekid}`)
@@ -173,7 +175,10 @@ const weeksModel = {
                 notes: snapshot.val()
             })
         })
-
+    }),
+    startIndexNotesListener: thunk( async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        
         var indexNotesRef = database.ref(`users/${uid}/indexNotes/${payload.weekid}`)
         indexNotesRef.on('value', function(snapshot) {
             
@@ -182,6 +187,11 @@ const weeksModel = {
                 indexNotes: snapshot.val()
             })
         })
+    }),
+    startnoteIndicesListener: thunk( async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        
+
         var noteIndicesRef = database.ref(`users/${uid}/noteIndices/${payload.weekid}`)
         noteIndicesRef.on('value', function(snapshot) {
             actions.setNotes({
@@ -193,7 +203,7 @@ const weeksModel = {
     stopNoteListeners: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         await database.ref(`users/${uid}/notes/${payload.weekid}`).off()
-        await database.ref(`users/${uid}/indexNote/${payload.weekid}s`).off()
+        await database.ref(`users/${uid}/indexNotes/${payload.weekid}`).off()
         return await database.ref(`users/${uid}/noteIndices/${payload.weekid}`).off()
         
     }),

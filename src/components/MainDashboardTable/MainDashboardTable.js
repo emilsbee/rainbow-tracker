@@ -12,7 +12,7 @@ import './main-dashboard-table.scss'
 
 const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) => {
     
-    
+    console.log('rendered')
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
 
@@ -47,7 +47,7 @@ const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) =>
         setLocalNotes(notes)
         setLocalNoteIndices(noteIndices)
         setLocalIndexNotes(indexNotes)
-    }, [noteIndices])
+    }, [noteIndices, notes])
 
   
 
