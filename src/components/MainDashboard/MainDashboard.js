@@ -33,8 +33,8 @@ const MainDashboard  = () => {
         startWeekListener({type: 'CURRENT_WEEK'})
         startSettingsListener()
         return () => {
-            stopWeekListener()
-            stopNoteListeners()
+            stopWeekListener({weekid: currentWeek.weekid})
+            stopNoteListeners({weekid: currentWeek.weekid})
         }
     }, [])
 

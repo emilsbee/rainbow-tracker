@@ -15,7 +15,7 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
     }, [])  
 
     return (
-        <div style={{"position":"relative", "left":"-20px", "z-index":"200"}}>
+        <div style={{"position":"relative", "left":"-20px", "zIndex":"200"}}>
         <div 
             className="popover_container" 
             onMouseLeave={handleCloseModal} 
@@ -23,7 +23,7 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
                 "top": mousePositionY - 30,
                 "left": mousePositionX - 13, 
                 "cursor": cursorType, 
-                "display": category === 'sleep' ? 'none' : ''}}
+            }}
         >
             {activitySettings[category] && Object.keys(activitySettings[category]).map((activityid) => {
                 return <div 

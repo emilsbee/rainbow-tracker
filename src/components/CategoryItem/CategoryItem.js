@@ -88,7 +88,6 @@ function CategoryItem  ({
   }
 
   const handleShowPopover = (e) => {
-    console.log(e)
     setMousePosY(e.pageY)
     setMousePosX(e.pageX)
     setShowPopover(true)
@@ -158,12 +157,15 @@ function CategoryItem  ({
 
     {/*  Popover components  */}
       {showPopover ? 
+      <div>
         <CategoryItemPopover 
+          offset={categorySettings[localCategory] && (categorySettings[localCategory].color ? true : false)}
           mousePositionY={mousePosY} 
           mousePositionX={mousePosX}
           onClick={pickCategory} 
           handleCloseModal={() => setShowPopover(false)}
         /> 
+        </div>
         : 
           null
       }

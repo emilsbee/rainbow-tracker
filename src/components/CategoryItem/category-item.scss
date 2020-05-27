@@ -18,13 +18,12 @@
 }
 
 .category-item {
-  height: $line-height;
-  // margin: 3px;
-  padding: none;
-  width: $sizing-4;
-  border-radius: 3px;
   display: flex;
-  // background-color: #f0ead6;
+  position: relative;
+  height: $line-height;
+  width: $sizing-4;
+  padding: none;
+  border-radius: 3px;
   z-index: 10;
 }
 
@@ -40,16 +39,17 @@
 }
 
 .activity-item {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: $line-height;
+  position: relative;
   width: $sizing-4;
+  height: $line-height;
+  margin-left: $sizing-1;
+  z-index: 10;
+  
   font-weight: 200;
   color: $grey-8;
   font-size: $type-sizing-2;
-  margin-left: $sizing-1;
-  z-index: 10;
 }
 

@@ -88,7 +88,7 @@ const weeksModel = {
     }),
     stopWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        database.ref(`users/${uid}/weeks`).off()
+        database.ref(`users/${uid}/weeks/${payload.weekid}`).off()
         actions.setWeek(false)
     }),
     setWeek: action((state, payload) => {
@@ -114,11 +114,11 @@ const weeksModel = {
             for (var i in indices) {
                 var newNoteKey = database.ref().child(`users/${uid}/notes/${weekid}/${days[day]}`).push().key
                 updates[`users/${uid}/notes/${weekid}/${days[day]}/${newNoteKey}`] = ""
-                updates[`users/${uid}/indexNotes/${weekid}/${days[day]}/${i}`] = newNoteKey
+                updates[`users/${uid}/indexNotes/${weekid}/${days[day]}/${indices[i]}`] = newNoteKey
                 var noteIndexObj = {}
-                noteIndexObj[i] = true
+                noteIndexObj[indices[i]] = true
                 updates[`users/${uid}/noteIndices/${weekid}/${days[day]}/${newNoteKey}`] = noteIndexObj
-                updates[`users/${uid}/weeks/${weekid}/days/${days[day]}/${i}`] = {activity: '', category: ''}
+                updates[`users/${uid}/weeks/${weekid}/days/${days[day]}/${indices[i]}`] = {activity: '', category: ''}
             }
         }
 
@@ -167,6 +167,7 @@ const weeksModel = {
         
         var notesRef = database.ref(`users/${uid}/notes/${payload.weekid}`)
         notesRef.on('value', function(snapshot) {
+            
             actions.setNotes({
                 type: 'NOTES',
                 notes: snapshot.val()
@@ -175,6 +176,7 @@ const weeksModel = {
 
         var indexNotesRef = database.ref(`users/${uid}/indexNotes/${payload.weekid}`)
         indexNotesRef.on('value', function(snapshot) {
+            
             actions.setNotes({
                 type: 'INDEX_NOTES',
                 indexNotes: snapshot.val()
@@ -190,9 +192,9 @@ const weeksModel = {
     }),
     stopNoteListeners: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        database.ref(`users/${uid}/notes`).off()
-        database.ref(`users/${uid}/indexNotes`).off()
-        database.ref(`users/${uid}/noteIndices`).off()
+        await database.ref(`users/${uid}/notes/${payload.weekid}`).off()
+        await database.ref(`users/${uid}/indexNote/${payload.weekid}s`).off()
+        return await database.ref(`users/${uid}/noteIndices/${payload.weekid}`).off()
         
     }),
     setNotes: action((state, payload) => {

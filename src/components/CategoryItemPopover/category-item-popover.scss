@@ -1,16 +1,16 @@
 @import '../../styles/base/settings';
 
 .popover-container {
+    left: -23.5px;
     border-radius: 3px;
-    position: relative;
     background-color: white;
     width: 32px;
     align-items: center;
     z-index: 100;
+    position: relative;
 }
 
 .color-square {
-    // position: relative;
     height: 22px;
     width: inherit;
     border-radius: 3px;
