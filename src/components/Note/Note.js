@@ -17,17 +17,20 @@ const Note  = ({
     dragNoteObj,
     noteIndices,
     setLocalNoteIndices,
-    indexNotes
+    indexNotes,
+    localNotes,
+    setLocalNotes
 }) => {
-    // if (dragNoteObj && index === Math.min(...dragNoteObj.indices)) console.log(localIndices)
-    // if (dragNoteObj && index === Math.min(...dragNoteObj.indices)) console.log('rendered')
-    // if (day === 'Monday' && index === 0) console.log('rendered')
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
+    const updateNotes = useStoreActions(actions => actions.weeks.updateNotes)
+    const deleteNoteStack = useStoreActions(actions => actions.weeks.deleteNoteStack)
 
 
     const[noteModalData, setNoteModalData] = useState(false)
     const[localNote, setLocalNote] = useState(note)
     const[localIndices, setLocalIndices] = useState(false)
+
+    const[localRef, setLocalRef] = useState(false)
 
     useEffect(() => {
         setLocalNote(note)
@@ -58,15 +61,20 @@ const Note  = ({
    const handleDragStart = (e) => {
         let img = new Image()
         e.dataTransfer.setDragImage(img, 1, 1)
+        
+        window.addEventListener('dragend',  handleDragEnd)
         setDragNoteObj({
             day, 
-            indices: [parseInt(index)],
+            indices,
             note
         })
         
    }
    
-   const handleDragEnter = () => {
+   
+
+   const handleDragEnter = (e) => {
+        localRef.addEventListener('dragend', handleDragEnd)
         if (dragNoteObj !== false && day === dragNoteObj.day) {
 
                 if (!dragNoteObj.indices.includes(index)) {
@@ -80,7 +88,7 @@ const Note  = ({
                     indices: dragNoteObj.indices,
                     note: dragNoteObj.note
                 })
-               
+                
                 var dragNoteIndiceObj = {}
                 dragNoteObj.indices.forEach(indice => {
                     dragNoteIndiceObj[indice] = true
@@ -88,6 +96,7 @@ const Note  = ({
                 
                 for (var i in dragNoteObj.indices) {
                     noteIndices[dragNoteObj.day][indexNotes[dragNoteObj.day][dragNoteObj.indices[i]]] = dragNoteIndiceObj
+                    localNotes[dragNoteObj.day][indexNotes[dragNoteObj.day][dragNoteObj.indices[i]]] = dragNoteObj.note
                 }
                 setLocalNoteIndices({
                     Monday: noteIndices.Monday,
@@ -99,20 +108,59 @@ const Note  = ({
                     Sunday: noteIndices.Sunday,
                 })
 
+                setLocalNotes({
+                    Monday: localNotes.Monday,
+                    Tuesday: localNotes.Tuesday,
+                    Wednesday: localNotes.Wednesday,
+                    Thursday: localNotes.Thursday,
+                    Friday: localNotes.Friday,
+                    Saturday: localNotes.Saturday,
+                    Sunday: localNotes.Sunday,
+                })
+
         }
-        
+
    }
 
-   const handleDragEnd = () => {
-       console.log(dragNoteObj)
+
+   function handleDragEnd () {
+       if (dragNoteObj) {
+           updateNotes({
+               day: dragNoteObj.day,
+               weekid,
+               draggedIndices: dragNoteObj.indices,
+               note: dragNoteObj.note
+            })
+       }
+       setDragNoteObj(false)
+   }
+
+   const handleDragExit = () => {
+       localRef.removeEventListener('dragend', handleDragEnd)
+   }
+
+   const refHandler = (e) => {
+       setLocalRef(e)
+   }
+
+   const handleMouseDown = (e) => {
+       if (e.button === 1) {
+           e.preventDefault()
+           deleteNoteStack({
+               day,
+               noteid,
+               weekid,
+               note 
+           })
+       }
    }
    
     return (
-        // style={{"alignSelf":"start"}}
         <div>
             {localNote !== false ?
             
                 <div 
+                    ref={refHandler}
                     className="note-container" 
                     style={{
                         "height": `${indices && (indices.length > 1 ? indices.length === 2 ? '41' : 41+(indices.length-2)*22  : '19')}px`,
@@ -121,7 +169,9 @@ const Note  = ({
                     draggable={true}
                     onDragStart={handleDragStart}
                     onDragEnter={handleDragEnter}
-                    onDragEnd={handleDragEnd}
+                    onMouseUp={handleDragEnd}
+                    onDragLeave={handleDragExit}
+                    onMouseDown={handleMouseDown}
                     onClick={() => setNoteModalData(true)} 
                 >
                     {note}

@@ -58,6 +58,9 @@ const MainDashboardTable = ({ days, weekid,notes, indexNotes, noteIndices }) => 
         setLocalNoteIndices(data)
     }   
 
+
+  
+    
     return (
         <div className="table-container">
             <TimeCell timeValues={timeValues}/>
@@ -77,7 +80,7 @@ const MainDashboardTable = ({ days, weekid,notes, indexNotes, noteIndices }) => 
                             var isFirst;
                             var nrNoteArray = [] 
                             for (var i = 0; i < Object.keys(noteExtension).length; i++) nrNoteArray.push(parseInt(Object.keys(noteExtension)[i]))
-                            // if (day === 'Monday' && index === 4) console.log(Object.keys(noteExtension))
+                            
                             if (Math.min(...Object.keys(noteExtension)) === index) {
                                     isFirst = true
                             } else {
@@ -114,6 +117,8 @@ const MainDashboardTable = ({ days, weekid,notes, indexNotes, noteIndices }) => 
                                     indices={Object.keys(noteExtension)} 
                                     noteIndices={noteIndices}
                                     setLocalNoteIndices={handleSetLocalNoteIndices}
+                                    localNotes={localNotes}
+                                    setLocalNotes={setLocalNotes}
                                     indexNotes={indexNotes}
                                 />}
                                 </div>

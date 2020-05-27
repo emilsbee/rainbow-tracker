@@ -246,15 +246,22 @@ const weeksModel = {
         const uid = store.getState().auth.uid
         const indexNotes = store.getState().weeks.indexNotes
 
+        const day = payload.day
+        const weekid = payload.weekid
+
+        var indiceObj = {}
+        payload.draggedIndices.forEach((index) => {
+            indiceObj[index] = true
+        })
+
         var updates = {}
         
-        var filteredIndices = Object.keys(payload.draggedIndices).filter(index => parseInt(index) !== payload.draggedNoteIndex)
-        for (var i in filteredIndices) {
-            var noteid = indexNotes[payload.day][filteredIndices[i]]
-            updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${noteid}`] = false
+        for (var i in payload.draggedIndices) {
+            var index = payload.draggedIndices[i]
+            updates[`users/${uid}/notes/${weekid}/${day}/${indexNotes[day][index]}`] = payload.note
+            updates[`users/${uid}/noteIndices/${weekid}/${day}/${indexNotes[day][index]}`] = indiceObj
         }
 
-        updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}/${payload.draggedNoteid}`] = payload.draggedIndices
         await database.ref().update(updates)
     }),
     deleteNoteStack: thunk(async (actions, payload) => {
@@ -271,6 +278,11 @@ const weeksModel = {
             var newObj = {}
             newObj[indiceGroup[i]] = true
             updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = newObj
+            if (indexNotes[payload.day][indiceGroup[i]] !== payload.noteid) {
+                updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = ""
+            } else if (indexNotes[payload.day][indiceGroup[i]] === payload.noteid) {
+                updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`] = payload.note
+            }
         }
         
         await database.ref().update(updates)

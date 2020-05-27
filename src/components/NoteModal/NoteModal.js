@@ -12,6 +12,7 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     const [localNote, setLocalNote] = useState('')
 
     useEffect(() => {
+        
         setLocalNote(note)
     }, [note])
 
@@ -26,31 +27,33 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     }
 
     NoteModal.handleClickOutside = (localNote) => {
-        var textareaText = localNote.target.children[0].children[1].children[0].defaultValue
+        var textareaText = localNote.target.children[0].children[0].children[0].value
         saveNote({note: textareaText, noteid, day})
         closeModal()
     }
 
+    const handleNoteChange = (e) => {
+        setLocalNote(e.target.value)
+    }
     
     return (
         
             <div className="note-modal-container">
-                <div className="note-modal-header">
+                {/* <div className="note-modal-header">
                     <span className="note-modal-title" onClick={handleSaveNote}>&times;</span>
-                </div>  
+                </div>   */}
                 <div className="modal-textarea">
                     <textarea 
                         autoFocus={true}  
                         type="text" 
                         className="input" 
-                        defaultValue={localNote} 
-                        onChange={(e) => setLocalNote(e.target.value)}
+                        onChange={handleNoteChange}
                         spellCheck={false}
-                    >
-                    </textarea>
+                        value={localNote}
+                    />
                 </div>
                 <div>
-                    <div className="note-modal-button-container">
+                    {/* <div className="note-modal-button-container">
                         <div 
                             className="note-modal-save-button" 
                             onClick={handleSaveNote}
@@ -66,7 +69,7 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
                             </div>
                         }
                         
-                    </div>
+                    </div> */}
                 </div>
             </div>
         
