@@ -17,19 +17,19 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     }, [note])
 
     const handleDeleteNoteStack = () => {
-        deleteNoteStack({noteid, day, index, weekid})
+        deleteNoteStack({noteid, day, index, weekid, note: localNote})
         closeModal()        
     }
 
     const handleSaveNote = () => {
+        closeModal(localNote)
         saveNote({note: localNote, noteid, day})
-        closeModal()
     }
 
     NoteModal.handleClickOutside = (localNote) => {
         var textareaText = localNote.target.children[0].children[0].children[0].value
+        closeModal(textareaText)
         saveNote({note: textareaText, noteid, day})
-        closeModal()
     }
 
     const handleNoteChange = (e) => {
@@ -38,8 +38,8 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     
     const handleKeyDown = (e) => {
         if (e.keyCode === (27)) {
+            closeModal(localNote)
             saveNote({note: localNote, noteid, day})
-            closeModal()
         }   
     }
 

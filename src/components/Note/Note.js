@@ -13,14 +13,16 @@ const Note  = ({
     day, 
     weekid, 
     index,
-    setDragNoteObj,
+    localNotes,
     dragNoteObj,
     noteIndices,
-    setLocalNoteIndices,
     indexNotes,
-    localNotes,
+
+    setLocalNoteIndices,
+    setDragNoteObj,
     setLocalNotes
 }) => {
+    
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
     const getNotes = useStoreActions(actions => actions.weeks.getNotes)
     const updateNotes = useStoreActions(actions => actions.weeks.updateNotes)
@@ -163,13 +165,24 @@ const Note  = ({
                weekid,
                note 
            })
+           getNotes({weekid})
        }
    }
    
+   const handleCloseNoteModal = (note) => {
+       
+        if(note) {
+            setLocalNote(note)
+        }
+        
+        setNoteModalData(false)
+        getNotes({weekid})
+   }
+
     return (
         <div>
             {localNote !== false ?
-            
+                
                 <div 
                     ref={refHandler}
                     className="note-container" 
@@ -185,17 +198,18 @@ const Note  = ({
                     onMouseDown={handleMouseDown}
                     onClick={() => setNoteModalData(true)} 
                 >
-                    {note}
+                    {localNote}
                 </div>
                 : 
                 null
             }
 
-
+                
             {noteModalData && 
+                
                 <div className="note-modal-wrapper" id="myModal">
                 <NoteModal 
-                    closeModal={() => setNoteModalData(false)}
+                    closeModal={handleCloseNoteModal}
                     note={note}
                     saveNote={handleUpdateNote}
                     day={day}
@@ -210,22 +224,21 @@ const Note  = ({
     )
 }
 
-// function areEqual (prevProps, nextProps) {
-//     if (
-//       prevProps.note === nextProps.note &&
-//       prevProps.noteid === nextProps.noteid &&
-//       prevProps.day === nextProps.day &&
-//       prevProps.weekid === nextProps.weekid &&
-//       JSON.stringify(prevProps.indices) === JSON.stringify(nextProps.indices) &&
-//       JSON.stringify(prevProps.dragNoteObj) === JSON.stringify(nextProps.dragNoteObj) &&
-//       JSON.stringify(prevProps.localNoteIndices) === JSON.stringify(nextProps.localNoteIndices) 
-//     ) {
-//       return true
-//     } else {
-//       return false
-//     }
-    
-//   }  
+function isEqual (prevProps, nextProps) {
+    if (
+      prevProps.note === nextProps.note &&
+      prevProps.noteid === nextProps.noteid &&
+      prevProps.weekid === nextProps.weekid &&
+      JSON.stringify(prevProps.indices) === JSON.stringify(nextProps.indices) &&
+      JSON.stringify(prevProps.dragNoteObj) === JSON.stringify(nextProps.dragNoteObj) &&
+      JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) && 
+      JSON.stringify(prevProps.localNotes) === JSON.stringify(nextProps.localNotes) && 
+      JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) 
+    ) {
+      return true
+    } else {
+      return false
+    }
+  }  
 
-// export default React.memo(Note, areEqual)
-export default Note
+export default React.memo(Note, isEqual)

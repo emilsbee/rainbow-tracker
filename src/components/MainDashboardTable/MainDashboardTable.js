@@ -12,12 +12,12 @@ import './main-dashboard-table.scss'
 
 const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) => {
     
-    console.log('rendered')
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
 
     // Category/activtiy items
     const [localWeek, setLocalWeek] = useState(false)
+    const [dragDay, setDragDay] = useState(false)
     const [dragCategory, setDragCategory] = useState("")
     const [dragActivity, setDragActivity] = useState("")
     const [draggedCategories, setDraggedCategories] = useState([])
@@ -83,7 +83,6 @@ const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) =>
                             var noteExtension = localNoteIndices[day][noteid]
                             var isFirst;
                             
-                            // if (!noteExtension) return 
                             
                             if ((Math.min(...Object.keys(noteExtension)) === index)) {
                                 isFirst = true
@@ -108,6 +107,8 @@ const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) =>
                                     draggedCategories={draggedCategories}
                                     setDraggedCategories={setDraggedCategories}
                                     setDragIndex={setDragIndex}
+                                    dragDay={dragDay}
+                                    setDragDay={setDragDay}
                                 >
                                 </CategoryItem>
                                 {isFirst && <Note 
@@ -135,26 +136,24 @@ const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) =>
     )
 }
 
-// function areEqual (prevProps, nextProps) {
-//     if (
-//       prevProps.weekid === nextProps.weekid &&
-//       JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
-//       JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
-//       JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
-//       JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) &&
-//       JSON.stringify(prevProps.dragNoteObj) === JSON.stringify(nextProps.dragNoteObj) &&
-//       JSON.stringify(prevProps.localNoteIndices) === JSON.stringify(nextProps.localNoteIndices) 
-//     ) {
-//       return true
-//     } else {
-//       return false
-//     }
+function areEqual (prevProps, nextProps) {
+    if (
+      prevProps.weekid === nextProps.weekid &&
+      JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
+      JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
+      JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
+      JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
+    ) {
+      return true
+    } else {
+      return false
+    }
     
-//   }
+  }
 
-// export default React.memo(MainDashboardTable, areEqual)
+export default React.memo(MainDashboardTable, areEqual)
 
 
-export default MainDashboardTable
+
 
 

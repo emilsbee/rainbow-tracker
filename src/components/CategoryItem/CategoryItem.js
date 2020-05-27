@@ -13,15 +13,17 @@ function CategoryItem  ({
   day,
   index, 
   weekid, 
-  setDragCategory,
   dragCategory,
-  setDragActivity,
   dragActivity,
   draggedCategories,
+  dragDay,
+  
+  setDragCategory,
+  setDragActivity,
   setDraggedCategories,
-  setDragIndex
+  setDragIndex,
+  setDragDay
 }) {
- 
   const categorySettings = useStoreState(state => state.settings.categorySettings)
   const activitySettings = useStoreState(state => state.settings.activitySettings)
   const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
@@ -44,34 +46,37 @@ function CategoryItem  ({
       e.dataTransfer.setDragImage(img, 1, 1)
       setDragCategory(localCategory)
       setDragActivity(localActivity)
+      setDragDay(day)
   }
 
 
   const handleDragEnter = (e) => {
     setDragIndex(index)
-
-    if (draggedCategories.length === 0) {
-      setLocalCategory(dragCategory)
-      setLocalActivity(dragActivity)
-      var categoryObj = {}
-      categoryObj[day] = [index]
-      setDraggedCategories(categoryObj)
-    } else {
-      setLocalCategory(dragCategory)
-      setLocalActivity(dragActivity)
-        var copyDraggedCategories = draggedCategories
-        if (copyDraggedCategories[day]) {
-          if (copyDraggedCategories[day].includes(index)) {
-            return 
+    if (day === dragDay) {
+      if (draggedCategories.length === 0) {
+        setLocalCategory(dragCategory)
+        setLocalActivity(dragActivity)
+        var categoryObj = {}
+        categoryObj[day] = [index]
+        setDraggedCategories(categoryObj)
+      } else {
+        setLocalCategory(dragCategory)
+        setLocalActivity(dragActivity)
+          var copyDraggedCategories = draggedCategories
+          if (copyDraggedCategories[day]) {
+            if (copyDraggedCategories[day].includes(index)) {
+              return 
+            } else {
+              copyDraggedCategories[day].push(index)
+              setDraggedCategories(copyDraggedCategories)
+            }
           } else {
-            copyDraggedCategories[day].push(index)
+            copyDraggedCategories[day] = [index]
             setDraggedCategories(copyDraggedCategories)
           }
-        } else {
-          copyDraggedCategories[day] = [index]
-          setDraggedCategories(copyDraggedCategories)
-        }
+      }
     }
+
   }
 
   const handleDragEnd = () => {
@@ -194,9 +199,10 @@ function areEqual (prevProps, nextProps) {
   if (
     prevProps.activity === nextProps.activity &&
     prevProps.category === nextProps.category &&
-    prevProps.dragCategory === nextProps.dragCategory &&
+    (prevProps.day !== nextProps.dragDay &&
+    (prevProps.dragCategory === nextProps.dragCategory &&
     prevProps.dragActivity === nextProps.dragActivity &&
-    JSON.stringify(prevProps.draggedCategories) == JSON.stringify(nextProps.draggedCategories) &&
+    JSON.stringify(prevProps.draggedCategories) == JSON.stringify(nextProps.draggedCategories))) &&
     prevProps.weekid === nextProps.weekid 
   ) {
     return true
