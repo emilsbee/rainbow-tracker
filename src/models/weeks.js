@@ -37,13 +37,21 @@ const weeksModel = {
                 
                 break;
             case 'NEXT_WEEK':
-                var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${payload.year}_${payload.weekNr+1}`).once('value')
+                var nextWeekYear = payload.year
+                var nextWeekNr = payload.weekNr + 1
+                console.log(moment().weeksInYear(nextWeekYear))
+                if (payload.weekNr === moment().weeksInYear(nextWeekYear)) {
+                    nextWeekYear = payload.year + 1
+                    nextWeekNr = 1
+                }
+
+                var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${nextWeekYear}_${nextWeekNr}`).once('value')
                 if (nextWeek.val() !== null) {
                     weekid = nextWeek.val()
                 } else {
                     actions.newWeek({
-                        year: payload.year,
-                        weekNr: payload.weekNr+1
+                        year: nextWeekYear,
+                        weekNr: nextWeekNr
                     })
                     return
                 }
@@ -62,14 +70,20 @@ const weeksModel = {
                 }
                 break;
             case 'PREVIOUS_WEEK':
-                var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${payload.year}_${payload.weekNr-1}`).once('value')  
+                var prevWeekYear = payload.year
+                var prevWeekNr = payload.weekNr - 1
+                if (payload.weekNr === 1) {
+                    prevWeekYear = payload.year-1
+                    prevWeekNr = moment().weeksInYear(prevWeekYear)
+                } 
+                var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${prevWeekYear}_${prevWeekNr}`).once('value')  
                 if (nextWeek.val() !== null) {
                     weekid = nextWeek.val() 
                     
                 } else {
                     actions.newWeek({
-                        year: payload.year,
-                        weekNr: payload.weekNr-1
+                        year: prevWeekYear,
+                        weekNr: prevWeekNr
                     })
                     return
                 }
@@ -81,6 +95,7 @@ const weeksModel = {
             var weekObj = snapshot.val()
             weekObj["weekid"] = snapshot.key
             actions.getNotes({weekid}).then(() => {
+    
                 actions.setYearWeeks({weeks: moment().weeksInYear(weekObj.year)})
                 actions.setWeek(weekObj)
             })
@@ -151,7 +166,7 @@ const weeksModel = {
     }),
     setYearWeeks: action((state,payload) => {
         var weeksArr = []
-        for (var i = 1; i < payload.weeks; i++) {
+        for (var i = 1; i < payload.weeks+1; i++) {
 
             weeksArr.push(i)
         }

@@ -10,7 +10,8 @@ import { ReactComponent as Down } from '../WeekDropdown/utils/down.svg'
 
 function YearDropdown  ({
     list,
-    title
+    title,
+    onChange
 })  {
 
     const [listOpen, setListOpen] = useState(false)
@@ -21,6 +22,10 @@ function YearDropdown  ({
         setListOpen(false)
     }
 
+    const handleClick = (e) => {
+        onChange(e)
+        setListOpen(false)
+    }
 
     return (
         <div className="year-dd-wrapper">
@@ -33,7 +38,7 @@ function YearDropdown  ({
             </div>
             {listOpen && <ul className="year-dd-list" style={{"marginTop":"4px"}}>
                {list.map((item) => (
-                 <li key={item} className="year-dd-list-item">
+                 <li key={item} className="year-dd-list-item" onClick={() => handleClick(item)}>
                      <p className="year-dd-list-text">{item}</p>
                 </li>
                ))}

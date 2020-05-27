@@ -15,17 +15,13 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
     const startYearWeekListener = useStoreActions(actions => actions.weeks.startYearWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
     
-
+    
     const handleYearDropdown = (e) => {
-    
             stopWeekListener({weekid})
-            startWeekListener({type:'LATEST_WEEK', year: e.target.value, weekid})
-            startYearWeekListener({year: e.target.value})
-    
+            startWeekListener({type:'SPECIFIC_WEEK', year: e, weekNr: 1, weekid})
     }
 
     const handleWeekDropdown = (e) => {
-    
         stopWeekListener({weekid})
         startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
     }       
@@ -46,11 +42,17 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
     return (
         <div className="container">
 
+            <div className="banners">
+                <BackArrow onClick={handlePrevWeek} className="previous-week" />
+                    <h2 className="year-banner">{year},</h2>
+                    <h2 className="week-banner">week {weekNr}</h2>
+                <NextArrow onClick={handleNextWeek} className="next-week" />
+            </div>
             <div className="navigation">
                 
                 <div className="year-dropdown-container">
                     <p className="year-dropdown-label">Go to year</p>
-                    <YearDropdown list={years} title={year}/>
+                    <YearDropdown list={years} title={year} onChange={handleYearDropdown}/>
                 </div>
                 
                 
@@ -62,12 +64,6 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
                     
             </div>
 
-            <div className="banners">
-                <BackArrow onClick={handlePrevWeek} className="previous-week" />
-                    <h2 className="year-banner">{year},</h2>
-                    <h2 className="week-banner">week {weekNr}</h2>
-                <NextArrow onClick={handleNextWeek} className="next-week" />
-            </div>
         </div>
     )
 }   

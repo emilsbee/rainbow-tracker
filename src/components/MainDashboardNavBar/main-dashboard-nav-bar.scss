@@ -2,24 +2,28 @@
 
 .container {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
 .banners {
-    align-self: center;
+
+    flex-grow: 2;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding: 5px;
-    width: $sizing-13;
+    margin-right: 10%;
 }
 
 .navigation {
+    flex-grow: 1;
     position: relative;
-    align-self: flex-end;
+    
+    justify-content: flex-end;
     display: flex;
     flex-direction: row;
     padding: 5px;
