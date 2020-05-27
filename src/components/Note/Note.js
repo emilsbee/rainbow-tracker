@@ -224,21 +224,23 @@ const Note  = ({
     )
 }
 
-function isEqual (prevProps, nextProps) {
-    if (
-      prevProps.note === nextProps.note &&
-      prevProps.noteid === nextProps.noteid &&
-      prevProps.weekid === nextProps.weekid &&
-      JSON.stringify(prevProps.indices) === JSON.stringify(nextProps.indices) &&
-      JSON.stringify(prevProps.dragNoteObj) === JSON.stringify(nextProps.dragNoteObj) &&
-      JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) && 
-      JSON.stringify(prevProps.localNotes) === JSON.stringify(nextProps.localNotes) && 
-      JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) 
-    ) {
-      return true
-    } else {
-      return false
-    }
-  }  
+// function isEqual (prevProps, nextProps) {
+//     if (
+//       prevProps.note === nextProps.note &&
+//       prevProps.noteid === nextProps.noteid &&
+//       prevProps.weekid === nextProps.weekid &&
+//       JSON.stringify(prevProps.indices) === JSON.stringify(nextProps.indices) &&
+//       JSON.stringify(prevProps.dragNoteObj) === JSON.stringify(nextProps.dragNoteObj) &&
+//       JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) && 
+//       JSON.stringify(prevProps.localNotes) === JSON.stringify(nextProps.localNotes) && 
+//       JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) 
+//     ) {
+//       return true
+//     } else {
+//       return false
+//     }
+//   }  
 
-export default React.memo(Note, isEqual)
+// export default React.memo(Note, isEqual)
+
+export default Note

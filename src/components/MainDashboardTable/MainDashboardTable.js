@@ -136,22 +136,24 @@ const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) =>
     )
 }
 
-function areEqual (prevProps, nextProps) {
-    if (
-      prevProps.weekid === nextProps.weekid &&
-      JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
-      JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
-      JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
-      JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
-    ) {
-      return true
-    } else {
-      return false
-    }
+// function areEqual (prevProps, nextProps) {
+//     if (
+//       prevProps.weekid === nextProps.weekid &&
+//       JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
+//       JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
+//       JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
+//       JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
+//     ) {
+//       return true
+//     } else {
+//       return false
+//     }
     
-  }
+//   }
 
-export default React.memo(MainDashboardTable, areEqual)
+// export default React.memo(MainDashboardTable, areEqual)
+
+export default MainDashboardTable
 
 
 
