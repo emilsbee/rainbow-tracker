@@ -80,11 +80,10 @@ const weeksModel = {
         weeksRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
             weekObj["weekid"] = snapshot.key
-            actions.setWeek(weekObj)
-            actions.setYearWeeks({weeks: moment().weeksInYear(weekObj.year)})
-            actions.startNotesListener({weekid: snapshot.key})
-            actions.startIndexNotesListener({weekid: snapshot.key})
-            actions.startnoteIndicesListener({weekid: snapshot.key})
+            actions.getNotes({weekid}).then(() => {
+                actions.setYearWeeks({weeks: moment().weeksInYear(weekObj.year)})
+                actions.setWeek(weekObj)
+            })
 
         })
     }),
@@ -150,11 +149,6 @@ const weeksModel = {
     setYears: action((state, payload) => {
         state.years = payload
     }),
-    stopYearWeekListener: thunk(async (actions, payload) => {
-        const uid = store.getState().auth.uid
-        await database.ref(`users/${uid}/yearWeeks`).off()
-        actions.setYearWeeks([])
-    }),
     setYearWeeks: action((state,payload) => {
         var weeksArr = []
         for (var i = 1; i < payload.weeks; i++) {
@@ -164,48 +158,18 @@ const weeksModel = {
         
         state.yearWeeks = weeksArr
     }),
-    startNotesListener: thunk( async (actions, payload) => {
+    getNotes: thunk( async (actions, payload) => {
         const uid = store.getState().auth.uid
-        
-        var notesRef = database.ref(`users/${uid}/notes/${payload.weekid}`)
-        notesRef.on('value', function(snapshot) {
-            
-            actions.setNotes({
-                type: 'NOTES',
-                notes: snapshot.val()
-            })
-        })
-    }),
-    startIndexNotesListener: thunk( async (actions, payload) => {
-        const uid = store.getState().auth.uid
-        
-        var indexNotesRef = database.ref(`users/${uid}/indexNotes/${payload.weekid}`)
-        indexNotesRef.on('value', function(snapshot) {
-            
-            actions.setNotes({
-                type: 'INDEX_NOTES',
-                indexNotes: snapshot.val()
-            })
-        })
-    }),
-    startnoteIndicesListener: thunk( async (actions, payload) => {
-        const uid = store.getState().auth.uid
-        
 
-        var noteIndicesRef = database.ref(`users/${uid}/noteIndices/${payload.weekid}`)
-        noteIndicesRef.on('value', function(snapshot) {
-            actions.setNotes({
-                type: 'NOTE_INDICES',
-                noteIndices: snapshot.val()
-            })
+        var notes = await database.ref(`users/${uid}/notes/${payload.weekid}`).once('value')
+        var indexNotes = await database.ref(`users/${uid}/indexNotes/${payload.weekid}`).once('value')
+        var noteIndices = await database.ref(`users/${uid}/noteIndices/${payload.weekid}`).once('value')
+        actions.setNotes({
+            type: 'ALL',
+            notes: notes.val(),
+            indexNotes: indexNotes.val(),
+            noteIndices: noteIndices.val()
         })
-    }),
-    stopNoteListeners: thunk(async (actions, payload) => {
-        const uid = store.getState().auth.uid
-        await database.ref(`users/${uid}/notes/${payload.weekid}`).off()
-        await database.ref(`users/${uid}/indexNotes/${payload.weekid}`).off()
-        return await database.ref(`users/${uid}/noteIndices/${payload.weekid}`).off()
-        
     }),
     setNotes: action((state, payload) => {
         switch(payload.type) {
@@ -216,6 +180,11 @@ const weeksModel = {
                 state.indexNotes = payload.indexNotes
                 break;
             case 'NOTE_INDICES': 
+                state.noteIndices = payload.noteIndices
+                break;
+            case 'ALL':
+                state.notes = payload.notes
+                state.indexNotes = payload.indexNotes
                 state.noteIndices = payload.noteIndices
                 break;
             default:

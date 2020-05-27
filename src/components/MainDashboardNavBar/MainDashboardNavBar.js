@@ -14,31 +14,31 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
     const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
     const startYearWeekListener = useStoreActions(actions => actions.weeks.startYearWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
-    const stopNoteListeners = useStoreActions(actions => actions.weeks.stopNoteListeners)
+    
 
     const handleYearDropdown = (e) => {
-        stopNoteListeners().then(() => {
+    
             stopWeekListener({weekid})
             startWeekListener({type:'LATEST_WEEK', year: e.target.value, weekid})
             startYearWeekListener({year: e.target.value})
-        })
+    
     }
 
     const handleWeekDropdown = (e) => {
-        stopNoteListeners({weekid})
+    
         stopWeekListener({weekid})
         startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
     }       
 
     
     const handlePrevWeek = (e) => {
-        stopNoteListeners({weekid})
+    
         stopWeekListener({weekid})
         startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})
     }
 
     const handleNextWeek = (e) => {
-        stopNoteListeners({weekid})
+    
         stopWeekListener({weekid})
         startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})
     }

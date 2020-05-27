@@ -22,6 +22,7 @@ const Note  = ({
     setLocalNotes
 }) => {
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
+    const getNotes = useStoreActions(actions => actions.weeks.getNotes)
     const updateNotes = useStoreActions(actions => actions.weeks.updateNotes)
     const deleteNoteStack = useStoreActions(actions => actions.weeks.deleteNoteStack)
 
@@ -56,6 +57,7 @@ const Note  = ({
             noteid,
             note
         })
+        getNotes({weekid})
     }   
 
    const handleDragStart = (e) => {
@@ -139,6 +141,7 @@ const Note  = ({
                draggedIndices: dragNoteObj.indices,
                note: dragNoteObj.note
             })
+            getNotes({weekid})
        }
        setDragNoteObj(false)
    }
