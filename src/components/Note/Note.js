@@ -84,6 +84,10 @@ const Note  = ({
    
 
    const handleDragEnter = (e) => {
+       var dragHighest = dragNoteObj ? Math.max(...dragNoteObj.indices)+1 : ''
+       var dragLowest = dragNoteObj ? Math.min(...dragNoteObj.indices)-1 : ''
+
+       if (index ===  dragLowest || index === dragHighest) {
     
         localRef.addEventListener('dragend', handleDragEnd)
 
@@ -129,6 +133,7 @@ const Note  = ({
                 })
                 
                 
+        }
         }
 
    }
