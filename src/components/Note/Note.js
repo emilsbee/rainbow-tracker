@@ -34,6 +34,7 @@ const Note  = ({
     const[localIndices, setLocalIndices] = useState(false)
 
     const[localRef, setLocalRef] = useState(false)
+    const[isDraggable, setIsDraggable] = useState(true)
 
     useEffect(() => {
         setLocalNote(note)
@@ -70,7 +71,7 @@ const Note  = ({
         let img = new Image()
         e.dataTransfer.setDragImage(img, 1, 1)
         
-        window.addEventListener('dragend',  handleDragEnd)
+        
         setDragNoteObj({
             day, 
             indices,
@@ -83,10 +84,16 @@ const Note  = ({
    
 
    const handleDragEnter = (e) => {
+    
         localRef.addEventListener('dragend', handleDragEnd)
 
-        if (dragNoteObj !== false) {
+        if (dragNoteObj !== false && dragNoteObj.index !== index) {
+
+                // Checks if the note which was entered is of length 1 or more
                 if (indices.length > 1) {
+                    
+    
+
                     var newMultiIndiceObj = dragNoteObj
                     indices.forEach((i) => {
                         newMultiIndiceObj.indices.push(parseInt(i))
@@ -109,6 +116,7 @@ const Note  = ({
                         } else {
                             setLocalIndices(false)
                         }
+                        console.log(newObj)
                         setDragNoteObj(newObj)
                     }
                 }
@@ -128,15 +136,20 @@ const Note  = ({
 
    function handleDragEnd () {
        if (dragNoteObj) {
+           setIsDraggable(false) 
            updateNotes({
                day: dragNoteObj.day,
                weekid,
                draggedIndices: dragNoteObj.indices,
                note: dragNoteObj.note
+            }).then(() => {
+                getNotes({weekid}).then(() => {
+                    // setLocalIndices(false)
+                    setIsDraggable(true)
+                })
             })
-            getNotes({weekid}).then(() => {
-                setLocalIndices(false)
-            })
+            
+ 
        }
        
    }
@@ -183,7 +196,7 @@ const Note  = ({
                         "height": `${localIndices && (localIndices.length > 1 ? localIndices.length === 2 ? '41' : 41+(localIndices.length-2)*22  : '19')}px`,
                         "whiteSpace": localIndices && (localIndices.length > 1 ? 'normal' : 'nowrap')
                     }}  
-                    draggable={true}
+                    draggable={isDraggable}
                     onDragStart={handleDragStart}
                     onDragEnter={handleDragEnter}
                     onMouseUp={handleDragEnd}

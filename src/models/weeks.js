@@ -258,7 +258,7 @@ const weeksModel = {
             updates[`users/${uid}/noteIndices/${weekid}/${day}/${indexNotes[day][index]}`] = indiceObj
         }
 
-        await database.ref().update(updates)
+        return await database.ref().update(updates)
     }),
     deleteNoteStack: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
