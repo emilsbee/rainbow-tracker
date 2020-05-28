@@ -5,10 +5,13 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 // Internal imports 
 import CategoryItem from '../CategoryItem/CategoryItem'
 import Note from '../Note/Note'
+import Day from '../Day/Day'
 import TimeCell from '../TimeCell/TimeCell'
-import {timeValues, days} from '../../utils/staticData'
+import {timeValues, weekDays} from '../../utils/staticData'
 import { orderByDays } from '../../utils/ordering'
 import './main-dashboard-table.scss'
+
+
 
 const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) => {
     
@@ -64,96 +67,104 @@ const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) =>
     return (
         <div className="table-container">
             <TimeCell timeValues={timeValues}/>
-           {localWeek && noteIndices && Object.keys(localWeek.days).map((day) => {
+           {localWeek && noteIndices && notes && indexNotes && weekDays.map((day) => {
                
-               var formatDay = localWeek.days[day]
+               
                return (
-                   <div className="day-container" key={day}>
-                       <div className="day-header">
-                            {day}
-                       </div>
+                   <Day key={day} 
+                        weekid={weekid}
+                        day={day}
+                        categories={localWeek.days[day]}
+                        notes={notes[day]}
+                        noteIndices={noteIndices[day]}
+                        indexNotes={indexNotes[day]}
+                   />
+                //    <div className="day-container" key={day}>
+                //        <div className="day-header">
+                //             {day}
+                //        </div>
                        
-                        {localNotes && localNoteIndices && localIndexNotes  && Object.keys(formatDay).map((period, index) => {
+                //         {localNotes && localNoteIndices && localIndexNotes  && Object.keys(formatDay).map((period, index) => {
 
-                            var noteid = localIndexNotes[day][index]
-                            var noteText = localNotes[day][noteid]
+                //             var noteid = localIndexNotes[day][index]
+                //             var noteText = localNotes[day][noteid]
                             
                             
                             
-                            var noteExtension = localNoteIndices[day][noteid]
-                            var isFirst;
+                //             var noteExtension = localNoteIndices[day][noteid]
+                //             var isFirst;
                             
                             
-                            if ((Math.min(...Object.keys(noteExtension)) === index)) {
-                                isFirst = true
-                            } else {
-                                    isFirst = false      
-                            }
+                //             if ((Math.min(...Object.keys(noteExtension)) === index)) {
+                //                 isFirst = true
+                //             } else {
+                //                     isFirst = false      
+                //             }
                             
-                            return (
-                                <div key={index} className="category-note-container">
-                                <CategoryItem 
-                                    className="category-cell"
-                                    weekid={localWeek.weekid} 
-                                    day={day} 
-                                    index={index} 
-                                    category={localWeek.days[day][index].category}
-                                    activity={localWeek.days[day][index].activity}
-                                    setDragCategory={setDragCategory}
-                                    dragCategory={dragCategory}
-                                    dragActivity={dragActivity}
-                                    setDragActivity={setDragActivity}
-                                    localWeek={localWeek}
-                                    draggedCategories={draggedCategories}
-                                    setDraggedCategories={setDraggedCategories}
-                                    setDragIndex={setDragIndex}
-                                    dragDay={dragDay}
-                                    setDragDay={setDragDay}
-                                >
-                                </CategoryItem>
-                                {isFirst && <Note 
-                                    setDragNoteObj={handleSetDragNoteObj}
-                                    dragNoteObj={dragNoteObj}
-                                    index={index}
-                                    note={noteText} 
-                                    noteid={noteid}
-                                    day={day}
-                                    weekid={weekid}
-                                    indices={Object.keys(noteExtension)} 
-                                    noteIndices={noteIndices}
-                                    setLocalNoteIndices={handleSetLocalNoteIndices}
-                                    localNotes={localNotes}
-                                    setLocalNotes={setLocalNotes}
-                                    indexNotes={localIndexNotes}
-                                />}
-                                </div>
-                            )
-                        })}
-                    </div>
+                //             return (
+                //                 <div key={index} className="category-note-container">
+                //                 <CategoryItem 
+                //                     className="category-cell"
+                //                     weekid={localWeek.weekid} 
+                //                     day={day} 
+                //                     index={index} 
+                //                     category={localWeek.days[day][index].category}
+                //                     activity={localWeek.days[day][index].activity}
+                //                     setDragCategory={setDragCategory}
+                //                     dragCategory={dragCategory}
+                //                     dragActivity={dragActivity}
+                //                     setDragActivity={setDragActivity}
+                //                     localWeek={localWeek}
+                //                     draggedCategories={draggedCategories}
+                //                     setDraggedCategories={setDraggedCategories}
+                //                     setDragIndex={setDragIndex}
+                //                     dragDay={dragDay}
+                //                     setDragDay={setDragDay}
+                //                 >
+                //                 </CategoryItem>
+                //                 {isFirst && <Note 
+                //                     setDragNoteObj={handleSetDragNoteObj}
+                //                     dragNoteObj={dragNoteObj}
+                //                     index={index}
+                //                     note={noteText} 
+                //                     noteid={noteid}
+                //                     day={day}
+                //                     weekid={weekid}
+                //                     indices={Object.keys(noteExtension)} 
+                //                     noteIndices={noteIndices}
+                //                     setLocalNoteIndices={handleSetLocalNoteIndices}
+                //                     localNotes={localNotes}
+                //                     setLocalNotes={setLocalNotes}
+                //                     indexNotes={localIndexNotes}
+                //                 />}
+                //                 </div>
+                //             )
+                //         })}
+                //     </div>
                )
            })}
         </div>
     )
 }
 
-// function areEqual (prevProps, nextProps) {
-//     if (
-//       prevProps.weekid === nextProps.weekid &&
-//       JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
-//       JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
-//       JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
-//       JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
-//     ) {
-//       return true
-//     } else {
-//       return false
-//     }
+function areEqual (prevProps, nextProps) {
+    if (
+      prevProps.weekid === nextProps.weekid &&
+      JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
+      JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
+      JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
+      JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
+    ) {
+      return true
+    } else {
+      return false
+    }
     
-//   }
+  }
 
-// export default React.memo(MainDashboardTable, areEqual)
+export default React.memo(MainDashboardTable, areEqual)
 
-export default MainDashboardTable
+// export default MainDashboardTable
 
 
 

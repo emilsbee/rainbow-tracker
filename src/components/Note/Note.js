@@ -40,16 +40,18 @@ const Note  = ({
     }, [note])
 
     useEffect(() => {
-        
-        if (dragNoteObj !== false && dragNoteObj.indices.includes(index) && day === dragNoteObj.day) {
-            if (index !== Math.min(...dragNoteObj.indices)) {
-                // setLocalNote(false)
-            } else {
-                
-                setLocalIndices(dragNoteObj.indices)
-            }
+        setLocalIndices(indices)
+    }, [indices])
+
+    useEffect(() => {
+        if(dragNoteObj && (dragNoteObj.index === index)) {
+            setLocalIndices(dragNoteObj.indices)
+        } else if (dragNoteObj && dragNoteObj.indices.includes(index)) {
+            setLocalIndices(false)
         }
-    }, [noteIndices])
+    }, [dragNoteObj])
+
+
 
     const handleUpdateNote = ({ day, noteid, note, index }) => {
         updateWeek({
@@ -62,6 +64,8 @@ const Note  = ({
         getNotes({weekid})
     }   
 
+
+
    const handleDragStart = (e) => {
         let img = new Image()
         e.dataTransfer.setDragImage(img, 1, 1)
@@ -70,7 +74,8 @@ const Note  = ({
         setDragNoteObj({
             day, 
             indices,
-            note
+            note,
+            index
         })
         
    }
@@ -79,18 +84,31 @@ const Note  = ({
 
    const handleDragEnter = (e) => {
         localRef.addEventListener('dragend', handleDragEnd)
-        if (dragNoteObj !== false && day === dragNoteObj.day) {
 
+        if (dragNoteObj !== false) {
                 if (indices.length > 1) {
                     var newMultiIndiceObj = dragNoteObj
                     indices.forEach((i) => {
                         newMultiIndiceObj.indices.push(parseInt(i))
                     })
+                    
+                    if (dragNoteObj.index > index) {
+                        newMultiIndiceObj["index"] = index
+                        setLocalIndices(dragNoteObj.indices)
+                    } else {
+                        setLocalIndices(false)
+                    }
                     setDragNoteObj(newMultiIndiceObj)
                 } else {
                     if (!dragNoteObj.indices.includes(index)) {
                         var newObj = dragNoteObj
                         newObj.indices.push(parseInt(index))
+                        if (dragNoteObj.index > index) {
+                            newObj["index"] = index
+                            setLocalIndices(dragNoteObj.indices)
+                        } else {
+                            setLocalIndices(false)
+                        }
                         setDragNoteObj(newObj)
                     }
                 }
@@ -98,38 +116,11 @@ const Note  = ({
                 setDragNoteObj({
                     day,
                     indices: dragNoteObj.indices,
-                    note: dragNoteObj.note
+                    note: dragNoteObj.note,
+                    index: dragNoteObj.index
                 })
                 
-                var dragNoteIndiceObj = {}
-                dragNoteObj.indices.forEach(indice => {
-                    dragNoteIndiceObj[indice] = true
-                })
                 
-                for (var i in dragNoteObj.indices) {
-                    noteIndices[dragNoteObj.day][indexNotes[dragNoteObj.day][dragNoteObj.indices[i]]] = dragNoteIndiceObj
-                    localNotes[dragNoteObj.day][indexNotes[dragNoteObj.day][dragNoteObj.indices[i]]] = dragNoteObj.note
-                }
-                setLocalNoteIndices({
-                    Monday: noteIndices.Monday,
-                    Tuesday: noteIndices.Tuesday,
-                    Wednesday: noteIndices.Wednesday,
-                    Thursday: noteIndices.Thursday,
-                    Friday: noteIndices.Friday,
-                    Saturday: noteIndices.Saturday,
-                    Sunday: noteIndices.Sunday,
-                })
-
-                setLocalNotes({
-                    Monday: localNotes.Monday,
-                    Tuesday: localNotes.Tuesday,
-                    Wednesday: localNotes.Wednesday,
-                    Thursday: localNotes.Thursday,
-                    Friday: localNotes.Friday,
-                    Saturday: localNotes.Saturday,
-                    Sunday: localNotes.Sunday,
-                })
-
         }
 
    }
@@ -143,9 +134,11 @@ const Note  = ({
                draggedIndices: dragNoteObj.indices,
                note: dragNoteObj.note
             })
-            getNotes({weekid})
+            getNotes({weekid}).then(() => {
+                setLocalIndices(false)
+            })
        }
-       setDragNoteObj(false)
+       
    }
 
    const handleDragExit = () => {
@@ -181,14 +174,14 @@ const Note  = ({
 
     return (
         <div>
-            {localNote !== false ?
+            {localIndices !== false ?
                 
                 <div 
                     ref={refHandler}
                     className="note-container" 
                     style={{
-                        "height": `${indices && (indices.length > 1 ? indices.length === 2 ? '41' : 41+(indices.length-2)*22  : '19')}px`,
-                        "whiteSpace": indices && (indices.length > 1 ? 'normal' : 'nowrap')
+                        "height": `${localIndices && (localIndices.length > 1 ? localIndices.length === 2 ? '41' : 41+(localIndices.length-2)*22  : '19')}px`,
+                        "whiteSpace": localIndices && (localIndices.length > 1 ? 'normal' : 'nowrap')
                     }}  
                     draggable={true}
                     onDragStart={handleDragStart}
