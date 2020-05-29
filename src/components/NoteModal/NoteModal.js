@@ -17,6 +17,7 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     }, [note])
 
     const handleDeleteNoteStack = () => {
+        // Write a local version for this
         deleteNoteStack({noteid, day, index, weekid, note: localNote})
         closeModal()        
     }

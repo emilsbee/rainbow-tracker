@@ -129,7 +129,6 @@ function CategoryItem  ({
     })
   }
 
-
   return (
     <div className="main-container">
 
@@ -148,11 +147,11 @@ function CategoryItem  ({
         {/*  Category component  */}
 
         {/* Activity componenet */}
-        {localCategory !== ''  && 
+        {localCategory !== ""  && activitySettings &&
     
           <div 
             className="activity-item"
-            onClick={handleActivityPopover}
+            onClick={(activitySettings[localCategory] && Object.keys(activitySettings[localCategory]).length > 0) &&  handleActivityPopover}
           >
             {categorySettings[localCategory] && localActivity && localCategory && activitySettings[localCategory][localActivity] && activitySettings[localCategory][localActivity].short}
           </div>

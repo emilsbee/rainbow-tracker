@@ -24,3 +24,35 @@ export const localDaySave = ({
     setLocalNoteIndices(noteIndices)
     setLocalNotes(notes)
 }
+
+export const deleteLocalDayNoteStack = ({
+    noteIndices,
+    indexNotes,
+    notes,
+    setLocalNoteIndices,
+    setLocalNotes,
+    noteid,
+    note
+}) => {
+    var notesIndices = Object.keys(noteIndices[noteid])
+    
+
+    for (var i in notesIndices) {
+        var locNoteid = indexNotes[notesIndices[i]]
+        
+        var indiceObj = {}
+        indiceObj[notesIndices[i]] = true
+        
+        noteIndices[locNoteid] = indiceObj
+        
+        if (locNoteid === noteid) {
+            notes[locNoteid] = note
+        } else {
+            notes[locNoteid] = ""
+        }
+    }
+   
+    setLocalNoteIndices({...noteIndices})
+    setLocalNotes({...notes})
+
+}

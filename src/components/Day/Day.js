@@ -89,8 +89,9 @@ const Day = ({
             day
         })
     }
-
+    
     const handleSetLocalNoteIndices = (data) => {
+        
         setLocalNoteIndices(data)
     }
  

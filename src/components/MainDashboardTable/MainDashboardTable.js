@@ -13,10 +13,14 @@ import './main-dashboard-table.scss'
 
 
 
-const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) => {
+const MainDashboardTable = ({ days, weekid }) => {
     
     const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
+
+    const notes = useStoreState(state => state.weeks.notes)
+    const indexNotes = useStoreState(state => state.weeks.indexNotes)
+    const noteIndices = useStoreState(state => state.weeks.noteIndices)
 
     // Category/activtiy items
     const [localWeek, setLocalWeek] = useState(false)
@@ -44,9 +48,10 @@ const MainDashboardTable = ({ days, weekid, notes, indexNotes, noteIndices }) =>
             setLocalWeek(currentWeek)
     }, [days])
 
-
+    
     
     useEffect(() => {
+        
         setLocalNotes(notes)
         setLocalNoteIndices(noteIndices)
         setLocalIndexNotes(indexNotes)

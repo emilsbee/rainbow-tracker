@@ -15,12 +15,13 @@ const weeksModel = {
     notes: false,
     indexNotes: false,
     noteIndices: false,
+    init: true,
     startWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         var weekid;
         const currentYear = moment().year()
         const currentWeekNr = moment().week()
-
+        var init = payload.init && true
         switch(payload.type) {
             case 'CURRENT_WEEK':
                 var currentWeek = await database.ref(`users/${uid}/yearWeeks/${currentYear}/${currentWeekNr}`).once('value')
@@ -94,12 +95,17 @@ const weeksModel = {
         weeksRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
             weekObj["weekid"] = snapshot.key
-            actions.getNotes({weekid}).then(() => {
-    
+            if (init) {
+                actions.getNotes({weekid: snapshot.key}).then(() => {
+                    actions.setYearWeeks({weeks: moment().weeksInYear(weekObj.year)})
+                    actions.setWeek(weekObj)
+                    init = false
+                })
+            } else {
                 actions.setYearWeeks({weeks: moment().weeksInYear(weekObj.year)})
                 actions.setWeek(weekObj)
-            })
-
+            }
+            
         })
     }),
     stopWeekListener: thunk(async (actions, payload) => {
@@ -140,6 +146,7 @@ const weeksModel = {
 
         database.ref().update(updates, function (error) {
             actions.startWeekListener({
+                init: true,
                 type: 'SPECIFIC_WEEK',
                 year: payload.year,
                 weekNr: payload.weekNr
@@ -198,6 +205,7 @@ const weeksModel = {
                 state.noteIndices = payload.noteIndices
                 break;
             case 'ALL':
+            
                 state.noteIndices = payload.noteIndices
                 state.indexNotes = payload.indexNotes
                 state.notes = payload.notes
@@ -272,30 +280,60 @@ const weeksModel = {
         updates[`users/${uid}/notes/${payload.weekid}/${payload.day}`] = payload.localNotes
         await database.ref().update(updates)
     }),
-    deleteNoteStack: thunk(async (actions, payload) => {
-        const uid = store.getState().auth.uid
+    deleteNoteStack: thunk( (actions, payload) => {
+        // const uid = store.getState().auth.uid
 
-        const indexNotes = store.getState().weeks.indexNotes
+        // const indexNotes = store.getState().weeks.indexNotes
 
-        const noteIndices = store.getState().weeks.noteIndices
-        var indiceGroup = Object.keys(noteIndices[payload.day][payload.noteid])
+        // const noteIndices = store.getState().weeks.noteIndices
+        
+        // var indiceGroup = Object.keys(noteIndices[payload.day][payload.noteid])
     
-        var updates = {}
+        // var updates = {}
 
-        for (var i in indiceGroup) {
-            var newObj = {}
-            newObj[indiceGroup[i]] = true
-            updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = newObj
-            if (indexNotes[payload.day][indiceGroup[i]] !== payload.noteid) {
-                updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = ""
-            } else if (indexNotes[payload.day][indiceGroup[i]] === payload.noteid) {
-                updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`] = payload.note
+        // for (var i in indiceGroup) {
+        //     var newObj = {}
+        //     newObj[indiceGroup[i]] = true
+        //     updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = newObj
+        //     if (indexNotes[payload.day][indiceGroup[i]] !== payload.noteid) {
+        //         updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = ""
+        //     } else if (indexNotes[payload.day][indiceGroup[i]] === payload.noteid) {
+        //         updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`] = payload.note
+        //     }
+        // }
+        
+        // database.ref().update(updates).then(() => {
+        //     actions.getNotes({weekid: payload.weekid})
+        // })
+
+        var noteIndices = store.getState().weeks.noteIndices
+        var notes = store.getState().weeks.notes
+        var indexNotes = store.getState().weeks.indexNotes
+        
+        var notesIndices = Object.keys(noteIndices[payload.day][payload.noteid])
+
+        for (var i in notesIndices) {
+            var noteid = indexNotes[payload.day][notesIndices[i]]
+            
+            var indiceObj = {}
+            indiceObj[notesIndices[i]] = true
+            
+            noteIndices[payload.day][noteid] = indiceObj
+            
+            if (noteid === payload.noteid) {
+                notes[payload.day][noteid] = payload.note
+            } else {
+                notes[payload.day][noteid] = ""
             }
         }
         
-        database.ref().update(updates).then(() => {
-            actions.getNotes({weekid: payload.weekid})
+        actions.setNotes({
+            type: 'ALL',
+            noteIndices,
+            notes,
+            indexNotes
         })
+
     }),
     randomThunk: thunk(async (actions, payload) => {
         // const uid = store.getState().auth.uid

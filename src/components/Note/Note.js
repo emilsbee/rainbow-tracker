@@ -5,7 +5,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 // Internal imports 
 import './note.scss'
 import NoteModal from '../NoteModal/NoteModal'
-import { localDaySave } from './utils'
+import { localDaySave, deleteLocalDayNoteStack } from './utils'
 
 const Note  = ({ 
     note, 
@@ -75,6 +75,16 @@ const Note  = ({
         if (e.button === 1 && indices.length > 1) {
             // Prevents from creating that scroll compass
             e.preventDefault()
+            
+            deleteLocalDayNoteStack({
+                noteIndices,
+                indexNotes,
+                notes,
+                setLocalNoteIndices,
+                setLocalNotes,
+                noteid,
+                note
+            })
             
             deleteNoteStack({
                 day,

@@ -13,7 +13,7 @@ const MainDashboard  = () => {
     const indexNotes = useStoreState(state => state.weeks.indexNotes)
     const noteIndices = useStoreState(state => state.weeks.noteIndices)
 
-
+    const getNotes = useStoreActions(actions => actions.weeks.getNotes)
     const startYearListener = useStoreActions(actions => actions.weeks.startYearListener)
     const stopYearListener = useStoreActions(actions => actions.weeks.stopYearListener)
 
@@ -31,7 +31,7 @@ const MainDashboard  = () => {
     
 
     useEffect(() => {
-        startWeekListener({type: 'CURRENT_WEEK'})
+        startWeekListener({type: 'CURRENT_WEEK', init: true})
         startSettingsListener()
         return () => {
             
@@ -46,6 +46,7 @@ const MainDashboard  = () => {
             stopYearListener()
         }
     }, [])
+
 
 
     
