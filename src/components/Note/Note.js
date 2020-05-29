@@ -5,6 +5,7 @@ import { useStoreActions, useStoreState } from 'easy-peasy'
 // Internal imports 
 import './note.scss'
 import NoteModal from '../NoteModal/NoteModal'
+import { localDaySave } from './utils'
 
 const Note  = ({ 
     note, 
@@ -13,48 +14,44 @@ const Note  = ({
     day, 
     weekid, 
     index,
-    localNotes,
+    notes,
     dragNoteObj,
     noteIndices,
     indexNotes,
+    isDraggable,
+    
 
     setLocalNoteIndices,
     setDragNoteObj,
     setLocalNotes
 }) => {
     
+    // Store actions
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
     const getNotes = useStoreActions(actions => actions.weeks.getNotes)
     const updateNotes = useStoreActions(actions => actions.weeks.updateNotes)
     const deleteNoteStack = useStoreActions(actions => actions.weeks.deleteNoteStack)
 
-
+    // Local state 
     const[noteModalData, setNoteModalData] = useState(false)
     const[localNote, setLocalNote] = useState(note)
     const[localIndices, setLocalIndices] = useState(false)
 
-    const[localRef, setLocalRef] = useState(false)
-    const[isDraggable, setIsDraggable] = useState(true)
-
+    
+    
+    // Checks for changes in the note and updates the local version of it
     useEffect(() => {
         setLocalNote(note)
     }, [note])
 
+    // Checks for changes in note's indices and updates the local version of it
     useEffect(() => {
         setLocalIndices(indices)
     }, [indices])
 
-    useEffect(() => {
-        if(dragNoteObj && (dragNoteObj.index === index)) {
-            setLocalIndices(dragNoteObj.indices)
-        } else if (dragNoteObj && dragNoteObj.indices.includes(index)) {
-            setLocalIndices(false)
-        }
-    }, [dragNoteObj])
 
-
-
-    const handleUpdateNote = ({ day, noteid, note, index }) => {
+    // Function for the note modal to save note
+    const handleUpdateNote = ({ day, noteid, note }) => {
         updateWeek({
             type: 'UPDATE_NOTE',
             weekid,
@@ -62,16 +59,38 @@ const Note  = ({
             noteid,
             note
         })
-        getNotes({weekid})
     }   
 
+    // Function that handles closing the note modal
+    const handleCloseNoteModal = (note) => {
+        if(note) {
+            setLocalNote(note)
+        }
+        setNoteModalData(false)
+    }
 
+   // Function to handle the mouse wheel click for deleting a note stack    
+   const handleMouseDown = (e) => {
+       // Checks if the button is scroll wheel and that it indeed is a stack of notes
+        if (e.button === 1 && indices.length > 1) {
+            // Prevents from creating that scroll compass
+            e.preventDefault()
+            
+            deleteNoteStack({
+                day,
+                noteid,
+                weekid,
+                note 
+            })
+        }
+    }
 
+   // Function to initiate the drag
    const handleDragStart = (e) => {
+        // Removing the image that usually comes when dragging an element 
         let img = new Image()
         e.dataTransfer.setDragImage(img, 1, 1)
-        
-        
+    
         setDragNoteObj({
             day, 
             indices,
@@ -81,131 +100,149 @@ const Note  = ({
         
    }
    
-   
 
    const handleDragEnter = (e) => {
+       // The note indices just below and above the drag note
        var dragHighest = dragNoteObj ? Math.max(...dragNoteObj.indices)+1 : ''
        var dragLowest = dragNoteObj ? Math.min(...dragNoteObj.indices)-1 : ''
+       
+       if (localIndices.length > 1) {
+           // The current note on which the drag has landed upon is longer than 1 
+            var indicesHighest = Math.max(...localIndices) 
+            var indicesLowest = Math.min(...localIndices)
 
-       if (index ===  dragLowest || index === dragHighest) {
-    
-        localRef.addEventListener('dragend', handleDragEnd)
+            
+            if (dragHighest === indicesLowest) {
+                // Dragging downwards
+               
+                // Adding indices from the note that was dragged upon to the dragNote object
+                localIndices.forEach((i) => {
+                    dragNoteObj.indices.push(parseInt(i))
+                })
+                
+                // Dismounting the note that was dragged upon
+                setDragNoteObj({
+                    day,
+                    indices: dragNoteObj.indices,
+                    index: dragNoteObj.index,
+                    note: dragNoteObj.note
+                })
+                setLocalIndices(false)
 
-        if (dragNoteObj !== false && dragNoteObj.index !== index) {
+                localDaySave({
+                    dragNoteObj,
+                    indexNotes,
+                    noteIndices,
+                    notes,
+                    setLocalNoteIndices,
+                    setLocalNotes
+                })
+                
+            } else if (dragLowest === indicesHighest) {
+                // Dragging upwards
 
-                // Checks if the note which was entered is of length 1 or more
-                if (indices.length > 1) {
-                    
-    
+                // Adding indices from the note that was dragged upon to the dragNote object
+                localIndices.forEach((i) => {
+                    dragNoteObj.indices.push(parseInt(i))
+                })
 
-                    var newMultiIndiceObj = dragNoteObj
-                    indices.forEach((i) => {
-                        newMultiIndiceObj.indices.push(parseInt(i))
-                    })
-                    
-                    if (dragNoteObj.index > index) {
-                        newMultiIndiceObj["index"] = index
-                        setLocalIndices(dragNoteObj.indices)
-                    } else {
-                        setLocalIndices(false)
-                    }
-                    setDragNoteObj(newMultiIndiceObj)
-                } else {
-                    if (!dragNoteObj.indices.includes(index)) {
-                        var newObj = dragNoteObj
-                        newObj.indices.push(parseInt(index))
-                        if (dragNoteObj.index > index) {
-                            newObj["index"] = index
-                            setLocalIndices(dragNoteObj.indices)
-                        } else {
-                            setLocalIndices(false)
-                        }
-                        console.log(newObj)
-                        setDragNoteObj(newObj)
-                    }
-                }
+                // Setting the dragNote index to the index of note that was dragged upon
+                dragNoteObj["index"] = index
+
+                // Setting the dragNote as the new local note
+                setLocalIndices(dragNoteObj.indices)
 
                 setDragNoteObj({
                     day,
                     indices: dragNoteObj.indices,
-                    note: dragNoteObj.note,
-                    index: dragNoteObj.index
+                    index: dragNoteObj.index,
+                    note: dragNoteObj.note
                 })
-                
-                
-        }
-        }
 
-   }
-
-
-   function handleDragEnd () {
-       if (dragNoteObj) {
-           setIsDraggable(false) 
-           updateNotes({
-               day: dragNoteObj.day,
-               weekid,
-               draggedIndices: dragNoteObj.indices,
-               note: dragNoteObj.note
-            }).then(() => {
-                getNotes({weekid}).then(() => {
-                    // setLocalIndices(false)
-                    setIsDraggable(true)
+                localDaySave({
+                    dragNoteObj,
+                    indexNotes,
+                    noteIndices,
+                    notes,
+                    setLocalNoteIndices,
+                    setLocalNotes
                 })
-            })
-            
- 
-       }
-       
-   }
+            }
+             
+            setDragNoteObj(dragNoteObj)
+       } else if (localIndices.length === 1) {
+            // The current note on which the drag has landed upon is 1 note long
 
-   const handleDragExit = () => {
-       localRef.removeEventListener('dragend', handleDragEnd)
-   }
+            if (index === dragHighest) {
+                // Dragging downards
+                
+                // Adding the note that was dragged upon to the dragNote indices
+                dragNoteObj.indices.push(index)
 
-   const refHandler = (e) => {
-       setLocalRef(e)
-   }
+                // Dismounting the local note
+                setLocalIndices(false)
+                setDragNoteObj({
+                    day,
+                    indices: dragNoteObj.indices,
+                    index: dragNoteObj.index,
+                    note: dragNoteObj.note
+                })
 
-   const handleMouseDown = (e) => {
-       if (e.button === 1) {
-           e.preventDefault()
-           deleteNoteStack({
-               day,
-               noteid,
-               weekid,
-               note 
-           })
-           getNotes({weekid})
-       }
-   }
+                localDaySave({
+                    dragNoteObj,
+                    indexNotes,
+                    noteIndices,
+                    notes,
+                    setLocalNoteIndices,
+                    setLocalNotes
+                })
+            } else if (index === dragLowest) {
+                // Dragging upwards
+                
+                // Adding the note that was dragged upon to the dragNote indices
+                dragNoteObj.indices.push(index)
+
+                // Setting the index of the note that was dragged upon as the dragNote index
+                dragNoteObj["index"] = index
+                
+                // Setting the drag note as the local note
+                setLocalIndices(dragNoteObj.indices)
+
+                setDragNoteObj({
+                    day,
+                    indices: dragNoteObj.indices,
+                    index: dragNoteObj.index,
+                    note: dragNoteObj.note
+                })
+
+                localDaySave({
+                    dragNoteObj,
+                    indexNotes,
+                    noteIndices,
+                    notes,
+                    setLocalNoteIndices,
+                    setLocalNotes
+                })
+            }
+        }
+    }
    
-   const handleCloseNoteModal = (note) => {
-       
-        if(note) {
-            setLocalNote(note)
-        }
-        
-        setNoteModalData(false)
-        getNotes({weekid})
-   }
-
     return (
         <div>
             {localIndices !== false ?
                 
                 <div 
-                    ref={refHandler}
+                    
+                    id={`${day}_${index}`}
                     className="note-container" 
                     style={{
                         "height": `${localIndices && (localIndices.length > 1 ? localIndices.length === 2 ? '41' : 41+(localIndices.length-2)*22  : '19')}px`,
-                        "whiteSpace": localIndices && (localIndices.length > 1 ? 'normal' : 'nowrap')
+                        "whiteSpace": localIndices && (localIndices.length > 1 ? 'normal' : 'nowrap'),
+                        "border": (!isDraggable && index === dragNoteObj.index) && 'solid 1px grey'
                     }}  
                     draggable={isDraggable}
                     onDragStart={handleDragStart}
                     onDragEnter={handleDragEnter}
-                    onMouseUp={handleDragEnd}
-                    onDragLeave={handleDragExit}
                     onMouseDown={handleMouseDown}
                     onClick={() => setNoteModalData(true)} 
                 >
@@ -221,7 +258,7 @@ const Note  = ({
                 <div className="note-modal-wrapper" id="myModal">
                 <NoteModal 
                     closeModal={handleCloseNoteModal}
-                    note={note}
+                    note={localNote}
                     saveNote={handleUpdateNote}
                     day={day}
                     noteid={noteid}

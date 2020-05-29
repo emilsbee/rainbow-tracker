@@ -1,6 +1,7 @@
 // External imports
 import React, { useEffect, useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
+
 import moment from 'moment'
 
 // Internal imports 
@@ -26,14 +27,16 @@ const MainDashboard  = () => {
     const weeks = useStoreState(state => state.weeks.yearWeeks)
 
     const startSettingsListener = useStoreActions(actions => actions.settings.startSettingsListener)
-
-
+    
+    
 
     useEffect(() => {
         startWeekListener({type: 'CURRENT_WEEK'})
         startSettingsListener()
         return () => {
+            
             stopWeekListener({weekid: currentWeek.weekid})
+
         }
     }, [])
 

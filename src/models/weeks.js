@@ -198,9 +198,13 @@ const weeksModel = {
                 state.noteIndices = payload.noteIndices
                 break;
             case 'ALL':
-                state.notes = payload.notes
-                state.indexNotes = payload.indexNotes
                 state.noteIndices = payload.noteIndices
+                state.indexNotes = payload.indexNotes
+                state.notes = payload.notes
+                break;
+            case 'SPECIAL':
+                state.noteIndices[payload.day] = payload.noteIndices
+                state.notes[payload.day] = payload.notes                
                 break;
             default:
                 return
@@ -241,7 +245,7 @@ const weeksModel = {
     updateNotes: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         const indexNotes = store.getState().weeks.indexNotes
-
+        
         const day = payload.day
         const weekid = payload.weekid
 
@@ -259,6 +263,14 @@ const weeksModel = {
         }
 
         return await database.ref().update(updates)
+    }),
+    updateNewNotes: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        var updates = {}
+        updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}`] = payload.localNoteIndices
+        updates[`users/${uid}/notes/${payload.weekid}/${payload.day}`] = payload.localNotes
+        await database.ref().update(updates)
     }),
     deleteNoteStack: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
@@ -281,7 +293,9 @@ const weeksModel = {
             }
         }
         
-        await database.ref().update(updates)
+        database.ref().update(updates).then(() => {
+            actions.getNotes({weekid: payload.weekid})
+        })
     }),
     randomThunk: thunk(async (actions, payload) => {
         // const uid = store.getState().auth.uid

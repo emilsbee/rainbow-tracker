@@ -1,6 +1,7 @@
 // External imports
 import React, { useState, useEffect } from 'react'
-
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useBeforeunload } from 'react-beforeunload';
 
 // Internal imports
 import './day.scss'
@@ -17,7 +18,11 @@ const Day = ({
     noteIndices,
     indexNotes
 }) => {
-    // For categories
+    // Store actions
+    const setNotes = useStoreActions(actions => actions.weeks.setNotes)
+    const updateNewNotes = useStoreActions(actions => actions.weeks.updateNewNotes)
+
+    // Local state for categories
     const [dragDay, setDragDay] = useState(false)
     const [dragCategory, setDragCategory] = useState("")
     const [dragActivity, setDragActivity] = useState("")
@@ -25,50 +30,103 @@ const Day = ({
     const [dragIndex, setDragIndex] = useState('')
 
     
-    // For notes
-    const [localNotes, setLocalNotes] = useState(false)
-    const [localIndexNotes, setLocalIndexNotes] = useState(false)    
+    // Local state for notes
+    const [localNotes, setLocalNotes] = useState(false) 
     const [dragNoteObj, setDragNoteObj] = useState(false) 
     const [localNoteIndices, setLocalNoteIndices] = useState(false)
+    const [isDraggable, setIsDraggable] = useState(true)
+
     
+    
+    useBeforeunload(() => {
+        updateNewNotes({
+            day, 
+            weekid,
+            localNoteIndices,
+            localNotes
+         })
+    })
+
+    // Checks for updates of noteIndices and notes from the maindashboard 
     useEffect(() => {
         setLocalNotes(notes)
         setLocalNoteIndices(noteIndices)
-        setLocalIndexNotes(indexNotes)
-    }, [noteIndices, notes, indexNotes])
+    }, [noteIndices, notes])
 
-    const handleSetDragNoteObj = (data) => { 
-        setDragNoteObj(data)
-    }
+
+    // Checks for a change in the dragNote
+    // This is necessary because when a component unmounts it no longer 
+    // can perform onDragEnd, hence every time the drag note changes 
+    // the dragend listener is attached to the new DOM node 
+    useEffect(() => {
+        if (dragNoteObj !== false) {
+            // Finds the DOM node with current dragNote id 
+            var el = document.getElementById(`${dragNoteObj.day}_${dragNoteObj.index}`)
+            
+            // Attaches a listener to the current dragNote node
+            el.addEventListener('dragend', handleDragEnd)
+        }
+    }, [dragNoteObj])
     
+
+    function handleDragEnd () {
+        // setIsDraggable(false)
+        // updateNotes({
+        //     day: dragNoteObj.day,
+        //     weekid,
+        //     draggedIndices: dragNoteObj.indices,
+        //     note: dragNoteObj.note
+        //  }).then(() => {
+        //      getNotes({weekid}).then(() => {        
+        //         setDragNoteObj(false)
+        //         setIsDraggable(true)
+        //      })
+        //  })
+        setNotes({
+            type: 'SPECIAL',
+            noteIndices: localNoteIndices,
+            notes: localNotes,
+            day
+        })
+    }
+
     const handleSetLocalNoteIndices = (data) => {
         setLocalNoteIndices(data)
-    }   
+    }
+ 
+    const handleSetLocalNotes = (data) => {
+        setLocalNotes(data)
+    }
+
+    const handleSetDragNoteObj = (data) => {
+        setDragNoteObj(data)
+    }
     
     return (
         <div >
             {categories.map((period, index) => {
                 
-                var noteid = localIndexNotes[index]
+                var noteid = indexNotes[index]
                 var noteText = localNotes[noteid]
                 
+                // Variable for determening if a note is with lowest index, henceforth must be rendered
                 var isFirst = false
                 
+                // Variable for holding the integer values of indices of the current note
+                var notesIndices = []
+                
                 if (localNoteIndices[noteid]) {
-                    var notesIndices = []
-
+                    // Iterting through the indices and pushing their integer version to the notesIndices array
                     Object.keys(localNoteIndices[noteid]).forEach((i) => {
                         notesIndices.push(parseInt(i))
                     })
 
+                    // determening whether the note's index is lowest in its indices
                     if (Math.min(...notesIndices) === index) {
-                        isFirst = true
+                            isFirst = true
                     } 
-                        
                 }
-                
                 return (
-
                     <div key={index} className="category-note-container">
                         <CategoryItem 
                             className="category-cell"
@@ -92,17 +150,18 @@ const Day = ({
                             dragNoteObj={dragNoteObj}
                             index={index}
                             note={noteText} 
-                            noteid={noteid}
+                            noteid={noteid}s
                             day={day}
                             weekid={weekid}
                             indices={notesIndices} 
-                            noteIndices={noteIndices}
-                            localNotes={localNotes}
-                            indexNotes={localIndexNotes}
+                            noteIndices={localNoteIndices}
+                            notes={localNotes}
+                            indexNotes={indexNotes}
+                            isDraggable={isDraggable}
                             
                             setDragNoteObj={handleSetDragNoteObj}
                             setLocalNoteIndices={handleSetLocalNoteIndices}
-                            setLocalNotes={setLocalNotes}
+                            setLocalNotes={handleSetLocalNotes}
                         />}
                         </div>
                 )
