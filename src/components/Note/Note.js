@@ -131,13 +131,9 @@ const Note  = ({
                 })
                 
                 // Dismounting the note that was dragged upon
-                setDragNoteObj({
-                    day,
-                    indices: dragNoteObj.indices,
-                    index: dragNoteObj.index,
-                    note: dragNoteObj.note
-                })
                 setLocalIndices(false)
+                
+                setDragNoteObj({...dragNoteObj})
 
                 localDaySave({
                     dragNoteObj,
@@ -162,12 +158,7 @@ const Note  = ({
                 // Setting the dragNote as the new local note
                 setLocalIndices(dragNoteObj.indices)
 
-                setDragNoteObj({
-                    day,
-                    indices: dragNoteObj.indices,
-                    index: dragNoteObj.index,
-                    note: dragNoteObj.note
-                })
+                setDragNoteObj({...dragNoteObj})
 
                 localDaySave({
                     dragNoteObj,
@@ -179,7 +170,7 @@ const Note  = ({
                 })
             }
              
-            setDragNoteObj(dragNoteObj)
+            setDragNoteObj({...dragNoteObj})
        } else if (localIndices.length === 1) {
             // The current note on which the drag has landed upon is 1 note long
 
