@@ -7,6 +7,8 @@ import moment from 'moment'
 // Internal imports 
 import MainDashboardTable from '../MainDashboardTable/MainDashboardTable'
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
+import Footer from '../Footer /Footer'
+import NavBar from '../NavBar/NavBar'
 
 const MainDashboard  = () => {
     const notes = useStoreState(state => state.weeks.notes)
@@ -54,6 +56,7 @@ const MainDashboard  = () => {
 
     return (
         <div>
+            <NavBar />
             {currentWeek && <MainDashboardNavBar weekNr={currentWeek.weekNr} year={currentWeek.year} years={years} weeks={weeks} weekid={currentWeek.weekid}/>}
             {currentWeek.days && notes && indexNotes && noteIndices && 
                 <MainDashboardTable 
@@ -64,6 +67,10 @@ const MainDashboard  = () => {
                     noteIndices={noteIndices}
                 />
             }
+            {currentWeek.days && notes && indexNotes && noteIndices && 
+                <Footer />
+            }
+            
         </div>
     )
 }

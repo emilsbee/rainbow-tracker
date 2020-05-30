@@ -72,6 +72,7 @@ const Note  = ({
 
    // Function to handle the mouse wheel click for deleting a note stack    
    const handleMouseDown = (e) => {
+       
        // Checks if the button is scroll wheel and that it indeed is a stack of notes
         if (e.button === 1 && indices.length > 1) {
             // Prevents from creating that scroll compass
@@ -261,6 +262,7 @@ const Note  = ({
                 <div className="note-modal-wrapper" id="myModal">
                 <NoteModal 
                     closeModal={handleCloseNoteModal}
+                    handleMouseDown={handleMouseDown}
                     note={localNote}
                     saveNote={handleUpdateNote}
                     day={day}

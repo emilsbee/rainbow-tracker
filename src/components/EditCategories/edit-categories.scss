@@ -1,8 +1,10 @@
 @import '../../styles/base/settings';
 
 .edit-categories-container {
+    display: flex;
     width: $sizing-16;
-    height: $sizing-14;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .edit-categories-title {
@@ -41,12 +43,14 @@
 
 .category-settings-item:hover {
     cursor: pointer;
+    color: $primary-8;
 }
 
 .next-icon {
     height: $sizing-3;
     width: $sizing-3;
     margin-left: $sizing-1;
+    fill: $primary-8;
 }
 
 .category-add-button {
@@ -67,3 +71,13 @@
     font-size: $type-sizing-7;
 }
 
+.settings-dashboard-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: $sizing-16;
+    padding: $sizing-5;
+    font-weight: 200;
+    font-size: $type-sizing-7;
+    
+}

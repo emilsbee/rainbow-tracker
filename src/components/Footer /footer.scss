@@ -1,0 +1,25 @@
+@import '../../styles/base/settings';
+
+.footer-container {
+    margin-top: $sizing-5;
+    height: $sizing-8;
+
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing:border-box;
+    padding: $sizing-4;
+    background-color: $grey-8;
+    
+    font-weight: 300;
+    font-size: $type-sizing-4;
+    color: white;
+   
+
+    
+}

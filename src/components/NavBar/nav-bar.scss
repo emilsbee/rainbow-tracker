@@ -12,8 +12,14 @@
     justify-content: space-between;
     width: 100%;
     box-sizing:border-box;
-    padding: $sizing-4;
-    background-color: $primary-7;
+    padding: $sizing-5;
+    background-color: $grey-8;
+    border-bottom-left-radius: 28px;
+    border-bottom-right-radius: 28px;
+}
+
+.dashboard-link:hover {
+    color: $primary-7;
 }
 
 #logout-button-text {
@@ -24,4 +30,5 @@
 
 #logout-button-text:hover {
     cursor: pointer;
+    color: $primary-7;
 }

@@ -26,6 +26,9 @@ function EditCategories ({ categorySettings, activitySettings }) {
 
     return (
         <div className="edit-categories-container">
+                        <div className="settings-dashboard-title">
+                Settings
+            </div>
             <div className="edit-categories-title">
                 Edit categories
             </div>
@@ -38,7 +41,8 @@ function EditCategories ({ categorySettings, activitySettings }) {
                                 className="category-settings-item"
                                 onMouseOver={() => setHoverCat(key)}
                                 onMouseLeave={() => setHoverCat('')}
-                                onClick={() => setEditCategoryid(key)}
+                                onClick={() => setEditCategoryid(key)}  
+                                style={{"color": editCategoryid === key && 'hsl(89, 68%, 28%)'}}                          
                             >
                                 {categorySettings[key].category}
                                 {(hoverCat === key || editCategoryid === key) && <Next className="next-icon"/>}
