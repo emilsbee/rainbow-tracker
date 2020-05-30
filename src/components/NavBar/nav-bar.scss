@@ -4,19 +4,19 @@
     text-decoration: none;
     margin: $sizing-4;
     color: white;
-    font-weight: 300;
+    font-weight: 200;
     font-size: $type-sizing-3;
-    padding-left: $sizing-3;
-    padding-right: $sizing-3;
-    padding-top: $sizing-3;
-    padding-bottom: $sizing-3;
+    padding-left: $sizing-2;
+    padding-right: $sizing-2;
+    padding-top: $sizing-2;
+    padding-bottom: $sizing-2;
 }
 .nav-bar {
     display: flex;
     justify-content: space-between;
     width: 100%;
     box-sizing:border-box;
-    padding: $sizing-5;
+    padding: 20px;
     background-color: $grey-8;
     border-bottom-left-radius: 28px;
     border-bottom-right-radius: 28px;

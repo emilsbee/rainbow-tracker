@@ -14,9 +14,29 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end;
     padding: 5px;
     margin-right: 10%;
+}
+
+.banners-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.to-current-week {
+    border: none;
+    border-radius: 5px;
+    padding: $sizing-2;
+    background-color: white;
+    font-size: $type-sizing-2;
+    color: $grey-7;
+}
+
+.to-current-week:hover {
+    background-color: $grey-2;
+    color: $grey-9;
 }
 
 .navigation {
