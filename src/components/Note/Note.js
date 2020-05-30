@@ -20,7 +20,7 @@ const Note  = ({
     indexNotes,
     isDraggable,
     
-
+    setDragIndex,
     setLocalNoteIndices,
     setDragNoteObj,
     setLocalNotes
@@ -52,6 +52,7 @@ const Note  = ({
 
     // Function for the note modal to save note
     const handleUpdateNote = ({ day, noteid, note }) => {
+        setLocalNote(note)
         updateWeek({
             type: 'UPDATE_NOTE',
             weekid,
@@ -112,6 +113,7 @@ const Note  = ({
    
 
    const handleDragEnter = (e) => {
+        
        // The note indices just below and above the drag note
        var dragHighest = dragNoteObj ? Math.max(...dragNoteObj.indices)+1 : ''
        var dragLowest = dragNoteObj ? Math.min(...dragNoteObj.indices)-1 : ''

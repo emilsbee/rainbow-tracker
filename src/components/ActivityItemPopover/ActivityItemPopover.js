@@ -35,6 +35,12 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
                         </div>
                     
             })}
+            <div 
+                className="popover"
+                onClick={() => onClick("")} 
+            >
+            
+            </div>
         </div>
         </div>
     )

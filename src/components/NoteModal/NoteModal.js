@@ -17,7 +17,6 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     }, [note])
 
     const handleDeleteNoteStack = () => {
-        // Write a local version for this
         deleteNoteStack({noteid, day, index, weekid, note: localNote})
         closeModal()        
     }
@@ -39,6 +38,7 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     
     const handleKeyDown = (e) => {
         if (e.keyCode === (27)) {
+            console.log(localNote)
             closeModal(localNote)
             saveNote({note: localNote, noteid, day})
         }   

@@ -9,6 +9,10 @@ import { indices, days } from '../utils/staticData'
 
 
 const weeksModel = {
+    timeHoverIndex: false,
+    setTimeHoverIndex: action((state, payload) => {
+        state.timeHoverIndex = payload.index
+    }),
     yearWeeks: [],
     years: [],
     currentWeek: false,
@@ -40,7 +44,7 @@ const weeksModel = {
             case 'NEXT_WEEK':
                 var nextWeekYear = payload.year
                 var nextWeekNr = payload.weekNr + 1
-                console.log(moment().weeksInYear(nextWeekYear))
+                
                 if (payload.weekNr === moment().weeksInYear(nextWeekYear)) {
                     nextWeekYear = payload.year + 1
                     nextWeekNr = 1
@@ -244,7 +248,13 @@ const weeksModel = {
                 await database.ref(`users/${uid}/weeks/${payload.weekid}/days/${payload.day}/${payload.index}/activity`).set(payload.activity)
                 break;
             case 'UPDATE_NOTE':
-                await database.ref(`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`).set(payload.note)
+                var notes = store.getState().weeks.notes
+                notes[payload.day][payload.noteid] = payload.note
+                actions.setNotes({
+                    type: 'NOTES',
+                    notes
+                })
+                // await database.ref(`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`).set(payload.note)
                 break;
             default:
                 return
@@ -274,7 +284,6 @@ const weeksModel = {
     }),
     updateNewNotes: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-
         var updates = {}
         updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}`] = payload.localNoteIndices
         updates[`users/${uid}/notes/${payload.weekid}/${payload.day}`] = payload.localNotes
@@ -326,7 +335,6 @@ const weeksModel = {
                 notes[payload.day][noteid] = ""
             }
         }
-        
         actions.setNotes({
             type: 'ALL',
             noteIndices,

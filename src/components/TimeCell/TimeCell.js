@@ -1,20 +1,26 @@
 // External imports
 import React from 'react'
+import { useStoreActions, useStoreState } from 'easy-peasy'
 
 // Internal imports 
 import './time-cell.scss'
 
 const TimeCell  = ({ timeValues }) => {
     
+    const timeHoverIndex = useStoreState(state => state.weeks.timeHoverIndex)
+    
     return (
-        <div className="time-cell-container">
+        <div className="time-cell-container" >
         {timeValues().map((timeVal,index) => {
             return (
                 <div 
                     className={(index+1) % 4 === 0 ? 'time-cell-thick' : 'time-cell'}
                     key={index}
+                    style={{"backgroundColor":timeHoverIndex === index && 'hsl(0, 0%, 80%)'}}
                 >
                     {timeVal}
+                    
+              
                 </div>
             )
         })}

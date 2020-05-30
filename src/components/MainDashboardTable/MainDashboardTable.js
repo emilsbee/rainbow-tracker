@@ -76,7 +76,11 @@ const MainDashboardTable = ({ days, weekid }) => {
                
                
                return (
-                   <Day key={day} 
+                   <div key={day} >
+                       <div className="day-header">
+                           {day}
+                       </div>
+                   <Day 
                         weekid={weekid}
                         day={day}
                         categories={localWeek.days[day]}
@@ -84,6 +88,7 @@ const MainDashboardTable = ({ days, weekid }) => {
                         noteIndices={noteIndices[day]}
                         indexNotes={indexNotes[day]}
                    />
+                   </div>
                 //    <div className="day-container" key={day}>
                 //        <div className="day-header">
                 //             {day}

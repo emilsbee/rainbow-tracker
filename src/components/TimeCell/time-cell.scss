@@ -2,7 +2,7 @@
 
 .time-cell {
     height: $line-height;
-    width: $sizing-5;
+    width: $sizing-7;
     margin: none;
     font-weight: 300;
     font-size: $type-sizing-2;
@@ -16,7 +16,7 @@
 
 .time-cell-thick {
     height: $line-height;
-    width: $sizing-5;
+    width: $sizing-7;
     margin: none;
     font-weight: 300;
     font-size: $type-sizing-2;
@@ -30,8 +30,9 @@
 
 
 .time-cell-container {
-    width: $sizing-5;
-    margin-right: $sizing-5;
+    width: $sizing-7;
+    margin-right: $sizing-2;
     margin-left: $sizing-4;
     margin-top: $line-height;
 }
+

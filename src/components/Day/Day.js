@@ -21,13 +21,14 @@ const Day = ({
     // Store actions
     const setNotes = useStoreActions(actions => actions.weeks.setNotes)
     const updateNewNotes = useStoreActions(actions => actions.weeks.updateNewNotes)
+    const setTimeHoverIndex = useStoreActions(actions => actions.weeks.setTimeHoverIndex)
 
     // Local state for categories
     const [dragDay, setDragDay] = useState(false)
     const [dragCategory, setDragCategory] = useState("")
     const [dragActivity, setDragActivity] = useState("")
     const [draggedCategories, setDraggedCategories] = useState([])
-    const [dragIndex, setDragIndex] = useState('')
+    
 
     
     // Local state for notes
@@ -36,6 +37,18 @@ const Day = ({
     const [localNoteIndices, setLocalNoteIndices] = useState(false)
     const [isDraggable, setIsDraggable] = useState(true)
 
+   useEffect(() => {
+    return () => {
+        
+        updateNewNotes({
+            day, 
+            weekid,
+            localNoteIndices: noteIndices,
+            localNotes: notes
+         })
+    }
+    
+   }, [])
     
     
     useBeforeunload(() => {
@@ -82,6 +95,7 @@ const Day = ({
         //         setIsDraggable(true)
         //      })
         //  })
+        
         setNotes({
             type: 'SPECIAL',
             noteIndices: localNoteIndices,
@@ -128,7 +142,7 @@ const Day = ({
                     } 
                 }
                 return (
-                    <div key={index} className="category-note-container">
+                    <div key={index} className="category-note-container" onMouseEnter={() => setTimeHoverIndex({index})}>
                         <CategoryItem 
                             className="category-cell"
                             weekid={weekid} 
@@ -142,7 +156,7 @@ const Day = ({
                             setDragActivity={setDragActivity}
                             draggedCategories={draggedCategories}
                             setDraggedCategories={setDraggedCategories}
-                            setDragIndex={setDragIndex}
+                            setDragIndex={setTimeHoverIndex}
                             dragDay={dragDay}
                             setDragDay={setDragDay}
                         >
@@ -160,6 +174,7 @@ const Day = ({
                             indexNotes={indexNotes}
                             isDraggable={isDraggable}
                             
+                            setDragIndex={setTimeHoverIndex}
                             setDragNoteObj={handleSetDragNoteObj}
                             setLocalNoteIndices={handleSetLocalNoteIndices}
                             setLocalNotes={handleSetLocalNotes}

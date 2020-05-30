@@ -51,7 +51,8 @@ function CategoryItem  ({
 
 
   const handleDragEnter = (e) => {
-    setDragIndex(index)
+    
+    setDragIndex({index})
     if (day === dragDay) {
       if (draggedCategories.length === 0) {
         setLocalCategory(dragCategory)
