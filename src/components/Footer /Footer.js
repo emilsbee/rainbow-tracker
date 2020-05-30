@@ -12,7 +12,7 @@ const Footer = () => {
     
     return (
         <div className="footer-container">
-           Created by yours truly 
+           Created by servant
         </div>
     )
 }

@@ -38,7 +38,7 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     
     const handleKeyDown = (e) => {
         if (e.keyCode === (27)) {
-            console.log(localNote)
+            
             closeModal(localNote)
             saveNote({note: localNote, noteid, day})
         }   

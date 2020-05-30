@@ -106,7 +106,7 @@ const Note  = ({
         setDragNoteObj({
             day, 
             indices,
-            note,
+            note: localNote,
             index
         })
         

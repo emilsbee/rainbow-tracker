@@ -6,6 +6,10 @@
     color: white;
     font-weight: 300;
     font-size: $type-sizing-3;
+    padding-left: $sizing-3;
+    padding-right: $sizing-3;
+    padding-top: $sizing-3;
+    padding-bottom: $sizing-3;
 }
 .nav-bar {
     display: flex;
@@ -16,10 +20,13 @@
     background-color: $grey-8;
     border-bottom-left-radius: 28px;
     border-bottom-right-radius: 28px;
+    box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .1);
 }
 
 .dashboard-link:hover {
-    color: $primary-7;
+    // color: $primary-7;
+    background-color: $grey-5;
+    border-radius: 10px;
 }
 
 #logout-button-text {
@@ -31,4 +38,10 @@
 #logout-button-text:hover {
     cursor: pointer;
     color: $primary-7;
+}
+
+.dashboard-link-active {
+    // color: $primary-7;
+    background-color: $grey-5;
+    border-radius: 10px;
 }

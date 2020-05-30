@@ -20,12 +20,14 @@ const NavBar = () => {
         <div className="nav-bar" >
             <div>
                 <NavLink 
+                activeClassName="dashboard-link-active"
                     className="dashboard-link" 
                     to="/dashboard"
                 >
                     Dashboard
                 </NavLink>
                 <NavLink
+                activeClassName="dashboard-link-active"
                     className="dashboard-link"
                     to="/settings"
                 >
