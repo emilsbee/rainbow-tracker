@@ -25,11 +25,16 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
                 "cursor": cursorType, 
             }}
         >
-            {activitySettings[category] && Object.keys(activitySettings[category]).map((activityid) => {
+            {activitySettings[category] && Object.keys(activitySettings[category]).map((activityid, index) => {
+                
                 return <div 
                             className="popover"
                             onClick={() => onClick(activityid)} 
                             key={activityid} 
+                            style={{
+                                "borderTopLeftRadius": index === 0  && '5px',
+                                "borderTopRightRadius": index === 0  && '5px'
+                            }}
                         >
                             {activitySettings[category][activityid].short}
                         </div>
@@ -38,6 +43,11 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, categ
             <div 
                 className="popover"
                 onClick={() => onClick("")} 
+                style={{
+                    "border": "none",
+                    "borderBottomLeftRadius": '5px',
+                    "borderBottomRightRadius": '5px'
+                }}
             >
             
             </div>

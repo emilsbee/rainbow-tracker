@@ -8,14 +8,16 @@
     align-items: center;
     z-index: 100;
     position: relative;
+    -webkit-box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
+-moz-box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
+box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
 }
 
 .color-square {
     height: 22px;
     width: inherit;
-    border-radius: 3px;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    border: solid 0.3px $grey-4
+    
+    border-bottom: solid 2px hsl(0, 0%, 90%);
+    
 }
 
