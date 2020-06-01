@@ -37,8 +37,12 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     }
     
     const handleKeyDown = (e) => {
-        if (e.keyCode === (27)) {
-            
+        if(e.which == 13 && !e.shiftKey) {        
+                      
+            closeModal(localNote)
+            saveNote({note: localNote, noteid, day})
+            e.preventDefault();
+        } else if (e.keyCode === (27)) {
             closeModal(localNote)
             saveNote({note: localNote, noteid, day})
         }   
