@@ -1,6 +1,6 @@
 // External imports
 import React, { useEffect } from 'react'
-import { GithubPicker } from 'react-color';
+import { TwitterPicker } from 'react-color';
 import onClickOutside from "react-onclickoutside";
 
 // Internal imports 
@@ -20,7 +20,7 @@ function EditColorPicker ({ localColor, setLocalColor, toggleColorPicker }) {
 
     return (
         <div className="category-color-picker">
-            <GithubPicker color={localColor} onChangeComplete={handleColorChange} triangle="top-left"/>
+            <TwitterPicker color={localColor} onChangeComplete={handleColorChange} triangle="top-left"/>
         </div>  
     )
 }
