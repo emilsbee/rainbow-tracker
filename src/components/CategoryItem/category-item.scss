@@ -21,7 +21,7 @@
   display: flex;
   position: relative;
   height: $line-height;
-  width: $sizing-4;
+  width: 18px;
   padding: none;
   border-radius: 3px;
   z-index: 10;
@@ -39,13 +39,15 @@
 }
 
 .activity-item {
+  padding-left: $sizing-1;
+  padding-right: $sizing-1;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  width: $sizing-4;
+  width: 20px;
   height: $line-height;
-  margin-left: $sizing-1;
+  margin-left: 5px;
   z-index: 10;
   
   font-weight: 200;

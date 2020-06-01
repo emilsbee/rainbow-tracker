@@ -16,7 +16,7 @@ const TimeCell  = ({ timeValues }) => {
                 <div 
                     className={(index+1) % 4 === 0 ? 'time-cell-thick' : 'time-cell'}
                     key={index}
-                    style={{"backgroundColor":timeHoverIndex === index && 'hsl(0, 0%, 80%)'}}
+                    style={{"backgroundColor": timeHoverIndex === index && '#e1e1d0'}}
                 >
                     {timeVal}
                     

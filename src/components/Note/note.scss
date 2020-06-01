@@ -1,24 +1,27 @@
 @import '../../styles/base/settings';
 
 .note-container {
-    // display: flex;
-    // flex-direction: column;
-    // align-items: flex-start;
-    // justify-content: flex-start;
+
+    // align-content: center;
     padding: $sizing-1;
-    width: 115px;
+    max-width: 115px;
+    min-width: 115px;
     border: #D3D3D3 0.5px solid;
     border-radius: $sizing-1;
     
     overflow: hidden;
     text-overflow: ellipsis;
-    
+    text-align: center;
+    // vertical-align: middle;
     font-weight: 300;
     font-size: 13px;
     color: $grey-9;
     overflow-y: hidden;
     word-wrap: break-word;
     z-index: 10;
+    display: table-cell;
+    overflow-wrap: break-word;
+    vertical-align: middle;
     
 }
 

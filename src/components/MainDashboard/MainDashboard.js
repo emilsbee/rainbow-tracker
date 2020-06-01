@@ -34,6 +34,7 @@ const MainDashboard  = () => {
 
     useEffect(() => {
         startWeekListener({type: 'CURRENT_WEEK', init: true})
+        
         startSettingsListener()
         return () => {
             

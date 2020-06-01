@@ -119,7 +119,7 @@ const Day = ({
     
     return (
         <div >
-            {categories.map((period, index) => {
+            {indexNotes && localNoteIndices && localNotes &&  categories.map((period, index) => {
                 
                 var noteid = indexNotes[index]
                 var noteText = localNotes[noteid]
@@ -129,10 +129,11 @@ const Day = ({
                 
                 // Variable for holding the integer values of indices of the current note
                 var notesIndices = []
-                
+                         
                 if (localNoteIndices[noteid]) {
                     // Iterting through the indices and pushing their integer version to the notesIndices array
                     Object.keys(localNoteIndices[noteid]).forEach((i) => {
+
                         notesIndices.push(parseInt(i))
                     })
 
@@ -141,6 +142,7 @@ const Day = ({
                             isFirst = true
                     } 
                 }
+                
                 return (
                     <div key={index} className="category-note-container" onMouseEnter={() => setTimeHoverIndex({index})}>
                         <CategoryItem 

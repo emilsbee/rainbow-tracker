@@ -25,7 +25,7 @@ const Note  = ({
     setDragNoteObj,
     setLocalNotes
 }) => {
-    
+    console.log('render')
     // Store actions
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
     const getNotes = useStoreActions(actions => actions.weeks.getNotes)

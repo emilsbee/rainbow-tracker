@@ -6,6 +6,7 @@ import moment from 'moment'
 import database from '../components/firebase/firebase'
 import { store } from '../index'
 import { indices, days } from '../utils/staticData'
+const data = require('./utils/tomsWeeks.json')
 
 
 const weeksModel = {
@@ -19,7 +20,6 @@ const weeksModel = {
     notes: false,
     indexNotes: false,
     noteIndices: false,
-    init: true,
     startWeekListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         var weekid;
@@ -127,7 +127,7 @@ const weeksModel = {
                 weekNr: payload.weekNr, 
                 year: payload.year, 
                 yearWeekNr: `${payload.year}_${payload.weekNr}`
-            })
+        })
 
         const weekid = newWeek.key
 
@@ -190,6 +190,7 @@ const weeksModel = {
         var notes = await database.ref(`users/${uid}/notes/${payload.weekid}`).once('value')
         var indexNotes = await database.ref(`users/${uid}/indexNotes/${payload.weekid}`).once('value')
         var noteIndices = await database.ref(`users/${uid}/noteIndices/${payload.weekid}`).once('value')
+        
         actions.setNotes({
             type: 'ALL',
             notes: notes.val(),
@@ -344,23 +345,102 @@ const weeksModel = {
 
     }),
     randomThunk: thunk(async (actions, payload) => {
-        // const uid = store.getState().auth.uid
+        const uid = store.getState().auth.uid
+        
+        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+        const weeks2019 = [
+            { f: 1, r: 23 },  { f: 2, r: 24 },
+            { f: 3, r: 25 },  { f: 4, r: 26 },
+            { f: 5, r: 27 },  { f: 6, r: 28 },
+            { f: 7, r: 29 },  { f: 8, r: 30 },
+            { f: 9, r: 31 },  { f: 10, r: 32 },
+            { f: 11, r: 33 }, { f: 12, r: 34 },
+            { f: 13, r: 35 }, { f: 14, r: 36 },
+            { f: 15, r: 37 }, { f: 16, r: 38 },
+            { f: 17, r: 39 }, { f: 18, r: 40 },
+            { f: 19, r: 41 }, { f: 20, r: 42 },
+            { f: 21, r: 43 }, { f: 22, r: 44 },
+            { f: 23, r: 45 }, { f: 24, r: 46 },
+            { f: 25, r: 47 }, { f: 26, r: 48 },
+            { f: 27, r: 49 }, { f: 28, r: 50 },
+            { f: 29, r: 51 }, { f: 30, r: 52 }
+        ]
+          
+        const weeks2020 = [
+            { f: 31, r: 1 },  { f: 32, r: 2 },
+            { f: 33, r: 3 },  { f: 34, r: 4 },
+            { f: 35, r: 5 },  { f: 36, r: 6 },
+            { f: 37, r: 7 },  { f: 38, r: 8 },
+            { f: 39, r: 9 },  { f: 40, r: 10 },
+            { f: 41, r: 11 }, { f: 42, r: 12 },
+            { f: 43, r: 13 }, { f: 44, r: 14 },
+            { f: 45, r: 15 }, { f: 46, r: 16 },
+            { f: 47, r: 17 }, { f: 48, r: 18 },
+            { f: 49, r: 19 }, { f: 50, r: 20 },
+            { f: 51, r: 21 }, { f: 52, r: 22 }
+        ]
+
+        const dayConversion = {
+            Monday: 'day1',
+            Tuesday: 'day2',
+            Wednesday: 'day3',
+            Thursday: 'day4',
+            Friday: 'day5',
+            Saturday: 'day6',
+            Sunday: 'day7'
+        }
+        
+        
+        weeks2019.forEach(async(week) => {
+            var updates = {}
+
+            var  weekid = database.ref(`users/${uid}/weeks`).push().key
+            updates[`users/${uid}/weeks/${weekid}/`] = {
+                weekNr: week.r,
+                year: 2019,
+                yearWeekNr: `2019_${week.r}`
+            }
+
+            await database.ref().update(updates)  
+
+            updates = {}
+            
+            updates[`users/${uid}/years/2019`] = true
+            updates[`users/${uid}/yearWeeks/2019/${week.r}`] = weekid
+            updates[`users/${uid}/yearWeekNumbers/2019_${week.r}`] = weekid
+
+            for (var day in days) {
+                for (var i in indices) {
+                    var newNoteKey = database.ref().child(`users/${uid}/notes/${weekid}/${days[day]}`).push().key
+                    
+                    updates[`users/${uid}/notes/${weekid}/${days[day]}/${newNoteKey}`] = data[week.f][dayConversion[days[day]]][indices[i]].note
+                    updates[`users/${uid}/indexNotes/${weekid}/${days[day]}/${indices[i]}`] = newNoteKey
+                    
+                    var noteIndexObj = {}
+                    if (data[week.f][dayConversion[days[day]]][i].lines > 1) {
+                        for (var j = indices[i]; j < data[week.f][dayConversion[days[day]]][i].lines + indices[i]; j++) {
+                            noteIndexObj[j] = true
+                        }
+                    } else {
+                        noteIndexObj[i] = true
+                    }
+
+                    updates[`users/${uid}/noteIndices/${weekid}/${days[day]}/${newNoteKey}`] = noteIndexObj
+
+                    updates[`users/${uid}/weeks/${weekid}/days/${days[day]}/${indices[i]}`] = {
+                        activity: data[week.f][dayConversion[days[day]]][indices[i]].activity,
+                        category: data[week.f][dayConversion[days[day]]][indices[i]].category === 'undefined' ? '' : data[week.f][dayConversion[days[day]]][indices[i]].category
+                    }
+                    
+                }
+            }
         
 
-        // var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        // days.forEach(async(day) => {
-        //     var updates = {}
-        //     var notes = await database.ref(`users/${uid}/notes/-M6oZ060IUSk8-jKd8MH/${day}`).once("value")
-        //     var noteKeys = Object.keys(notes.val())
-        //     for (var i = 0; i < 96; i++) {
-        //         updates[`users/${uid}/indexNotes/-M6oZ060IUSk8-jKd8MH/${day}/${i}`] = noteKeys[i]
-        //         var noteIndiceObj = {}
-        //         noteIndiceObj[i] = true
-        //         updates[`users/${uid}/noteIndices/-M6oZ060IUSk8-jKd8MH/${day}/${noteKeys[i]}`] = noteIndiceObj
-        //     }
-        //     await database.ref().update(updates)    
-        // })
-
+    
+              
+            await database.ref().update(updates)  
+        }) 
     })
     
 }

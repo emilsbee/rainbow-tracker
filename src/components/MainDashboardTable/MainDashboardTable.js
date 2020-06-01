@@ -76,7 +76,7 @@ const MainDashboardTable = ({ days, weekid }) => {
                
                
                return (
-                   <div key={day} >
+                   <div key={day} className="day-container">
                        <div className="day-header">
                            {day}
                        </div>
