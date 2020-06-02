@@ -387,7 +387,24 @@ const weeksModel = {
         }) 
     }),
     tomMistake: thunk(async (actions, payload) => {
-        const uid = store.getState().auth.uid
+        const uid = 'xbYb608TXXaok1Pturno6Wfd9O73'
+        // const uid = store.getState().auth.uid
+
+        const forbidenNotes = ['-M8pCb9nNzHnYU7wG0UU', '-M8aUbyknDAgp3NR7Jl-']
+        
+        // const notes = await database.ref(`users/${uid}/notes`).once('value')
+        const noteIndices = await database.ref(`users/${uid}/noteIndices`).once('value')
+        // const indexNotes = await database.ref(`users/${uid}/indexNotes`).once('value')
+        // const weeks = await database.ref(`users/${uid}/weeks`).once('value')
+
+        var updates = {}
+
+        Object.keys(noteIndices.val()).forEach((weekid) => {
+            if (!forbidenNotes.includes(weekid)) {
+                updates[`users/${uid}/noteIndices/${weekid}`] = {}
+            }
+        })
+        await database.ref().update(updates)
     })
     
 }

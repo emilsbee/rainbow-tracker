@@ -8,7 +8,7 @@ import './nav-bar.scss'
 
 const NavBar = () => {
     const startLogout = useStoreActions(actions => actions.auth.startLogout)
-    const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
+    const tomMistake = useStoreActions(actions => actions.weeks.tomMistake)
  
 
 
@@ -34,7 +34,7 @@ const NavBar = () => {
                     Settings
                 </NavLink>
             </div>
-            {/* <button onClick={randomThunk}>Pres</button> */}
+            <button onClick={tomMistake}>Pres</button>
             <a id="logout-button-text" onClick={beginLogout}>Log out</a>
         </div>
     )
