@@ -34,7 +34,7 @@ const NavBar = () => {
                     Settings
                 </NavLink>
             </div>
-            <button onClick={randomThunk}>Pres</button>
+            {/* <button onClick={randomThunk}>Pres</button> */}
             <a id="logout-button-text" onClick={beginLogout}>Log out</a>
         </div>
     )
