@@ -9,6 +9,7 @@ import { createStore, StoreProvider } from 'easy-peasy'
 import firebaseModel from './models/firebase'
 import weeksModel from './models/weeks'
 import settingsModel from './models/settings'
+import initialiseModel from './models/initialise'
 import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
@@ -19,7 +20,8 @@ require('dotenv').config()
 const store = createStore({
   auth: firebaseModel,
   weeks: weeksModel,
-  settings: settingsModel
+  settings: settingsModel,
+  init: initialiseModel
 })
 
 
@@ -41,11 +43,13 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 firebase.auth().onAuthStateChanged( async(user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
-        store.dispatch.settings.initialiseUserSettings()
-        renderApp()
-        if (history.location.pathname === '/') {
-            history.push(`/dashboard`)
-        }
+        // store.dispatch.settings.initialiseUserSettings()
+        store.dispatch.init.initialiseUser().then(() => {
+            renderApp()
+            if (history.location.pathname === '/') {
+                history.push(`/dashboard`)
+            }
+        })
     } else {
         store.dispatch.auth.logout()
         renderApp()

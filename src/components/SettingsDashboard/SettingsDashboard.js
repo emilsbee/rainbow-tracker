@@ -11,10 +11,15 @@ import NavBar from '../NavBar/NavBar'
 const SettingsDashboard  = () => {
     const categorySettings = useStoreState(state => state.settings.categorySettings)
     const activitySettings = useStoreState(state => state.settings.activitySettings)
-    const initialiseUserSettings = useStoreActions(actions => actions.settings.initialiseUserSettings)
+    const startSettingsListener = useStoreActions(actions => actions.settings.startSettingsListener)
+    const stopSettingsListener = useStoreActions(actions => actions.settings.stopSettingsListener)
     
     useEffect(() => {
-        initialiseUserSettings()
+        startSettingsListener()
+
+        return () => {
+            stopSettingsListener()
+        }
     }, [])
 
     return (

@@ -29,6 +29,7 @@ const MainDashboard  = () => {
     const weeks = useStoreState(state => state.weeks.yearWeeks)
 
     const startSettingsListener = useStoreActions(actions => actions.settings.startSettingsListener)
+    const stopSettingsListener = useStoreActions(actions => actions.settings.stopSettingsListener)
     
     
 
@@ -39,7 +40,7 @@ const MainDashboard  = () => {
         return () => {
             
             stopWeekListener({weekid: currentWeek.weekid})
-
+            stopSettingsListener()
         }
     }, [])
 

@@ -16,6 +16,7 @@ const settingsModel = {
 
         var activitySettingsRef = database.ref(`users/${uid}/activityConfigs`)
         activitySettingsRef.on('value', function(snapshot) {
+            
             actions.setSettings({type: 'ACTIVITY', activitySettings: snapshot.val()})
         })
 
@@ -23,6 +24,12 @@ const settingsModel = {
         categorySettingsRef.on('value', function(snapshot) {
             actions.setSettings({type: 'CATEGORY', categorySettings: snapshot.val()})
         })
+    }),
+    stopSettingsListener: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+
+        database.ref(`users/${uid}/activityConfigs`).off()
+        database.ref(`users/${uid}/categoryConfigs`).off()
     }),
     setSettings: action((state, payload) => {
         switch(payload.type) {

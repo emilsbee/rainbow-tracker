@@ -6,6 +6,8 @@ import moment from 'moment'
 import database from '../components/firebase/firebase'
 import { store } from '../index'
 import { indices, days } from '../utils/staticData'
+import { matchColor, weeks2019, weeks2020, dayConversion } from './utils/weeks_utils'
+
 const data = require('./utils/tomsWeeks.json')
 
 
@@ -32,6 +34,7 @@ const weeksModel = {
 
                 if (currentWeek.val() !== null) {
                     weekid = currentWeek.val()
+                    init = true
                 } else {
                     actions.newWeek({
                         year: currentYear,
@@ -53,6 +56,7 @@ const weeksModel = {
                 var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${nextWeekYear}_${nextWeekNr}`).once('value')
                 if (nextWeek.val() !== null) {
                     weekid = nextWeek.val()
+                    init = true
                 } else {
                     actions.newWeek({
                         year: nextWeekYear,
@@ -66,6 +70,7 @@ const weeksModel = {
                 var specificWeek = await database.ref(`users/${uid}/yearWeeks/${payload.year}/${payload.weekNr}`).once('value')
                 if(specificWeek.val() !== null) {
                     weekid = specificWeek.val()
+                    init = true
                 } else {
                     actions.newWeek({
                         year: payload.year,
@@ -84,7 +89,7 @@ const weeksModel = {
                 var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${prevWeekYear}_${prevWeekNr}`).once('value')  
                 if (nextWeek.val() !== null) {
                     weekid = nextWeek.val() 
-                    
+                    init = true
                 } else {
                     actions.newWeek({
                         year: prevWeekYear,
@@ -94,7 +99,7 @@ const weeksModel = {
                 }
                 break;
         }
-
+        
         var weeksRef = database.ref(`users/${uid}/weeks/${weekid}`)
         weeksRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
@@ -149,6 +154,7 @@ const weeksModel = {
         }
 
         database.ref().update(updates, function (error) {
+            
             actions.startWeekListener({
                 init: true,
                 type: 'SPECIFIC_WEEK',
@@ -163,8 +169,12 @@ const weeksModel = {
         var yearRef = database.ref(`users/${uid}/years`)
         yearRef.on('value', function(snapshot) {
             var years = snapshot.val()
-            var parsedYears = Object.keys(years).map((year) => parseInt(year)).sort((a,b) => b - a)
-            actions.setYears(parsedYears)
+            if (years && years !== null) {
+                var parsedYears = Object.keys(years).map((year) => parseInt(year)).sort((a,b) => b - a)
+                actions.setYears(parsedYears)
+            } else {
+                actions.setYears([])
+            }
         }) 
     }),
     stopYearListener: thunk(async (actions, payload) => {
@@ -255,7 +265,6 @@ const weeksModel = {
                     type: 'NOTES',
                     notes
                 })
-                // await database.ref(`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`).set(payload.note)
                 break;
             default:
                 return
@@ -291,31 +300,6 @@ const weeksModel = {
         await database.ref().update(updates)
     }),
     deleteNoteStack: thunk( (actions, payload) => {
-        // const uid = store.getState().auth.uid
-
-        // const indexNotes = store.getState().weeks.indexNotes
-
-        // const noteIndices = store.getState().weeks.noteIndices
-        
-        // var indiceGroup = Object.keys(noteIndices[payload.day][payload.noteid])
-    
-        // var updates = {}
-
-        // for (var i in indiceGroup) {
-        //     var newObj = {}
-        //     newObj[indiceGroup[i]] = true
-        //     updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = newObj
-        //     if (indexNotes[payload.day][indiceGroup[i]] !== payload.noteid) {
-        //         updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${indexNotes[payload.day][indiceGroup[i]]}`] = ""
-        //     } else if (indexNotes[payload.day][indiceGroup[i]] === payload.noteid) {
-        //         updates[`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`] = payload.note
-        //     }
-        // }
-        
-        // database.ref().update(updates).then(() => {
-        //     actions.getNotes({weekid: payload.weekid})
-        // })
-
         var noteIndices = store.getState().weeks.noteIndices
         var notes = store.getState().weeks.notes
         var indexNotes = store.getState().weeks.indexNotes
@@ -348,48 +332,6 @@ const weeksModel = {
         const uid = store.getState().auth.uid
         
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
-        const weeks2019 = [
-            { f: 1, r: 23 },  { f: 2, r: 24 },
-            { f: 3, r: 25 },  { f: 4, r: 26 },
-            { f: 5, r: 27 },  { f: 6, r: 28 },
-            { f: 7, r: 29 },  { f: 8, r: 30 },
-            { f: 9, r: 31 },  { f: 10, r: 32 },
-            { f: 11, r: 33 }, { f: 12, r: 34 },
-            { f: 13, r: 35 }, { f: 14, r: 36 },
-            { f: 15, r: 37 }, { f: 16, r: 38 },
-            { f: 17, r: 39 }, { f: 18, r: 40 },
-            { f: 19, r: 41 }, { f: 20, r: 42 },
-            { f: 21, r: 43 }, { f: 22, r: 44 },
-            { f: 23, r: 45 }, { f: 24, r: 46 },
-            { f: 25, r: 47 }, { f: 26, r: 48 },
-            { f: 27, r: 49 }, { f: 28, r: 50 },
-            { f: 29, r: 51 }, { f: 30, r: 52 }
-        ]
-          
-        const weeks2020 = [
-            { f: 31, r: 1 },  { f: 32, r: 2 },
-            { f: 33, r: 3 },  { f: 34, r: 4 },
-            { f: 35, r: 5 },  { f: 36, r: 6 },
-            { f: 37, r: 7 },  { f: 38, r: 8 },
-            { f: 39, r: 9 },  { f: 40, r: 10 },
-            { f: 41, r: 11 }, { f: 42, r: 12 },
-            { f: 43, r: 13 }, { f: 44, r: 14 },
-            { f: 45, r: 15 }, { f: 46, r: 16 },
-            { f: 47, r: 17 }, { f: 48, r: 18 },
-            { f: 49, r: 19 }, { f: 50, r: 20 },
-            { f: 51, r: 21 }, { f: 52, r: 22 }
-        ]
-
-        const dayConversion = {
-            Monday: 'day1',
-            Tuesday: 'day2',
-            Wednesday: 'day3',
-            Thursday: 'day4',
-            Friday: 'day5',
-            Saturday: 'day6',
-            Sunday: 'day7'
-        }
         
         
         weeks2019.forEach(async(week) => {
@@ -428,17 +370,15 @@ const weeksModel = {
 
                     updates[`users/${uid}/noteIndices/${weekid}/${days[day]}/${newNoteKey}`] = noteIndexObj
 
+                    var act = data[week.f][dayConversion[days[day]]][indices[i]].activity
+                    var cat = data[week.f][dayConversion[days[day]]][indices[i]].category
                     updates[`users/${uid}/weeks/${weekid}/days/${days[day]}/${indices[i]}`] = {
-                        activity: data[week.f][dayConversion[days[day]]][indices[i]].activity,
-                        category: data[week.f][dayConversion[days[day]]][indices[i]].category === 'undefined' ? '' : data[week.f][dayConversion[days[day]]][indices[i]].category
+                        activity: matchColor({type: 'ACTIVITY', data: act}),
+                        category: matchColor({type: 'CATEGORY', data: cat})
                     }
                     
                 }
             }
-        
-
-    
-              
             await database.ref().update(updates)  
         }) 
     })

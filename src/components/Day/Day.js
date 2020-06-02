@@ -39,7 +39,6 @@ const Day = ({
 
    useEffect(() => {
     return () => {
-        
         updateNewNotes({
             day, 
             weekid,
@@ -83,19 +82,6 @@ const Day = ({
     
 
     function handleDragEnd () {
-        // setIsDraggable(false)
-        // updateNotes({
-        //     day: dragNoteObj.day,
-        //     weekid,
-        //     draggedIndices: dragNoteObj.indices,
-        //     note: dragNoteObj.note
-        //  }).then(() => {
-        //      getNotes({weekid}).then(() => {        
-        //         setDragNoteObj(false)
-        //         setIsDraggable(true)
-        //      })
-        //  })
-        
         setNotes({
             type: 'SPECIAL',
             noteIndices: localNoteIndices,
