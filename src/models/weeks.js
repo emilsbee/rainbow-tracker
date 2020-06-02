@@ -392,16 +392,16 @@ const weeksModel = {
 
         const forbidenNotes = ['-M8pCb9nNzHnYU7wG0UU', '-M8aUbyknDAgp3NR7Jl-']
         
-        const notes = await database.ref(`users/${uid}/notes`).once('value')
+        // const notes = await database.ref(`users/${uid}/notes`).once('value')
         // const noteIndices = await database.ref(`users/${uid}/noteIndices`).once('value')
-        const indexNotes = await database.ref(`users/${uid}/indexNotes`).once('value')
+        // const indexNotes = await database.ref(`users/${uid}/indexNotes`).once('value')
         const weeks = await database.ref(`users/${uid}/weeks`).once('value')
 
         var updates = {}
 
-        Object.keys(notes.val()).forEach((weekid) => {
+        Object.keys(weeks.val()).forEach((weekid) => {
             if (!forbidenNotes.includes(weekid)) {
-                updates[`users/${uid}/notes/${weekid}`] = {}
+                updates[`users/${uid}/weeks/${weekid}`] = {}
             }
         })
 
