@@ -5,10 +5,11 @@ import { useStoreActions } from 'easy-peasy'
 
 // Internal imports
 import './nav-bar.scss'
+import { ReactComponent as LogoutIcon } from './utils/logout.svg'
 
 const NavBar = () => {
     const startLogout = useStoreActions(actions => actions.auth.startLogout)
-    const tomMistake = useStoreActions(actions => actions.weeks.tomMistake)
+    const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
  
 
 
@@ -34,8 +35,11 @@ const NavBar = () => {
                     Settings
                 </NavLink>
             </div>
-            <button onClick={tomMistake}>Pres</button>
-            <a id="logout-button-text" onClick={beginLogout}>Log out</a>
+            <button onClick={randomThunk}>Pres</button>
+            <a id="logout-button-text" onClick={beginLogout}>
+                Log out
+                <LogoutIcon id="logout-icon"/>
+            </a>
         </div>
     )
 }

@@ -8,7 +8,7 @@
     -ms-user-select: none;
     user-select: none;
     box-sizing: border-box;
-    border: solid 0.7px white;
+    // border: solid 0.7px white;
     border-radius: $sizing-1;
     display: inline-block;
     flex-direction: column;
@@ -24,7 +24,7 @@
 }
 
 .year-dd-header_ {
-    border: solid 0.7px white;
+    border: solid 0.7px #f6f7f9;;
     padding: $sizing-1;
     width: $sizing-8;
     display: flex;
@@ -96,7 +96,7 @@
 
 .year-dd-list-item:hover {
     width: 100%;
-    background-color: $grey-2;
+    background-color: $grey-1;
     border-radius: $sizing-1;
     cursor: pointer;
 }

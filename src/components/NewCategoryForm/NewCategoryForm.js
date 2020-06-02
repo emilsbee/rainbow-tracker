@@ -32,7 +32,7 @@ function NewCategoryForm  ({ onSubmit,setIsInput }) {
                     className="new-category-input"
                     placeholder="category name..."
                     autoFocus
-                    maxlength="15"
+                    maxLength="15"
                 />
             </form>
         </div>

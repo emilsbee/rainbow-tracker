@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    background-color: #f6f7f9;
     
 }
 
@@ -30,13 +31,13 @@
     border: none;
     border-radius: 5px;
     padding: $sizing-2;
-    background-color: white;
+    background-color: #f6f7f9;
     font-size: $type-sizing-2;
     color: $grey-7;
 }
 
 .to-current-week:hover {
-    background-color: $grey-2;
+    // background-color: $grey-2;
     color: $grey-9;
 }
 
@@ -123,7 +124,7 @@
 .previous-week:hover {
     cursor: pointer;
     height: $sizing-6;
-    fill: $primary-7;
+    // fill: $primary-7;
 }
 
 .next-week {
@@ -134,7 +135,7 @@
 .next-week:hover {
     height: $sizing-6;
     cursor: pointer;
-    fill: $primary-7;
+    // fill: $primary-7;
 }
 
 

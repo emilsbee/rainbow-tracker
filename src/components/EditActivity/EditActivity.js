@@ -67,10 +67,10 @@ const EditActivity  = ({ short, long, editActivity, categoryid, activityid, remo
                     cols="60"
                     style={{"overflow":"hidden", "marginTop":"3px"}}
                     spellCheck="false" 
-                    
+                    value={localLong}
                     onChange={(e) => setLocalLong(e.target.value)}
                     className="edit-category-activity-list-long"
-                >{localLong}</textarea>
+                ></textarea>
             </form>
            {hoverAct && <Trash onClick={handleRemoveActivity} className="edit-activity-delete-floater" onMouseLeave={() => setHoverAct(false)}/>}
       
