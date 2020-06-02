@@ -38,7 +38,7 @@ const MainDashboard  = () => {
         
         startSettingsListener()
         return () => {
-            
+            console.log(noteIndices)
             stopWeekListener({weekid: currentWeek.weekid})
             stopSettingsListener()
         }

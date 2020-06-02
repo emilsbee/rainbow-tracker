@@ -39,8 +39,6 @@ const MainDashboardTable = ({ days, weekid }) => {
     const [localNoteIndices, setLocalNoteIndices] = useState(false)
     
     
-    
-
     useEffect(() => {
         var currentWeek = {}
             currentWeek["days"] = orderByDays(days)
@@ -55,24 +53,13 @@ const MainDashboardTable = ({ days, weekid }) => {
         setLocalNotes(notes)
         setLocalNoteIndices(noteIndices)
         setLocalIndexNotes(indexNotes)
-    }, [noteIndices, notes])
-
-  
-
-    const handleSetDragNoteObj = (data) => { 
-        setDragNoteObj(data)
-    }
-    
-    const handleSetLocalNoteIndices = (data) => {
-        setLocalNoteIndices(data)
-    }   
-
-
+    }, [noteIndices, notes, indexNotes])
+ 
     
     return (
         <div className="table-container">
             <TimeCell timeValues={timeValues}/>
-           {localWeek && noteIndices && notes && indexNotes && weekDays.map((day) => {
+           {localWeek && localNoteIndices && localNotes && localIndexNotes && weekDays.map((day) => {
                
                
                return (
@@ -84,73 +71,11 @@ const MainDashboardTable = ({ days, weekid }) => {
                         weekid={weekid}
                         day={day}
                         categories={localWeek.days[day]}
-                        notes={notes[day]}
-                        noteIndices={noteIndices[day]}
-                        indexNotes={indexNotes[day]}
+                        notes={localNotes[day]}
+                        noteIndices={localNoteIndices[day]}
+                        indexNotes={localIndexNotes[day]}
                    />
                    </div>
-                //    <div className="day-container" key={day}>
-                //        <div className="day-header">
-                //             {day}
-                //        </div>
-                       
-                //         {localNotes && localNoteIndices && localIndexNotes  && Object.keys(formatDay).map((period, index) => {
-
-                //             var noteid = localIndexNotes[day][index]
-                //             var noteText = localNotes[day][noteid]
-                            
-                            
-                            
-                //             var noteExtension = localNoteIndices[day][noteid]
-                //             var isFirst;
-                            
-                            
-                //             if ((Math.min(...Object.keys(noteExtension)) === index)) {
-                //                 isFirst = true
-                //             } else {
-                //                     isFirst = false      
-                //             }
-                            
-                //             return (
-                //                 <div key={index} className="category-note-container">
-                //                 <CategoryItem 
-                //                     className="category-cell"
-                //                     weekid={localWeek.weekid} 
-                //                     day={day} 
-                //                     index={index} 
-                //                     category={localWeek.days[day][index].category}
-                //                     activity={localWeek.days[day][index].activity}
-                //                     setDragCategory={setDragCategory}
-                //                     dragCategory={dragCategory}
-                //                     dragActivity={dragActivity}
-                //                     setDragActivity={setDragActivity}
-                //                     localWeek={localWeek}
-                //                     draggedCategories={draggedCategories}
-                //                     setDraggedCategories={setDraggedCategories}
-                //                     setDragIndex={setDragIndex}
-                //                     dragDay={dragDay}
-                //                     setDragDay={setDragDay}
-                //                 >
-                //                 </CategoryItem>
-                //                 {isFirst && <Note 
-                //                     setDragNoteObj={handleSetDragNoteObj}
-                //                     dragNoteObj={dragNoteObj}
-                //                     index={index}
-                //                     note={noteText} 
-                //                     noteid={noteid}
-                //                     day={day}
-                //                     weekid={weekid}
-                //                     indices={Object.keys(noteExtension)} 
-                //                     noteIndices={noteIndices}
-                //                     setLocalNoteIndices={handleSetLocalNoteIndices}
-                //                     localNotes={localNotes}
-                //                     setLocalNotes={setLocalNotes}
-                //                     indexNotes={localIndexNotes}
-                //                 />}
-                //                 </div>
-                //             )
-                //         })}
-                //     </div>
                )
            })}
         </div>

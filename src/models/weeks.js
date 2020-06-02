@@ -294,10 +294,14 @@ const weeksModel = {
     }),
     updateNewNotes: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
-        var updates = {}
-        updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}`] = payload.localNoteIndices
-        updates[`users/${uid}/notes/${payload.weekid}/${payload.day}`] = payload.localNotes
-        await database.ref().update(updates)
+        
+        if (uid !== '') {
+            var updates = {}
+            updates[`users/${uid}/noteIndices/${payload.weekid}/${payload.day}`] = payload.localNoteIndices
+            updates[`users/${uid}/notes/${payload.weekid}/${payload.day}`] = payload.localNotes
+            await database.ref().update(updates)
+        }
+
     }),
     deleteNoteStack: thunk( (actions, payload) => {
         var noteIndices = store.getState().weeks.noteIndices
@@ -381,6 +385,9 @@ const weeksModel = {
             }
             await database.ref().update(updates)  
         }) 
+    }),
+    tomMistake: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
     })
     
 }

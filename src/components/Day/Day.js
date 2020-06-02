@@ -39,6 +39,7 @@ const Day = ({
 
    useEffect(() => {
     return () => {
+        
         updateNewNotes({
             day, 
             weekid,
@@ -51,6 +52,7 @@ const Day = ({
     
     
     useBeforeunload(() => {
+        
         updateNewNotes({
             day, 
             weekid,
