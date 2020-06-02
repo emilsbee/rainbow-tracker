@@ -405,17 +405,17 @@ const weeksModel = {
             }
         })
 
-        Object.keys(indexNotes.val()).forEach((weekid) => {
-            if (!forbidenNotes.includes(weekid)) {
-                updates[`users/${uid}/indexNotes/${weekid}`] = {}
-            }
-        })
+        // Object.keys(indexNotes.val()).forEach((weekid) => {
+        //     if (!forbidenNotes.includes(weekid)) {
+        //         updates[`users/${uid}/indexNotes/${weekid}`] = {}
+        //     }
+        // })
 
-        Object.keys(weeks.val()).forEach((weekid) => {
-            if (!forbidenNotes.includes(weekid)) {
-                updates[`users/${uid}/weeks/${weekid}`] = {}
-            }
-        })
+        // Object.keys(weeks.val()).forEach((weekid) => {
+        //     if (!forbidenNotes.includes(weekid)) {
+        //         updates[`users/${uid}/weeks/${weekid}`] = {}
+        //     }
+        // })
 
         await database.ref().update(updates)
     })
