@@ -6,10 +6,8 @@
     color: $grey-1;
     font-weight: 200;
     font-size: $type-sizing-3;
-    padding-left: $sizing-2;
-    padding-right: $sizing-2;
     padding-top: $sizing-2;
-    padding-bottom: $sizing-2;
+    padding-bottom: $sizing-1;
 }
 .nav-bar {
     display: flex;
@@ -17,15 +15,13 @@
     width: 100%;
     box-sizing:border-box;
     padding: 20px;
-    // background-color: $grey-1;
     background-color: #708090;
     box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .1);
 }
 
 .dashboard-link:hover {
-    color: black;
-    // background-color: $grey-5;
-    border-radius: 10px;
+    color: $grey-1;
+    border-bottom: 1px solid $grey-1;
 }
 
 #logout-button-text {
@@ -56,7 +52,6 @@
 
 
 .dashboard-link-active {
-    color: black;
-    // background-color: $grey-7;
-    border-radius: 10px;
+    color: $grey-1;
+    border-bottom: 1px solid $grey-1;
 }
