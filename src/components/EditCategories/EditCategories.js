@@ -13,8 +13,6 @@ import NewCategoryForm from '../NewCategoryForm/NewCategoryForm'
 function EditCategories ({ categorySettings, activitySettings }) {
     const updateCategory = useStoreActions(actions => actions.settings.editCategory)
 
-    const editActivity = useStoreActions(actions => actions.settings.editActivity)
-
     const [hoverCat, setHoverCat] = useState('')
     
     const [isInput, setIsInput] = useState(false)

@@ -1,8 +1,8 @@
 // External imports
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 
-import moment from 'moment'
+
 
 // Internal imports 
 import MainDashboardTable from '../MainDashboardTable/MainDashboardTable'
@@ -15,11 +15,11 @@ const MainDashboard  = () => {
     const indexNotes = useStoreState(state => state.weeks.indexNotes)
     const noteIndices = useStoreState(state => state.weeks.noteIndices)
 
-    const getNotes = useStoreActions(actions => actions.weeks.getNotes)
+    
     const startYearListener = useStoreActions(actions => actions.weeks.startYearListener)
     const stopYearListener = useStoreActions(actions => actions.weeks.stopYearListener)
 
-    const stopNoteListeners = useStoreActions(actions => actions.weeks.stopNoteListeners)
+    
     
     const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)

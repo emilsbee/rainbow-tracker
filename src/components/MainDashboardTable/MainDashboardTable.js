@@ -1,10 +1,8 @@
 // External imports
 import React, { useEffect, useState } from 'react'
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreState } from 'easy-peasy'
 
 // Internal imports 
-import CategoryItem from '../CategoryItem/CategoryItem'
-import Note from '../Note/Note'
 import Day from '../Day/Day'
 import TimeCell from '../TimeCell/TimeCell'
 import {timeValues, weekDays} from '../../utils/staticData'
@@ -15,8 +13,7 @@ import './main-dashboard-table.scss'
 
 const MainDashboardTable = ({ days, weekid }) => {
     
-    const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
-    const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
+    
 
     const notes = useStoreState(state => state.weeks.notes)
     const indexNotes = useStoreState(state => state.weeks.indexNotes)
@@ -24,18 +21,10 @@ const MainDashboardTable = ({ days, weekid }) => {
 
     // Category/activtiy items
     const [localWeek, setLocalWeek] = useState(false)
-    const [dragDay, setDragDay] = useState(false)
-    const [dragCategory, setDragCategory] = useState("")
-    const [dragActivity, setDragActivity] = useState("")
-    const [draggedCategories, setDraggedCategories] = useState([])
-    const [dragIndex, setDragIndex] = useState('')
-
+   
     // Notes
-    
     const [localNotes, setLocalNotes] = useState(false)
     const [localIndexNotes, setLocalIndexNotes] = useState(false)
-    
-    const [dragNoteObj, setDragNoteObj] = useState(false) 
     const [localNoteIndices, setLocalNoteIndices] = useState(false)
     
     

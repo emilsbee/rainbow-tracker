@@ -15,7 +15,7 @@ function YearDropdown  ({
 })  {
 
     const [listOpen, setListOpen] = useState(false)
-    const [headerTitle, setHeaderTitle] = useState(title)
+    
 
 
     YearDropdown.handleClickOutside = () => {

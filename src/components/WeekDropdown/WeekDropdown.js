@@ -14,7 +14,7 @@ function WeekDropdown  ({
     onChange
 })  {
     const [listOpen, setListOpen] = useState(false)
-    const [headerTitle, setHeaderTitle] = useState(title)
+    
 
     WeekDropdown.handleClickOutside = () => {
         setListOpen(false)

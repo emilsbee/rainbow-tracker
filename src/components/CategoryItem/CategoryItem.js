@@ -129,7 +129,7 @@ function CategoryItem  ({
       activity
     })
   }
-
+  
   return (
     <div className="main-container">
 
@@ -148,8 +148,8 @@ function CategoryItem  ({
         {/*  Category component  */}
 
         {/* Activity componenet */}
-        {localCategory !== ""  && activitySettings &&
-    
+        {localCategory !== ""&& activitySettings[localCategory]  && activitySettings &&
+          
           <div 
             className="activity-item"
             onClick={(activitySettings[localCategory] && Object.keys(activitySettings[localCategory]).length > 0) &&  handleActivityPopover}
@@ -202,7 +202,7 @@ function areEqual (prevProps, nextProps) {
     (prevProps.day !== nextProps.dragDay &&
     (prevProps.dragCategory === nextProps.dragCategory &&
     prevProps.dragActivity === nextProps.dragActivity &&
-    JSON.stringify(prevProps.draggedCategories) == JSON.stringify(nextProps.draggedCategories))) &&
+    JSON.stringify(prevProps.draggedCategories) === JSON.stringify(nextProps.draggedCategories))) &&
     prevProps.weekid === nextProps.weekid 
   ) {
     return true

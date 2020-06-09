@@ -14,7 +14,7 @@ const LoginPage = () => {
     const beginLogin = () => {
         startLoginWithGoogle()
     }
-    const arr = [1,2,3,4,5,6,7,8,9]
+    
     return (
         <div id="login-container">
             <div id="login-components">
@@ -23,7 +23,7 @@ const LoginPage = () => {
                     <p id="login-text">Please sign in using one of the following </p>
                 </div>
                 <button id="login-button" onClick={beginLogin}>
-                    <img id="google-logo" src={google}/>
+                    <img id="google-logo" alt="Loading..." src={google}/>
                     <p id="login-button-text">Sign in with Google</p>
                 </button>
             </div>

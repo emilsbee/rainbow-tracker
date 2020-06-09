@@ -1,5 +1,5 @@
 // External imports
-import { thunk, action } from "easy-peasy"
+import { thunk } from "easy-peasy"
 import moment from 'moment'
 
 // Internal imports
@@ -51,14 +51,14 @@ const initialiseModel = {
             updates[`users/${uid}/yearWeekNumbers/${year}_${weekNr}`] = weekid
 
             for (var day in days) {
-                for (var i in indices) {
+                for (var p in indices) {
                     var newNoteKey = database.ref(`users/${uid}/notes/${weekid}/${days[day]}`).push().key
                     updates[`users/${uid}/notes/${weekid}/${days[day]}/${newNoteKey}`] = ""
-                    updates[`users/${uid}/indexNotes/${weekid}/${days[day]}/${indices[i]}`] = newNoteKey
+                    updates[`users/${uid}/indexNotes/${weekid}/${days[day]}/${indices[p]}`] = newNoteKey
                     var noteIndexObj = {}
-                    noteIndexObj[indices[i]] = true
+                    noteIndexObj[indices[p]] = true
                     updates[`users/${uid}/noteIndices/${weekid}/${days[day]}/${newNoteKey}`] = noteIndexObj
-                    updates[`users/${uid}/weeks/${weekid}/days/${days[day]}/${indices[i]}`] = {activity: '', category: ''}
+                    updates[`users/${uid}/weeks/${weekid}/days/${days[day]}/${indices[p]}`] = {activity: '', category: ''}
                 }
             }
     

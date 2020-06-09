@@ -124,6 +124,8 @@ const settingsModel = {
                 updates[`users/${uid}/categoryConfigs/${payload.categoryid}`] = null
                 updates[`users/${uid}/activityConfigs/${payload.categoryid}`] = null
                 break;
+            default:
+                return 
             }
             
 
@@ -146,6 +148,8 @@ const settingsModel = {
             case 'REMOVE':
                 await database.ref(`users/${uid}/activityConfigs/${payload.categoryid}/${payload.activityid}`).set({})
                 break;
+            default:
+                return
         }
         await database.ref().update(updates)
     })

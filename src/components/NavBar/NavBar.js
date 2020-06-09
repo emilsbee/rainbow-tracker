@@ -9,7 +9,7 @@ import { ReactComponent as LogoutIcon } from './utils/logout.svg'
 
 const NavBar = () => {
     const startLogout = useStoreActions(actions => actions.auth.startLogout)
-    const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
+    // const randomThunk = useStoreActions(actions => actions.weeks.randomThunk)
  
 
 
@@ -36,10 +36,10 @@ const NavBar = () => {
                 </NavLink>
             </div>
             {/* <button onClick={randomThunk}>Pres</button> */}
-            <a id="logout-button-text" onClick={beginLogout}>
+            <div id="logout-button-text" onClick={beginLogout}>
                 Log out
                 <LogoutIcon id="logout-icon"/>
-            </a>
+            </div>
         </div>
     )
 }

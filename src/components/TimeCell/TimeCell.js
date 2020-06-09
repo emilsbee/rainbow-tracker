@@ -1,6 +1,6 @@
 // External imports
 import React from 'react'
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreState } from 'easy-peasy'
 
 // Internal imports 
 import './time-cell.scss'

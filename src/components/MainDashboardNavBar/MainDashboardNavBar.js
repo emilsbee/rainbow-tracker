@@ -13,7 +13,6 @@ import YearDropdown from '../YearDropdown/YearDropdown'
 
 const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
     const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
-    const startYearWeekListener = useStoreActions(actions => actions.weeks.startYearWeekListener)
     const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
     
     

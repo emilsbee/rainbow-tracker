@@ -1,6 +1,6 @@
 // External imports
 import React, { useState, useEffect } from 'react'
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreActions } from 'easy-peasy'
 
 // Internal imports 
 import './note.scss'
@@ -28,8 +28,8 @@ const Note  = ({
     
     // Store actions
     const updateWeek = useStoreActions(actions => actions.weeks.updateWeek)
-    const getNotes = useStoreActions(actions => actions.weeks.getNotes)
-    const updateNotes = useStoreActions(actions => actions.weeks.updateNotes)
+    
+    
     const deleteNoteStack = useStoreActions(actions => actions.weeks.deleteNoteStack)
 
     // Local state 

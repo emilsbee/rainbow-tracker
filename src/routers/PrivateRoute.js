@@ -5,7 +5,7 @@ import { useStoreState } from 'easy-peasy'
 
 
 // Internal imports 
-import NavBar from '../components/NavBar/NavBar'
+
 
 
 const PrivateRoute = (props) => {
@@ -19,7 +19,6 @@ const PrivateRoute = (props) => {
             
             isAuthenticated ? (
                 <div style={{"height":"100%"}}>
-                        {/* <NavBar/> */}
                     <Component {...props}/>
 
                 </div>

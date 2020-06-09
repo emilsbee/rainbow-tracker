@@ -1,13 +1,12 @@
 // External imports
 import React, { useEffect, useState } from 'react'
 import onClickOutside from "react-onclickoutside";
-import { useStoreActions } from 'easy-peasy';
 
 // Internal imports 
 import './note-modal.scss'
 
 function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, indices,handleMouseDown})  {
-    const deleteNoteStack = useStoreActions(actions => actions.weeks.deleteNoteStack)
+    
 
     const [localNote, setLocalNote] = useState('')
 
@@ -21,10 +20,6 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
         closeModal()        
     }
 
-    const handleSaveNote = () => {
-        closeModal(localNote)
-        saveNote({note: localNote, noteid, day})
-    }
 
     NoteModal.handleClickOutside = (localNote) => {
         var textareaText = localNote.target.children[0].children[0].children[0].value
@@ -37,7 +32,7 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     }
     
     const handleKeyDown = (e) => {
-        if(e.which == 13 && !e.shiftKey) {        
+        if(e.which === 13 && !e.shiftKey) {        
                       
             closeModal(localNote)
             saveNote({note: localNote, noteid, day})

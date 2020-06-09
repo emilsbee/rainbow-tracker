@@ -1,6 +1,6 @@
 // External imports
 import React, { useState, useEffect } from 'react'
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreActions } from 'easy-peasy'
 import { useBeforeunload } from 'react-beforeunload';
 
 // Internal imports
@@ -35,7 +35,7 @@ const Day = ({
     const [localNotes, setLocalNotes] = useState(false) 
     const [dragNoteObj, setDragNoteObj] = useState(false) 
     const [localNoteIndices, setLocalNoteIndices] = useState(false)
-    const [isDraggable, setIsDraggable] = useState(true)
+    
 
    useEffect(() => {
     return () => {
@@ -162,7 +162,7 @@ const Day = ({
                             noteIndices={localNoteIndices}
                             notes={localNotes}
                             indexNotes={indexNotes}
-                            isDraggable={isDraggable}
+                            isDraggable={true}
                             
                             setDragIndex={setTimeHoverIndex}
                             setDragNoteObj={handleSetDragNoteObj}

@@ -28,9 +28,9 @@ export const timeValues = () => {
   ];
   let timeSlots = [];
 
-  for (const [i, iValue] of m.entries()) {
-    for (const [j, jValue] of n.entries()) {
-      timeSlots.push(`${iValue}:${jValue}`);
+  for (var i in m) {
+    for (var j in n) {
+      timeSlots.push(`${m[i]}:${n[j]}`);
     }
   }
 
