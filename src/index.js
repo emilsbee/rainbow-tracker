@@ -43,7 +43,6 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 firebase.auth().onAuthStateChanged( async(user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
-        // store.dispatch.settings.initialiseUserSettings()
         store.dispatch.init.initialiseUser().then(() => {
             renderApp()
             if (history.location.pathname === '/') {
