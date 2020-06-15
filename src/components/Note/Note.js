@@ -114,7 +114,7 @@ const Note  = ({
    
 
    const handleDragEnter = (e) => {
-        
+
        // The note indices just below and above the drag note
        var dragHighest = dragNoteObj ? Math.max(...dragNoteObj.indices)+1 : ''
        var dragLowest = dragNoteObj ? Math.min(...dragNoteObj.indices)-1 : ''

@@ -27,25 +27,25 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
     }, [year, weekNr])
 
     const handleYearDropdown = (e) => {
-            stopWeekListener({weekid})
+            // stopWeekListener({weekid})
             startWeekListener({type:'SPECIFIC_WEEK', year: e, weekNr: 1, weekid})
     }
 
     const handleWeekDropdown = (e) => {
-        stopWeekListener({weekid})
+        // stopWeekListener({weekid})
         startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
     }       
 
     
     const handlePrevWeek = (e) => {
     
-        stopWeekListener({weekid})
+        // stopWeekListener({weekid})
         startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})
     }
 
     const handleNextWeek = (e) => {
     
-        stopWeekListener({weekid})
+        // stopWeekListener({weekid})
         startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})
     }
 

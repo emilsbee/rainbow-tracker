@@ -1,7 +1,7 @@
 // External imports
-import { thunk, action } from "easy-peasy"
+import { thunk, action,  thunkOn } from "easy-peasy"
 import moment from 'moment'
-
+import { debounce } from "debounce";
 
 // Internal imports
 import database from '../../components/firebase/firebase'
@@ -29,14 +29,14 @@ const weeksModel = {
         var weekid;
         const currentYear = moment().year()
         const currentWeekNr = moment().isoWeek()
-        var init = payload.init && true
+    
         switch(payload.type) {
             case 'CURRENT_WEEK':
                 var currentWeek = await database.ref(`users/${uid}/yearWeeks/${currentYear}/${currentWeekNr}`).once('value')
 
                 if (currentWeek.val() !== null) {
                     weekid = currentWeek.val()
-                    init = true
+                
                 } else {
                     actions.newWeek({
                         year: currentYear,
@@ -58,7 +58,7 @@ const weeksModel = {
                 var nextWeek = await database.ref(`users/${uid}/yearWeekNumbers/${nextWeekYear}_${nextWeekNr}`).once('value')
                 if (nextWeek.val() !== null) {
                     weekid = nextWeek.val()
-                    init = true
+                    
                 } else {
                     actions.newWeek({
                         year: nextWeekYear,
@@ -72,7 +72,7 @@ const weeksModel = {
                 var specificWeek = await database.ref(`users/${uid}/yearWeeks/${payload.year}/${payload.weekNr}`).once('value')
                 if(specificWeek.val() !== null) {
                     weekid = specificWeek.val()
-                    init = true
+                    
                 } else {
                     actions.newWeek({
                         year: payload.year,
@@ -91,7 +91,6 @@ const weeksModel = {
                 var prevWeek = await database.ref(`users/${uid}/yearWeekNumbers/${prevWeekYear}_${prevWeekNr}`).once('value')  
                 if (prevWeek.val() !== null) {
                     weekid = prevWeek.val() 
-                    init = true
                 } else {
                     actions.newWeek({
                         year: prevWeekYear,
@@ -107,18 +106,14 @@ const weeksModel = {
         var weeksRef = database.ref(`users/${uid}/weeks/${weekid}`)
         weeksRef.on('value', function(snapshot) {
             var weekObj = snapshot.val()
-
+            
             weekObj["weekid"] = snapshot.key
-            if (init) {
-                actions.getNotes({weekid: snapshot.key}).then(() => {
-                    actions.setYearWeeks({weeks: moment().isoWeeksInYear(weekObj.year)})
-                    actions.setWeek(weekObj)
-                    init = false
-                })
-            } else {
+            sessionStorage.setItem('weekid', snapshot.key)
+            actions.getNotes({weekid: snapshot.key}).then(() => {
                 actions.setYearWeeks({weeks: moment().isoWeeksInYear(weekObj.year)})
                 actions.setWeek(weekObj)
-            }
+                
+            })
             
         })
     }),
@@ -140,6 +135,7 @@ const weeksModel = {
         })
 
         const weekid = newWeek.key
+        sessionStorage.setItem('weekid', weekid)
 
         var updates = {}
         updates[`users/${uid}/years/${payload.year}`] = true
@@ -161,7 +157,6 @@ const weeksModel = {
         database.ref().update(updates, function (error) {
             
             actions.startWeekListener({
-                init: true,
                 type: 'SPECIFIC_WEEK',
                 year: payload.year,
                 weekNr: payload.weekNr
@@ -201,17 +196,27 @@ const weeksModel = {
     }),
     getNotes: thunk( async (actions, payload) => {
         const uid = store.getState().auth.uid
-
         var notes = await database.ref(`users/${uid}/notes/${payload.weekid}`).once('value')
         var indexNotes = await database.ref(`users/${uid}/indexNotes/${payload.weekid}`).once('value')
         var noteIndices = await database.ref(`users/${uid}/noteIndices/${payload.weekid}`).once('value')
         
+        
+        
         actions.setNotes({
+            weekid: payload.weekid,
             type: 'ALL',
             notes: notes.val(),
             indexNotes: indexNotes.val(),
             noteIndices: noteIndices.val()
         })
+    }),
+    updateFirebaseNotes: thunk(async (actions, payload) => {
+        const uid = store.getState().auth.uid
+        const weekid = sessionStorage.getItem('weekid')
+        var updates = {}
+        updates[`users/${uid}/noteIndices/${weekid}`] = payload.noteIndices
+        updates[`users/${uid}/notes/${weekid}`] = payload.notes
+        await database.ref().update(updates)
     }),
     setNotes: action((state, payload) => {
         switch(payload.type) {
@@ -330,6 +335,7 @@ const weeksModel = {
             }
         }
         actions.setNotes({
+            weekid: payload.weekid,
             type: 'ALL',
             noteIndices,
             notes,

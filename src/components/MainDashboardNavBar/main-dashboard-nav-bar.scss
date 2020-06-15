@@ -119,6 +119,7 @@
 .previous-week {
     height: $sizing-5;
     width: $sizing-9;
+    transition: 0.2s;
 }
 
 .previous-week:hover {
@@ -128,6 +129,7 @@
 }
 
 .next-week {
+    transition: 0.2s;
     height: $sizing-5;
     width: $sizing-9;
 }

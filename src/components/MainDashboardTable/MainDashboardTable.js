@@ -1,6 +1,6 @@
 // External imports
 import React, { useEffect, useState } from 'react'
-import { useStoreState } from 'easy-peasy'
+import { useStoreState, useStoreActions } from 'easy-peasy'
 
 // Internal imports 
 import Day from '../Day/Day'
@@ -14,7 +14,7 @@ import './main-dashboard-table.scss'
 const MainDashboardTable = ({ days, weekid }) => {
     
     
-
+    const updateFirebaseNotes = useStoreActions(actions => actions.weeks.updateFirebaseNotes)
     const notes = useStoreState(state => state.weeks.notes)
     const indexNotes = useStoreState(state => state.weeks.indexNotes)
     const noteIndices = useStoreState(state => state.weeks.noteIndices)
@@ -44,7 +44,14 @@ const MainDashboardTable = ({ days, weekid }) => {
         setLocalIndexNotes(indexNotes)
     }, [noteIndices, notes, indexNotes])
  
-    
+    const handleUpdateFirebaseNotes = () => {
+        updateFirebaseNotes({
+            notes,
+            noteIndices
+        })
+    }
+
+
     return (
         <div className="table-container">
             <TimeCell timeValues={timeValues}/>
@@ -63,6 +70,7 @@ const MainDashboardTable = ({ days, weekid }) => {
                         notes={localNotes[day]}
                         noteIndices={localNoteIndices[day]}
                         indexNotes={localIndexNotes[day]}
+                        updateFirebaseNotes={handleUpdateFirebaseNotes}
                    />
                    </div>
                )

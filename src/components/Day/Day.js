@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react'
 import { useStoreActions } from 'easy-peasy'
 import { useBeforeunload } from 'react-beforeunload';
 
+
+
 // Internal imports
 import './day.scss'
 import CategoryItem from '../CategoryItem/CategoryItem'
@@ -16,7 +18,8 @@ const Day = ({
     categories,
     notes,
     noteIndices,
-    indexNotes
+    indexNotes,
+    updateFirebaseNotes
 }) => {
     // Store actions
     const setNotes = useStoreActions(actions => actions.weeks.setNotes)
@@ -35,31 +38,32 @@ const Day = ({
     const [localNotes, setLocalNotes] = useState(false) 
     const [dragNoteObj, setDragNoteObj] = useState(false) 
     const [localNoteIndices, setLocalNoteIndices] = useState(false)
-    
 
-   useEffect(() => {
-    return () => {
+
+
+//    useEffect(() => {
+//     return () => {
         
-        updateNewNotes({
-            day, 
-            weekid,
-            localNoteIndices: noteIndices,
-            localNotes: notes
-         })
-    }
+//         updateNewNotes({
+//             day, 
+//             weekid,
+//             localNoteIndices: noteIndices,
+//             localNotes: notes
+//          })
+//     }
     
-   }, [])
+//    }, [])
     
     
-    useBeforeunload(() => {
+//     useBeforeunload(() => {
         
-        updateNewNotes({
-            day, 
-            weekid,
-            localNoteIndices,
-            localNotes
-         })
-    })
+//         updateNewNotes({
+//             day, 
+//             weekid,
+//             localNoteIndices,
+//             localNotes
+//          })
+//     })
 
     // Checks for updates of noteIndices and notes from the maindashboard 
     useEffect(() => {
@@ -90,8 +94,11 @@ const Day = ({
             notes: localNotes,
             day
         })
+        updateFirebaseNotes()
     }
-    
+  
+
+
     const handleSetLocalNoteIndices = (data) => {
         
         setLocalNoteIndices(data)
@@ -105,6 +112,7 @@ const Day = ({
         setDragNoteObj(data)
     }
     
+
     return (
         <div >
             {indexNotes && localNoteIndices && localNotes &&  categories.map((period, index) => {
