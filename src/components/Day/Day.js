@@ -94,7 +94,10 @@ const Day = ({
             notes: localNotes,
             day
         })
-        updateFirebaseNotes()
+        updateFirebaseNotes({
+            noteIndices,
+            notes
+        })
     }
   
 

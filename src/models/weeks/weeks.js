@@ -271,6 +271,7 @@ const weeksModel = {
             case 'UPDATE_NOTE':
                 var notes = store.getState().weeks.notes
                 notes[payload.day][payload.noteid] = payload.note
+                await database.ref(`users/${uid}/notes/${payload.weekid}/${payload.day}/${payload.noteid}`).set(payload.note)
                 actions.setNotes({
                     type: 'NOTES',
                     notes
