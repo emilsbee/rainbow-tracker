@@ -216,7 +216,7 @@ const weeksModel = {
         var updates = {}
         updates[`users/${uid}/noteIndices/${weekid}`] = payload.noteIndices
         updates[`users/${uid}/notes/${weekid}`] = payload.notes
-        await database.ref().update(updates)
+        return await database.ref().update(updates)
     }),
     setNotes: action((state, payload) => {
         switch(payload.type) {
@@ -335,12 +335,18 @@ const weeksModel = {
                 notes[payload.day][noteid] = ""
             }
         }
-        actions.setNotes({
-            weekid: payload.weekid,
-            type: 'ALL',
-            noteIndices,
-            notes,
-            indexNotes
+        actions.updateFirebaseNotes({
+            notes, 
+            noteIndices
+        }).then(() => {
+
+            actions.setNotes({
+                weekid: payload.weekid,
+                type: 'ALL',
+                noteIndices,
+                notes,
+                indexNotes
+            })
         })
 
     }),
