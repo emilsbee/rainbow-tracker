@@ -14,8 +14,9 @@ import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'
-
 require('dotenv').config()
+
+console.log(process.env)
 
 const store = createStore({
   auth: firebaseModel,
