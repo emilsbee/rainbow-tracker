@@ -14,9 +14,10 @@ import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'
+
+// Configuring environment variables
 require('dotenv').config()
 
-console.log(process.env)
 
 const store = createStore({
   auth: firebaseModel,
@@ -39,9 +40,11 @@ const renderApp = () => {
         hasRendered = true;
     }
 }
+
+// If nothin is being rendered, display loading page
 ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 
-firebase.auth().onAuthStateChanged( async(user) => {
+firebase.auth().onAuthStateChanged( async (user) => {
     if (user) {
         store.dispatch.auth.login(user.uid)
         store.dispatch.init.initialiseUser().then(() => {
