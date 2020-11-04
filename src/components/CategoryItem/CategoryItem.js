@@ -196,19 +196,16 @@ function CategoryItem  ({
 
 function areEqual (prevProps, nextProps) {
   
-  if (
-    prevProps.activity === nextProps.activity &&
-    prevProps.category === nextProps.category &&
-    (prevProps.day !== nextProps.dragDay &&
-    (prevProps.dragCategory === nextProps.dragCategory &&
-    prevProps.dragActivity === nextProps.dragActivity &&
-    JSON.stringify(prevProps.draggedCategories) === JSON.stringify(nextProps.draggedCategories))) &&
-    prevProps.weekid === nextProps.weekid 
-  ) {
-    return true
-  } else {
-    return false
-  }
+
+    return (
+      prevProps.activity === nextProps.activity &&
+      prevProps.category === nextProps.category &&
+      (prevProps.day !== nextProps.dragDay &&
+      (prevProps.dragCategory === nextProps.dragCategory &&
+      prevProps.dragActivity === nextProps.dragActivity &&
+      JSON.stringify(prevProps.draggedCategories) === JSON.stringify(nextProps.draggedCategories))) &&
+      prevProps.weekid === nextProps.weekid 
+    )
   
 }
 
