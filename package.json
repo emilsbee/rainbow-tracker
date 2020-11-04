@@ -6,7 +6,6 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "css-loader": "^3.5.3",
     "debounce": "^1.2.0",
     "easy-peasy": "^3.3.0",
     "enzyme": "^3.11.0",
@@ -14,8 +13,8 @@
     "firebase": "^7.14.2",
     "gh-pages": "^2.2.0",
     "moment": "^2.25.3",
-    "node-sass": "^4.14.1",
-    "react": "^16.13.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
     "react-beforeunload": "^2.2.1",
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
@@ -25,8 +24,7 @@
     "react-sticky-footer": "0.1.0-rc3",
     "react-test-renderer": "^16.13.1",
     "react-transition-group": "^1.2.1",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2"
+    "sass": "^1.26.5"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -50,7 +48,7 @@
       "since 2010"
     ]
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "description": "Laziness tracker.",
   "main": "index.js",
   "devDependencies": {
     "@babel/core": "^7.12.3",
@@ -59,10 +57,15 @@
     "@storybook/addon-links": "^6.0.28",
     "@storybook/node-logger": "^6.0.28",
     "@storybook/preset-create-react-app": "^3.1.4",
+    "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^6.0.28",
     "babel-loader": "^8.1.0",
     "chromatic": "^5.3.0",
-    "react-is": "^17.0.1"
+    "css-loader": "^5.0.0",
+    "node-sass": "4.14.1",
+    "react-is": "^17.0.1",
+    "sass-loader": "^10.0.5",
+    "style-loader": "^2.0.0"
   },
   "keywords": [],
   "author": "",
