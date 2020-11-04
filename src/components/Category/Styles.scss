@@ -1,0 +1,14 @@
+@import '../../styles/constants/settings.scss';
+@import './Constants.scss';
+
+
+.category-container {
+  height: $categoryHeight;
+  width: $categoryWidth;
+  background-color: $defaultBackground;
+  border-radius: 3px;
+}
+
+.category-container:hover {
+  cursor: pointer;
+}
