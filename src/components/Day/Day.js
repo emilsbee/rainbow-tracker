@@ -1,209 +1,114 @@
-// External imports
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import Category from '../Category/Category'
 import { useStoreActions } from 'easy-peasy'
-import { useBeforeunload } from 'react-beforeunload';
-
-
-
-// Internal imports
-import './day.scss'
-import CategoryItem from '../CategoryItem/CategoryItem'
 import Note from '../Note/Note'
+import { findStackExtremes } from './helpers'
 
 
+import './day.scss'
 
-const Day = ({
-    weekid,
-    day,
-    categories,
-    notes,
-    noteIndices,
-    indexNotes,
-    updateFirebaseNotes
-}) => {
-    // Store actions
-    const setNotes = useStoreActions(actions => actions.weeks.setNotes)
-    const updateNewNotes = useStoreActions(actions => actions.weeks.updateNewNotes)
-    const setTimeHoverIndex = useStoreActions(actions => actions.weeks.setTimeHoverIndex)
+function Day({activities, notes, day}) {
+    // Easy-peasy actions
+    const setActivity = useStoreActions(actions => actions.activities.setActivity)
+    const setNote = useStoreActions(actions => actions.activities.setNote)
 
-    // Local state for categories
-    const [dragDay, setDragDay] = useState(false)
-    const [dragCategory, setDragCategory] = useState("")
-    const [dragActivity, setDragActivity] = useState("")
-    const [draggedCategories, setDraggedCategories] = useState([])
-    
-
-    
-    // Local state for notes
-    const [localNotes, setLocalNotes] = useState(false) 
-    const [dragNoteObj, setDragNoteObj] = useState(false) 
-    const [localNoteIndices, setLocalNoteIndices] = useState(false)
+    const [img, setImg] = useState(null)
+    useEffect(() => {    
+        // Initialise the drag "ghost" transparent image
+        let dragImg = new Image(0,0);
+        dragImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        setImg(dragImg)
+    }, [])
 
 
-
-//    useEffect(() => {
-//     return () => {
-        
-//         updateNewNotes({
-//             day, 
-//             weekid,
-//             localNoteIndices: noteIndices,
-//             localNotes: notes
-//          })
-//     }
-    
-//    }, [])
-    
-    
-//     useBeforeunload(() => {
-        
-//         updateNewNotes({
-//             day, 
-//             weekid,
-//             localNoteIndices,
-//             localNotes
-//          })
-//     })
-
-    // Checks for updates of noteIndices and notes from the maindashboard 
-    useEffect(() => {
-        setLocalNotes(notes)
-        setLocalNoteIndices(noteIndices)
-    }, [noteIndices, notes])
-
-
-    // Checks for a change in the dragNote
-    // This is necessary because when a component unmounts it no longer 
-    // can perform onDragEnd, hence every time the drag note changes 
-    // the dragend listener is attached to the new DOM node 
-    useEffect(() => {
-        if (dragNoteObj !== false) {
-            // Finds the DOM node with current dragNote id 
-            var el = document.getElementById(`${dragNoteObj.day}_${dragNoteObj.index}`)
-            
-            // Attaches a listener to the current dragNote node
-            el.addEventListener('dragend', handleDragEnd)
-        }
-    }, [dragNoteObj])
-    
-
-    function handleDragEnd () {
-        setNotes({
-            type: 'SPECIAL',
-            noteIndices: localNoteIndices,
-            notes: localNotes,
-            day
-        })
-        updateFirebaseNotes({
-            noteIndices,
-            notes
-        })
-    }
-  
-
-
-    const handleSetLocalNoteIndices = (data) => {
-        
-        setLocalNoteIndices(data)
-    }
- 
-    const handleSetLocalNotes = (data) => {
-        setLocalNotes(data)
-    }
-
-    const handleSetDragNoteObj = (data) => {
-        setDragNoteObj(data)
+    // Category logic
+    const onCategoryDragStart = (e, activity) => {
+        e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
+        // Sets the drag note null (local state) to not interfere 
+        //with notes when dragging categories and going over notes
+        setDragNote(null) 
+        setActivity({activity}) // Sets the activity 
     }
     
+    // Note logic
+    const [dragNote, setDragNote] = useState(null)
+    
+    const onNoteDragStart = (e, note) => {
+        e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
+        setDragNote(note) // Sets the initial drag note (local state)
+    }
 
-    return (
-        <div >
-            {indexNotes && localNoteIndices && localNotes &&  categories.map((period, index) => {
-                
-                var noteid = indexNotes[index]
-                var noteText = localNotes[noteid]
-                
-                // Variable for determening if a note is with lowest index, henceforth must be rendered
-                var isFirst = false
-                
-                // Variable for holding the integer values of indices of the current note
-                var notesIndices = []
-                         
-                if (localNoteIndices[noteid]) {
-                    // Iterting through the indices and pushing their integer version to the notesIndices array
-                    Object.keys(localNoteIndices[noteid]).forEach((i) => {
-
-                        notesIndices.push(parseInt(i))
+    const onNoteDragEnter = (note) => {
+        if (dragNote) { // Checks if the dragging comes from a note rather than a category
+            const dragExtremes = findStackExtremes(notes, dragNote.stackid)
+            const noteExtremes = findStackExtremes(notes, note.stackid)
+            if (noteExtremes.min === dragExtremes.max+1 || noteExtremes.max === dragExtremes.min - 1) { // Checks if the note dragged onto is one above or below the note being dragged
+                if (note.position < dragNote.position) { // If the note is being dragged upwards 
+                    // Edits the note above to have stackid of drag note. 
+                    // If the note above is a stack it updates the lowest note, meaning the one closest to drag note. 
+                    setNote({
+                        stackid: dragNote.stackid, 
+                        position: noteExtremes.max, 
+                        day: note.day,
+                        note: dragNote.note
+                    }) 
+                } else { // If the note is being dragged downwards
+                    // Edits the note below to have stackid of drag note. 
+                    // If the note below is a stack, it updates the most upper one, meaning the one closest to drag note.
+                    setNote({
+                        stackid: dragNote.stackid, 
+                        position: note.position, 
+                        day: note.day,
+                        note: dragNote.note
                     })
-
-                    // determening whether the note's index is lowest in its indices
-                    if (Math.min(...notesIndices) === index) {
-                            isFirst = true
-                    } 
                 }
-                
-                return (
-                    <div key={index} className="category-note-container" onMouseEnter={() => setTimeHoverIndex({index})}>
-                        <CategoryItem 
-                            className="category-cell"
-                            weekid={weekid} 
-                            day={day} 
-                            index={index} 
-                            category={period.category}
-                            activity={period.activity}
-                            setDragCategory={setDragCategory}
-                            dragCategory={dragCategory}
-                            dragActivity={dragActivity}
-                            setDragActivity={setDragActivity}
-                            draggedCategories={draggedCategories}
-                            setDraggedCategories={setDraggedCategories}
-                            setDragIndex={setTimeHoverIndex}
-                            dragDay={dragDay}
-                            setDragDay={setDragDay}
-                        >
-                        </CategoryItem>
-                        {isFirst && <Note 
-                            dragNoteObj={dragNoteObj}
-                            index={index}
-                            note={noteText} 
-                            noteid={noteid}s
-                            day={day}
-                            weekid={weekid}
-                            indices={notesIndices} 
-                            noteIndices={localNoteIndices}
-                            notes={localNotes}
-                            indexNotes={indexNotes}
-                            isDraggable={true}
-                            
-                            setDragIndex={setTimeHoverIndex}
-                            setDragNoteObj={handleSetDragNoteObj}
-                            setLocalNoteIndices={handleSetLocalNoteIndices}
-                            setLocalNotes={handleSetLocalNotes}
-                        />}
-                        </div>
-                )
+            }
+        }
+        
+    }
+    return (
+        <div className="day-container">
+            <div className="day-header">
+                {day}
+            </div>
 
-            })}
+            <div className="composition-container">
+                <div className="activity-container">
+                    {activities.map(activity => {
+                        return (
+                            <Category 
+                                key={activity.position} 
+                                activity={activity} 
+                                onClick={(activity) => setActivity({activity})} 
+                                onDragStart={(e, activity) => onCategoryDragStart(e, activity)}
+                                onDragEnter={(activity) => setActivity({activity})}
+                            />
+                        )
+                    })}
+                </div>
+                
+                <div className="note-container">
+                    {notes.map(note => {
+                        const {max, min} = findStackExtremes(notes, note.stackid)
+                        if (note.position === min) { // If the note is highest from notes with the same stackid 
+                            return (
+                                <Note 
+                                    key={note.position}
+                                    note={note}
+                                    max={max}
+                                    min={min}
+                                    onDragStart={onNoteDragStart}
+                                    onDragEnter={onNoteDragEnter}
+                                />
+                            )
+                        } else { // If the note is part of a stack but is not the upmost note
+                            return null
+                        }
+                    })}
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
-// function areEqual (prevProps, nextProps) {
-//     if (
-//       prevProps.weekid === nextProps.weekid &&
-//       prevProps.day === nextProps.day &&
-//       JSON.stringify(prevProps.categories) === JSON.stringify(nextProps.categories) &&
-//       JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) &&
-//       JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
-//       JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) 
-//     ) {
-//       return true
-//     } else {
-//       return false
-//     }
-    
-//   }
-
-// export default React.memo(Day, areEqual)
-
-export default Day
+export default Day;

@@ -35,7 +35,8 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public --no-dll",
     "build-storybook": "build-storybook -s public --no-dll",
-    "chromatic": "npx chromatic --project-token bbaof2oakdl"
+    "chromatic": "npx chromatic --project-token bbaof2oakdl",
+    "create:component": "cd createReactComponent && yarn create:component"
   },
   "eslintConfig": {
     "extends": "react-app"

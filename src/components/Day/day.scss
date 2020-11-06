@@ -1,0 +1,33 @@
+$compositionWidth: 252px;
+$compositionHeight: 42px;
+
+$activityWidth: 40px;
+
+
+.day-container {
+    display: flex;
+    flex-direction: column;
+    width: $compositionWidth;
+    height: 462px;
+}
+
+.day-header {
+    height: $compositionHeight;
+    width: $compositionWidth;
+}
+
+.composition-container {
+    display: flex;
+    flex-direction: row;
+    width: $compositionWidth;
+}
+
+.activity-container {
+    width: $activityWidth;
+    display: flex;
+    flex-direction: column;
+}
+
+.note-container {
+    width: 212px;
+}

@@ -10,6 +10,7 @@ import firebaseModel from './models/firebase'
 import weeksModel from './models/weeks/weeks'
 import settingsModel from './models/settings'
 import initialiseModel from './models/initialise'
+import activitiesModel from './models/activities'
 import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
@@ -23,7 +24,8 @@ const store = createStore({
   auth: firebaseModel,
   weeks: weeksModel,
   settings: settingsModel,
-  init: initialiseModel
+  init: initialiseModel,
+  activities: activitiesModel
 })
 
 

@@ -1,4 +1,4 @@
-@import '../../styles/constants/settings.scss';
+@import '../../styles/base/settings.scss';
 @import './Constants.scss';
 
 
@@ -9,6 +9,6 @@
   border-radius: 3px;
 }
 
-.category-container:hover {
+.active:hover {
   cursor: pointer;
 }

@@ -1,16 +1,16 @@
 import React from 'react';
 
-import Category from './Category';
-import * as Activity from '../Activity/Activity.stories'
+import Activity from './Activity';
+
 
 export default {
-  component: Category,
-  title: 'Category',
+  component: Activity,
+  title: 'Activity',
 };
 
 const Template = (args) => {
     return(
-        <Category {...args} />
+        <Activity {...args} />
     )
 }
 
@@ -21,8 +21,9 @@ Default.args = {
 
 export const Filled = Template.bind({});
 Filled.args = {
-    color: 'red',
     categoryid: 'category1',
+    activityid: 'activity1',
+    short: 'pr'
 };
 
 export const Loading = Template.bind({});

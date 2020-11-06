@@ -1,104 +1,45 @@
-// External imports
-import React, { useEffect, useState } from 'react'
-import { useStoreState, useStoreActions } from 'easy-peasy'
-
-// Internal imports 
+import React, {useEffect} from 'react'
 import Day from '../Day/Day'
-import TimeCell from '../TimeCell/TimeCell'
-import {timeValues, weekDays} from '../../utils/staticData'
-import { orderByDays } from '../../utils/ordering'
-import './main-dashboard-table.scss'
+import { useStoreActions, useStoreState } from 'easy-peasy'
+import { createDayArrays, mapDayIndexToDay } from './helpers'
 
+function MainDashboardTable() {
+    const activities = useStoreState(state => state.activities.activities)
+    const notes = useStoreState(state => state.activities.notes)
+    const createNotes = useStoreActions(actions => actions.activities.createNotes)
 
-
-const MainDashboardTable = ({ days, weekid }) => {
-    
-    
-    const updateFirebaseNotes = useStoreActions(actions => actions.weeks.updateFirebaseNotes)
-    const notes = useStoreState(state => state.weeks.notes)
-    const indexNotes = useStoreState(state => state.weeks.indexNotes)
-    const noteIndices = useStoreState(state => state.weeks.noteIndices)
-
-    // Category/activtiy items
-    const [localWeek, setLocalWeek] = useState(false)
-   
-    // Notes
-    const [localNotes, setLocalNotes] = useState(false)
-    const [localIndexNotes, setLocalIndexNotes] = useState(false)
-    const [localNoteIndices, setLocalNoteIndices] = useState(false)
-    
-    
     useEffect(() => {
-        var currentWeek = {}
-            currentWeek["days"] = orderByDays(days)
-            currentWeek["weekid"] = weekid
-            setLocalWeek(currentWeek)
-    }, [days])
+        createNotes()
+    }, [])
 
-    
-    
-    useEffect(() => {
-        
-        setLocalNotes(notes)
-        setLocalNoteIndices(noteIndices)
-        setLocalIndexNotes(indexNotes)
-    }, [noteIndices, notes, indexNotes])
- 
-    const handleUpdateFirebaseNotes = () => {
-        updateFirebaseNotes({
-            notes,
-            noteIndices
-        })
+    if (notes.length === 0) {
+        return(
+            <div>
+                Loading
+            </div>
+        )
     }
-
 
     return (
-        <div className="table-container">
-            <TimeCell timeValues={timeValues}/>
-           {localWeek && localNoteIndices && localNotes && localIndexNotes && weekDays.map((day) => {
-               
-               
-               return (
-                   <div key={day} className="day-container">
-                       <div className="day-header">
-                           {day}
-                       </div>
-                   <Day 
-                        weekid={weekid}
-                        day={day}
-                        categories={localWeek.days[day]}
-                        notes={localNotes[day]}
-                        noteIndices={localNoteIndices[day]}
-                        indexNotes={localIndexNotes[day]}
-                        updateFirebaseNotes={handleUpdateFirebaseNotes}
-                   />
-                   </div>
-               )
-           })}
+        <div 
+            style={{
+                margin: '100px',
+                display: "flex",
+                flexDirection: "row"
+            }}
+        >
+            {[0,1,2,3,4,5,6].map((day) => {
+                return (
+                    <Day 
+                        key={day} 
+                        activities={createDayArrays(activities)[day]} 
+                        notes={createDayArrays(notes)[day]} 
+                        day={mapDayIndexToDay(day)}
+                    />
+                )
+            })}
         </div>
-    )
+    );
 }
 
-function areEqual (prevProps, nextProps) {
-    if (
-      prevProps.weekid === nextProps.weekid &&
-      JSON.stringify(prevProps.days) === JSON.stringify(nextProps.days) &&
-      JSON.stringify(prevProps.indexNotes) === JSON.stringify(nextProps.indexNotes) &&
-      JSON.stringify(prevProps.noteIndices) === JSON.stringify(nextProps.noteIndices) &&
-      JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
-    ) {
-      return true
-    } else {
-      return false
-    }
-    
-  }
-
-export default React.memo(MainDashboardTable, areEqual)
-
-// export default MainDashboardTable
-
-
-
-
-
+export default MainDashboardTable;

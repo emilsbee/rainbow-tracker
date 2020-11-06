@@ -59,18 +59,11 @@ const MainDashboard  = () => {
         <div>
             <NavBar />
             {currentWeek && <MainDashboardNavBar weekNr={currentWeek.weekNr} year={currentWeek.year} years={years} weeks={weeks} weekid={currentWeek.weekid}/>}
-            {currentWeek.days && notes && indexNotes && noteIndices && 
-                <MainDashboardTable 
-                    days={currentWeek.days} 
-                    weekid={currentWeek.weekid}
-                    notes={notes}
-                    indexNotes={indexNotes}
-                    noteIndices={noteIndices}
-                />
-            }
-            {currentWeek.days && notes && indexNotes && noteIndices && 
+
+            <MainDashboardTable />
+            {/* {currentWeek.days && notes && indexNotes && noteIndices && 
                 <Footer />
-            }
+            } */}
             
         </div>
     )

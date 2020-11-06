@@ -1,42 +1,31 @@
-// External imports
 import React from 'react'
-import PropTypes from 'prop-types'
 
-// Internal imports
-import './Styles.scss'
-import * as constants from'./Constants.scss'
+function Category({activity, onClick, onDragStart, onDragEnter}) {
 
-const Category = ({ categoryid, loading, onClick, onDragStart, color }) => {
-    
-    
 
-    if (loading) {
-        return (
-            <div className="category-container"/>
-        )
-    }
-
-    return (    
-        <div 
+    return (
+        <div   
+            onDragEnter={() => onDragEnter(activity)}
+            onDragStart={(e) => onDragStart(e, activity)}
             draggable={true}
-            onClick={() => console.log('click')}
-            onDragStart={(e) => console.log('drag start')}
-            onDragEnd={(e) => console.log('drag end')}
-            className="category-container"
+            onClick={() => onClick(activity)}
             style={{
-                backgroundColor: color ? color : constants.defaultBackground
+                width: '43px',
+                height: '20px',
+                backgroundColor: activity.color,
+                marginRight: '6px',
+                marginBottom: '2px'
             }}
-        />
-    )
+        >
+            {/* <div 
+                style={{
+                    width: '18px',
+                    height: '20px',
+                    backgroundColor: activity.color,
+                }}
+            /> */}
+        </div>
+    );
 }
 
-Category.propTypes = {
-    categoryid: PropTypes.string,
-    category: PropTypes.string,
-    loading: PropTypes.bool,
-    color: PropTypes.string,
-    onClick: PropTypes.func,
-    onDragStart: PropTypes.func
-};
-
-export default Category
+export default Category;

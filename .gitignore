@@ -26,3 +26,6 @@ yarn-error.log*
 
 .example-component.js
 .example-story.js
+
+createReactComponent/
+ext/

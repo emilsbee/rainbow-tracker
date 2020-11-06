@@ -1,0 +1,67 @@
+@import '../../styles/base/settings';
+@import './constants';
+
+@mixin note {
+    border: $noteBorder;
+    border-radius: $noteBorderRadius;
+    
+    width: $noteWidth;
+    
+    margin-bottom: $noteMarginBottom;
+    margin-left: $noteMarginLeft;
+    
+    padding-left: $notePaddingLeftRight;
+    padding-right: $notePaddingLeftRight;
+
+    font-weight: 300;
+    font-size: 13px;
+    color: $grey-9;
+    line-height: $noteHeight;
+}
+
+#note-container {
+    @include note();
+    
+    height: $noteHeight;
+    
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+#note-container:hover {
+    cursor: pointer;
+}
+
+
+#stack-container {
+    @include note();
+    // This odd combination (with WebkitLineClamp in Note.js) 
+    // produces the ellipsis in multiline text. The WebkitLineClamp
+    // specifies how many lines of text should the text take, which 
+    // is basically the amount of notes since 1 line is set to be 
+    // the same height as a note. 
+    overflow-wrap: break-word;
+    display: -webkit-box;   
+    -webkit-box-orient: vertical;     
+    overflow: hidden; 
+}
+
+#stack-container:hover {
+    cursor: pointer;
+}
+
+// .note-modal-wrapper { 
+//     position: absolute; /* Stay in place */
+//     z-index: 1000; /* Sit on top */
+//     left: 0;
+//     top: 0;
+//     width: 100%; /* Full width */
+//     height: 100%; /* Full height */
+//     overflow: auto; /* Enable scroll if needed */
+//     background-color: rgb(0,0,0); /* Fallback color */
+//     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
