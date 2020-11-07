@@ -50,7 +50,7 @@ function Day({activities, notes, day}) {
                         stackid: dragNote.stackid, 
                         position: noteExtremes.max, 
                         day: note.day,
-                        note: dragNote.note
+                        note: dragNote.note,
                     }) 
                 } else { // If the note is being dragged downwards
                     // Edits the note below to have stackid of drag note. 
@@ -59,7 +59,7 @@ function Day({activities, notes, day}) {
                         stackid: dragNote.stackid, 
                         position: note.position, 
                         day: note.day,
-                        note: dragNote.note
+                        note: dragNote.note,
                     })
                 }
             }
@@ -87,7 +87,7 @@ function Day({activities, notes, day}) {
                     })}
                 </div>
                 
-                <div className="note-container">
+                <div className="note-container" style={{width: '115px', display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems: 'center'}}>
                     {notes.map(note => {
                         const {max, min} = findStackExtremes(notes, note.stackid)
                         if (note.position === min) { // If the note is highest from notes with the same stackid 
@@ -111,4 +111,13 @@ function Day({activities, notes, day}) {
     );
 }
 
-export default Day;
+
+
+const areEqual = (prevProps, nextProps) => {
+    return (
+        JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
+        && JSON.stringify(prevProps.activities) === JSON.stringify(nextProps.activities)
+    )
+}
+
+export default React.memo(Day, areEqual);

@@ -13,3 +13,8 @@ export const removePX = (str) => {
 export const getStackHeight = (max, min, height, marginBottom) => {
     return `${((max-min+1)*removePX(height))+((max-min)*removePX(marginBottom))}px`
 }
+
+export const CONSTANTS = {
+    NOTE_HEIGHT: '20px',
+    NOTE_MARGIN_BOTTOM: '2px' 
+}

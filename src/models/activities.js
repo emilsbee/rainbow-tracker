@@ -217,13 +217,13 @@ export default {
     createNotes: action((state, payload) => {
         let notes = []
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        days.forEach(day => {
+        days.forEach((day, index) => {
             for (var i = 1; i < 97; i++) {
                 notes.push({
                     day,
                     position: i,
                     note:'',
-                    stackid: uuidv4()
+                    stackid: uuidv4(),
                 })
             }
         })
@@ -231,6 +231,7 @@ export default {
     }),
     setNote: action((state, payload) => {
         // payload: {position, day, stackid, note}
+        
         state.notes.forEach((note, index) => {
             if (note.position === payload.position && note.day === payload.day) {
                 state.notes[index].stackid = payload.stackid
