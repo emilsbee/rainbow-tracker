@@ -1,6 +1,9 @@
+// External imports
 import React, { useEffect, useState } from 'react'
-import Category from '../Category/Category'
 import { useStoreActions } from 'easy-peasy'
+
+// Internal imports
+import Category from '../Category/Category'
 import Note from '../Note/Note'
 import { findStackExtremes } from './helpers'
 
@@ -11,6 +14,7 @@ function Day({activities, notes, day}) {
     // Easy-peasy actions
     const setActivity = useStoreActions(actions => actions.activities.setActivity)
     const setNote = useStoreActions(actions => actions.activities.setNote)
+    
 
     const [img, setImg] = useState(null)
     useEffect(() => {    
@@ -24,12 +28,18 @@ function Day({activities, notes, day}) {
     // Category logic
     const onCategoryDragStart = (e, activity) => {
         e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
-        // Sets the drag note null (local state) to not interfere 
-        //with notes when dragging categories and going over notes
-        setDragNote(null) 
         setActivity({activity}) // Sets the activity 
     }
     
+    const onCategoryDragEnter = (activity) => {
+        setActivity({activity})
+    }
+
+    const onCategoryClick = (activity) => {
+        setActivity({activity})
+    }
+
+
     // Note logic
     const [dragNote, setDragNote] = useState(null)
     
@@ -40,34 +50,49 @@ function Day({activities, notes, day}) {
 
     const onNoteDragEnter = (note) => {
         if (dragNote) { // Checks if the dragging comes from a note rather than a category
+            
             const dragExtremes = findStackExtremes(notes, dragNote.stackid)
             const noteExtremes = findStackExtremes(notes, note.stackid)
-            if (noteExtremes.min === dragExtremes.max+1 || noteExtremes.max === dragExtremes.min - 1) { // Checks if the note dragged onto is one above or below the note being dragged
-                if (note.position < dragNote.position) { // If the note is being dragged upwards 
-                    // Edits the note above to have stackid of drag note. 
-                    // If the note above is a stack it updates the lowest note, meaning the one closest to drag note. 
-                    setNote({
-                        stackid: dragNote.stackid, 
-                        position: noteExtremes.max, 
-                        day: note.day,
-                        note: dragNote.note,
-                    }) 
-                } else { // If the note is being dragged downwards
-                    // Edits the note below to have stackid of drag note. 
-                    // If the note below is a stack, it updates the most upper one, meaning the one closest to drag note.
-                    setNote({
-                        stackid: dragNote.stackid, 
-                        position: note.position, 
-                        day: note.day,
-                        note: dragNote.note,
-                    })
-                }
+
+            if (note.position < dragNote.position) { // If the note is being dragged upwards 
+
+                // Edits the note(s) above to have stackid and note text of drag note. 
+                // It is possible that this note is not right next to the drag note,
+                // if that's the case, the setNote action will take care of that and update 
+                // the notes inbetween drag note and the note dragged onto.
+                setNote({
+                    stackid: dragNote.stackid, 
+                    position: noteExtremes.max, 
+                    day: note.day,
+                    note: dragNote.note,
+                    max: dragExtremes.max, 
+                    min: dragExtremes.min,
+                    dragPosition: dragNote.position
+                }) 
+            } else { // If the note is being dragged downwards
+
+                // Edits the note below to have stackid of drag note. 
+                // If the note below is a stack, it updates the most upper one, meaning the one closest to drag note.
+
+                // Edits the note(s) below to have stackid and note text of drag note.
+                // It is possible that this note is not right next to the drag note, 
+                // if that's the case, the setNote action will take care of that and update 
+                // the notes inbetween drag note and the note dragged onto.
+                setNote({
+                    stackid: dragNote.stackid, 
+                    position: note.position, 
+                    day: note.day,
+                    note: dragNote.note,
+                    max: dragExtremes.max, 
+                    min: dragExtremes.min,
+                    dragPosition: dragNote.position
+                })
             }
         }
         
     }
     return (
-        <div className="day-container">
+        <div className="day-container" onDragEndCapture={() => setDragNote(null)}>
             <div className="day-header">
                 {day}
             </div>
@@ -79,9 +104,9 @@ function Day({activities, notes, day}) {
                             <Category 
                                 key={activity.position} 
                                 activity={activity} 
-                                onClick={(activity) => setActivity({activity})} 
-                                onDragStart={(e, activity) => onCategoryDragStart(e, activity)}
-                                onDragEnter={(activity) => setActivity({activity})}
+                                onClick={onCategoryClick} 
+                                onDragStart={onCategoryDragStart}
+                                onDragEnter={onCategoryDragEnter}
                             />
                         )
                     })}

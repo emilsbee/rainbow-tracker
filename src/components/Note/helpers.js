@@ -14,7 +14,9 @@ export const getStackHeight = (max, min, height, marginBottom) => {
     return `${((max-min+1)*removePX(height))+((max-min)*removePX(marginBottom))}px`
 }
 
+// These values also have to be changed in the ./Styles.scss file
 export const CONSTANTS = {
-    NOTE_HEIGHT: '20px',
+    NOTE_HEIGHT: '22px',
     NOTE_MARGIN_BOTTOM: '2px' 
 }
+

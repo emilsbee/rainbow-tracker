@@ -9,9 +9,6 @@ import { getStackHeight, CONSTANTS } from './helpers'
 export const exportHeight = constants.noteHeight
 
 const Note = ({note, max, min, onDragStart, onDragEnter}) => {
-    // const height = constants.noteHeight
-    // const marginBottom = constants.noteMarginBottom
-    
 
     if (max === min) {
         return (
@@ -19,7 +16,7 @@ const Note = ({note, max, min, onDragStart, onDragEnter}) => {
             id="note-container"
             draggable={true}
             onDragStart={(e) => onDragStart(e, note)}
-            onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
+            // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
             onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
         >
                 {note.note}
@@ -35,7 +32,7 @@ const Note = ({note, max, min, onDragStart, onDragEnter}) => {
             }}
             draggable={true}
             onDragStart={(e) => onDragStart(e, note)}
-            onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
+            // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
             onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
         >
                 {note.note}
