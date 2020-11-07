@@ -1,5 +1,6 @@
 import { action, debug } from 'easy-peasy'
 import { v4 as uuidv4 } from 'uuid';
+import { findStackExtremes } from '../components/Day/helpers'
 
 export default {
     activities: [
@@ -253,16 +254,18 @@ export default {
                 state.notes[index].stackid = stackid // Updates stackid of the note provided
 
                 if (position < payload.dragPosition) { // If the note dragged onto is above the drag note
-                    state.notes[index].note = note // Update note text to the new note which is above drag note
-
+                    
+                    
+                    
                     // Remove the note text from all other notes from the note stack
                     state.notes.forEach((nt,i) => {
-                        if (nt.stackid === stackid && nt.day === payload.day && nt.position !== position) {
+                        if (nt.stackid === payload.stackid && nt.day === payload.day && i !== index) {
                             state.notes[i].note = ""
                         }
                     })
+                    state.notes[index].note = note // Update note text to the new note which is above drag note
                 } else { // If the note dragged onto is below the drag note
-
+                    
                     // Remove the note text from all other notes from the note stack except the highest one
                     state.notes.forEach((nt,i) => {
                         if (nt.stackid === stackid && nt.day === payload.day && nt.position !== payload.dragPosition) {
@@ -276,7 +279,7 @@ export default {
             const notesToUpdate = []
     
             if (payload.position > payload.max+1) { // If the not dragged onto is lower than the note just below drag note
-    
+                
                 // Finds notes that have to be updated starting from the note dragged onto  
                 // and up till the drag note (not included)
                 for (let p = payload.dragPosition + 1; p < payload.position + 1; p++) {
@@ -309,7 +312,28 @@ export default {
                 // Finds the note and replaces it with the stackid and note of drag note
                 state.notes.forEach((note, index) => {
                     if (note.position === payload.position && note.day === payload.day) {
-                        updateNote(index, payload.stackid, payload.note, note.position) 
+                        // updateNote(index, payload.stackid, payload.note, note.position) 
+                        
+                        // if (payload.max !== payload.min) { // If the note is a stack note
+                        //     if (payload.position <= payload.dragPosition) { // If the note position value is the same or lower than the drag position (on the screen thiss would mean above drag note)
+                        //         state.notes[index].note = payload.note
+                        //         state.notes[index].stackid = payload.stackid
+
+                        //         state.notes.forEach((nt,i) => {
+                        //             if (nt.stackid === payload.stackid && nt.day === payload.day && i !== index) {
+                        //                 console.log('replaced')
+                        //                 state.notes[i].note = ""
+                        //             }
+                        //         })
+                        //     } 
+                        // }  else { // If the note is a singular note
+                            
+                            
+                        // }
+                        if (payload.position <= payload.dragPosition) { // If the note position value is the same or lower than the drag position (on the screen thiss would mean above drag note)
+                            state.notes[index].note = payload.note
+                        } 
+                        state.notes[index].stackid = payload.stackid 
                     }
                 });
             }
@@ -339,9 +363,13 @@ export default {
         });
     }),
     deleteNoteStack: action((state, payload) => {
+        const {min} = findStackExtremes(debug(state.notes), payload.stackid)
         state.notes.forEach((note, index) => {
             if (note.stackid === payload.stackid && note.day === payload.day) {
                 state.notes[index].stackid = uuidv4()
+                if (note.position !== min) {
+                    state.notes[index].note = ""
+                } 
             }
         });
     })

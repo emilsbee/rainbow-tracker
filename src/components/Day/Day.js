@@ -44,7 +44,8 @@ function Day({activities, notes, day}) {
     const onNoteDeleteStack = (note) => {
         deleteNoteStack({
             day: note.day,
-            stackid: note.stackid
+            stackid: note.stackid,
+            note: note.note
         })
         setNoteModalData(false)
     }
@@ -100,7 +101,8 @@ function Day({activities, notes, day}) {
                     note: dragNote.note,
                     max: dragExtremes.max, 
                     min: dragExtremes.min,
-                    dragPosition: dragNote.position
+                    dragPosition: dragNote.position,
+                    draggedIntoNoteStackid: note.stack
                 }) 
             } else { // If the note is being dragged downwards
 
@@ -118,7 +120,8 @@ function Day({activities, notes, day}) {
                     note: dragNote.note,
                     max: dragExtremes.max, 
                     min: dragExtremes.min,
-                    dragPosition: dragNote.position
+                    dragPosition: dragNote.position,
+                    draggedIntoNoteStackid: note.stack
                 })
             }
         }
