@@ -5,26 +5,20 @@ import onClickOutside from "react-onclickoutside";
 // Internal imports 
 import './note-modal.scss'
 
-function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, indices,handleMouseDown})  {
+function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
     
 
     const [localNote, setLocalNote] = useState('')
 
     useEffect(() => {
-        
-        setLocalNote(note)
+        setLocalNote(note.note)
     }, [note])
-
-    const handleDeleteNoteStack = () => {
-        handleMouseDown({button: 1, preventDefault: () => {}})
-        closeModal()        
-    }
-
+    
 
     NoteModal.handleClickOutside = (localNote) => {
         var textareaText = localNote.target.children[0].children[0].children[0].value
-        closeModal(textareaText)
-        saveNote({note: textareaText, noteid, day})
+        note.note = textareaText
+        saveNote(note)
     }
 
     const handleNoteChange = (e) => {
@@ -33,13 +27,12 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
     
     const handleKeyDown = (e) => {
         if(e.which === 13 && !e.shiftKey) {        
-                      
-            closeModal(localNote)
-            saveNote({note: localNote, noteid, day})
+            note.note = localNote
+            saveNote(note)
             e.preventDefault();
         } else if (e.keyCode === (27)) {
-            closeModal(localNote)
-            saveNote({note: localNote, noteid, day})
+            note.note = localNote
+            saveNote(note)  
         }   
     }
 
@@ -57,15 +50,24 @@ function NoteModal  ({ closeModal, note, saveNote, noteid, day, index, weekid, i
                     />
                 </div>
                 <div>
-                    { indices.length > 1 && <div className="note-modal-button-container">
-                            <div 
-                                className="note-modal-delete-button"  
-                                onClick={handleDeleteNoteStack}
-                            >
-                                Delete
-                            </div>
-                        </div>
-                    }
+                     <div className="note-modal-button-container">
+                            {stack && 
+                                <div 
+                                    className="note-modal-delete-button"  
+                                    onClick={() => deleteStack(note)}
+                                >
+                                    Delete stack
+                                </div>
+                            }
+                                <div 
+                                    className="note-modal-delete-button"  
+                                    onClick={() => deleteText(note)}
+                                >
+                                    Delete text
+                                </div>
+
+                    </div>
+                    
                 </div>
             </div>
         

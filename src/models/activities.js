@@ -249,9 +249,27 @@ export default {
             state.setNoteCachedValues.dragPosition !== payload.dragPosition 
         ) {
             // Updates a note's stackid and the note text
-            const updateNote = (index, stackid, note) => {
-                state.notes[index].stackid = stackid
-                state.notes[index].note = note 
+            const updateNote = (index, stackid, note, position) => {
+                state.notes[index].stackid = stackid // Updates stackid of the note provided
+
+                if (position < payload.dragPosition) { // If the note dragged onto is above the drag note
+                    state.notes[index].note = note // Update note text to the new note which is above drag note
+
+                    // Remove the note text from all other notes from the note stack
+                    state.notes.forEach((nt,i) => {
+                        if (nt.stackid === stackid && nt.day === payload.day && nt.position !== position) {
+                            state.notes[i].note = ""
+                        }
+                    })
+                } else { // If the note dragged onto is below the drag note
+
+                    // Remove the note text from all other notes from the note stack except the highest one
+                    state.notes.forEach((nt,i) => {
+                        if (nt.stackid === stackid && nt.day === payload.day && nt.position !== payload.dragPosition) {
+                            state.notes[i].note = ""
+                        }
+                    })
+                }
             }
     
             // Array for notes that have to be updated
@@ -268,7 +286,7 @@ export default {
                 // Updates notes from notesToUpdate array with the stackid and note of drag note
                 state.notes.forEach((note,index) => {
                     if (notesToUpdate.includes(note.position) && note.day === payload.day) {
-                        updateNote(index, payload.stackid, payload.note)
+                        updateNote(index, payload.stackid, payload.note, note.position)
                     }
                 })
             } else if (payload.position < payload.min-1) { // If the note dragged onto is higher than the note just above drag onto
@@ -282,7 +300,7 @@ export default {
                 // Updates notes from notesToUpdate array with the stackid and note of drag note
                 state.notes.forEach((note,index) => {
                     if (notesToUpdate.includes(note.position) && note.day === payload.day) {
-                        updateNote(index, payload.stackid, payload.note)
+                        updateNote(index, payload.stackid, payload.note, note.position)
                     }
                 })
                 
@@ -291,7 +309,7 @@ export default {
                 // Finds the note and replaces it with the stackid and note of drag note
                 state.notes.forEach((note, index) => {
                     if (note.position === payload.position && note.day === payload.day) {
-                        updateNote(index, payload.stackid, payload.note) 
+                        updateNote(index, payload.stackid, payload.note, note.position) 
                     }
                 });
             }
@@ -303,9 +321,28 @@ export default {
             state.setNoteCachedValues.note = payload.note
             state.setNoteCachedValues.position = payload.position
         }
-       
-
-
+        
+    }),
+    setNoteText: action((state, payload) => {
+        // payload: {position, note, day}
+        state.notes.forEach((note, index) => {
+            if (note.position === payload.position && note.day === payload.day) {
+                state.notes[index].note = payload.note 
+            }
+        });
+    }),
+    deleteNoteText: action((state, payload) => {
+        state.notes.forEach((note, index) => {
+            if (note.position === payload.position && note.day === payload.day) {
+                state.notes[index].note = ""
+            }
+        });
+    }),
+    deleteNoteStack: action((state, payload) => {
+        state.notes.forEach((note, index) => {
+            if (note.stackid === payload.stackid && note.day === payload.day) {
+                state.notes[index].stackid = uuidv4()
+            }
+        });
     })
-    
 }

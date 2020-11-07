@@ -8,11 +8,12 @@ import { getStackHeight, CONSTANTS } from './helpers'
 
 export const exportHeight = constants.noteHeight
 
-const Note = ({note, max, min, onDragStart, onDragEnter}) => {
+const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown}) => {
 
     if (max === min) {
         return (
         <div
+            onClick={() => onClick(note)}
             id="note-container"
             draggable={true}
             onDragStart={(e) => onDragStart(e, note)}
@@ -30,6 +31,8 @@ const Note = ({note, max, min, onDragStart, onDragEnter}) => {
                 height: getStackHeight(max, min, CONSTANTS.NOTE_HEIGHT, CONSTANTS.NOTE_MARGIN_BOTTOM),
                 WebkitLineClamp: max-min+1
             }}
+            onClick={() => onClick(note)}
+            onMouseDown={(e) => onMouseDown(e, note)}
             draggable={true}
             onDragStart={(e) => onDragStart(e, note)}
             // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother

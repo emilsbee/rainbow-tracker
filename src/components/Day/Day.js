@@ -6,7 +6,7 @@ import { useStoreActions } from 'easy-peasy'
 import Category from '../Category/Category'
 import Note from '../Note/Note'
 import { findStackExtremes } from './helpers'
-
+import NoteModal from '../NoteModal/NoteModal'
 
 import './day.scss'
 
@@ -14,7 +14,40 @@ function Day({activities, notes, day}) {
     // Easy-peasy actions
     const setActivity = useStoreActions(actions => actions.activities.setActivity)
     const setNote = useStoreActions(actions => actions.activities.setNote)
+    const setNoteText = useStoreActions(actions => actions.activities.setNoteText)
+    const deleteNoteText = useStoreActions(actions => actions.activities.deleteNoteText)
+    const deleteNoteStack = useStoreActions(actions => actions.activities.deleteNoteStack)
     
+    // Note modal logic
+    const [noteModalData, setNoteModalData] = useState(false) 
+    const onNoteClick = (note) => {
+        setNoteModalData(note)
+    }
+
+    const onNoteSave = (note) => {
+        setNoteText({
+            position: note.position, 
+            day: note.day,
+            note: note.note,
+        }) 
+        setNoteModalData(false)
+    }
+
+    const onNoteDeleteText = (note) => {
+        deleteNoteText({
+            position: note.position, 
+            day: note.day
+        })
+        setNoteModalData(false)
+    }
+
+    const onNoteDeleteStack = (note) => {
+        deleteNoteStack({
+            day: note.day,
+            stackid: note.stackid
+        })
+        setNoteModalData(false)
+    }
 
     const [img, setImg] = useState(null)
     useEffect(() => {    
@@ -91,6 +124,18 @@ function Day({activities, notes, day}) {
         }
         
     }
+
+    // Delete note stack when mouse wheel is pressed on a stack
+    const onNoteMouseDown = (e, note) => {
+        const {max, min} = findStackExtremes(notes, note.stackid)
+        if (e.button === 1 && (max!==min)) {
+            deleteNoteStack({
+                day: note.day,
+                stackid: note.stackid
+            })
+        }
+    }
+
     return (
         <div className="day-container" onDragEndCapture={() => setDragNote(null)}>
             <div className="day-header">
@@ -124,6 +169,8 @@ function Day({activities, notes, day}) {
                                     min={min}
                                     onDragStart={onNoteDragStart}
                                     onDragEnter={onNoteDragEnter}
+                                    onClick={onNoteClick}
+                                    onMouseDown={onNoteMouseDown}
                                 />
                             )
                         } else { // If the note is part of a stack but is not the upmost note
@@ -132,6 +179,19 @@ function Day({activities, notes, day}) {
                     })}
                 </div>
             </div>
+
+            {noteModalData && 
+                
+                <div id="note-modal-wrapper">
+                        <NoteModal 
+                            stack={findStackExtremes(notes, noteModalData.stackid).max !== findStackExtremes(notes, noteModalData.stackid).min}
+                            deleteStack={onNoteDeleteStack}
+                            deleteText={onNoteDeleteText}
+                            saveNote={onNoteSave}
+                            note={noteModalData}
+                        />
+                </div>
+            }
         </div>
     );
 }
