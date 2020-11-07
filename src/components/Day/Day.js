@@ -96,13 +96,15 @@ function Day({activities, notes, day}) {
                 // the notes inbetween drag note and the note dragged onto.
                 setNote({
                     stackid: dragNote.stackid, 
+                    oldStackid: note.stackid,
+                    oldNote: note.note,
                     position: noteExtremes.max, 
                     day: note.day,
                     note: dragNote.note,
                     max: dragExtremes.max, 
                     min: dragExtremes.min,
                     dragPosition: dragNote.position,
-                    draggedIntoNoteStackid: note.stack
+                    upwards: true
                 }) 
             } else { // If the note is being dragged downwards
 
@@ -115,13 +117,15 @@ function Day({activities, notes, day}) {
                 // the notes inbetween drag note and the note dragged onto.
                 setNote({
                     stackid: dragNote.stackid, 
+                    oldStackid: note.stackid,
+                    oldNote: note.note,
                     position: note.position, 
                     day: note.day,
                     note: dragNote.note,
                     max: dragExtremes.max, 
                     min: dragExtremes.min,
                     dragPosition: dragNote.position,
-                    draggedIntoNoteStackid: note.stack
+                    upwards: false
                 })
             }
         }

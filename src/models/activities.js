@@ -234,12 +234,15 @@ export default {
         stackid: '', day: '', dragPosition: 0, note: '', position: 0,
     },
     setNote: action((state, payload) => {
-        // payload: {stackid, position, day, note, max, min, dragPosition}
+        // payload: {stackid, position, day, note, max, min, dragPosition, oldStackid}
         // position: is the position of note dragged onto
         // note: is the note text of drag note
         // max: is the highest value of the drag note which is the lowest in order on screen
         // min: is the lowest value of the drag note which is the highest in order on screen
         // dragPosition: is the position value of drag note
+        // oldStackid: the stackid of note being dragged into
+        // oldNote: the note text of note being dragged into
+    
         
         
         if ( // Checks the current values with cached values and proceeds if they are different
@@ -254,8 +257,6 @@ export default {
                 state.notes[index].stackid = stackid // Updates stackid of the note provided
 
                 if (position < payload.dragPosition) { // If the note dragged onto is above the drag note
-                    
-                    
                     
                     // Remove the note text from all other notes from the note stack
                     state.notes.forEach((nt,i) => {
@@ -278,10 +279,10 @@ export default {
             // Array for notes that have to be updated
             const notesToUpdate = []
     
-            if (payload.position > payload.max+1) { // If the not dragged onto is lower than the note just below drag note
+            if (payload.position > payload.max+1) { // If the note dragged onto is more than one note lower than the drag note
                 
-                // Finds notes that have to be updated starting from the note dragged onto  
-                // and up till the drag note (not included)
+                // Finds notes that have to be updated starting from the drag note (not included)
+                // and up till the note dragged onto 
                 for (let p = payload.dragPosition + 1; p < payload.position + 1; p++) {
                     notesToUpdate.push(p)
                 }
@@ -290,6 +291,16 @@ export default {
                 state.notes.forEach((note,index) => {
                     if (notesToUpdate.includes(note.position) && note.day === payload.day) {
                         updateNote(index, payload.stackid, payload.note, note.position)
+
+                        // // Remove the note text from all other notes from the note stack except the highest one
+                        let {min, max} = findStackExtremes(debug(state.notes), payload.oldStackid)
+                        if (min !== max) {
+                            state.notes.forEach((nt,i) => {
+                                if (nt.stackid === payload.oldStackid && nt.day === payload.day && nt.position === min+1) {
+                                    state.notes[i].note = payload.oldNote 
+                                }
+                            })
+                        }
                     }
                 })
             } else if (payload.position < payload.min-1) { // If the note dragged onto is higher than the note just above drag onto
@@ -312,28 +323,19 @@ export default {
                 // Finds the note and replaces it with the stackid and note of drag note
                 state.notes.forEach((note, index) => {
                     if (note.position === payload.position && note.day === payload.day) {
-                        // updateNote(index, payload.stackid, payload.note, note.position) 
-                        
-                        // if (payload.max !== payload.min) { // If the note is a stack note
-                        //     if (payload.position <= payload.dragPosition) { // If the note position value is the same or lower than the drag position (on the screen thiss would mean above drag note)
-                        //         state.notes[index].note = payload.note
-                        //         state.notes[index].stackid = payload.stackid
-
-                        //         state.notes.forEach((nt,i) => {
-                        //             if (nt.stackid === payload.stackid && nt.day === payload.day && i !== index) {
-                        //                 console.log('replaced')
-                        //                 state.notes[i].note = ""
-                        //             }
-                        //         })
-                        //     } 
-                        // }  else { // If the note is a singular note
-                            
-                            
-                        // }
+                    
                         if (payload.position <= payload.dragPosition) { // If the note position value is the same or lower than the drag position (on the screen thiss would mean above drag note)
                             state.notes[index].note = payload.note
                         } 
                         state.notes[index].stackid = payload.stackid 
+                        let {min, max} = findStackExtremes(debug(state.notes), payload.oldStackid)
+                        if (min !== max) {
+                            state.notes.forEach((nt,i) => {
+                                if (nt.stackid === payload.oldStackid && nt.day === payload.day && nt.position === min+1) {
+                                    state.notes[i].note = payload.oldNote 
+                                }
+                            })
+                        }
                     }
                 });
             }
