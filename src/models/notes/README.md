@@ -1,23 +1,23 @@
-****Idea behind dragging notes****
+# Idea behind dragging notes
 
-**Drag start**
+## Drag start
 
 When the event listener onDragStart on one of the Note components detects drag, it fires the onNoteDragStart
 method within Day component. This method sets the drag image to transparent image to avoid ghost image, and then
 sets the dragNote as the local react state dragNote.
 
-**Drag enter**
+## Drag enter
 
-**Within components Day and Note**
+ ### Within components Day and Note
 
 When one of the notes detects a onDragOver event, it firess the onNoteDragEnter method
 within Day Component. This method determines whether the drag is coming from another note
 or a category component, then proceeds if it comes from another note. Then it decides whether the drag is upwards or downards, calling the 
 respective action aboveDifference or belowDifference from easy-peasy store notes model. 
 
-**Within easy-peasy store model notes**
+### Within easy-peasy store model notes
 
-*aboveDifference*
+#### aboveDifference
 
 This action has two main tasks
 
@@ -28,7 +28,7 @@ have the note text since no other note from the stack below it will have the tex
 
 2) Set the text to an empty string for all the notes below the note that was dragged onto, which is the highest note in the stack. 
 
-*belowDifference*
+#### belowDifference
 
 This action has three main tasks
 
@@ -39,7 +39,7 @@ This action has three main tasks
 3) If the note that was dragged onto is a stack note, then set the text of second highest note of the stack to the note text of note that was dragged into.
 
 
-**Paths of components/files mentioned in this documentation**
+## Paths of components/files mentioned in this documentation
 
 Day component `src/components/Day`
 
