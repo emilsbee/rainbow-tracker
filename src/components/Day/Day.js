@@ -91,10 +91,10 @@ function Day({activities, notes, day}) {
 
             if (note.position > dragExtremes.max) { // If drag downwards
                 belowDifference({
-                    position: note.position,
+                    draggedIntoPosition: note.position,
                     dragPosition: dragNote.position,
                     day: note.day,
-                    stackid: dragNote.stackid,
+                    dragStackid: dragNote.stackid,
                     oldStackid: note.stackid,
                     oldNote: note.note 
                 }) 
@@ -144,8 +144,12 @@ function Day({activities, notes, day}) {
                 </div>
                 
                 <div className="note-container" style={{width: '115px', display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems: 'center'}}>
-                    {notes.map(note => {
-                        const {max, min} = findStackExtremes(notes, note.stackid)
+                    
+                    
+                    {notes.map(note => { // Iterates over all notes from the day
+
+                        const {max, min} = findStackExtremes(notes, note.stackid) // Extremes of the note about to be rendered
+
                         if (note.position === min) { // If the note is highest from notes with the same stackid 
                             return (
                                 <Note 
@@ -170,7 +174,7 @@ function Day({activities, notes, day}) {
                 
                 <div id="note-modal-wrapper">
                         <NoteModal 
-                            stack={findStackExtremes(notes, noteModalData.stackid).max !== findStackExtremes(notes, noteModalData.stackid).min}
+                            stack={findStackExtremes(notes, noteModalData.stackid).max !== findStackExtremes(notes, noteModalData.stackid).min} // Determines whether note is a stack or not. True is stack, false otherwise
                             deleteStack={onNoteDeleteStack}
                             deleteText={onNoteDeleteText}
                             saveNote={onNoteSave}
@@ -183,7 +187,9 @@ function Day({activities, notes, day}) {
 }
 
 
-
+// Memoization of the Day component to prevent the many uncessary 
+// re-renders. This is because the data comes from parent component and all days
+// are updated when something changes in one day since in easy-peasy notes is one big array.  
 const areEqual = (prevProps, nextProps) => {
     return (
         JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
