@@ -7,6 +7,7 @@ import { createStore, StoreProvider } from 'easy-peasy'
 
 //Internal imports
 import firebaseModel from './models/firebase'
+import notesModel from './models/notes/notes'
 import weeksModel from './models/weeks/weeks'
 import settingsModel from './models/settings'
 import initialiseModel from './models/initialise'
@@ -25,7 +26,8 @@ const store = createStore({
   weeks: weeksModel,
   settings: settingsModel,
   init: initialiseModel,
-  activities: activitiesModel
+  activities: activitiesModel,
+  notes: notesModel
 })
 
 

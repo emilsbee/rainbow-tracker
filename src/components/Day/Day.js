@@ -13,10 +13,11 @@ import './day.scss'
 function Day({activities, notes, day}) {
     // Easy-peasy actions
     const setActivity = useStoreActions(actions => actions.activities.setActivity)
-    const setNote = useStoreActions(actions => actions.activities.setNote)
-    const setNoteText = useStoreActions(actions => actions.activities.setNoteText)
-    const deleteNoteText = useStoreActions(actions => actions.activities.deleteNoteText)
-    const deleteNoteStack = useStoreActions(actions => actions.activities.deleteNoteStack)
+
+    const setNote = useStoreActions(actions => actions.notes.setNote)
+    const setNoteText = useStoreActions(actions => actions.notes.setNoteText)
+    const deleteNoteText = useStoreActions(actions => actions.notes.deleteNoteText)
+    const deleteNoteStack = useStoreActions(actions => actions.notes.deleteNoteStack)
     
     // Note modal logic
     const [noteModalData, setNoteModalData] = useState(false) 

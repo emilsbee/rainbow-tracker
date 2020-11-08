@@ -5,8 +5,8 @@ import { createDayArrays, mapDayIndexToDay } from './helpers'
 
 function MainDashboardTable() {
     const activities = useStoreState(state => state.activities.activities)
-    const notes = useStoreState(state => state.activities.notes)
-    const createNotes = useStoreActions(actions => actions.activities.createNotes)
+    const notes = useStoreState(state => state.notes.notes)
+    const createNotes = useStoreActions(actions => actions.notes.createNotes)
 
     useEffect(() => {
         createNotes()
