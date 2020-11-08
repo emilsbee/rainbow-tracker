@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 // Internal imports
 import './Styles.scss'
 
-const Activity = ({  short, categoryid, activityid, loading, onClick }) => {
+const Activity = ({  short, categoryid, loading, onClick }) => {
 
     if (loading) {
         return (
@@ -15,8 +15,12 @@ const Activity = ({  short, categoryid, activityid, loading, onClick }) => {
 
     return (    
         <div 
-            className={`activity-container ${activityid && 'activity-container-active'}`}
-            onClick={() => activityid && console.log('click')}
+            className={`activity-container ${categoryid !== "" && 'activity-container-active'}`}
+            onClick={(e) => {
+                if (categoryid !== "") {
+                    onClick(e)
+                }
+            }}
         >
             {short}
         </div>
@@ -26,7 +30,6 @@ const Activity = ({  short, categoryid, activityid, loading, onClick }) => {
 Activity.propTypes = {
     short: PropTypes.string,
     categoryid: PropTypes.string,
-    activityid: PropTypes.string,
     loading: PropTypes.bool,
     onClick: PropTypes.func
 };

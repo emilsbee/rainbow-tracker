@@ -1,35 +1,37 @@
 $compositionWidth: 252px;
-$compositionHeight: 42px;
-
-$activityWidth: 40px;
-
+$activityWidth: 47px;
+$noteWidth: 121px;
 
 .day-container {
     display: flex;
     flex-direction: column;
-    width: $compositionWidth;
-    height: 462px;
+    margin-right: 45px;
 }
 
 .day-header {
-    height: $compositionHeight;
-    width: $compositionWidth;
+    height: 42px;
 }
 
 .composition-container {
     display: flex;
     flex-direction: row;
-    width: $compositionWidth;
+    align-items: flex-start;
 }
 
-.activity-container {
+.activity-outer-container {
     width: $activityWidth;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-.note-container {
-    width: 212px;
+.note-outer-container {
+    width: $noteWidth;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #note-modal-wrapper {

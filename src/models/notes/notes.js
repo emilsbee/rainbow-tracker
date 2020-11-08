@@ -5,7 +5,7 @@ import { findStackExtremes } from '../../components/Day/helpers'
 export default {
     notes: [],
     createNotes: action((state, payload) => {
-        let notes = []
+        const notes = []
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
         days.forEach((day, index) => {
             for (var i = 1; i < 97; i++) {
@@ -165,7 +165,7 @@ export default {
     }),
 
     setNoteText: action((state, payload) => {
-        // payload: {position, note, day}
+        // payload {position, note, day}
         state.notes.forEach((note, index) => {
             if (note.position === payload.position && note.day === payload.day) {
                 state.notes[index].note = payload.note 
@@ -173,6 +173,7 @@ export default {
         });
     }),
     deleteNoteText: action((state, payload) => {
+        // payload = {position, day}
         state.notes.forEach((note, index) => {
             if (note.position === payload.position && note.day === payload.day) {
                 state.notes[index].note = ""
@@ -180,6 +181,7 @@ export default {
         });
     }),
     deleteNoteStack: action((state, payload) => {
+        // payload = {stackid, day}
         const {min} = findStackExtremes(debug(state.notes), payload.stackid)
         state.notes.forEach((note, index) => {
             if (note.stackid === payload.stackid && note.day === payload.day) {

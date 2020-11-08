@@ -8,11 +8,12 @@ import Note from '../Note/Note'
 import { findStackExtremes } from './helpers'
 import NoteModal from '../NoteModal/NoteModal'
 
-import './day.scss'
+import './Styles.scss'
 
-function Day({activities, notes, day}) {
+function Day({categories, notes, day}) {
     // Easy-peasy actions
-    const setActivity = useStoreActions(actions => actions.activities.setActivity)
+    const setCategory = useStoreActions(actions => actions.activities.setCategory)
+    const categoryDragSet = useStoreActions(actions => actions.activities.categoryDragSet)
 
     const aboveDifference = useStoreActions(actions => actions.notes.aboveDifference)
     const belowDifference = useStoreActions(actions => actions.notes.belowDifference)
@@ -58,23 +59,34 @@ function Day({activities, notes, day}) {
         let dragImg = new Image(0,0);
         dragImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         setImg(dragImg)
+
+        setCategory({
+            position: 1,
+            day: 'Monday',
+            categoryid: 'cat1'
+        })
     }, [])
 
 
     // Category logic
-    const onCategoryDragStart = (e, activity) => {
+    const [dragCategory, setDragCategory] = useState(null)
+
+    const onCategoryDragStart = (e, category) => {
         e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
-        setActivity({activity}) // Sets the activity 
+        setDragCategory(category) // Sets the category 
     }
     
-    const onCategoryDragEnter = (activity) => {
-        setActivity({activity})
+    const onCategoryDragEnter = (category) => {
+        if (dragCategory) {
+            categoryDragSet({
+                dragPosition: dragCategory.position,
+                draggedIntoPosition: category.position,
+                day,
+                dragCategoryid: dragCategory.categoryid,
+                dragActivityid: dragCategory.activityid
+            })
+        }
     }
-
-    const onCategoryClick = (activity) => {
-        setActivity({activity})
-    }
-
 
     // Note logic
     const [dragNote, setDragNote] = useState(null)
@@ -123,19 +135,24 @@ function Day({activities, notes, day}) {
     }
 
     return (
-        <div className="day-container" onDragEndCapture={() => setDragNote(null)}>
+        <div 
+            className="day-container" 
+            onDragEndCapture={() => {
+                setDragNote(null)
+                setDragCategory(null)
+            }}
+        >
             <div className="day-header">
                 {day}
             </div>
 
             <div className="composition-container">
-                <div className="activity-container">
-                    {activities.map(activity => {
+                <div className="activity-outer-container">
+                    {categories.map(category => {
                         return (
                             <Category 
-                                key={activity.position} 
-                                activity={activity} 
-                                onClick={onCategoryClick} 
+                                key={category.position} 
+                                category={category} 
                                 onDragStart={onCategoryDragStart}
                                 onDragEnter={onCategoryDragEnter}
                             />
@@ -143,8 +160,7 @@ function Day({activities, notes, day}) {
                     })}
                 </div>
                 
-                <div className="note-container" style={{width: '115px', display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems: 'center'}}>
-                    
+                <div className="note-outer-container">
                     
                     {notes.map(note => { // Iterates over all notes from the day
 
@@ -193,7 +209,7 @@ function Day({activities, notes, day}) {
 const areEqual = (prevProps, nextProps) => {
     return (
         JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
-        && JSON.stringify(prevProps.activities) === JSON.stringify(nextProps.activities)
+        && JSON.stringify(prevProps.categories) === JSON.stringify(nextProps.categories)
     )
 }
 

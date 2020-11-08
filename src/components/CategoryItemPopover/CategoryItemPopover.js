@@ -1,55 +1,45 @@
 // External imports
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useStoreState } from 'easy-peasy'
 
 // Internal imports 
-import './category-item-popover.scss'
+import './Styles.scss'
 
 
 
-const CategoryItemPopover  = ({ onClick, handleCloseModal, mousePositionX, mousePositionY, offset }) => {
-    const colors = useStoreState(state => state.settings.categorySettings)  
-    const [cursorType, setCursorType] = useState(null)
+const CategoryItemPopover  = ({ onClick, handleCloseModal }) => {
+    const categories = useStoreState(state => state.settings.categorySettings)  
     
-    useEffect(() => {
-        setCursorType('pointer')
-    }, [])
     return (
         <div>
             <div 
                 className="popover-container" 
                 onMouseLeave={handleCloseModal} 
                 style={{
-                    "cursor": cursorType,
-                    "left": offset && '-43.5px'
+                    cursor: 'pointer' // To immediately set the cursor to pointer
                 }}
             >
-                {Object.keys(colors).map((category, index) => {
-                    
-                    return <div 
-                                className="color-square"  
-                                onClick={() => onClick(category)} 
-                                key={category} 
-                                style={{
-                                    "backgroundColor": colors[category].color,
-                                    "borderTopLeftRadius": index === 0  && '3px',
-                                    "borderTopRightRadius": index === 0  && '3px'
-                                }}
-                            />
-                        
+                {Object.keys(categories).map((categoryid, index) => { // iterates over categoryids
+                    return (
+                        <div 
+                            className="color-square"  
+                            key={categoryid} 
+                            onClick={() => onClick(categoryid)} 
+                            style={{
+                                "backgroundColor": categories[categoryid].color,
+                                "borderTopLeftRadius": index === 0  && '3px',
+                                "borderTopRightRadius": index === 0  && '3px'
+                            }}
+                        />
+                    )
                 })}
-                <div
-                    className="color-square"  
-                    onClick={() => onClick("")} 
-                    style={{
-                        "border": "none",
-                        "backgroundColor": "#ebebe0",
-                        "borderBottomLeftRadius": '3px',
-                        "borderBottomRightRadius": '3px'
-                    }}
-                >
 
-                </div>
+                {/* The default square at the bottom*/}
+                <div
+                    className="default-color-square"  
+                    onClick={() => onClick("")} 
+                />
+
             </div>
         </div>
     )

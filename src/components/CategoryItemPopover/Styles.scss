@@ -1,7 +1,8 @@
 @import '../../styles/base/settings';
 
 .popover-container {
-    left: -23.5px;
+    left: -50px;
+    top: -20px;
     border-radius: 3px;
     background-color: white;
     width: 32px;
@@ -12,12 +13,16 @@
     -moz-box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
     box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
 }
-
 .color-square {
     height: 22px;
     width: inherit;
-    
     border-bottom: solid 2px hsl(0, 0%, 90%);
-    
 }
 
+.default-color-square {
+    @extend .color-square;
+    border: none;
+    background-color: #ebebe0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}

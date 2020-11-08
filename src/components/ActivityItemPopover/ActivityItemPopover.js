@@ -1,57 +1,48 @@
 // External imports
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useStoreState } from 'easy-peasy'
 
 // Internal imports 
-import './activity-item-popover.scss'
+import './Styles.scss'
 
 
-const ActivityItemPopover  = ({ onClick, handleCloseModal, mousePositionY, category, mousePositionX }) => {
-    const activitySettings = useStoreState(state => state.settings.activitySettings)
-    const [cursorType, setCursorType] = useState(null)
+const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }) => {
+    const activities = useStoreState(state => state.settings.activitySettings)
     
-    useEffect(() => {
-        setCursorType('pointer')
-    }, [])  
-
     return (
-        <div style={{"position":"relative", "left":"-20px", "zIndex":"200"}}>
-        <div 
-            className="popover_container" 
-            onMouseLeave={handleCloseModal} 
-            style={{
-                "top": mousePositionY - 30,
-                "left": mousePositionX - 13, 
-                "cursor": cursorType, 
-            }}
-        >
-            {activitySettings[category] && Object.keys(activitySettings[category]).map((activityid, index) => {
-                
-                return <div 
-                            className="popover"
-                            onClick={() => onClick(activityid)} 
-                            key={activityid} 
-                            style={{
-                                "borderTopLeftRadius": index === 0  && '5px',
-                                "borderTopRightRadius": index === 0  && '5px'
-                            }}
-                        >
-                            {activitySettings[category][activityid].short}
-                        </div>
-                    
-            })}
+        <div>
             <div 
-                className="popover"
-                onClick={() => onClick("")} 
+                id="activity-popover-container" 
+                onMouseLeave={handleCloseModal} 
                 style={{
-                    "border": "none",
-                    "borderBottomLeftRadius": '5px',
-                    "borderBottomRightRadius": '5px'
+                    cursor: 'pointer' // To immediately set the cursor to pointer, 
                 }}
             >
-            
+                {Object.keys(activities).map((activityid, index) => { // iterates over activityids
+
+                    if (activities[activityid].categoryid === categoryid) { // checks that the activity belongs to current category
+                        return (
+                            <div 
+                                id="activity-popover-item"
+                                onClick={() => onClick(activityid)} 
+                                key={activityid} 
+                                style={{
+                                    "borderTopLeftRadius": index === 0  && '5px',
+                                    "borderTopRightRadius": index === 0  && '5px'
+                                }}
+                            >
+                                {activities[activityid].short}
+                            </div>
+                        )
+                    }
+                        
+                })}
+
+                <div 
+                    id="activity-popover-item-default"
+                    onClick={() => onClick("")} 
+                />
             </div>
-        </div>
         </div>
     )
 }

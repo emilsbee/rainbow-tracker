@@ -1,14 +1,29 @@
-@import '../../styles/base/settings.scss';
-@import './Constants.scss';
+// @import '../../styles/base/settings.scss';
 
+$defaultBackground: #D3D3D3;
+$categoryHeight: 22px;
+$categoryWidth: 20px;
 
-.category-container {
+#category-activity-container {
   height: $categoryHeight;
-  width: $categoryWidth;
-  background-color: $defaultBackground;
-  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2px;
 }
 
-.active:hover {
+#category-container {
+  height: $categoryHeight;
+  width: $categoryWidth;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+
+#category-container:hover {
   cursor: pointer;
+}
+
+:export {
+    defaultBackground: $defaultBackground;
+    categoryHeight: $categoryHeight;
+    categoryWidth: $categoryWidth;
 }

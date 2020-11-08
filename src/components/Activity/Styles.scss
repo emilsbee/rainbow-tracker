@@ -1,6 +1,7 @@
 @import '../../styles/base/settings.scss';
-@import './Constants.scss';
 
+$activityHeight: 22px;
+$activityWidth: 22px;
 
 .activity-container {
   height: $activityHeight;
@@ -29,4 +30,10 @@
     width: $activityWidth;
     background-color: #e6e6e6;
     border-radius: 3px;
+}
+
+
+:export {
+    categoryHeight: $activityHeight;
+    categoryWidth: $activityWidth;
 }

@@ -8,7 +8,16 @@ import { getStackHeight, CONSTANTS } from './helpers'
 
 export const exportHeight = constants.noteHeight
 
-const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown}) => {
+const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown, loading}) => {
+    
+    if (loading) {
+        return (
+            <div
+                id="note-container"
+                style={{backgroundColor: '#E0E0E0', border: '#E0E0E0 0.5px solid'}}
+            /> 
+        )
+    }
 
     if (max === min) {
         return (

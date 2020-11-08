@@ -1,11 +1,15 @@
 @import '../../styles/base/settings';
 
-.popover_container {
+
+#activity-popover-container {
+    left: -30px;
+    top: -20px;
+    position: relative;
     border-radius: 5px;
     background-color: white;
     width: 42px;
     align-items: center;
-    z-index: 100;
+    z-index: 200;
     -webkit-box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
     -moz-box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
     box-shadow: -4px 4px 15px -6px rgba(0,0,0,0.77);
@@ -13,7 +17,7 @@
 
 
 
-.popover {
+#activity-popover-item {
     font-weight: 300;
     font-size: $sizing-4;
     display: flex;
@@ -25,6 +29,13 @@
     width: 100%;
 }
 
-.popover:hover {
+#activity-popover-item:hover {
     background-color: hsl(0, 0%, 90%);
+}
+
+#activity-popover-item-default {
+    @extend #activity-popover-item;
+    border: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
