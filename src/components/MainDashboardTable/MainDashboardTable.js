@@ -12,11 +12,18 @@ function MainDashboardTable() {
 
 
     useEffect(() => {
-        createNotes()
-        createCategories()
+        // createNotes()
+        // createCategories()
+        
     }, [])
 
- 
+    if (categories.length === 0 || notes.length === 0) {
+        return (
+            <div>
+                Loading...
+            </div>
+        )
+    }
     
     return (
         <div 

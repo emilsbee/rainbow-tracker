@@ -4,6 +4,9 @@ import { findStackExtremes } from '../../components/Day/helpers'
 
 export default {
     notes: [],
+    setNotes: action((state, payload) => {
+        state.notes= payload.notes
+    }),
     createNotes: action((state, payload) => {
         const notes = []
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]

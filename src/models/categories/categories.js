@@ -3,6 +3,9 @@ import { action } from 'easy-peasy'
 export default {
     activities: [],
     categories: [],
+    setCategories: action((state, payload) => {
+        state.categories = payload.categories
+    }),
     setCategory: action((state, payload) => {
         // payload: {position, day, categoryid}
 

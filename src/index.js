@@ -10,8 +10,8 @@ import firebaseModel from './models/firebase'
 import notesModel from './models/notes/notes'
 import weeksModel from './models/weeks/weeks'
 import settingsModel from './models/settings'
-import initialiseModel from './models/initialise'
-import activitiesModel from './models/activities'
+import initialiseModel from './models/initialise/initialise'
+import categoriesModel from './models/categories/categories'
 import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
@@ -26,7 +26,7 @@ const store = createStore({
   weeks: weeksModel,
   settings: settingsModel,
   init: initialiseModel,
-  activities: activitiesModel,
+  activities: categoriesModel,
   notes: notesModel
 })
 
@@ -51,7 +51,7 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 
 firebase.auth().onAuthStateChanged( async (user) => {
     if (user) {
-        store.dispatch.auth.login(user.uid)
+        store.dispatch.auth.login(user.uid) // Updates the uid state in easy-peasy auth model
         store.dispatch.init.initialiseUser().then(() => {
             renderApp()
             if (history.location.pathname === '/') {

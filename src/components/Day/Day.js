@@ -59,12 +59,6 @@ function Day({categories, notes, day}) {
         let dragImg = new Image(0,0);
         dragImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         setImg(dragImg)
-
-        setCategory({
-            position: 1,
-            day: 'Monday',
-            categoryid: 'cat1'
-        })
     }, [])
 
 

@@ -12,51 +12,51 @@ import WeekDropdown from '../WeekDropdown/WeekDropdown'
 import YearDropdown from '../YearDropdown/YearDropdown'
 
 const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
-    const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
-    const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
+    // const startWeekListener = useStoreActions(actions => actions.weeks.startWeekListener)
+    // const stopWeekListener = useStoreActions(actions => actions.weeks.stopWeekListener)
     
     
-    const[isCurrentWeek, setIsCurrentWeek] = useState(true)
+    // const[isCurrentWeek, setIsCurrentWeek] = useState(true)
 
-    useEffect(() => {
-        if (weekNr !== moment().week() || year !== moment().year()) {
-                setIsCurrentWeek(false)
-        } else {
-            setIsCurrentWeek(true)
-        }
-    }, [year, weekNr])
+    // useEffect(() => {
+    //     if (weekNr !== moment().week() || year !== moment().year()) {
+    //             setIsCurrentWeek(false)
+    //     } else {
+    //         setIsCurrentWeek(true)
+    //     }
+    // }, [year, weekNr])
 
-    const handleYearDropdown = (e) => {
-            // stopWeekListener({weekid})
-            startWeekListener({type:'SPECIFIC_WEEK', year: e, weekNr: 1, weekid})
-    }
+    // const handleYearDropdown = (e) => {
+    //         // stopWeekListener({weekid})
+    //         startWeekListener({type:'SPECIFIC_WEEK', year: e, weekNr: 1, weekid})
+    // }
 
-    const handleWeekDropdown = (e) => {
-        // stopWeekListener({weekid})
-        startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
-    }       
+    // const handleWeekDropdown = (e) => {
+    //     // stopWeekListener({weekid})
+    //     startWeekListener({type:'SPECIFIC_WEEK', year, weekNr: e, weekid})
+    // }       
 
     
-    const handlePrevWeek = (e) => {
+    // const handlePrevWeek = (e) => {
     
-        // stopWeekListener({weekid})
-        startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})
-    }
+    //     // stopWeekListener({weekid})
+    //     startWeekListener({type: 'PREVIOUS_WEEK', weekNr, year, weekid})
+    // }
 
-    const handleNextWeek = (e) => {
+    // const handleNextWeek = (e) => {
     
-        // stopWeekListener({weekid})
-        startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})
-    }
+    //     // stopWeekListener({weekid})
+    //     startWeekListener({type: 'NEXT_WEEK', weekNr, year, weekid})
+    // }
 
-    const handleCurrentWeek = () => {
-        startWeekListener({type: 'CURRENT_WEEK', init: true})
-    }
+    // const handleCurrentWeek = () => {
+    //     startWeekListener({type: 'CURRENT_WEEK', init: true})
+    // }
 
     return (
         <div className="container">
 
-            <div className="banners" style={{"justifyContent": !isCurrentWeek ? 'space-between' : 'flex-end'}}>
+            {/* <div className="banners" style={{"justifyContent": !isCurrentWeek ? 'space-between' : 'flex-end'}}>
             {!isCurrentWeek && <button 
                 className="to-current-week"
                     onClick={handleCurrentWeek}
@@ -84,7 +84,7 @@ const MainDashboardNavBar = ({ weekNr, year, years, weeks, weekid }) => {
                     </div>
                     
                     
-            </div>
+            </div> */}
 
         </div>
     )
