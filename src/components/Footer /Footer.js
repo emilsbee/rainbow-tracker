@@ -4,7 +4,7 @@ import React from 'react'
 
 
 // Internal imports
-import './footer.scss'
+import './Styles.scss'
 
 
 

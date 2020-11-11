@@ -74,7 +74,7 @@ const initialiseModel = {
             
         }
 
-        setDate({date: weekNr, year})
+        setDate({date: {weekNr, year}})
     })
 }
 

@@ -1,6 +1,6 @@
 // External imports
-import React, { useEffect } from 'react'
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import React from 'react'
+import { useStoreState } from 'easy-peasy'
 
 
 
@@ -12,18 +12,16 @@ import NavBar from '../NavBar/NavBar'
 
 const MainDashboard  = () => {
     
-    
-
+    const currentDate = useStoreState(state => state.settings.currentDate)
     return (
         <div>
             <NavBar />
-            <MainDashboardNavBar weekNr={35} year={2020} years={[2020]} weeks={[35]} weekid={'weekid1'}/>
+            
+            <MainDashboardNavBar weekNr={currentDate.weekNr} year={currentDate.year}/>
 
             <MainDashboardTable />
-            {/* {currentWeek.days && notes && indexNotes && noteIndices && 
-                <Footer />
-            } */}
             
+            <Footer />
         </div>
     )
 }
