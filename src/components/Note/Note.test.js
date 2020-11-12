@@ -10,10 +10,10 @@ const note = {
     stackid: 'stackid1',
 }
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<Note note={note} max={2} min={1}/>, div);
-});
+// it('renders without crashing', () => {
+//   const div = document.createElement('div');
+//   ReactDOM.render(<Note note={note} max={2} min={1}/>, div);
+// });
 it('removePX should return correct integer value', () => {
     expect(removePX('1px')).toEqual(1)
     expect(removePX('10px')).toEqual(10)
