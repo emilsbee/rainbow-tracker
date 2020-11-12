@@ -16,6 +16,7 @@ const initialiseModel = {
         const setActivitySettings = store.getActions().settings.setActivitySettings
         const setCategorySettings = store.getActions().settings.setCategorySettings
         const setDate = store.getActions().settings.setDate
+        
 
         // Store state
         const uid = store.getState().auth.uid

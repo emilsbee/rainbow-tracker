@@ -5,8 +5,10 @@ import { thunk, action,  thunkOn } from "easy-peasy"
 
 
 const weeksModel = {
-
-    
+    currentWeekid: "",
+    setCurrentWeekid: action((state, payload) => {
+        state.currentWeekid = payload.currentWeekid
+    })
 }
 
 

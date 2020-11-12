@@ -3,6 +3,8 @@ import Day from '../Day/Day'
 import { useStoreActions, useStoreState } from 'easy-peasy'
 import { createDayArrays, mapDayIndexToDay } from './helpers'
 
+import LoadingPage from '../LoadingPage/LoadingPage'
+
 function MainDashboardTable() {
     const categories = useStoreState(state => state.activities.categories)
     const createCategories = useStoreActions(actions => actions.activities.createCategories)
@@ -19,16 +21,14 @@ function MainDashboardTable() {
 
     if (categories.length === 0 || notes.length === 0) {
         return (
-            <div>
-                Loading...
-            </div>
+            <LoadingPage />
         )
     }
     
     return (
         <div 
             style={{
-                margin: '100px',
+                margin: '60px',
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: 'center',

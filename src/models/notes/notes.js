@@ -1,6 +1,9 @@
-import { action, debug } from 'easy-peasy'
+import { action, debug, thunkOn } from 'easy-peasy'
 import { v4 as uuidv4 } from 'uuid';
 import { findStackExtremes } from '../../components/Day/helpers'
+import { store } from '../../index'
+import { debounce } from "debounce";
+import database from '../../components/firebase/firebase'
 
 export default {
     notes: [],
@@ -23,6 +26,40 @@ export default {
         state.notes = notes
     }),
    
+    syncToDb: thunkOn(
+        actions => [
+            actions.aboveDifference,
+            actions.belowDifference,
+            actions.deleteNoteStack,
+            actions.deleteNoteText,
+            actions.setNoteText
+        ],
+
+        debounce(
+            async function(actions, target) {
+                const uid = store.getState().auth.uid // user login id
+                const {weekNr, year} = store.getState().settings.currentDate // Get current weeknr and year
+                
+                const notes = store.getState().notes.notes // all current notes
+                
+                
+                const weekid = await database.ref(`users/${uid}/weekYearTable/${weekNr}_${year}`).once('value') // Fetching weekid value from firebase weekYearTable
+
+                const updates = {}
+                // Updates notes from the day that was dragged or updated in terms of text or 
+                //deleting stack, etc. See thunkOn target resolver function for the list of 
+                //actions this responds to.
+                notes.forEach((note, index) => {
+                    if (note.day === target.payload.day) {
+                        updates[`users/${uid}/notes/${weekid.val()}/${index}`] = note
+                    }
+                })
+                
+                await database.ref().update(updates)
+            }, 
+            200
+        ) 
+    ),
 
     // Cache values for above difference action
     aboveDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, day: '', dragStackid: '', dragNoteText: '' },
@@ -85,7 +122,7 @@ export default {
             state.aboveDifferenceCache.dragNoteText = dragNoteText
         }
 
-
+        return state.notes
     }),
 
     // Cache values for belowDifference action 
