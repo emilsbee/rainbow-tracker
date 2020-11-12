@@ -9,7 +9,8 @@ import Activity from '../Activity/Activity'
 import './Styles.scss'
 
 function Category({category, onDragStart, onDragEnter}) {
-    
+    const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
+
     const activitySettings = useStoreState(state => state.settings.activitySettings)
     const categorySettings = useStoreState(state => state.settings.categorySettings)
 
@@ -41,7 +42,7 @@ function Category({category, onDragStart, onDragEnter}) {
     }
     
     return (
-        <div id="category-activity-container">
+        <div id="category-activity-container" onMouseOver={() => setHoverIndex({timeHoverIndex: category.position-1})}>
             <div   
                 id="category-container"
                 onDragEnter={() => onDragEnter(category)}

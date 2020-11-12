@@ -3,6 +3,7 @@ import { thunk, action } from "easy-peasy"
 
 
 // Internal imports
+import { store } from '../index'
 import 
     database, 
     { 
@@ -26,12 +27,20 @@ const firebaseModel = {
             .once('value')
     }),
     startLoginWithGoogle: thunk(async (actions, payload) => {
-        await firebase.auth().signInWithPopup(googleAuthProvider)
+        await firebase.auth().signInWithRedirect(googleAuthProvider)
     }),
     login: action((state, payload) => {
         state.uid = payload
     }),
     startLogout: thunk(async (actions, payload) => {
+        const setNotes = store.getActions().notes.setNotes
+        const setCategories = store.getActions().activities.setCategories
+        const setActivitySettings = store.getActions().settings.setActivitySettings
+        const setCategorySettings = store.getActions().settings.setCategorySettings
+        setNotes({notes: []})
+        setCategories({categories: []})
+        setCategorySettings({categorySettings: null})
+        setActivitySettings({activitySettings: null})
         await firebase.auth().signOut()
     }),
     logout: action((state, payload) => {

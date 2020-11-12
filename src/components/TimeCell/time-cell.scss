@@ -1,7 +1,7 @@
 @import '../../styles/base/settings';
 
 .time-cell {
-    height: $line-height;
+    height: 22px;
     width: $sizing-7;
     margin: none;
     font-weight: 300;
@@ -16,7 +16,7 @@
 }
 
 .time-cell-thick {
-    height: $line-height;
+    height: 22px;
     width: $sizing-7;
     margin: none;
     font-weight: 300;
@@ -34,6 +34,6 @@
     width: $sizing-7;
     margin-right: $sizing-2;
     margin-left: $sizing-5;
-    margin-top: $line-height;
+    margin-top: 42px;
 }
 

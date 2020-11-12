@@ -7,7 +7,7 @@ import './time-cell.scss'
 
 const TimeCell  = ({ timeValues }) => {
     
-    const timeHoverIndex = useStoreState(state => state.weeks.timeHoverIndex)
+    const timeHoverIndex = useStoreState(state => state.settings.timeHoverIndex)
     
     return (
         <div className="time-cell-container" >

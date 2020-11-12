@@ -6,6 +6,11 @@ import { thunk, action } from "easy-peasy"
 
 
 const settingsModel = {
+    timeHoverIndex: false,
+    setHoverIndex: action((state, payload) => {
+        
+        state.timeHoverIndex = payload.timeHoverIndex
+    }),
     activitySettings: null,
     categorySettings: null,
     

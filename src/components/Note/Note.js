@@ -1,5 +1,6 @@
 // External imports
 import React from 'react'
+import { useStoreActions } from 'easy-peasy'
 
 // Internal imports
 import './Styles.scss'
@@ -9,7 +10,9 @@ import { getStackHeight, CONSTANTS } from './helpers'
 export const exportHeight = constants.noteHeight
 
 const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown, loading}) => {
-    
+    const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
+
+
     if (loading) {
         return (
             <div
@@ -22,6 +25,7 @@ const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown, l
     if (max === min) {
         return (
         <div
+            onMouseOver={() => setHoverIndex({timeHoverIndex: min-1})}
             onClick={() => onClick(note)}
             id="note-container"
             draggable={true}
@@ -35,6 +39,7 @@ const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown, l
     }
     return (
         <div
+            onMouseOver={() => setHoverIndex({timeHoverIndex: min-1})}
             id="stack-container"
             style={{ 
                 height: getStackHeight(max, min, CONSTANTS.NOTE_HEIGHT, CONSTANTS.NOTE_MARGIN_BOTTOM),

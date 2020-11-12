@@ -10,6 +10,10 @@ $noteWidth: 121px;
 
 .day-header {
     height: 42px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .composition-container {

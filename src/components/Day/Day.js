@@ -21,6 +21,9 @@ function Day({categories, notes, day}) {
     const deleteNoteText = useStoreActions(actions => actions.notes.deleteNoteText)
     const deleteNoteStack = useStoreActions(actions => actions.notes.deleteNoteStack)
     
+    const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
+
+
     // Note modal logic
     const [noteModalData, setNoteModalData] = useState(false) 
     const onNoteClick = (note) => {
@@ -68,6 +71,7 @@ function Day({categories, notes, day}) {
     const onCategoryDragStart = (e, category) => {
         e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
         setDragCategory(category) // Sets the category 
+        setHoverIndex({timeHoverIndex: category.position-1})
     }
     
     const onCategoryDragEnter = (category) => {
@@ -80,6 +84,7 @@ function Day({categories, notes, day}) {
                 dragActivityid: dragCategory.activityid
             })
         }
+        setHoverIndex({timeHoverIndex: category.position-1})
     }
 
     // Note logic
@@ -88,14 +93,16 @@ function Day({categories, notes, day}) {
     const onNoteDragStart = (e, note) => {
         e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
         setDragNote(note) // Sets the initial drag note (local state)
+        setHoverIndex({timeHoverIndex: note.position-1})
     }
 
     const onNoteDragEnter = (note) => {
         if (dragNote) { // Checks if the dragging comes from a note rather than a category
             const noteExtremes = findStackExtremes(notes, note.stackid)
             const dragExtremes = findStackExtremes(notes, dragNote.stackid)
-
+            
             if (note.position > dragExtremes.max) { // If drag downwards
+                setHoverIndex({timeHoverIndex: dragExtremes.max})
                 belowDifference({
                     draggedIntoPosition: note.position,
                     dragPosition: dragNote.position,
@@ -105,6 +112,7 @@ function Day({categories, notes, day}) {
                     oldNote: note.note 
                 }) 
             } else if (note.position < dragExtremes.min) { // If drag upwards
+                setHoverIndex({timeHoverIndex: dragExtremes.min-2})
                 aboveDifference({
                     draggedIntoPosition: noteExtremes.max,
                     dragPosition: dragNote.position,
@@ -114,7 +122,6 @@ function Day({categories, notes, day}) {
                 })
             }
         }
-        
     }
 
     // Delete note stack when mouse wheel is pressed on a stack
