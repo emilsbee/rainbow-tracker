@@ -20,7 +20,7 @@ const AppRouter = () => {
 
     return (
         <Router history={history}>
-            <div style={{"height":"100%"}}>
+            <div>
                 <Switch>
                         <PublicRoute path="/" component={LoginPage} exact={true}/>
                         <PrivateRoute path="/dashboard" component={MainDashboard}/>

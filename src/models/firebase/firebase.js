@@ -3,14 +3,14 @@ import { thunk, action } from "easy-peasy"
 
 
 // Internal imports
-import { store } from '../index'
+import { store } from '../../index'
 import 
     database, 
     { 
         firebase,
         googleAuthProvider
     } 
-from '../components/firebase/firebase'
+from '../../components/firebase/firebase'
 
 
 

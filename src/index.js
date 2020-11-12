@@ -6,10 +6,9 @@ import { createStore, StoreProvider } from 'easy-peasy'
 
 
 //Internal imports
-import firebaseModel from './models/firebase'
+import firebaseModel from './models/firebase/firebase'
 import notesModel from './models/notes/notes'
-import weeksModel from './models/weeks/weeks'
-import settingsModel from './models/settings'
+import settingsModel from './models/settings/settings'
 import initialiseModel from './models/initialise/initialise'
 import categoriesModel from './models/categories/categories'
 import { firebase } from './components/firebase/firebase'
@@ -23,7 +22,6 @@ require('dotenv').config()
 
 const store = createStore({
   auth: firebaseModel,
-  weeks: weeksModel,
   settings: settingsModel,
   init: initialiseModel,
   activities: categoriesModel,

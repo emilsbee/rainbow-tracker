@@ -1,6 +1,7 @@
 // External imports
 import React, { useEffect } from 'react'
 import { useStoreState, useStoreActions } from 'easy-peasy'
+import { NavLink } from 'react-router-dom'
 
 // Internal imports 
 import './settings-dashboard.scss'
@@ -11,25 +12,32 @@ import NavBar from '../NavBar/NavBar'
 const SettingsDashboard  = () => {
     const categorySettings = useStoreState(state => state.settings.categorySettings)
     const activitySettings = useStoreState(state => state.settings.activitySettings)
-    const startSettingsListener = useStoreActions(actions => actions.settings.startSettingsListener)
-    const stopSettingsListener = useStoreActions(actions => actions.settings.stopSettingsListener)
     
-    useEffect(() => {
-        startSettingsListener()
-
-        return () => {
-            stopSettingsListener()
-        }
-    }, [])
-
     return (
         
-        <div className="settings-dashboard-container">
-            <NavBar />
+        <div 
+            // className="settings-dashboard-container"
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignContent: "center",
+                margin: "100px"
+            }}
+        >
+            {/* <NavBar />
 
             {categorySettings && activitySettings && <EditCategories categorySettings={categorySettings} activitySettings={activitySettings}/>}
             
-            {categorySettings && activitySettings && <Footer ></Footer>}    
+            {categorySettings && activitySettings && <Footer ></Footer>}     */}
+
+            Under maintenance :(
+
+                <NavLink 
+                    to="/dashboard"
+                >
+                    Go back
+                </NavLink>
         </div>
         
         
