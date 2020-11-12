@@ -1,4 +1,7 @@
-import { action } from 'easy-peasy'
+import { debounce } from 'debounce'
+import { action, thunkOn } from 'easy-peasy'
+import { store } from '../../index'
+import database from '../../components/firebase/firebase'
 
 export default {
     activities: [],
@@ -23,7 +26,33 @@ export default {
             }
         })
     }),
+    syncToDb: thunkOn(
+        actions => actions.categoryDragSet,
+        debounce(
+            async function (actions, target) {
+                const uid = store.getState().auth.uid // user login id
+                const {weekNr, year} = store.getState().settings.currentDate // Get current weeknr and year
+                
+                const categories = store.getState().activities.categories // all current notes
+                
+                
+                const weekid = await database.ref(`users/${uid}/weekYearTable/${weekNr}_${year}`).once('value') // Fetching weekid value from firebase weekYearTable
 
+                const updates = {}
+                // Updates notes from the day that was dragged or updated in terms of text or 
+                //deleting stack, etc. See thunkOn target resolver function for the list of 
+                //actions this responds to.
+                categories.forEach((category, index) => {
+                    if (category.day === target.payload.day) {
+                        updates[`users/${uid}/categories/${weekid.val()}/${index}`] = category
+                    }
+                })
+                
+                await database.ref().update(updates)
+            },
+            200
+        )
+    ),
     /**
      * Updates categories below drag category
      * @param  {number} payload.dragPosition position of the note currently being dragged (drag note)
