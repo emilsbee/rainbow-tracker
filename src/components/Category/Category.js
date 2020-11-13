@@ -7,6 +7,7 @@ import ActivityPopover from '../ActivityItemPopover/ActivityItemPopover'
 // Internal imports
 import Activity from '../Activity/Activity'
 import './Styles.scss'
+import { hasActivities } from './helpers'
 
 function Category({category, onDragStart, onDragEnter}) {
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
@@ -41,6 +42,12 @@ function Category({category, onDragStart, onDragEnter}) {
         })
     }
     
+    const onActivityClick = () => {
+        if (hasActivities(category.categoryid, activitySettings)) {
+            setShowActivityPopover(true)
+        }
+    }
+
     return (
         <div id="category-activity-container" onMouseOver={() => setHoverIndex({timeHoverIndex: category.position-1})}>
             <div   
@@ -58,8 +65,11 @@ function Category({category, onDragStart, onDragEnter}) {
                 short={category.activityid ? activitySettings[category.activityid].short : ""} // if activity exists, sets the short, otherwise sets it as an empty string
                 categoryid={category.categoryid}
                 activityid={category.activityid} 
-                loading={false}  
-                onClick={() => setShowActivityPopover(true)}
+                // Block checks if a category has activities.
+                // If it doesn't the activity shouldn't highlight on hover
+                // and user should'nt be able to click on activity to get activity popover
+                block={hasActivities(category.categoryid, activitySettings)}
+                onClick={onActivityClick}
             />
             
             {showPopover &&

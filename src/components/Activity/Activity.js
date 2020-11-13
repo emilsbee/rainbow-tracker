@@ -5,17 +5,15 @@ import PropTypes from 'prop-types'
 // Internal imports
 import './Styles.scss'
 
-const Activity = ({  short, categoryid, loading, onClick }) => {
-
-    if (loading) {
-        return (
-            <div className="activity-loading"/>
-        )
-    }
+const Activity = ({  short, categoryid, onClick, block }) => {
+    
 
     return (    
         <div 
-            className={`activity-container ${categoryid !== "" && 'activity-container-active'}`}
+            // Block checks if a category has activities.
+            // If it doesn't the activity shouldn't highlight on hover
+            // and user should'nt be able to click on activity to get activity popover
+            className={`activity-container ${categoryid !== ""  && block && 'activity-container-active'}`}
             onClick={(e) => {
                 if (categoryid !== "") {
                     onClick(e)
