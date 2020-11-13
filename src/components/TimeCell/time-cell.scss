@@ -1,5 +1,12 @@
 @import '../../styles/base/settings';
 
+.time-cell-container {
+    width: $sizing-7;
+    margin-right: $sizing-5;
+    margin-left: $sizing-5;
+    margin-top: 42px;
+}
+
 .time-cell {
     height: 22px;
     width: $sizing-7;
@@ -30,10 +37,4 @@
 }
 
 
-.time-cell-container {
-    width: $sizing-7;
-    margin-right: $sizing-2;
-    margin-left: $sizing-5;
-    margin-top: 42px;
-}
 

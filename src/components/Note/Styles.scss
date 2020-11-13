@@ -22,6 +22,8 @@ $noteBorderRadius: 4px;
     padding-left: $notePaddingLeftRight;
     padding-right: $notePaddingLeftRight;
 
+    text-align: center;
+
     font-weight: 300;
     font-size: 13px;
     line-height: $noteHeight;
@@ -44,6 +46,10 @@ $noteBorderRadius: 4px;
 
 #stack-container {
     @include note();
+
+    flex-direction: column;
+    justify-content: center;
+
     // This odd combination (with WebkitLineClamp in Note.js) 
     // produces the ellipsis in multiline text. The WebkitLineClamp
     // specifies how many lines of text should the text take, which 

@@ -11,7 +11,7 @@ function MainDashboardTable() {
     const categories = useStoreState(state => state.activities.categories)
 
     const notes = useStoreState(state => state.notes.notes)
-
+    
 
     if (categories.length === 0 || notes.length === 0) {
         return (

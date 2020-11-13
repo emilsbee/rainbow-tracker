@@ -32,6 +32,7 @@ const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown, l
             onDragStart={(e) => onDragStart(e, note)}
             // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
             onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
+            style={{textOverflow: "ellipsis"}}
         >
                 {note.note}
         </div>
