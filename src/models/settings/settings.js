@@ -6,6 +6,10 @@ import { thunk, action } from "easy-peasy"
 
 
 const settingsModel = {
+    connectionErorr: false,
+    setConnectionError: action((state, payload) => {
+        state.connectionErorr = payload.connectionErorr
+    }),
     timeHoverIndex: false,
     setHoverIndex: action((state, payload) => {
         
