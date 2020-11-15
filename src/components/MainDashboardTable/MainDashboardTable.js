@@ -15,7 +15,18 @@ function MainDashboardTable() {
 
     if (categories.length === 0 || notes.length === 0) {
         return (
-            <LoadingPage />
+            <div
+                style={{
+                    marginTop: "-100px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                }}
+            >
+
+                <LoadingPage />
+            </div>
         )
     }
     
