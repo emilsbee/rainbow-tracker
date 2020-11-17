@@ -11,8 +11,20 @@
 }
 
 #dashboard-nav-back-to-current {
-    // position: sticky;
-    right: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 30px;
+    width: 33%;
+}
+
+
+#dashboard-nav-central-container {
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 #dashboard-nav-back-to-current:hover {

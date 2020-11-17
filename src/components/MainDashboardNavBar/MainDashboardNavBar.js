@@ -33,19 +33,30 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
                 <div
                     id="dashboard-nav-back-to-current"
                     style={{
-                        opacity: (currentWeekNr === weekNr && currentYear === year) ? 0 : 1,
+                        opacity: (currentWeekNr === weekNr && currentYear === year) ? 0 : 1
                     }}
                     onClick={handleToCurrentWeek}
                 >
                     To current week
                 </div>
-            <BackArrow onClick={() => previousWeek({ currentWeekNr: weekNr, currentYear: year })} id="dashboard-nav-previous-week" />
-                    <h2 id="dashboard-nav-year-banner">{year},</h2>
-                    <h2 id="dashboard-nav-week-banner">week {weekNr}</h2>
-            <NextArrow 
-                onClick={() => nextWeek({ currentWeekNr: weekNr, currentYear: year })} 
-                id="dashboard-nav-next-week" 
-            />
+
+                <div
+                    id="dashboard-nav-central-container"
+                >
+                    <BackArrow onClick={() => previousWeek({ currentWeekNr: weekNr, currentYear: year })} id="dashboard-nav-previous-week" />
+                            <h2 id="dashboard-nav-year-banner">{year},</h2>
+                            <h2 id="dashboard-nav-week-banner">week {weekNr}</h2>
+                    <NextArrow 
+                        onClick={() => nextWeek({ currentWeekNr: weekNr, currentYear: year })} 
+                        id="dashboard-nav-next-week" 
+                    />
+                </div>
+                <div
+                    style={{
+                        width: "33%"
+                    }}
+                />
+                
         </div>
     )
 }   
