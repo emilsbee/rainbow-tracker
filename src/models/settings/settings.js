@@ -1,5 +1,5 @@
 // External imports
-import { thunk, action } from "easy-peasy"
+import { action } from "easy-peasy"
 
 
 // Internal imports

@@ -3,7 +3,7 @@ import { action, thunkOn } from 'easy-peasy'
 import { store } from '../../index'
 import database from '../../components/firebase/firebase'
 
-export default {
+const categoriesModel = {
     activities: [],
     categories: [],
     setCategories: action((state, payload) => {
@@ -39,10 +39,10 @@ export default {
                 const weekid = await database.ref(`users/${uid}/weekYearTable/${weekNr}_${year}`).once('value') // Fetching weekid value from firebase weekYearTable
 
                 const updates = {}
-                // Updates notes from the day that was dragged or updated in terms of text or 
-                //deleting stack, etc. See thunkOn target resolver function for the list of 
-                //actions this responds to.
+               
+
                 categories.forEach((category, index) => {
+
                     if (category.day === target.payload.day) {
                         updates[`users/${uid}/categories/${weekid.val()}/${index}`] = category
                     }
@@ -109,3 +109,5 @@ export default {
         state.categories = categories
     }),
 }
+
+export default categoriesModel

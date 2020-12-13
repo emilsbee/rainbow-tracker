@@ -12,6 +12,7 @@ import weeksModel from './models/weeks/weeks'
 import settingsModel from './models/settings/settings'
 import initialiseModel from './models/initialise/initialise'
 import categoriesModel from './models/categories/categories'
+import analyticsModel from './models/analytics/analytics'
 import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
@@ -27,7 +28,8 @@ const store = createStore({
   init: initialiseModel,
   activities: categoriesModel,
   notes: notesModel,
-  weeks: weeksModel
+  weeks: weeksModel,
+  analytics: analyticsModel
 })
 
 
