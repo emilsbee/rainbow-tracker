@@ -18,7 +18,7 @@ const PrivateRoute = (props) => {
         <Route path={props.path} component={(props) => (
             
             isAuthenticated ? (
-                <div>
+                <div style={{height: '100%'}}>
                     <Component {...props}/>
 
                 </div>

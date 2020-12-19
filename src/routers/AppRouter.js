@@ -23,7 +23,7 @@ const AppRouter = () => {
 
     return (
         <Router history={history}>
-            <div>
+            <div style={{display: "flex", flexDirection: 'column', height: '100%'}}>
                 {uid !== "" && <NavBar />}
                 <Switch>
                         <PublicRoute path="/" component={LoginPage} exact={true}/>

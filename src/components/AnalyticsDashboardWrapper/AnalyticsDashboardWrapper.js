@@ -13,7 +13,7 @@ const AnalyticsDashboardWrapper = () => {
     const getCategories = useStoreActions(actions => actions.analytics.getCategories)
     const categories = useStoreState(state => state.analytics.categories)
     const weekYearTable = useStoreState(state => state.analytics.weekYearTable)
-
+    
     const activitySettings = useStoreState(state => state.settings.activitySettings)
     const categorySettings = useStoreState(state => state.settings.categorySettings)
 
@@ -31,7 +31,7 @@ const AnalyticsDashboardWrapper = () => {
 
 
     return (
-        <div>
+        <div className="analytics-wrapper">
             <AnalyticsDashboard 
                 categories={categories} 
                 activitySettings={activitySettings} 

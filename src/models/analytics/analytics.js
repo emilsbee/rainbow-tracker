@@ -33,19 +33,6 @@ const analyticsModel =  {
             })
             actions.setcategories({categories: weeks})
         })
-        
-
-        // var data = []
-        
-        // weekids.forEach( async (weekid) => {
-        //     var weekAnalytics = await database.ref(`users/${uid}/analytics/${weekid}`).once('value')
-        //     var analObj = {}
-        //     analObj[weekid] = weekAnalytics.val()
-        //     data.push(analObj)
-        // }) 
-
-        // actions.setcategories({categories: data})
-
     }),
 
     startCategoryListener: thunk( async (actions, payload) => {
