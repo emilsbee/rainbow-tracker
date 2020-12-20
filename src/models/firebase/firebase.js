@@ -26,6 +26,15 @@ const firebaseModel = {
         return database.ref('users/' + payload.userId)
             .once('value')
     }),
+    startLoginAnonymously: thunk(async (actions, payload) => {
+        firebase.auth().signInAnonymously().catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
+          
+    }),
     startLoginWithGoogle: thunk(async (actions, payload) => {
         await firebase.auth().signInWithRedirect(googleAuthProvider)
     }),

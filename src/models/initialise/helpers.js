@@ -1,6 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment'
 
+export const createData = () => {
+    const weekid = uuidv4() // Create an id for the new week
+    const {notes, categories} = createBaseData()
+    return {weekid, notes, categories, activitySettings, categorySettings}
+}
+ 
 export const createWeekData = (type, uid, weekNr, year) => {
 
     if (type === 'CURRENT') {
@@ -43,7 +49,7 @@ export const createBaseData = () => {
         }
     })
 
-    return {notes, categories, activitySettings, categorySettings}
+    return {notes, categories}
 }
 
 const activitySettings = {

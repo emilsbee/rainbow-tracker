@@ -9,6 +9,7 @@ import { createStore, StoreProvider } from 'easy-peasy'
 import firebaseModel from './models/firebase/firebase'
 import notesModel from './models/notes/notes'
 import weeksModel from './models/weeks/weeks'
+import errorModel from './models/errors/errors'
 import settingsModel from './models/settings/settings'
 import initialiseModel from './models/initialise/initialise'
 import categoriesModel from './models/categories/categories'
@@ -27,7 +28,8 @@ const store = createStore({
   init: initialiseModel,
   activities: categoriesModel,
   notes: notesModel,
-  weeks: weeksModel
+  weeks: weeksModel,
+  errors: errorModel
 })
 
 
@@ -46,18 +48,18 @@ const renderApp = () => {
     }
 }
 
+const renderError = () => {
+    ReactDOM.render(<h1>Error</h1>, document.getElementById('root'))
+}
+ 
 // If nothin is being rendered, display loading page
 ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 
 firebase.auth().onAuthStateChanged( async (user) => {
+
     if (user) {
         store.dispatch.auth.login(user.uid) // Updates the uid state in easy-peasy auth model
-        store.dispatch.init.initialiseUser().then(() => {
-            renderApp()
-            if (history.location.pathname === '/') {
-                history.push(`/dashboard`)
-            }
-        })
+        store.dispatch.init.initialiseUser({history, renderApp})
     } else {
         store.dispatch.auth.logout()
         renderApp()
