@@ -42,9 +42,7 @@ export const createBaseData = () => {
                 day,
                 position: i,
                 activityid: '',
-                categoryid: '',
-                short: '',
-                long: ''
+                categoryid: ''
             })
         }
     })
@@ -112,15 +110,19 @@ const activitySettings = {
 
 const categorySettings = {
     cat1: {
-        category: 'Category 1',
+        category: 'havetos',
         color: "#E9B872"
     },
     cat2: {
-        category: 'Category 2',
+        category: 'leisure',
         color: "#BBBE64"
     },
     cat3: {
-        category: 'Category 3',
+        category: 'work',
         color: "#a63d40"
+    },
+    cat4: {
+        category: 'sleep',
+        color: "#6494AA"
     }
 }

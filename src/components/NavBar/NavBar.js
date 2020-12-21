@@ -34,6 +34,14 @@ const NavBar = () => {
                 >
                     Settings
                 </NavLink>
+                
+                <NavLink
+                activeClassName="dashboard-link-active"
+                    className="dashboard-link"
+                    to="/analytics"
+                >
+                    Analytics
+                </NavLink>
             </div>
             {/* <button onClick={randomThunk}>Pres</button> */}
             <div id="logout-button-text" onClick={beginLogout}>

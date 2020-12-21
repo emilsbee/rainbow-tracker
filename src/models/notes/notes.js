@@ -5,7 +5,7 @@ import { store } from '../../index'
 import { debounce } from "debounce";
 import database from '../../components/firebase/firebase'
 
-export default {
+const notesModel = {
     notes: [],
     setNotes: action((state, payload) => {
         state.notes= payload.notes
@@ -233,3 +233,5 @@ export default {
         });
     })
 }
+
+export default notesModel

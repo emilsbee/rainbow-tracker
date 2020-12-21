@@ -1,6 +1,6 @@
 // External imports
-import React from 'react'
-import { useStoreState } from 'easy-peasy'
+import React, {useEffect} from 'react'
+import { useStoreState, useStoreActions } from 'easy-peasy'
 
 
 
@@ -8,16 +8,18 @@ import { useStoreState } from 'easy-peasy'
 import MainDashboardTable from '../MainDashboardTable/MainDashboardTable'
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 import Footer from '../Footer /Footer'
-import NavBar from '../NavBar/NavBar'
 
 const MainDashboard  = () => {
     
     const currentDate = useStoreState(state => state.settings.currentDate)
+    const startCategoryListener = useStoreActions(actions => actions.analytics.startCategoryListener)
+
+    useEffect(() => {
+        // startCategoryListener()
+    })
 
     return (
         <div>
-            <NavBar />
-            
             <MainDashboardNavBar weekNr={currentDate.weekNr} year={currentDate.year}/>
 
             <MainDashboardTable />

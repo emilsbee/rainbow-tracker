@@ -13,6 +13,7 @@ import errorModel from './models/errors/errors'
 import settingsModel from './models/settings/settings'
 import initialiseModel from './models/initialise/initialise'
 import categoriesModel from './models/categories/categories'
+import analyticsModel from './models/analytics/analytics'
 import { firebase } from './components/firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
@@ -29,7 +30,8 @@ const store = createStore({
   activities: categoriesModel,
   notes: notesModel,
   weeks: weeksModel,
-  errors: errorModel
+  errors: errorModel,
+  analytics: analyticsModel
 })
 
 
@@ -59,6 +61,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
 
     if (user) {
         store.dispatch.auth.login(user.uid) // Updates the uid state in easy-peasy auth model
+        store.dispatch.analytics.startCategoryListener()
         store.dispatch.init.initialiseUser({history, renderApp})
     } else {
         store.dispatch.auth.logout()

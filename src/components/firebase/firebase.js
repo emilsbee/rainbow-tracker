@@ -16,7 +16,6 @@ var firebaseConfig = {
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-
 firebase.initializeApp(firebaseConfig)
 
 const database = firebase.database()
