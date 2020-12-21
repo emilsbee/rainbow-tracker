@@ -13,8 +13,8 @@ const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, we
     return (
         <div className="analytics-dashboard-container">
             <TotalCard 
-                categories={categories[40].categories} 
-                activities={categories[40].activities}
+                categories={categories[0].categories} 
+                activities={categories[0].activities}
                 activitySettings={activitySettings} 
                 categorySettings={categorySettings}
             />

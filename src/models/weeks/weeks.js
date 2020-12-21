@@ -5,7 +5,7 @@ import database from '../../components/firebase/firebase'
 
 import { createWeekData } from '../initialise/helpers'
 
-export default {
+const weeksModel = {
     nextWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         const currentWeekNr = parseInt(payload.currentWeekNr)
@@ -118,8 +118,33 @@ export default {
         const weekNr = payload.weekNr
         const year = payload.year
 
-        const {updates, notes, categories} = createWeekData("NOT_CURRENT", uid, weekNr, year) 
+        const {updates, notes, categories, weekid} = createWeekData("NOT_CURRENT", uid, weekNr, year) 
+        
+        // Analytics object initialised
+        const analytics = {
+            categories: {
                 
+            }, 
+            activities: {
+                
+            }
+        } 
+
+        const activitySettings = store.getState().settings.activitySettings
+        const categorySettings = store.getState().settings.categorySettings
+
+        // Initialise all categories from categorySettings to have count 0
+        Object.keys(categorySettings).forEach(categid => {
+            analytics["categories"][categid] = 0
+        })
+
+        // Initialise all activities from activitySettings to have count 0
+        Object.keys(activitySettings).forEach(actid => {
+            analytics["activities"][actid] = 0
+        })
+
+        updates[`users/${uid}/analytics/${weekid}/`] = analytics
+
         await database.ref().update(updates)
         
         setNotes({notes})
@@ -156,3 +181,5 @@ export default {
         setDate({date: {weekNr, year}})
     })
 }
+
+export default weeksModel

@@ -50,10 +50,6 @@ const renderApp = () => {
     }
 }
 
-const renderError = () => {
-    ReactDOM.render(<h1>Error</h1>, document.getElementById('root'))
-}
- 
 // If nothin is being rendered, display loading page
 ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 
@@ -65,6 +61,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
         store.dispatch.init.initialiseUser({history, renderApp})
     } else {
         store.dispatch.auth.logout()
+        store.dispatch.analytics.stopCategoryListener()
         renderApp()
         history.push('/')
     }

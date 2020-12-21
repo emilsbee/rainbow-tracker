@@ -3,8 +3,8 @@ import moment from 'moment'
 
 export const createData = () => {
     const weekid = uuidv4() // Create an id for the new week
-    const {notes, categories} = createBaseData()
-    return {weekid, notes, categories, activitySettings, categorySettings}
+    const {notes, categories, analytics} = createBaseData()
+    return {weekid, notes, categories, activitySettings, categorySettings, analytics}
 }
  
 export const createWeekData = (type, uid, weekNr, year) => {
@@ -23,13 +23,33 @@ export const createWeekData = (type, uid, weekNr, year) => {
     updates[`users/${uid}/categories/${weekid}`] = categories
     updates[`users/${uid}/notes/${weekid}`] = notes
     
-    return {updates, notes, categories}
+    return {updates, notes, categories, weekid}
 }
 
 export const createBaseData = () => {
+    // Analytics object initialised
+    const analytics = {
+        categories: {
+            
+        }, 
+        activities: {
+            
+        }
+    } 
+
+    // Initialise all categories from categorySettings to have count 0
+    Object.keys(categorySettings).forEach(categid => {
+        analytics["categories"][categid] = 0
+    })
+
+    // Initialise all activities from activitySettings to have count 0
+    Object.keys(activitySettings).forEach(actid => {
+        analytics["activities"][actid] = 0
+    })    
+
     const notes = []
     let categories = []
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]    
     days.forEach((day, index) => {
         for (var i = 1; i < 97; i++) {
             notes.push({
@@ -47,7 +67,7 @@ export const createBaseData = () => {
         }
     })
 
-    return {notes, categories}
+    return {notes, categories, analytics}
 }
 
 const activitySettings = {

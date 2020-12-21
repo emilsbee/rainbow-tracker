@@ -23,12 +23,21 @@ const AnalyticsDashboardWrapper = () => {
 
     if (categories.length === 0) {
         return (
-            <div>
-                Loading
+            <div
+                style={{
+                    marginTop: "-100px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                }}
+            >
+
+                <LoadingPage />
             </div>
         )
     }
-
+    console.log(categories)
 
     return (
         <div className="analytics-wrapper">

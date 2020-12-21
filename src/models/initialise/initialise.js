@@ -32,7 +32,7 @@ const initialiseModel = {
 
             if (hasData.val() === null) { // New acount
 
-                const {weekid, notes, categories, activitySettings, categorySettings} = createData()
+                const {weekid, notes, categories, activitySettings, categorySettings, analytics} = createData()
 
                 const updates = {}
                 updates[`users/${uid}/activitySettings`] = activitySettings
@@ -41,6 +41,7 @@ const initialiseModel = {
                 updates[`users/${uid}/weekYearTable/${weekNr}_${year}`] = weekid 
                 updates[`users/${uid}/categories/${weekid}`] = categories
                 updates[`users/${uid}/notes/${weekid}`] = notes
+                updates[`users/${uid}/analytics/${weekid}`] = analytics
 
                 database.ref().update(updates).then(() => {
                     setActivitySettings({activitySettings})
