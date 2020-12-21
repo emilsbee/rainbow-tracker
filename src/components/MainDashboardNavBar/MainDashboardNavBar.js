@@ -30,14 +30,14 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
 
     return (
         <div id="dashboard-nav-container">
-                <div
-                    id="dashboard-nav-back-to-current"
-                    style={{
-                        opacity: (currentWeekNr === weekNr && currentYear === year) ? 0 : 1
-                    }}
-                    onClick={handleToCurrentWeek}
-                >
-                    To current week
+                <div id="dashboard-nav-back-to-current-container">
+                    {!(currentWeekNr === weekNr && currentYear === year) && 
+                    <button
+                        id="dashboard-nav-back-to-current"
+                        onClick={handleToCurrentWeek}
+                    >
+                        To current week
+                    </button>}
                 </div>
 
                 <div

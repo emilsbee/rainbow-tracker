@@ -8,17 +8,24 @@ import './login-page.scss'
 import  google  from './google-logo.png'
 import { ReactComponent as Anonymous } from './anonymous.svg'
 
+
 const LoginPage = () => {
     const startLoginWithGoogle = useStoreActions(actions => actions.auth.startLoginWithGoogle)
     const startLoginAnonymously = useStoreActions(actions => actions.auth.startLoginAnonymously)
 
+
+
     const beginLogin = () => {
+
         startLoginWithGoogle()
     }
     
     const beginAnon = () => {
+
         startLoginAnonymously()
     }
+
+   
 
     return (
         <div id="login-container">
