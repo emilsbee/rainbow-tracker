@@ -4,7 +4,7 @@ import './TotalCard.scss'
 import {capitalizeFirstLetter} from './helpers'
 
 const TotalCard = ({ categories, activities, categorySettings, activitySettings }) => {
-    console.log(activities)
+  
     return (
         <div id="anal-total-card__container">
             

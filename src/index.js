@@ -57,11 +57,9 @@ firebase.auth().onAuthStateChanged( async (user) => {
 
     if (user) {
         store.dispatch.auth.login(user.uid) // Updates the uid state in easy-peasy auth model
-        store.dispatch.analytics.startCategoryListener()
         store.dispatch.init.initialiseUser({history, renderApp})
     } else {
         store.dispatch.auth.logout()
-        store.dispatch.analytics.stopCategoryListener()
         renderApp()
         history.push('/')
     }

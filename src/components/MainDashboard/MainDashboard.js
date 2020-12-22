@@ -13,10 +13,15 @@ const MainDashboard  = () => {
     
     const currentDate = useStoreState(state => state.settings.currentDate)
     const startCategoryListener = useStoreActions(actions => actions.analytics.startCategoryListener)
+    const stopCategoryListener = useStoreActions(actions => actions.analytics.stopCategoryListener)
 
     useEffect(() => {
-        // startCategoryListener()
-    })
+        startCategoryListener()
+
+        return () => {
+            stopCategoryListener()
+        }
+    }, [])
 
     return (
         <div>

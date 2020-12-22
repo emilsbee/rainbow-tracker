@@ -16,7 +16,7 @@ const analyticsModel =  {
         state.weekYearTable = payload.weekYearTable
     }),
     
-    getCategories: thunk( async (actions, payload) => {
+    getCategories: thunk( async (actions, payload) => {   
         const uid = store.getState().auth.uid 
         const currentYear = moment().year()
         const weekYearTable = await database.ref(`users/${uid}/weekYearTable`).once('value')
@@ -45,6 +45,7 @@ const analyticsModel =  {
         const uid = store.getState().auth.uid 
 
         database.ref(`users/${uid}/categories/`).on('child_changed', async (data) => {
+      
             let weekid = data.ref.path.pieces_[3]
      
             // Analytics object initialised

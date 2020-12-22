@@ -37,7 +37,7 @@ const AnalyticsDashboardWrapper = () => {
             </div>
         )
     }
-    console.log(categories)
+    
 
     return (
         <div className="analytics-wrapper">

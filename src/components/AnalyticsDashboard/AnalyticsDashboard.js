@@ -1,20 +1,19 @@
 // External imports
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useStoreActions, useStoreState } from 'easy-peasy';
 
 // Internal imports
 import './Styles.scss'
 import TotalCard from './TotalCard'
 
 const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, weekYearTable }) => {
-    
+    console.log(categories)
     
     return (
         <div className="analytics-dashboard-container">
             <TotalCard 
-                categories={categories[0].categories} 
-                activities={categories[0].activities}
+                categories={categories[1].categories} 
+                activities={categories[1].activities}
                 activitySettings={activitySettings} 
                 categorySettings={categorySettings}
             />
