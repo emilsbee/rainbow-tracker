@@ -5,7 +5,7 @@ import { useStoreState, useStoreActions } from 'easy-peasy'
 // Internal imports 
 import MainDashboardTable from './MainDashboardTable/MainDashboardTable'
 import MainDashboardNavBar from './MainDashboardNavBar/MainDashboardNavBar'
-import Footer from '../Footer /Footer'
+import Footer from '../Footer/Footer'
 
 const MainDashboard  = () => {
     

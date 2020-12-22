@@ -1,13 +1,12 @@
 // External imports
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy';
+
+// Internal imports
 import LoadingPage from '../LoadingPage/LoadingPage'
-
+import './AnalyticsDashboardWrapper.scss'
 import AnalyticsDashboard from '../AnalyticsDashboard'
-
-
-import './Styles.scss'
+import Footer from '../Footer/Footer'
 
 const AnalyticsDashboardWrapper = () => {
     const getCategories = useStoreActions(actions => actions.analytics.getCategories)
@@ -47,13 +46,9 @@ const AnalyticsDashboardWrapper = () => {
                 categorySettings={categorySettings}
                 weekYearTable={weekYearTable}
             />
+            <Footer />
         </div>
     )
 }
-
-AnalyticsDashboardWrapper.propTypes = {
-        
-}
-
 
 export default AnalyticsDashboardWrapper

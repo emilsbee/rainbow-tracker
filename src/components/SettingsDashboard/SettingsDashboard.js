@@ -6,8 +6,7 @@ import { NavLink } from 'react-router-dom'
 // Internal imports 
 import './settings-dashboard.scss'
 import EditCategories from './EditCategories/EditCategories'
-import Footer from '../Footer /Footer'
-import NavBar from '../NavBar/NavBar'
+import Footer from '../Footer/Footer'
 
 const SettingsDashboard  = () => {
     const categorySettings = useStoreState(state => state.settings.categorySettings)
@@ -18,14 +17,15 @@ const SettingsDashboard  = () => {
         <div 
             // className="settings-dashboard-container"
             style={{
+                width: '100%',
+                height: '100%',
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "center",
-                alignContent: "center",
-                margin: "100px"
+                justifyContent: "space-between",
+                alignContent: "space-between",
             }}
         >
-            {/* <NavBar />
+            {/* 
 
             {categorySettings && activitySettings && <EditCategories categorySettings={categorySettings} activitySettings={activitySettings}/>}
             
@@ -38,6 +38,7 @@ const SettingsDashboard  = () => {
                 >
                     Go back
                 </NavLink>
+                <Footer />
         </div>
         
         
