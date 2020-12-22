@@ -12,7 +12,7 @@ const Footer = () => {
     
     return (
         <div className="footer-container">
-           Created by servant
+           Created by Emīls Bernhards 
         </div>
     )
 }

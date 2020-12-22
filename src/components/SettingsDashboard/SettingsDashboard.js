@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 
 // Internal imports 
 import './settings-dashboard.scss'
-import EditCategories from '../EditCategories/EditCategories'
+import EditCategories from './EditCategories/EditCategories'
 import Footer from '../Footer /Footer'
 import NavBar from '../NavBar/NavBar'
 
