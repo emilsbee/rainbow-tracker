@@ -1,11 +1,12 @@
 // External imports
-import { useStoreActions, useStoreState } from 'easy-peasy'
+import { useStoreActions } from 'easy-peasy'
 import React from 'react'
 import moment from 'moment'
+import PropTypes from 'prop-types'
 
 
 // Internal imports
-import './Styles.scss'
+import './MainDashboardNavBar.scss'
 import { ReactComponent as BackArrow } from './utils/back.svg'
 import { ReactComponent as NextArrow } from './utils/next.svg'
 
@@ -60,5 +61,10 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
         </div>
     )
 }   
+
+MainDashboardNavBar.propTypes = {
+    weekNr: PropTypes.number.isRequired,
+    year: PropTypes.number.isRequired
+}
 
 export default MainDashboardNavBar

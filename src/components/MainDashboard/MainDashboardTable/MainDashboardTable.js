@@ -1,11 +1,14 @@
+// External imports
 import React from 'react'
-import Day from '../Day/Day'
 import { useStoreState } from 'easy-peasy'
-import { createDayArrays, mapDayIndexToDay } from './helpers'
 
-import LoadingPage from '../LoadingPage/LoadingPage'
-import {timeValues} from '../../utils/staticData'
+// Internal imports
+import Day from '../Day/Day'
+import LoadingPage from '../../LoadingPage/LoadingPage'
+import {timeValues} from '../../../utils/staticData'
 import TimeCell from '../TimeCell/TimeCell'
+import { createDayArrays, mapDayIndexToDay } from './helpers'
+import './MainDashboardTable.scss'
 
 function MainDashboardTable() {
     const categories = useStoreState(state => state.activities.categories)
@@ -15,31 +18,14 @@ function MainDashboardTable() {
 
     if (categories.length === 0 || notes.length === 0) {
         return (
-            <div
-                style={{
-                    marginTop: "-100px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                }}
-            >
-
+            <div id="main-dashboard-table__loading">
                 <LoadingPage />
             </div>
         )
     }
     
     return (
-        <div 
-            style={{
-                margin: '60px',
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: 'center',
-                alignItems: 'flex-start'
-            }}
-        >   
+        <div id="main-dashboard-table__container">   
             <TimeCell timeValues={timeValues}/>
             {[0,1,2,3,4,5,6].map((day) => {
                 return (

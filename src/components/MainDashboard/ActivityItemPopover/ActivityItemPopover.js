@@ -1,9 +1,10 @@
 // External imports
 import React from 'react'
 import { useStoreState } from 'easy-peasy'
+import PropTypes from 'prop-types'
 
 // Internal imports 
-import './Styles.scss'
+import './ActivityItemPopover.scss'
 
 
 const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }) => {
@@ -18,7 +19,7 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }) => {
                     cursor: 'pointer' // To immediately set the cursor to pointer, 
                 }}
             >
-                {Object.keys(activities).map((activityid, index) => { // iterates over activityids
+                {Object.keys(activities).map((activityid, index) => { // iterates over all activityids
 
                     if (activities[activityid].categoryid === categoryid) { // checks that the activity belongs to current category
                         return (
@@ -34,7 +35,7 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }) => {
                                 {activities[activityid].short}
                             </div>
                         )
-                    }
+                    } else return null
                         
                 })}
 
@@ -46,5 +47,11 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }) => {
         </div>
     )
 }
+
+ActivityItemPopover.propTypes = {
+    categoryid: PropTypes.string,
+    onClick: PropTypes.func,
+    handleCloseModal: PropTypes.func
+};
 
 export default ActivityItemPopover

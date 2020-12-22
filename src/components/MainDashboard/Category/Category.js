@@ -1,12 +1,14 @@
 // External imports
 import React, { useState } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy'
-import CategoryPopover from '../CategoryItemPopover/CategoryItemPopover'
-import ActivityPopover from '../ActivityItemPopover/ActivityItemPopover'
+import PropTypes from 'prop-types'
+
 
 // Internal imports
+import CategoryPopover from '../CategoryItemPopover/CategoryItemPopover'
+import ActivityPopover from '../ActivityItemPopover/ActivityItemPopover'
 import Activity from '../Activity/Activity'
-import './Styles.scss'
+import './Category.scss'
 import { hasActivities } from './helpers'
 
 function Category({category, onDragStart, onDragEnter}) {
@@ -64,7 +66,6 @@ function Category({category, onDragStart, onDragEnter}) {
             <Activity 
                 short={category.activityid ? activitySettings[category.activityid].short : ""} // if activity exists, sets the short, otherwise sets it as an empty string
                 categoryid={category.categoryid}
-                activityid={category.activityid} 
                 // Block checks if a category has activities.
                 // If it doesn't the activity shouldn't highlight on hover
                 // and user should'nt be able to click on activity to get activity popover
@@ -88,6 +89,17 @@ function Category({category, onDragStart, onDragEnter}) {
             }
         </div>
     );
+}
+
+Category.propTypes = {
+    onDragEnter: PropTypes.func,
+    onDragStart: PropTypes.func,
+    category: PropTypes.exact({
+        activityid: PropTypes.string.isRequired,
+        categoryid: PropTypes.string.isRequired,
+        day: PropTypes.string.isRequired,
+        position: PropTypes.number.isRequired
+    })
 }
 
 export default Category;

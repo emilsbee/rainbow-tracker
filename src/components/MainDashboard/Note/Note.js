@@ -1,26 +1,17 @@
 // External imports
 import React from 'react'
 import { useStoreActions } from 'easy-peasy'
+import PropTypes from 'prop-types'
 
 // Internal imports
-import './Styles.scss'
-import * as constants from './Styles.scss'
+import './Note.scss'
+import * as constants from './Note.scss'
 import { getStackHeight, CONSTANTS } from './helpers'
 
 export const exportHeight = constants.noteHeight
 
-const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown, loading}) => {
+const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown}) => {
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
-
-
-    if (loading) {
-        return (
-            <div
-                id="note-container"
-                style={{backgroundColor: '#E0E0E0', border: '#E0E0E0 0.5px solid'}}
-            /> 
-        )
-    }
 
     if (max === min) {
         return (
@@ -56,6 +47,21 @@ const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown, l
                 {note.note}
         </div>
     );
+}
+
+Note.propTypes = {
+    note: PropTypes.exact({
+        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
+        note: PropTypes.string.isRequired,
+        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired,
+        stackid: PropTypes.string.isRequired
+    }).isRequired, 
+    max: PropTypes.number.isRequired, 
+    min: PropTypes.number.isRequired, 
+    onDragStart: PropTypes.func.isRequired, 
+    onDragEnter: PropTypes.func.isRequired, 
+    onClick: PropTypes.func.isRequired, 
+    onMouseDown: PropTypes.func.isRequired,  
 }
 
 export default Note;

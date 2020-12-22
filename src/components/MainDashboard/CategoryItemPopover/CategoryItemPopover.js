@@ -1,9 +1,10 @@
 // External imports
 import React from 'react'
 import { useStoreState } from 'easy-peasy'
+import PropTypes from 'prop-types'
 
 // Internal imports 
-import './Styles.scss'
+import './CategoryItemPopover.scss'
 
 
 
@@ -43,6 +44,11 @@ const CategoryItemPopover  = ({ onClick, handleCloseModal }) => {
             </div>
         </div>
     )
+}
+
+CategoryItemPopover.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    handleCloseModal: PropTypes.func.isRequired
 }
 
 export default CategoryItemPopover

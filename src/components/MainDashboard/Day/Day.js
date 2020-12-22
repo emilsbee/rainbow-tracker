@@ -1,18 +1,18 @@
 // External imports
 import React, { useEffect, useState } from 'react'
 import { useStoreActions } from 'easy-peasy'
+import PropTypes from 'prop-types'
 
 // Internal imports
 import Category from '../Category/Category'
 import Note from '../Note/Note'
 import { findStackExtremes } from './helpers'
 import NoteModal from '../NoteModal/NoteModal'
+import './Day.scss'
 
-import './Styles.scss'
 
 function Day({categories, notes, day}) {
     // Easy-peasy actions
-    const setCategory = useStoreActions(actions => actions.activities.setCategory)
     const categoryDragSet = useStoreActions(actions => actions.activities.categoryDragSet)
 
     const aboveDifference = useStoreActions(actions => actions.notes.aboveDifference)
@@ -56,6 +56,7 @@ function Day({categories, notes, day}) {
         setNoteModalData(false)
     }
 
+    // Drag image
     const [img, setImg] = useState(null)
     useEffect(() => {    
         // Initialise the drag "ghost" transparent image
@@ -212,6 +213,22 @@ const areEqual = (prevProps, nextProps) => {
         JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
         && JSON.stringify(prevProps.categories) === JSON.stringify(nextProps.categories)
     )
+}
+
+Day.propTypes = {
+    day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
+    notes: PropTypes.arrayOf(PropTypes.exact({
+        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
+        note: PropTypes.string.isRequired,
+        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired,
+        stackid: PropTypes.string.isRequired
+    })).isRequired,
+    categories: PropTypes.arrayOf(PropTypes.exact({
+        activityid: PropTypes.string.isRequired,
+        categoryid: PropTypes.string.isRequired,
+        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
+        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired
+    }))
 }
 
 export default React.memo(Day, areEqual);

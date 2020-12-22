@@ -2,11 +2,9 @@
 import React, {useEffect} from 'react'
 import { useStoreState, useStoreActions } from 'easy-peasy'
 
-
-
 // Internal imports 
-import MainDashboardTable from '../MainDashboardTable/MainDashboardTable'
-import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
+import MainDashboardTable from './MainDashboardTable/MainDashboardTable'
+import MainDashboardNavBar from './MainDashboardNavBar/MainDashboardNavBar'
 import Footer from '../Footer /Footer'
 
 const MainDashboard  = () => {
@@ -21,7 +19,7 @@ const MainDashboard  = () => {
         return () => {
             stopCategoryListener()
         }
-    }, [])
+    }, [startCategoryListener, stopCategoryListener])
 
     return (
         <div>

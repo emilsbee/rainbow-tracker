@@ -1,12 +1,12 @@
 // External imports
 import React from 'react'
 import { useStoreState } from 'easy-peasy'
+import PropTypes from 'prop-types'
 
 // Internal imports 
-import './time-cell.scss'
+import './TimeCell.scss'
 
 const TimeCell  = ({ timeValues }) => {
-    
     const timeHoverIndex = useStoreState(state => state.settings.timeHoverIndex)
     
     return (
@@ -30,6 +30,10 @@ const TimeCell  = ({ timeValues }) => {
 
 function areEqual (prevProps, nextProps) {
     return true
+}
+
+TimeCell.propTypes = {
+    timeValues: PropTypes.func.isRequired
 }
 
 export default React.memo(TimeCell, areEqual)

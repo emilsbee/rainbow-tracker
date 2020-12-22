@@ -1,12 +1,12 @@
 // External imports
 import React, { useEffect, useState } from 'react'
 import onClickOutside from "react-onclickoutside";
+import PropTypes from 'prop-types'
 
 // Internal imports 
-import './note-modal.scss'
+import './NoteModal.scss'
 
 function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
-    
 
     const [localNote, setLocalNote] = useState('')
 
@@ -43,7 +43,7 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
                     <textarea 
                         autoFocus={true}  
                         type="text" 
-                        className="input" 
+                        id="note-modal-input" 
                         onChange={handleNoteChange}
                         spellCheck={false}
                         value={localNote}
@@ -76,6 +76,19 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
 
 const clickOutsideConfig = {
     handleClickOutside: (localNote) => NoteModal.handleClickOutside
+}
+
+NoteModal.propTypes = {
+    note: PropTypes.exact({
+        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
+        note: PropTypes.string.isRequired,
+        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired,
+        stackid: PropTypes.string.isRequired
+    }).isRequired, 
+    stack: PropTypes.bool.isRequired,
+    saveNote: PropTypes.func.isRequired, 
+    deleteText: PropTypes.func.isRequired, 
+    deleteStack: PropTypes.func.isRequired
 }
 
 export default onClickOutside(NoteModal, clickOutsideConfig) 

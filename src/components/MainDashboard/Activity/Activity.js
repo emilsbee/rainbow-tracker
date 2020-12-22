@@ -3,10 +3,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // Internal imports
-import './Styles.scss'
+import './Activity.scss'
 
 const Activity = ({  short, categoryid, onClick, block }) => {
-    
 
     return (    
         <div 
@@ -16,7 +15,7 @@ const Activity = ({  short, categoryid, onClick, block }) => {
             className={`activity-container ${categoryid !== ""  && block && 'activity-container-active'}`}
             onClick={(e) => {
                 if (categoryid !== "") {
-                    onClick(e)
+                    onClick()
                 }
             }}
         >
@@ -26,10 +25,10 @@ const Activity = ({  short, categoryid, onClick, block }) => {
 }
 
 Activity.propTypes = {
-    short: PropTypes.string,
-    categoryid: PropTypes.string,
-    loading: PropTypes.bool,
-    onClick: PropTypes.func
+    short: PropTypes.string.isRequired,
+    categoryid: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    block: PropTypes.bool.isRequired
 };
 
 export default Activity
