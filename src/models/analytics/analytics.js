@@ -1,9 +1,11 @@
+// External imports
 import { action, thunk } from "easy-peasy";
 import moment from 'moment'
 
+// Internal imports
 import database from '../../components/firebase/firebase'
 import { store } from '../../index'
-import { getCurrentYearWeekIds } from './helpers'
+import { getCurrentYearWeekIds, createSortedYearObject } from './helpers'
 
 const analyticsModel =  {
     weekYearTable: [],
@@ -18,11 +20,11 @@ const analyticsModel =  {
     
     getCategories: thunk( async (actions, payload) => {   
         const uid = store.getState().auth.uid 
-        const currentYear = moment().year()
+        const year = moment().year()
         const weekYearTable = await database.ref(`users/${uid}/weekYearTable`).once('value')
         actions.setWeekYearTable({weekYearTable: weekYearTable.val()})
 
-        const weekids = getCurrentYearWeekIds(weekYearTable.val(), currentYear)
+        const weekids = getCurrentYearWeekIds(weekYearTable.val(), year)
         var weeks = []
         
         Promise.all(
@@ -31,7 +33,8 @@ const analyticsModel =  {
             data.forEach((week, index) => {
                 weeks.push({...week.val(), weekid: weekids[index]})
             })
-            actions.setcategories({categories: weeks})
+            
+            actions.setcategories({categories: createSortedYearObject(weeks, year, weekYearTable.val())})
         })
     }),
     stopCategoryListener: thunk(async (actions, payload) => {
@@ -40,7 +43,8 @@ const analyticsModel =  {
         await database.ref(`users/${uid}/categories/`).off()
     }),
 
-    // Recounts the activities and categories for the current week
+    // Recounts the activities and categories for the current week.
+    // This recounting happens after every change in categories in one of the weeks.
     startCategoryListener: thunk( async (actions, payload) => {
         const uid = store.getState().auth.uid 
 

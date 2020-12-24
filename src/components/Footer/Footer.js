@@ -1,12 +1,8 @@
 // External imports
 import React from 'react'
 
-
-
 // Internal imports
-import './Styles.scss'
-
-
+import './Footer.scss'
 
 const Footer = () => {
     

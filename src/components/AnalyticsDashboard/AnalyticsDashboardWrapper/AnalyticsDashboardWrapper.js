@@ -3,10 +3,11 @@ import React, { useEffect } from 'react'
 import { useStoreActions, useStoreState } from 'easy-peasy';
 
 // Internal imports
-import LoadingPage from '../LoadingPage/LoadingPage'
+import AnalyticsDashboardNavBar from '../AnalyticsDashboardNavBar/AnalyticsDashboardNavBar'
+import LoadingPage from '../../LoadingPage/LoadingPage'
 import './AnalyticsDashboardWrapper.scss'
-import AnalyticsDashboard from '../AnalyticsDashboard'
-import Footer from '../Footer/Footer'
+import AnalyticsDashboard from '..'
+import Footer from '../../Footer/Footer'
 
 const AnalyticsDashboardWrapper = () => {
     const getCategories = useStoreActions(actions => actions.analytics.getCategories)
@@ -31,15 +32,15 @@ const AnalyticsDashboardWrapper = () => {
                     alignItems: 'flex-start',
                 }}
             >
-
                 <LoadingPage />
             </div>
         )
     }
     
-
+    
     return (
         <div className="analytics-wrapper">
+            <AnalyticsDashboardNavBar />
             <AnalyticsDashboard 
                 categories={categories} 
                 activitySettings={activitySettings} 

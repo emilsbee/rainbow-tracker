@@ -22,7 +22,7 @@ const MainDashboard  = () => {
     }, [startCategoryListener, stopCategoryListener])
 
     return (
-        <div>
+        <div style={{backgroundColor: '#f6f7f9'}}>
             <MainDashboardNavBar weekNr={currentDate.weekNr} year={currentDate.year}/>
 
             <MainDashboardTable />
