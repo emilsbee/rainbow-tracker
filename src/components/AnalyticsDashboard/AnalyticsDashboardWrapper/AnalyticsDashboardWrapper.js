@@ -13,6 +13,7 @@ import { goBack, goForward, setCurrentDate } from '../helpers'
 
 const AnalyticsDashboardWrapper = () => {
     const getCategories = useStoreActions(actions => actions.analytics.getCategories)
+    const setcategories = useStoreActions(actions => actions.analytics.setcategories)
     const categories = useStoreState(state => state.analytics.categories)
     const weekYearTable = useStoreState(state => state.analytics.weekYearTable)
     
@@ -21,11 +22,23 @@ const AnalyticsDashboardWrapper = () => {
 
     const [date, setDate] = useState({week: moment().isoWeek(), year: moment().year(), month: moment().month() }) // week: a week number, year: a year, month: monthNumber (0 to 11 instead of 1 to 12)
     const [view, setView] = useState("week") // Possible values: "week", "month", "year"
-    
+    const [currentYear, setCurrentYear] = useState(moment().year())
+
     useEffect(() => {
-        getCategories()
+        getCategories({year: moment().year()})
     }, [getCategories])
    
+
+    // This useEffect listens for changes in the date and when the year changes, it fetches the new year's analytics
+    // currentYear local state is the state with which the date is compared to and it gets updated when new year's analytics are fetched
+    useEffect(() => {
+        if (date.year !== currentYear) {
+            setcategories({categories: []})
+            getCategories({year: date.year})
+            setCurrentYear(date.year)
+        }
+    }, [currentYear, date, getCategories, setcategories])
+
     if (categories.length === 0) {
         return (
             <div
@@ -42,7 +55,7 @@ const AnalyticsDashboardWrapper = () => {
         )
     }
     
- 
+    
     return (
         <div className="analytics-wrapper">
             <AnalyticsDashboardNavBar 

@@ -20,7 +20,7 @@ const analyticsModel =  {
     
     getCategories: thunk( async (actions, payload) => {   
         const uid = store.getState().auth.uid 
-        const year = moment().year()
+        const year = payload.year
         const weekYearTable = await database.ref(`users/${uid}/weekYearTable`).once('value')
         actions.setWeekYearTable({weekYearTable: weekYearTable.val()})
 
