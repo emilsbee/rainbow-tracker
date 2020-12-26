@@ -44,9 +44,11 @@
     font-size: $type-sizing-6;
     font-weight: 300;
     color: $grey-8;
+    user-select: none;
 }
 
 #dashboard-nav-year-banner {
+    user-select: none;
     margin: 5px;
     font-size: $type-sizing-6;
     font-weight: 300;

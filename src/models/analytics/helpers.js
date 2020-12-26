@@ -13,7 +13,7 @@ export const getCurrentYearWeekIds = (weekYearTable, year) => {
 
 }
 
-const monthTable = {
+export const monthTable = {
     1: "January",
     2: "February",
     3: "March",
@@ -28,6 +28,11 @@ const monthTable = {
     12: "December"
 }
 
+// A sort of pipeline function that converts analytics data fetched (categories)
+// to a formatted object. This formatted object contains the amount of times times each activity and category has been selected 
+// in all the weeks in a specific year. This data is then nicely formatted for each week, month and the whole year. This esentially
+// makes it easy to display this data. This final object can be seen in more detail in roamresearch. Throughout the pipeline some other functions
+// are occasionally called (all from this file) to make this function cleaner, although it ended up quite unclean. 
 export const createSortedYearObject = (categories, year, weekYearTable) => {
     const formattedObj = {
         year,
