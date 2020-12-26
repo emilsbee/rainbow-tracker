@@ -19,7 +19,7 @@ function MainDashboardTable() {
     if (categories.length === 0 || notes.length === 0) {
         return (
             <div id="main-dashboard-table__loading">
-                <LoadingPage />
+                <LoadingPage backgroundColor={'#f6f7f9'}/>
             </div>
         )
     }

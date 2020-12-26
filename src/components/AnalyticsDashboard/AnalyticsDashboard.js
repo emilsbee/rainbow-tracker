@@ -6,7 +6,6 @@ import { useStoreState } from 'easy-peasy'
 // Internal imports
 import './AnalyticsDashboard.scss'
 import TotalCard from './TotalCard'
-import { getSpecificWeek, getSpecificMonth } from './helpers'
 
 const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, weekYearTable }) => {
     const currentDate = useStoreState(state => state.settings.currentDate)
