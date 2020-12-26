@@ -37,7 +37,7 @@ const goBackMonth = (date) => {
     if (monthNr < 0) { // If going back a month changes the year
         return {year: date.year-1, week: moment().isoWeeksInYear(date.year-1), month: 11}
     } else { // If going back a month doesn't change the year
-        return {year: date.year, week: getWeeksInCurrentMonth(date.year, monthNr).values().next().value, month: monthNr+1}
+        return {year: date.year, week: getWeeksInCurrentMonth(date.year, monthNr+1).values().next().value, month: monthNr}
     }
 }
 
@@ -78,7 +78,7 @@ const goForwardMonth = (date) => {
     if (monthNr > 11) { // If going forward a month changes the year
         return {year: date.year+1, week: 1, month: 0}
     } else { // If going forward a month doesn't change the year
-        return {year: date.year, week: getWeeksInCurrentMonth(date.year, monthNr).values().next().value, month: monthNr+1}
+        return {year: date.year, week: getWeeksInCurrentMonth(date.year, monthNr+1).values().next().value, month: monthNr}
     }
 }
 
