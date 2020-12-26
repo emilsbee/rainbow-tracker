@@ -19,11 +19,10 @@ const AnalyticsDashboardWrapper = () => {
     const activitySettings = useStoreState(state => state.settings.activitySettings)
     const categorySettings = useStoreState(state => state.settings.categorySettings)
 
-    const [date, setDate] = useState() // week: a week number, year: a year, month: monthNumber (0 to 11 instead of 1 to 12)
+    const [date, setDate] = useState({week: moment().isoWeek(), year: moment().year(), month: moment().month() }) // week: a week number, year: a year, month: monthNumber (0 to 11 instead of 1 to 12)
     const [view, setView] = useState("week") // Possible values: "week", "month", "year"
     
     useEffect(() => {
-        setCurrentDate(setDate)
         getCategories()
     }, [getCategories])
    
