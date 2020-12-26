@@ -1,5 +1,9 @@
 import moment from 'moment'
 
+export const setCurrentDate = (setDate) => {
+    setDate({week: moment().isoWeek(), year: moment().year(), month: moment().month()+1 })
+}
+
 export const goBack = (view, date, setDate) => {
     if (view === "week") {
         setDate(goBackWeek(date))
@@ -18,7 +22,7 @@ const goBackWeek = (date) => {
     } else {
         let weekNrsInCurrentMonth = getWeeksInCurrentMonth(date.year, date.month)
         
-        if (weekNrsInCurrentMonth.has(date.week)) { // If going back a week doesn't change the month
+        if (!weekNrsInCurrentMonth.has(weekNr)) { // If going back a week doesn't change the month
             return {year: date.year, week: weekNr, month: date.month}
         } else { // If going back a week changes the month to the previous one
             return {year: date.year, week: weekNr, month: date.month-1}
@@ -59,7 +63,7 @@ const goForwardWeek = (date) => {
     } else { // If going forward a week doesn't change the year
         let weekNrsInCurrentMonth = getWeeksInCurrentMonth(date.year, date.month)
 
-        if (weekNrsInCurrentMonth.has(date.week)) { // If going forward a week changes the month
+        if (!weekNrsInCurrentMonth.has(weekNr)) { // If going forward a week changes the month
             return {year: date.year, week: weekNr, month: date.month+1}
         } else { // If going forward a week doesn't change the month
             return {year: date.year, week: weekNr, month: date.month}

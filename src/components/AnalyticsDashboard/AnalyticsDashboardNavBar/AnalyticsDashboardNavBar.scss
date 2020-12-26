@@ -11,12 +11,13 @@
 }
 
 #anal-dash-nav-bar__view-by__container {
+    user-select: none;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center; 
     width: 33%;
-    padding-left: 40px;
+    padding-right: 40px;
     font-size: $type-sizing-3;
 }
 

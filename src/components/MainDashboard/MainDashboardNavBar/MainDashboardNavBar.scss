@@ -11,6 +11,7 @@
 }
 
 #dashboard-nav-back-to-current-container {
+    user-select: none;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;

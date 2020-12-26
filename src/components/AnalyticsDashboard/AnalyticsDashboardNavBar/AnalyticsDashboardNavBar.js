@@ -1,5 +1,6 @@
 // External imports
 import React from 'react';
+import moment from 'moment'
 
 // Internal imports
 import { monthTable } from '../../../models/analytics/helpers'
@@ -7,18 +8,23 @@ import './AnalyticsDashboardNavBar.scss'
 import { ReactComponent as BackArrow } from '../../MainDashboard/MainDashboardNavBar/utils/back.svg'
 import { ReactComponent as NextArrow } from '../../MainDashboard/MainDashboardNavBar/utils/next.svg'
  
-const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward}) => {
+const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCurrentDate}) => {
      
+    const currentWeekNr = moment().isoWeek()
+    const currentYear = moment().year()
+
     return (
         <div id="anal-dash-nav-bar__container">
-            <div id="anal-dash-nav-bar__view-by__container">
-                View by
-                <select name="viewBy" id="anal-dash-nav-bar__view-by__dropdown" onChange={(e) => setView(e.target.value)}>
-                    <option value="week" id="anal-dash-nav-bar__view-by__dropdown-item">week</option>
-                    <option value="month" id="anal-dash-nav-bar__view-by__dropdown-item">month</option>
-                    <option value="year" id="anal-dash-nav-bar__view-by__dropdown-item">year</option>
-                </select>
-            </div> 
+            <div id="dashboard-nav-back-to-current-container">
+                    {!(currentWeekNr === date.week && currentYear === date.year) && 
+                    <button
+                        id="dashboard-nav-back-to-current"
+                        onClick={setCurrentDate}
+                    >
+                        To current week
+                    </button>}
+                </div>
+    
 
             <div id="anal-dash-nav-bar__controls-container">
                 <BackArrow id="dashboard-nav-previous-week" onClick={goBack}/>
@@ -30,10 +36,14 @@ const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward}) => {
                     onClick={goForward}
                 />
             </div>
-
-            <div id="anal-dash-nav-bar__placeholder">
-
-            </div>
+            <div id="anal-dash-nav-bar__view-by__container">
+                View by
+                <select name="viewBy" id="anal-dash-nav-bar__view-by__dropdown" onChange={(e) => setView(e.target.value)}>
+                    <option value="week" id="anal-dash-nav-bar__view-by__dropdown-item">week</option>
+                    <option value="month" id="anal-dash-nav-bar__view-by__dropdown-item">month</option>
+                    <option value="year" id="anal-dash-nav-bar__view-by__dropdown-item">year</option>
+                </select>
+            </div> 
         </div> 
     );
 }
