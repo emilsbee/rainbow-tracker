@@ -13,7 +13,7 @@ export const getCurrentYearWeekIds = (weekYearTable, year) => {
 
 }
 
-export const monthTable = {
+const monthTable = {
     1: "January",
     2: "February",
     3: "March",
