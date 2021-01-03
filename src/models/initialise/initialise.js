@@ -26,8 +26,9 @@ const initialiseModel = {
 
         // Other
         const weekNr = moment().isoWeek()
-        const year = moment().year()
-
+        // It is necessary to get the year from the current week because there can be a scenario when a week is the last week of a year
+        // however the current year could already be a new year so it would show the last week of the next year.
+        const year = moment().startOf("isoWeek")._d.getFullYear()
         database.ref(`users/${uid}/init`).once("value").then((hasData) => {
 
             if (hasData.val() === null) { // New acount

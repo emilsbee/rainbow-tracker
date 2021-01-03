@@ -18,7 +18,7 @@ const MainDashboard  = () => {
         <div>
             <NavBar />
             
-            <MainDashboardNavBar weekNr={currentDate.weekNr} year={currentDate.year}/>
+            <MainDashboardNavBar weekNr={parseInt(currentDate.weekNr)} year={parseInt(currentDate.year)}/>
 
             <MainDashboardTable />
             

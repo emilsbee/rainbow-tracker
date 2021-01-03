@@ -1,11 +1,13 @@
-import moment from 'moment'
-import { action, thunk, thunkOn } from 'easy-peasy'
+// External imports
+import {thunk } from 'easy-peasy'
 import { store } from '../../index'
 import database from '../../components/firebase/firebase'
 
+// Internal imports
 import { createWeekData } from '../initialise/helpers'
+import { getMonthDateRange } from './helpers'
 
-export default {
+const weeksModel = {
     nextWeek: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
         const currentWeekNr = parseInt(payload.currentWeekNr)
@@ -20,10 +22,9 @@ export default {
 
         const nextWeekNr = currentWeekNr+1
         
-        const weeksInCurrentYear = moment().isoWeeksInYear(currentYear) // Gets the number of weeks in the current year
-
+        const weeksInCurrentYear = getMonthDateRange(currentYear, 12).end.isoWeek() // Gets the number of weeks in the current year
+        
         var nextWeekid;
-
         if (currentWeekNr !== weeksInCurrentYear) { // If current week isn't last week of the year
         
             nextWeekid = await database.ref(`users/${uid}/weekYearTable/${nextWeekNr}_${currentYear}`).once('value') // Fetches weekid of current week
@@ -70,10 +71,9 @@ export default {
 
         var previousWeekid;
 
-
         if (currentWeekNr === 1) { // If current week is first week of year 
 
-            const weeksInPreviousYear = moment().isoWeeksInYear(currentYear-1) // Gets the number of weeks in the previous year
+            const weeksInPreviousYear = getMonthDateRange(currentYear-1, 12).end.isoWeek() // Gets the number of weeks in the previous year
 
             previousWeekNr = weeksInPreviousYear // Sets the previous weeks week number to previous years final week
 
@@ -156,3 +156,5 @@ export default {
         setDate({date: {weekNr, year}})
     })
 }
+
+export default weeksModel
