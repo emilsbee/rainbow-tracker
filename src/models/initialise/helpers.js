@@ -11,7 +11,7 @@ export const createWeekData = (type, uid, weekNr, year) => {
 
     if (type === 'CURRENT') {
         weekNr = moment().isoWeek()
-        year = moment().year()
+        year = moment().startOf("isoWeek")._d.getFullYear()
     } 
 
     const weekid = uuidv4() // Create an id for the new week

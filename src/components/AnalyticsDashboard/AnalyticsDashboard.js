@@ -6,10 +6,27 @@ import { useStoreState } from 'easy-peasy'
 // Internal imports
 import './AnalyticsDashboard.scss'
 import TotalCard from './TotalCard'
+import LoadingPage from '../LoadingPage/LoadingPage'
 
 const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, weekYearTable }) => {
     const currentDate = useStoreState(state => state.settings.currentDate)
 
+    if (categories.length === 0) {
+        return (
+            <div
+                style={{
+                    marginBottom: "-47px",
+                    marginTop: "-160px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: 'center',
+                    alignItems: 'flex-start',
+                }}
+            >
+                <LoadingPage />
+            </div>
+        )
+    }
     
     return (
         <div className="analytics-dashboard-container">

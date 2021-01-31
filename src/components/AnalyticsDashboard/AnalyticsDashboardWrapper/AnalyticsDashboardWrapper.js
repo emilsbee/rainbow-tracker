@@ -5,7 +5,6 @@ import moment from 'moment'
 
 // Internal imports
 import AnalyticsDashboardNavBar from '../AnalyticsDashboardNavBar/AnalyticsDashboardNavBar'
-import LoadingPage from '../../LoadingPage/LoadingPage'
 import './AnalyticsDashboardWrapper.scss'
 import AnalyticsDashboard from '..'
 import Footer from '../../Footer/Footer'
@@ -38,22 +37,6 @@ const AnalyticsDashboardWrapper = () => {
             setCurrentYear(date.year)
         }
     }, [currentYear, date, getCategories, setcategories])
-
-    if (categories.length === 0) {
-        return (
-            <div
-                style={{
-                    marginTop: "-100px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                }}
-            >
-                <LoadingPage />
-            </div>
-        )
-    }
     
     
     return (

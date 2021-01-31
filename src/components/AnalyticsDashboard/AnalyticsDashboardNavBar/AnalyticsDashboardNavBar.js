@@ -30,14 +30,16 @@ const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCu
     return (
         <div id="anal-dash-nav-bar__container">
             <div id="dashboard-nav-back-to-current-container">
-                    {!(currentWeekNr === date.week && currentYear === date.year) && 
+                {
+                    !(currentWeekNr === date.week && currentYear === date.year) && 
                     <button
                         id="dashboard-nav-back-to-current"
                         onClick={setCurrentDate}
                     >
                         To current week
-                    </button>}
-                </div>
+                    </button>
+                }
+            </div>
     
 
             <div id="anal-dash-nav-bar__controls-container">
@@ -50,6 +52,7 @@ const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCu
                     onClick={goForward}
                 />
             </div>
+            
             <div id="anal-dash-nav-bar__view-by__container">
                 View by
                 <select name="viewBy" id="anal-dash-nav-bar__view-by__dropdown" onChange={(e) => setView(e.target.value)}>

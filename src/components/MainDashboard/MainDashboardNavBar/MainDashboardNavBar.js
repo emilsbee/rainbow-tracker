@@ -18,10 +18,9 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
     const setCategories = useStoreActions(actions => actions.activities.setCategories)
 
     const currentWeekNr = moment().isoWeek()
-    const currentYear = moment().year()
+    const currentYear = moment().startOf("isoWeek")._d.getFullYear()
 
     const handleToCurrentWeek = () => {
-
         // Necessary to set these to empty array to initiate loading in mainDashboardTable
         setNotes({notes: []})
         setCategories({categories: []})
@@ -52,9 +51,11 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
                         id="dashboard-nav-next-week" 
                     />
                 </div>
+
                 <div
                     style={{
-                        width: "33%"
+                        width: "33%",
+                        height: "60px"
                     }}
                 />
                 

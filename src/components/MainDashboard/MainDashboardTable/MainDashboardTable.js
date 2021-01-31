@@ -17,15 +17,21 @@ function MainDashboardTable() {
     
 
     if (categories.length === 0 || notes.length === 0) {
+        console.log('runs')
         return (
             <div id="main-dashboard-table__loading">
+
                 <LoadingPage backgroundColor={'#f6f7f9'}/>
             </div>
+            // <div id="main-dashboard-table__loading">
+            // </div>
         )
     }
+ 
     
     return (
         <div id="main-dashboard-table__container">   
+            
             <TimeCell timeValues={timeValues}/>
             {[0,1,2,3,4,5,6].map((day) => {
                 return (
@@ -37,6 +43,7 @@ function MainDashboardTable() {
                     />
                 )
             })}
+            
         </div>
     );
 }
