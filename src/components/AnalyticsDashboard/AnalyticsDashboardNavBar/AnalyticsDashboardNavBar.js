@@ -6,7 +6,8 @@ import moment from 'moment'
 import './AnalyticsDashboardNavBar.scss'
 import { ReactComponent as BackArrow } from '../../MainDashboard/MainDashboardNavBar/utils/back.svg'
 import { ReactComponent as NextArrow } from '../../MainDashboard/MainDashboardNavBar/utils/next.svg'
- 
+import {VIEW_WEEK, VIEW_MONTH, VIEW_YEAR} from '../constants/constants'
+
 const monthTable = {
     0: "January",
     1: "February",
@@ -56,9 +57,9 @@ const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCu
             <div id="anal-dash-nav-bar__view-by__container">
                 View by
                 <select name="viewBy" id="anal-dash-nav-bar__view-by__dropdown" onChange={(e) => setView(e.target.value)}>
-                    <option value="week" id="anal-dash-nav-bar__view-by__dropdown-item">week</option>
-                    <option value="month" id="anal-dash-nav-bar__view-by__dropdown-item">month</option>
-                    <option value="year" id="anal-dash-nav-bar__view-by__dropdown-item">year</option>
+                    <option value={VIEW_WEEK} id="anal-dash-nav-bar__view-by__dropdown-item">week</option>
+                    <option value={VIEW_MONTH} id="anal-dash-nav-bar__view-by__dropdown-item">month</option>
+                    <option value={VIEW_YEAR} id="anal-dash-nav-bar__view-by__dropdown-item">year</option>
                 </select>
             </div> 
         </div> 

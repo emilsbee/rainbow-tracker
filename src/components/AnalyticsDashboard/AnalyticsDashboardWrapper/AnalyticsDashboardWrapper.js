@@ -6,9 +6,9 @@ import moment from 'moment'
 // Internal imports
 import AnalyticsDashboardNavBar from '../AnalyticsDashboardNavBar/AnalyticsDashboardNavBar'
 import './AnalyticsDashboardWrapper.scss'
-import AnalyticsDashboard from '..'
+import AnalyticsDashboard from '../AnalyticsDashboard'
 import Footer from '../../Footer/Footer'
-import { goBack, goForward, setCurrentDate } from '../helpers'
+import { goBack, goForward, setCurrentDate } from '../AnalyticsDashboard/helpers'
 
 const AnalyticsDashboardWrapper = () => {
     const getCategories = useStoreActions(actions => actions.analytics.getCategories)
@@ -22,6 +22,7 @@ const AnalyticsDashboardWrapper = () => {
     const [date, setDate] = useState({week: moment().isoWeek(), year: moment().year(), month: moment().month() }) // week: a week number, year: a year, month: monthNumber (0 to 11 instead of 1 to 12)
     const [view, setView] = useState("week") // Possible values: "week", "month", "year"
     const [currentYear, setCurrentYear] = useState(moment().year())
+
 
     useEffect(() => {
         getCategories({year: moment().year()})
@@ -54,6 +55,8 @@ const AnalyticsDashboardWrapper = () => {
                 activitySettings={activitySettings} 
                 categorySettings={categorySettings}
                 weekYearTable={weekYearTable}
+                view={view}
+                date={date}
             />
             <Footer />
         </div>

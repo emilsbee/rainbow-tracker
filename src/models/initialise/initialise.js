@@ -20,6 +20,8 @@ const initialiseModel = {
         const setActivitySettings = store.getActions().settings.setActivitySettings
         const setCategorySettings = store.getActions().settings.setCategorySettings
         const setDate = store.getActions().settings.setDate
+        const startCategoryListener = store.getActions().analytics.startCategoryListener
+
 
         // Store state
         const uid = store.getState().auth.uid
@@ -115,7 +117,7 @@ const initialiseModel = {
         })
 
 
-
+        startCategoryListener()
 
 
 

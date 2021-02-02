@@ -1,15 +1,59 @@
+// External imports
 import moment from 'moment'
+
+// Internal imports
+import {VIEW_WEEK, VIEW_MONTH, VIEW_YEAR} from '../constants/constants'
+
+/**
+ * Gets the correct week, month or just the year from categories and 
+ * returns the categories/activities of it. 
+ * @param {*} view The view chosen by the user in AnalyticsDashboardNavBar
+ * @param {*} date The date object contains weekNr, month (0-11), year
+ * @param {*} categories The object that contains a whole year worth of category/activity data nicely formatted in weeks, months and year values.
+ * @returns The correct category/activity data depending on the view and date.
+ */
+export const getDataToDisplay = (view, date, categories) => {
+    
+    let data = null
+    if (Object.keys(categories).length > 0) {
+        if (view === VIEW_WEEK) {
+            
+            for (var i = 0; i < categories.weeks.length; i++) {
+                if (categories.weeks[i].weekNr === date.week) {
+                    data = categories.weeks[i]
+                    break
+                }
+            }
+
+        } else if (view === VIEW_MONTH) {
+
+            for (var j = 0; j < categories.months.length; j++) {
+                if (categories.months[j].monthNr ===  date.month+1) {
+                    data = categories.months[j]
+                    break
+                }
+            }
+
+        } else if (view === VIEW_YEAR) {
+            data = {
+                categories: categories.yearValues.categories,
+                activities: categories.yearValues.activities
+            }
+        }
+    }
+    return data
+}
 
 export const setCurrentDate = (setDate) => {
     setDate({week: moment().isoWeek(), year: moment().year(), month: moment().month() })
 }
 
 export const goBack = (view, date, setDate) => {
-    if (view === "week") {
+    if (view === VIEW_WEEK) {
         setDate(goBackWeek(date))
-    } else if (view === "month") {
+    } else if (view === VIEW_MONTH) {
         setDate(goBackMonth(date))
-    } else {
+    } else if (view === VIEW_YEAR) {
         setDate(goBackYear(date))
     }
 }
@@ -46,11 +90,11 @@ const goBackYear = (date) => {
 }
 
 export const goForward = (view, date, setDate) => {
-    if (view === "week") {
+    if (view === VIEW_WEEK) {
         setDate(goForwardWeek(date))
-    } else if (view === "month") {
+    } else if (view === VIEW_MONTH) {
         setDate(goForwardMonth(date))
-    } else {
+    } else if (view === VIEW_YEAR) {
         setDate(goForwardYear(date))
     }
 }
@@ -99,3 +143,4 @@ const getWeeksInCurrentMonth = (year, month) => {
     }
     return weeks
 }
+

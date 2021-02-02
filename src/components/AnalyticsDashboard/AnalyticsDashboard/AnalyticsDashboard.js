@@ -1,42 +1,39 @@
 // External imports
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useStoreState } from 'easy-peasy'
 
 // Internal imports
 import './AnalyticsDashboard.scss'
-import TotalCard from './TotalCard'
-import LoadingPage from '../LoadingPage/LoadingPage'
+import TotalCard from '../TotalCard'
+import LoadingPage from '../../LoadingPage/LoadingPage'
+import {getDataToDisplay} from './helpers'
 
-const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, weekYearTable }) => {
-    const currentDate = useStoreState(state => state.settings.currentDate)
+const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, weekYearTable, view, date }) => {
+    const [dataToDisplay, setDataToDisplay] = useState(false)
 
-    if (categories.length === 0) {
+    useEffect(() => {
+        setDataToDisplay(getDataToDisplay(view, date, categories))
+    },[view, date, categories, setDataToDisplay])
+
+    
+    if (categories.length === 0 || !dataToDisplay) {
         return (
-            <div
-                style={{
-                    marginBottom: "-47px",
-                    marginTop: "-160px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: 'center',
-                    alignItems: 'flex-start',
-                }}
-            >
+            <div id="analytics-dashboard-loading-container">
                 <LoadingPage />
             </div>
         )
     }
-    
+
     return (
         <div className="analytics-dashboard-container">
             
-            {/* <TotalCard 
-                categories={categories[1].categories} 
-                activities={categories[1].activities}
+            <TotalCard 
+                categories={dataToDisplay.categories} 
+                activities={dataToDisplay.activities}
                 activitySettings={activitySettings} 
                 categorySettings={categorySettings}
-            /> */}
+            />
             {/* {Object.keys(categories[0].categories).map(categoryid => {
 
                 if (categorySettings[categoryid]) {

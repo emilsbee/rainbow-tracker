@@ -17,14 +17,11 @@ function MainDashboardTable() {
     
 
     if (categories.length === 0 || notes.length === 0) {
-        console.log('runs')
         return (
             <div id="main-dashboard-table__loading">
 
                 <LoadingPage backgroundColor={'#f6f7f9'}/>
             </div>
-            // <div id="main-dashboard-table__loading">
-            // </div>
         )
     }
  
