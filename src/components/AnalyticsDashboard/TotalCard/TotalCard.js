@@ -1,4 +1,6 @@
 import React from 'react';
+import PieChart from 'react-simple-pie-chart';
+
 
 import './TotalCard.scss'
 import {capitalizeFirstLetter, findCategoryActivities} from './helpers'
@@ -13,7 +15,6 @@ const TotalCard = ({ categories, activities, categorySettings, activitySettings 
                     Total
                 </h2>
             </div>
-
             <div id="anal-total-card__content">
                 <div id="anal-total-card__content-categories">
                     
@@ -53,6 +54,20 @@ const TotalCard = ({ categories, activities, categorySettings, activitySettings 
 
                 </div>
 
+            <PieChart 
+                    style={{height: "200px"}}
+                    slices={[
+                        {
+                            color: '#f00',
+                            value: 10,
+                            someOtherProperty: "per"
+                          },
+                          {
+                            color: '#0f0',
+                            value: 20,
+                          },
+                    ]}
+                />
             </div>
         </div>
     );

@@ -9,7 +9,7 @@
 
     padding-left: 20px;
     padding-right: 20px; 
-    width: 300px;
+    // width: 800px;
     background-color: white;
     border-radius: $sizing-3;
     border: 1.2px solid #f0ede9;
@@ -26,11 +26,13 @@
 }
 
 #anal-total-card__content {
-
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: space-between;
 }
 
 #anal-total-card__content-categories {
-
+    width: 300px;
 }
 
 #anal-total-card__content-categories__category {
