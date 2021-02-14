@@ -130,7 +130,7 @@ const goForwardYear = (date) => {
     return {year: date.year+1, week: date.week, month: date.month}
 }
 
-const getWeeksInCurrentMonth = (year, month) => {
+export const getWeeksInCurrentMonth = (year, month) => {
     // This method of finding week numbers in a month is taken from stackoverflow: https://stackoverflow.com/questions/43603604/how-to-get-week-numbers-of-current-month-in-moment-js/43611388
     const firstDayOfMonth = moment(`${year}-${month}`, 'YYYY-MM-DD');
     const numOfDays = firstDayOfMonth.daysInMonth();

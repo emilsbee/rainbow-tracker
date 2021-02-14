@@ -1,0 +1,25 @@
+@import '../../../styles/base/settings';
+
+#toggle-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#toggle-active {
+    cursor: default;
+    background-color: $primary;
+    
+    color: #f8f8fa;
+
+
+    border-radius: 3px;
+    padding: 4px;
+    margin: 2px;
+}
+
+#toggle-inactive {
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 4px;
+    margin: 2px;
+}

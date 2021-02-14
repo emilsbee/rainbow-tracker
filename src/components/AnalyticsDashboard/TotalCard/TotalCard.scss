@@ -1,5 +1,21 @@
 @import '../../../styles/base/settings.scss';
 
+#anal-total-card__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#anal-total-card__header-text {
+    font-size: $type-sizing-5;
+    font-weight: 500;
+    margin: 0;
+    user-select: none;
+}
+
 #anal-total-card__content-categories {
     width: 300px;
 }
@@ -10,7 +26,12 @@
     justify-content: space-between;
 }
 
+#anal-total-card__content-body:hover {
+    cursor: pointer;
+}
+
 #anal-total-card__content-arrow {
     width: 10px;
     height: 10px;
+    fill: $primary;
 }

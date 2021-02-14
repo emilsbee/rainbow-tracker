@@ -36,6 +36,7 @@ const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, we
                     activities={dataToDisplay.activities}
                     activitySettings={activitySettings} 
                     categorySettings={categorySettings}
+                    view={view}
                 />
             </Card>
             
