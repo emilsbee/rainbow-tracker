@@ -6,6 +6,8 @@ import { useStoreState } from 'easy-peasy'
 // Internal imports
 import './AnalyticsDashboard.scss'
 import TotalCard from '../TotalCard'
+import TotalPie from '../TotalPie'
+import Card from '../Card'
 import LoadingPage from '../../LoadingPage/LoadingPage'
 import {getDataToDisplay} from './helpers'
 
@@ -26,27 +28,20 @@ const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, we
     }
 
     return (
-        <div className="analytics-dashboard-container">
+        <div id="analytics-dashboard-container">
             
-            <TotalCard 
-                categories={dataToDisplay.categories} 
-                activities={dataToDisplay.activities}
-                activitySettings={activitySettings} 
-                categorySettings={categorySettings}
-            />
-            {/* {Object.keys(categories[0].categories).map(categoryid => {
-
-                if (categorySettings[categoryid]) {
-
-                    return (
-                        <div style={{height: '50px', width: '200px', backgroundColor: 'white'}}>
-                            {categorySettings[categoryid].category} {(parseInt(categories[42].categories[categoryid])*15)/60}h
-                        </div>
-                    )
-                } else{
-                    return null
-                }
-            })} */}
+            <Card title="Total">
+                <TotalCard 
+                    categories={dataToDisplay.categories} 
+                    activities={dataToDisplay.activities}
+                    activitySettings={activitySettings} 
+                    categorySettings={categorySettings}
+                />
+            </Card>
+            
+            <Card title="Total">
+                <TotalPie />    
+            </Card>
         </div>
     )
 }

@@ -1,52 +1,16 @@
 @import '../../../styles/base/settings.scss';
 
-#anal-total-card__container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-
-    padding-left: 20px;
-    padding-right: 20px; 
-    // width: 800px;
-    background-color: white;
-    border-radius: $sizing-3;
-    border: 1.2px solid #f0ede9;
-    box-shadow: -1px 1px 11px -4px rgba(194, 186, 176, 0.67);
-}
-
-#anal-total-card__header {
-    text-align: center;
-}
-
-#anal-total-card__header-text {
-    font-size: $type-sizing-5;
-    font-weight: 500;
-}
-
-#anal-total-card__content {
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: space-between;
-}
-
 #anal-total-card__content-categories {
     width: 300px;
 }
 
-#anal-total-card__content-categories__category {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-#anal-total-card__content-categories__category__title {
+#anal-total-card__content-title {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-#anal-total-card__content-activities {
-
+#anal-total-card__content-arrow {
+    width: 10px;
+    height: 10px;
 }

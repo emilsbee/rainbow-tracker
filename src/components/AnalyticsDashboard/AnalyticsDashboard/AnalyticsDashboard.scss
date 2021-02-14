@@ -9,9 +9,12 @@
     align-items: flex-start;
 }
 
-.analytics-dashboard-container {
+#analytics-dashboard-container {
     background-color: rgb(248,248,250);
-    // padding-left: 50px;
-    // padding-top: 50px;
-    // padding-right: 50px;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
