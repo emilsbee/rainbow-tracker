@@ -1,5 +1,7 @@
 // External imports
 import { thunk } from 'easy-peasy'
+
+
 import { store } from '../../index'
 import database from '../../firebase/firebase'
 
@@ -25,7 +27,6 @@ const weeksModel = {
         const weeksInCurrentYear = getMonthDateRange(currentYear, 12).end.isoWeek() // Gets the number of weeks in the current year
 
         var nextWeekid;
-
         if (currentWeekNr !== weeksInCurrentYear) { // If current week isn't last week of the year
         
             nextWeekid = await database.ref(`users/${uid}/weekYearTable/${nextWeekNr}_${currentYear}`).once('value') // Fetches weekid of current week
@@ -71,7 +72,6 @@ const weeksModel = {
         var previousWeekNr;
 
         var previousWeekid;
-
 
         if (currentWeekNr === 1) { // If current week is first week of year 
 
