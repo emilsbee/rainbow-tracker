@@ -5,8 +5,8 @@ import { useStoreActions } from 'easy-peasy'
 
 // Internal imports
 import './login-page.scss'
-import  google  from './google-logo.png'
-import { ReactComponent as Anonymous } from './anonymous.svg'
+import  google  from '../../svgIcons/google-logo.png'
+import { ReactComponent as Anonymous } from '../../svgIcons/anonymous.svg'
 
 
 const LoginPage = () => {
