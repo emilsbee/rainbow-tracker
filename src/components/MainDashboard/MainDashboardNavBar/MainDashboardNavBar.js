@@ -7,10 +7,11 @@ import PropTypes from 'prop-types'
 
 // Internal imports
 import './MainDashboardNavBar.scss'
-import { ReactComponent as BackArrow } from './utils/back.svg'
-import { ReactComponent as NextArrow } from './utils/next.svg'
+import { ReactComponent as BackArrow } from '../../../svgIcons/back.svg'
+import { ReactComponent as NextArrow } from '../../../svgIcons/next.svg'
 
 const MainDashboardNavBar = ({ weekNr, year}) => {
+    // Store actions
     const nextWeek = useStoreActions(actions => actions.weeks.nextWeek)
     const previousWeek = useStoreActions(actions => actions.weeks.previousWeek)
     const getWeek = useStoreActions(actions => actions.weeks.getWeek)
@@ -20,6 +21,9 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
     const currentWeekNr = moment().isoWeek()
     const currentYear = moment().startOf("isoWeek")._d.getFullYear()
 
+    /**
+     * Handles to current week button press.
+     */
     const handleToCurrentWeek = () => {
         // Necessary to set these to empty array to initiate loading in mainDashboardTable
         setNotes({notes: []})
@@ -28,28 +32,38 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
         getWeek({weekNr: currentWeekNr, year: currentYear})
     }
 
+    /**
+     * Handles next week button press.
+     */
+    const handleNextWeek = () => {
+        nextWeek({ currentWeekNr: weekNr, currentYear: year })
+    }
+
+    /**
+     * Handles previous week button press.
+     */
+    const handlePrevWeek = () => {
+        previousWeek({ currentWeekNr: weekNr, currentYear: year })
+    }
+
     return (
-        <div id="dashboard-nav-container">
-                <div id="dashboard-nav-back-to-current-container">
+        <div id="main-dashboard-nav-container">
+                <div id="main-dashboard-nav-back-to-current-container">
                     {!(currentWeekNr === weekNr && currentYear === year) && 
-                    <button
-                        id="dashboard-nav-back-to-current"
-                        onClick={handleToCurrentWeek}
-                    >
-                        To current week
-                    </button>}
+                        <button
+                            id="main-dashboard-nav-back-to-current"
+                            onClick={handleToCurrentWeek}
+                        >
+                            To current week
+                        </button>
+                    }
                 </div>
 
-                <div
-                    id="dashboard-nav-central-container"
-                >
-                    <BackArrow onClick={() => previousWeek({ currentWeekNr: weekNr, currentYear: year })} id="dashboard-nav-previous-week" />
-                            <h2 id="dashboard-nav-year-banner">{year},</h2>
-                            <h2 id="dashboard-nav-week-banner">week {weekNr}</h2>
-                    <NextArrow 
-                        onClick={() => nextWeek({ currentWeekNr: weekNr, currentYear: year })} 
-                        id="dashboard-nav-next-week" 
-                    />
+                <div id="main-dashboard-nav-central-container">
+                    <BackArrow onClick={handlePrevWeek} id="main-dashboard-week-change-button"/>
+                            <h2 id="main-dashboard-nav-banner">{year},</h2>
+                            <h2 id="main-dashboard-nav-banner">week {weekNr}</h2>
+                    <NextArrow onClick={handleNextWeek} id="main-dashboard-week-change-button"/>
                 </div>
 
                 <div

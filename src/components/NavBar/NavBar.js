@@ -10,6 +10,9 @@ import { ReactComponent as DashboardIcon } from "../../svgIcons/dashboard.svg";
 import { ReactComponent as SettingsIcon } from "../../svgIcons/settings.svg";
 import { ReactComponent as AnalyticsIcon } from "../../svgIcons/analytics.svg";
 
+/**
+ * The navigation bar on the left side of page.
+ */
 const NavBar = () => {
     // Local state
     const [currentLocation, setCurrentLocation] = React.useState("/dashboard")
@@ -18,11 +21,15 @@ const NavBar = () => {
     // Store actions
     const startLogout = useStoreActions(actions => actions.auth.startLogout)
 
+    // Every time the location changes, currentLocation is updated.
     let location = useLocation()
     React.useEffect(() => {
         setCurrentLocation(location.pathname)
     }, [location])
 
+    /**
+     * Handles logout button press
+     */
     const beginLogout = () => {
         startLogout()
     }

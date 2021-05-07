@@ -4,8 +4,8 @@ import moment from 'moment'
 
 // Internal imports
 import './AnalyticsDashboardNavBar.scss'
-import { ReactComponent as BackArrow } from '../../MainDashboard/MainDashboardNavBar/utils/back.svg'
-import { ReactComponent as NextArrow } from '../../MainDashboard/MainDashboardNavBar/utils/next.svg'
+import { ReactComponent as BackArrow } from '../../../svgIcons/back.svg'
+import { ReactComponent as NextArrow } from '../../../svgIcons/next.svg'
 import {VIEW_WEEK, VIEW_MONTH, VIEW_YEAR} from '../constants/constants'
 
 const monthTable = {

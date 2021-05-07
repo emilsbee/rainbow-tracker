@@ -8,8 +8,8 @@
 
     position: absolute;
 
-    background-color: rgb(11,33,57);
-    width: 80px;
+    background-color: $primary;
+    width: 65px;
     height: 100%;
 }
 
@@ -21,29 +21,27 @@
 }
 
 #nav-bar-link-icon {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     margin-bottom: 20px;
 }
 
 #nav-bar-link-icon:hover {
     cursor: pointer;
-    fill: rgb(253,190,64);
+    fill: $accent;
 }
 
-
 #nav-bar-logout-icon {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     margin-bottom: 20px;
-    fill: white;
+    fill: $accent-2;
 }
 
 #nav-bar-logout-icon:hover {
     cursor: pointer;
-    fill: rgb(253,190,64);
+    fill: $accent;
 }
-
 
 
 

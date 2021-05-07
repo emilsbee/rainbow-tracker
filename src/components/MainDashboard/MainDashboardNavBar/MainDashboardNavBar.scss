@@ -1,56 +1,42 @@
 @import '../../../styles/base/settings.scss';
 
-#dashboard-nav-container {
-    width: 100%;
-    height: 60px;
-    background-color: $accent;
-    
+#main-dashboard-nav-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 
+    width: 100%;
+    height: 60px;
+    padding-top: 50px;
 }
 
-#dashboard-nav-back-to-current-container {
-    user-select: none;
+#main-dashboard-nav-back-to-current-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
+
+    user-select: none;
     width: 33%;
-    padding-left: 30px;
 }
 
-#dashboard-nav-back-to-current {
-    background-color: #70809000;
+#main-dashboard-nav-back-to-current {
+    background-color: transparent;
     border: none;
     font-size: $type-sizing-3;
     outline: none;
 }
 
-#dashboard-nav-back-to-current:hover {
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-
-#dashboard-nav-central-container {
-    width: 33%;
+#main-dashboard-nav-central-container {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+    width: 33%;
 }
 
-#dashboard-nav-week-banner {
-    margin: 5px;
-    font-size: $type-sizing-6;
-    font-weight: 300;
-    color: $grey-8;
-    user-select: none;
-}
-
-#dashboard-nav-year-banner {
+#main-dashboard-nav-banner {
     user-select: none;
     margin: 5px;
     font-size: $type-sizing-6;
@@ -58,24 +44,13 @@
     color: $grey-8;
 }
 
-#dashboard-nav-previous-week {
+#main-dashboard-week-change-button {
     height: $sizing-5;
     width: $sizing-9;
     transition: 0.2s;
 }
 
-#dashboard-nav-previous-week:hover {
+#main-dashboard-week-change-button:hover {
     cursor: pointer;
     height: $sizing-6;
-}
-
-#dashboard-nav-next-week {
-    transition: 0.2s;
-    height: $sizing-5;
-    width: $sizing-9;
-}
-
-#dashboard-nav-next-week:hover {
-    height: $sizing-6;
-    cursor: pointer;
 }

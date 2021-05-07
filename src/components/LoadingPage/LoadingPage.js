@@ -3,7 +3,7 @@ import React from 'react'
 
 // Internal imports
 import './loading-page.scss'
-import { ReactComponent as Spinner } from './spinner.svg'
+import { ReactComponent as Spinner } from '../../svgIcons/spinner.svg'
 
 const LoadingPage = ({backgroundColor}) => (
     <div className="loader"> 

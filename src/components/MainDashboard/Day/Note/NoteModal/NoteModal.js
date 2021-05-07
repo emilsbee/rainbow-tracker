@@ -8,23 +8,30 @@ import './NoteModal.scss'
 
 function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
 
-    const [localNote, setLocalNote] = useState('')
+    const [localNote, setLocalNote] = useState(note.note)
 
-    useEffect(() => {
-        setLocalNote(note.note)
-    }, [note])
-    
-
-    NoteModal.handleClickOutside = (localNote) => {
-        var textareaText = localNote.target.children[0].children[0].children[0].value
-        note.note = textareaText
+    /**
+     * Handles clicking outside of the modal.
+     * Saves the note as it was in the modal at the time of the click.
+     */
+    NoteModal.handleClickOutside = () => {
+        note.note = localNote
         saveNote(note)
     }
 
+    /**
+     * Handles text change in the modal.
+     * @param e onChange event.
+     */
     const handleNoteChange = (e) => {
         setLocalNote(e.target.value)
     }
-    
+
+    /**
+     * Handles each key press. On enter and escape saves
+     * the note as is.
+     * @param e onKeyDown event.
+     */
     const handleKeyDown = (e) => {
         if(e.which === 13 && !e.shiftKey) {        
             note.note = localNote
@@ -38,8 +45,8 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
 
     return (
         
-            <div className="note-modal-container" onKeyDown={handleKeyDown}>
-                <div className="modal-textarea">
+            <div id="note-modal-container" onKeyDown={handleKeyDown}>
+                <div id="modal-textarea">
                     <textarea 
                         autoFocus={true}  
                         type="text" 
@@ -50,17 +57,17 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
                     />
                 </div>
                 <div>
-                     <div className="note-modal-button-container">
+                     <div id="note-modal-button-container">
                             {stack && 
                                 <div 
-                                    className="note-modal-delete-button"  
+                                    id="note-modal-delete-button"
                                     onClick={() => deleteStack(note)}
                                 >
                                     Delete stack
                                 </div>
                             }
                                 <div 
-                                    className="note-modal-delete-button"  
+                                    id="note-modal-delete-button"
                                     onClick={() => deleteText(note)}
                                 >
                                     Delete text
