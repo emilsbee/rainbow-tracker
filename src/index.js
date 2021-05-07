@@ -1,11 +1,11 @@
 // External imports
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
 import { createStore, StoreProvider } from 'easy-peasy'
 
 
 //Internal imports
+import * as serviceWorker from './serviceWorker';
 import firebaseModel from './models/firebase/firebase'
 import notesModel from './models/notes/notes'
 import weeksModel from './models/weeks/weeks'
@@ -14,7 +14,7 @@ import settingsModel from './models/settings/settings'
 import initialiseModel from './models/initialise/initialise'
 import categoriesModel from './models/categories/categories'
 import analyticsModel from './models/analytics/analytics'
-import { firebase } from './components/firebase/firebase'
+import { firebase } from './firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'

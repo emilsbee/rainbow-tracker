@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import Category from '../Category/Category'
 import Note from '../Note/Note'
 import { findStackExtremes } from './helpers'
-import NoteModal from '../NoteModal/NoteModal'
+import NoteModal from '../Note/NoteModal/NoteModal'
 import './Day.scss'
 
 

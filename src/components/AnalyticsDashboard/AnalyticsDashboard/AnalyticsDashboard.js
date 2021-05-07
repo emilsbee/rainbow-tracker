@@ -13,7 +13,7 @@ import {getDataToDisplay} from './helpers'
 
 const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, weekYearTable, view, date }) => {
     const [dataToDisplay, setDataToDisplay] = useState(false)
-
+    
     useEffect(() => {
         setDataToDisplay(getDataToDisplay(view, date, categories))
     },[view, date, categories, setDataToDisplay])

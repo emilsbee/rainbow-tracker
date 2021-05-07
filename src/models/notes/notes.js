@@ -1,9 +1,9 @@
 import { action, debug, thunkOn } from 'easy-peasy'
 import { v4 as uuidv4 } from 'uuid';
-import { findStackExtremes } from '../../components/MainDashboard/Day/helpers'
+import { findStackExtremes } from '../../components/MainDashboard/Day/Day/helpers'
 import { store } from '../../index'
 import { debounce } from "debounce";
-import database from '../../components/firebase/firebase'
+import database from '../../firebase/firebase'
 
 const notesModel = {
     notes: [],

@@ -1,7 +1,7 @@
 // External imports
 import { thunk } from 'easy-peasy'
 import { store } from '../../index'
-import database from '../../components/firebase/firebase'
+import database from '../../firebase/firebase'
 
 // Internal imports
 import { createWeekData } from '../initialise/helpers'

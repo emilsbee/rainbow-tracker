@@ -3,10 +3,10 @@ import React from 'react'
 import { useStoreState } from 'easy-peasy'
 
 // Internal imports
-import Day from '../Day/Day'
+import Day from '../Day/Day/Day'
 import LoadingPage from '../../LoadingPage/LoadingPage'
 import {timeValues} from '../../../utils/staticData'
-import TimeCell from '../TimeCell/TimeCell'
+import TimeCell from './TimeCell/TimeCell'
 import { createDayArrays, mapDayIndexToDay } from './helpers'
 import './MainDashboardTable.scss'
 
@@ -19,7 +19,6 @@ function MainDashboardTable() {
     if (categories.length === 0 || notes.length === 0) {
         return (
             <div id="main-dashboard-table__loading">
-
                 <LoadingPage backgroundColor={'#f6f7f9'}/>
             </div>
         )

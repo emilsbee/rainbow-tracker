@@ -11,7 +11,7 @@ const Activity = ({  short, categoryid, onClick, block }) => {
         <div 
             // Block checks if a category has activities.
             // If it doesn't the activity shouldn't highlight on hover
-            // and user should'nt be able to click on activity to get activity popover
+            // and user shouldn't be able to click on activity to get activity popover
             className={`activity-container ${categoryid !== ""  && block && 'activity-container-active'}`}
             onClick={(e) => {
                 if (categoryid !== "") {

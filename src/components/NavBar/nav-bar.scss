@@ -1,57 +1,50 @@
 @import '../../styles/base/settings';
 
-.dashboard-link {
-    text-decoration: none;
-    margin: $sizing-4;
-    color: $grey-1;
-    font-weight: 200;
-    font-size: $type-sizing-3;
-    padding-top: $sizing-2;
-    padding-bottom: $sizing-1;
-}
-.nav-bar {
+#nav-bar {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    width: 100%;
-    box-sizing:border-box;
-    padding: 20px;
-    background-color: $primary;
-    box-shadow: inset 0 2px 2px hsla(0, 0%, 0%, .1);
-}
-
-.dashboard-link:hover {
-    color: $grey-1;
-    border-bottom: 1px solid $grey-1;
-}
-
-#logout-button-text {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    height: $sizing-3;
-    font-size: $type-sizing-2;
-    font-weight: 300;
-    color: $grey-1;
+
+    position: absolute;
+
+    background-color: rgb(11,33,57);
+    width: 80px;
+    height: 100%;
 }
 
-#logout-button-text:hover {
+#nav-bar-inner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#nav-bar-link-icon {
+    height: 30px;
+    width: 30px;
+    margin-bottom: 20px;
+}
+
+#nav-bar-link-icon:hover {
     cursor: pointer;
-    color: black;
-    #logout-icon {
-        fill: black;
-    }
-}
-
-#logout-icon {
-    margin-left: $sizing-2;
-    fill: $grey-1;
-    height: $sizing-3;
-    width: $sizing-3;
+    fill: rgb(253,190,64);
 }
 
 
-
-.dashboard-link-active {
-    color: $grey-1;
-    border-bottom: 1px solid $grey-1;
+#nav-bar-logout-icon {
+    height: 30px;
+    width: 30px;
+    margin-bottom: 20px;
+    fill: white;
 }
+
+#nav-bar-logout-icon:hover {
+    cursor: pointer;
+    fill: rgb(253,190,64);
+}
+
+
+
+
+

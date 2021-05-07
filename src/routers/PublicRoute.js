@@ -10,7 +10,6 @@ const PublicRoute = (props) => {
     const isAuthenticated = !!uid
     const Component = props.component
 
-
     return (
         <Route path={props.path} component={() => (
             isAuthenticated ? (
@@ -19,7 +18,6 @@ const PublicRoute = (props) => {
                 <Component/>
             )
         )}>
-
         </Route>
     )
 }

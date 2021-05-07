@@ -3,24 +3,21 @@ import React from 'react'
 import { useStoreState } from 'easy-peasy'
 
 // Internal imports 
-import './MainDashboard.scss'
-import MainDashboardTable from './MainDashboardTable/MainDashboardTable'
-import MainDashboardNavBar from './MainDashboardNavBar/MainDashboardNavBar'
-import Footer from '../Footer/Footer'
+import './MainDashboardWrapper.scss'
+import MainDashboardTable from '../MainDashboardTable/MainDashboardTable'
+import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 
-const MainDashboard  = () => {
-
+const MainDashboardWrapper = () => {
     const currentDate = useStoreState(state => state.settings.currentDate)
 
     return (
         <div id="main-dash-wrapper">
+            
             <MainDashboardNavBar weekNr={parseInt(currentDate.weekNr)} year={parseInt(currentDate.year)}/>
 
             <MainDashboardTable />
-            
-            <Footer />
         </div>
-    )
+    );
 }
-
-export default MainDashboard
+ 
+export default MainDashboardWrapper;

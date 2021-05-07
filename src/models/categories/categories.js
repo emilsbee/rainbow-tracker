@@ -1,7 +1,10 @@
+// External imports
 import { debounce } from 'debounce'
-import { action, thunk, thunkOn } from 'easy-peasy'
+import { action, thunkOn } from 'easy-peasy'
+
+// Internal imports
 import { store } from '../../index'
-import database from '../../components/firebase/firebase'
+import database from '../../firebase/firebase'
 
 const categoriesModel = {
     activities: [],

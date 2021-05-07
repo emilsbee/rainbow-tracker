@@ -3,7 +3,7 @@ import { thunk } from "easy-peasy"
 import moment from 'moment'
 
 // Internal imports
-import database from '../../components/firebase/firebase'
+import database from '../../firebase/firebase'
 import { store } from '../../index'
 import { createData } from './helpers'
 

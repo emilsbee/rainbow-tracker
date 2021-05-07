@@ -33,3 +33,6 @@ ext/
 # Temporary env files
 /public/env-config.js
 env-config.js
+
+# Webstorm ide
+.idea/

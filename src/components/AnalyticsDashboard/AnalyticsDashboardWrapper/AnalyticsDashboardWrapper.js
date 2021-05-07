@@ -7,7 +7,6 @@ import moment from 'moment'
 import AnalyticsDashboardNavBar from '../AnalyticsDashboardNavBar/AnalyticsDashboardNavBar'
 import './AnalyticsDashboardWrapper.scss'
 import AnalyticsDashboard from '../AnalyticsDashboard'
-import Footer from '../../Footer/Footer'
 import { goBack, goForward, setCurrentDate } from '../AnalyticsDashboard/helpers'
 
 const AnalyticsDashboardWrapper = () => {
@@ -58,7 +57,6 @@ const AnalyticsDashboardWrapper = () => {
                 view={view}
                 date={date}
             />
-            <Footer />
         </div>
     )
 }

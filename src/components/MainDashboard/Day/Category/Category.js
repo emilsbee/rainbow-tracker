@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 
 
 // Internal imports
-import CategoryPopover from '../CategoryItemPopover/CategoryItemPopover'
-import ActivityPopover from '../ActivityItemPopover/ActivityItemPopover'
+import CategoryPopover from './CategoryItemPopover/CategoryItemPopover'
+import ActivityPopover from '../Activity/ActivityItemPopover/ActivityItemPopover'
 import Activity from '../Activity/Activity'
 import './Category.scss'
 import { hasActivities } from './helpers'

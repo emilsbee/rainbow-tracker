@@ -3,10 +3,7 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { useStoreState } from 'easy-peasy'
 
-
-// Internal imports 
-
-
+// Internal imports
 
 const PrivateRoute = (props) => {
     
@@ -16,7 +13,6 @@ const PrivateRoute = (props) => {
     
     return (
         <Route path={props.path} component={(props) => (
-            
             isAuthenticated ? (
                 <div style={{height: '100%'}}>
                     <Component {...props}/>
@@ -26,7 +22,6 @@ const PrivateRoute = (props) => {
                 <Redirect to="/"/>
             )
         )}>
-            
         </Route>
     )
 }

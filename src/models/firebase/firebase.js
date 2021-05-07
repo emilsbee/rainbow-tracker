@@ -10,7 +10,7 @@ import
         firebase,
         googleAuthProvider
     } 
-from '../../components/firebase/firebase'
+from '../../firebase/firebase'
 
 
 
