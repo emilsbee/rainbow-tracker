@@ -1,5 +1,27 @@
 @import '../../styles/base/settings';
 
+#nav-bar-closed-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    position: absolute;
+
+    margin-top: 10px;
+}
+
+#nav-bar-toggle-icon {
+    height: 25px;
+    width: 25px;
+    margin-left: 20px;
+    fill: $primary;
+}
+
+#nav-bar-toggle-icon:hover {
+    cursor: pointer;
+}
+
 #nav-bar {
     display: flex;
     flex-direction: column;
