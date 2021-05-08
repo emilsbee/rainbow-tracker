@@ -18,13 +18,13 @@ import PublicRoute from './PublicRoute'
 
 export const history = createBrowserHistory()
 
+/**
+ * This component defines private and public routes.
+ */
 const AppRouter = () => {
-    const uid = useStoreState(state => state.auth.uid)
 
     return (
         <Router history={history}>
-            <div>
-                {uid !== "" && <NavBar />}
                 <Switch>
                         <PublicRoute path="/" component={LoginPage} exact={true}/>
                         <PrivateRoute path="/dashboard" component={MainDashboardWrapper}/>
@@ -32,7 +32,6 @@ const AppRouter = () => {
                         <PrivateRoute path="/analytics" component={AnalyticsDashboardWrapper}/>
                         <Route component={NotFound}/>  
                 </Switch>
-            </div>
         </Router>
     )
 }

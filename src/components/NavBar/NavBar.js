@@ -36,31 +36,27 @@ const NavBar = () => {
         startLogout()
     }
 
-    if (!open) {
-        return (
-            <div id="nav-bar-closed-container">
-                <MenuIcon id="nav-bar-toggle-icon" onClick={() => setOpen(!open)}/>
-            </div>
-        )
-    }
-
     return (
         <div>
             { open && <div id="nav-bar">
                 <div id="nav-bar-inner-container">
-                    <NavLink to="/dashboard" onMouseEnter={() => setHovering('/dashboard')}
-                             onMouseLeave={() => setHovering("")}>
+                    <NavLink to="/dashboard"
+                         onMouseOver={() => setHovering('/dashboard')}
+                         onMouseLeave={() => setHovering("")}
+                    >
                         <DashboardIcon
                             id="nav-bar-link-icon"
                             style={{
                                 fill: currentLocation === '/dashboard' ? "rgb(253,190,64)" : hovering === '/dashboard' ? "rgb(253,190,64)" : "white",
-                                marginTop: 20
+                                marginTop: 20,
                             }}
                         />
                     </NavLink>
 
-                    <NavLink to="/analytics" onMouseEnter={() => setHovering('/analytics')}
-                             onMouseLeave={() => setHovering("")}>
+                    <NavLink to="/analytics"
+                             onMouseEnter={() => setHovering('/analytics')}
+                             onMouseLeave={() => setHovering("")}
+                    >
                         <AnalyticsIcon
                             id="nav-bar-link-icon"
                             style={{
@@ -69,8 +65,10 @@ const NavBar = () => {
                         />
                     </NavLink>
 
-                    <NavLink to="/settings" onMouseEnter={() => setHovering('/settings')}
-                             onMouseLeave={() => setHovering("")}>
+                    <NavLink to="/settings"
+                             onMouseEnter={() => setHovering('/settings')}
+                             onMouseLeave={() => setHovering("")}
+                    >
                         <SettingsIcon
                             id="nav-bar-link-icon"
                             style={{
@@ -85,7 +83,7 @@ const NavBar = () => {
                 </div>
             </div>}
             <div id="nav-bar-closed-container">
-                <MenuIcon id="nav-bar-toggle-icon" onClick={() => setOpen(!open)} style={{marginLeft: open ? 80 : 40}}/>
+                <MenuIcon id="nav-bar-toggle-icon" onClick={() => setOpen(!open)} style={{marginLeft: open ? 80 : 20}}/>
             </div>
         </div>
 
