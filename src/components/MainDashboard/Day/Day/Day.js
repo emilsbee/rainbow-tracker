@@ -10,19 +10,24 @@ import { findStackExtremes } from './helpers'
 import NoteModal from '../Note/NoteModal/NoteModal'
 import './Day.scss'
 
-
+/**
+ * The Day component controls dragging and regular clicking
+ * aspects of notes, categories and activities of the respective day.
+ * So it holds the state necessary to make dragging possible. It is a wrapper
+ * component.
+ * @param categories The categories to display.
+ * @param notes The notes to display.
+ * @param day The day.
+ */
 function Day({categories, notes, day}) {
-    // Easy-peasy actions
+    // Store actions
     const categoryDragSet = useStoreActions(actions => actions.activities.categoryDragSet)
-
     const aboveDifference = useStoreActions(actions => actions.notes.aboveDifference)
     const belowDifference = useStoreActions(actions => actions.notes.belowDifference)
     const setNoteText = useStoreActions(actions => actions.notes.setNoteText)
     const deleteNoteText = useStoreActions(actions => actions.notes.deleteNoteText)
     const deleteNoteStack = useStoreActions(actions => actions.notes.deleteNoteStack)
-    
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
-
 
     // Note modal logic
     const [noteModalData, setNoteModalData] = useState(false) 
@@ -66,7 +71,7 @@ function Day({categories, notes, day}) {
     }, [])
 
 
-    // Category logic
+    // CategoryType logic
     const [dragCategory, setDragCategory] = useState(null)
 
     const onCategoryDragStart = (e, category) => {

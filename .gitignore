@@ -36,3 +36,6 @@ env-config.js
 
 # Webstorm ide
 .idea/
+
+# Folder for holding application data
+data/

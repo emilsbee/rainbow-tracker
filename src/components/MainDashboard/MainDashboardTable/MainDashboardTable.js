@@ -4,7 +4,6 @@ import { useStoreState } from 'easy-peasy'
 
 // Internal imports
 import Day from '../Day/Day/Day'
-import LoadingPage from '../../LoadingPage/LoadingPage'
 import {timeValues} from '../../../utils/staticData'
 import TimeCell from './TimeCell/TimeCell'
 import { createDayArrays, mapDayIndexToDay } from './helpers'
@@ -15,18 +14,15 @@ function MainDashboardTable() {
     const categories = useStoreState(state => state.activities.categories)
 
     const notes = useStoreState(state => state.notes.notes)
-    
 
     if (categories.length === 0 || notes.length === 0) {
         return (
             <div id="main-dashboard-table__loading">
-                {/*<LoadingPage backgroundColor={'#f6f7f9'}/>*/}
                 <Loader style={{backgroundColor:'#f6f7f9', height: '6rem', width: '6rem'}}/>
             </div>
         )
     }
- 
-    
+
     return (
         <div id="main-dashboard-table__container">   
             
