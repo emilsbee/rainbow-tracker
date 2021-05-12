@@ -10,7 +10,6 @@ import database, { firebase } from './firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'
-import {initializeUser} from "./utils/userInitialization";
 import {createData} from "./utils/dataGenerators";
 
 // Configuring environment variables

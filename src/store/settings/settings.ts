@@ -54,7 +54,19 @@ export interface SettingsModel {
      * Sets date.
      * @param date The Date that is to be set. Date: {weekNr, year}.
      */
-    setDate: Action<SettingsModel, {date:Date}>
+    setDate: Action<SettingsModel, {date:Date}>,
+    /**
+     * Sets the previous weeks date given some week and year.
+     */
+    previousWeek:Action<SettingsModel, {date:Date}>,
+    /**
+     * Sets the next weeks date given some week and year.
+     */
+    nextWeek: Action<SettingsModel, {date:Date}>,
+    /**
+     * Sets the date to the current real life week.
+     */
+    toCurrentWeek: Action<SettingsModel>
 }
 
 const settingsModel:SettingsModel = {
@@ -79,6 +91,45 @@ const settingsModel:SettingsModel = {
     },
     setDate: action((state, payload) => {
         state.currentDate = payload.date
+    }),
+    previousWeek: action((state, payload) => {
+        const currentWeekNr = parseInt(payload.date.weekNr)
+        const currentYear = parseInt(payload.date.year)
+
+        let newWeekNr, newYear;
+
+        if (currentWeekNr === 1) { // If current week is first week of the year
+            newYear = currentYear - 1
+            newWeekNr = DateTime.fromObject({weekYear:newYear}).weeksInWeekYear
+        } else {
+            newWeekNr = currentWeekNr -1
+            newYear = currentYear
+        }
+
+        state.currentDate = {weekNr: newWeekNr.toString(), year: newYear.toString()}
+    }),
+    nextWeek: action((state, payload) => {
+        const currentWeekNr = parseInt(payload.date.weekNr)
+        const currentYear = parseInt(payload.date.year)
+        const weeksInCurrentYear = DateTime.fromObject({weekYear:currentYear-1}).weeksInWeekYear
+
+        let newWeekNr, newYear
+
+        if (weeksInCurrentYear === currentWeekNr) { // If the current week is the last week of the year
+            newWeekNr = 1
+            newYear= currentYear + 1
+        } else {
+            newWeekNr = currentWeekNr + 1
+            newYear = currentYear
+        }
+
+        state.currentDate = {weekNr: newWeekNr.toString(), year: newYear.toString()}
+    }),
+    toCurrentWeek: action((state) => {
+        state.currentDate = {
+            weekNr: DateTime.now().weekNumber.toString(),
+            year: DateTime.now().startOf("week").year.toString()
+        }
     })
 }
 

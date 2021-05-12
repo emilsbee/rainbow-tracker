@@ -1,4 +1,7 @@
-export const createDayArrays = (items) => {
+import {NoteType} from "../../../store/notes/notes";
+import {CategoryType} from "../../../store/categories/categories";
+
+export const createDayArrays = (items:NoteType[] | CategoryType[]):any=> {
     // [["Monday"], ["Tuesday"], ["Wednesday"], ["Thursday"], ["Friday"], ["Saturday"], ["Sunday"]]
     let dayArrays = [[], [], [], [], [], [], []]
     items.forEach(item => {
@@ -21,22 +24,4 @@ export const createDayArrays = (items) => {
         dayArrays[dayArrayIndex].push(item)
     })
     return dayArrays
-}
-
-export const mapDayIndexToDay = (index) => {
-    if (index === 0) {
-        return "Monday"
-    } else if (index === 1) {
-        return "Tuesday"
-    } else if (index === 2) {
-        return "Wednesday" 
-    } else if (index === 3) {
-        return "Thursday" 
-    } else if (index === 4) {
-        return "Friday" 
-    } else if (index === 5) {
-        return "Saturday" 
-    } else if (index === 6) {
-        return "Sunday"
-    }
 }

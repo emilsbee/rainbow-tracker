@@ -1,10 +1,11 @@
+@import '../../../styles/base/settings.scss';
+
 #main-dashboard-table__loading {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    //margin: 60px;
+    //background-color: $primary;
     height: 100vh;
 }
 

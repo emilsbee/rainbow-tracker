@@ -47,7 +47,10 @@
     "create:component": "cd createReactComponent && yarn create:component"
   },
   "eslintConfig": {
-    "extends": ["react-app", "plugin:react-hooks/recommended"]
+    "extends": [
+      "react-app",
+      "plugin:react-hooks/recommended"
+    ]
   },
   "browserslist": {
     "production": [

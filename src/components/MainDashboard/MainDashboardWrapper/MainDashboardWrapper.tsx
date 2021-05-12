@@ -1,5 +1,6 @@
 // External imports
 import React from 'react'
+import {DateTime} from "luxon";
 
 // Internal imports 
 import './MainDashboardWrapper.scss'
@@ -28,6 +29,10 @@ const MainDashboardWrapper = () => {
 
         (async function fetchData() {
             try {
+                // It is necessary to set these to empty arrays to trigger loading spinner in MainDashboardTable
+                setCategories({categories: []})
+                setNotes({notes: []})
+
                 await createMainDashboardContext(uid, currentDate.weekNr, currentDate.year)
 
                 const fetchedCategorySettings = await getCategorySettings(uid)
