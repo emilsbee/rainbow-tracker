@@ -6,7 +6,7 @@
     top: -20px;
     position: relative;
     border-radius: 5px;
-    background-color: white;
+    background-color: #2A353C;
     width: 42px;
     align-items: center;
     z-index: 200;
@@ -24,13 +24,14 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    border-bottom: hsl(0, 0%, 90%) 2px solid;
+    border-bottom: $dark-primary 2px solid;
     height: 22px;
     width: 100%;
+    color: $accent;
 }
 
 #activity-popover-item:hover {
-    background-color: hsl(0, 0%, 90%);
+    background-color: $primary;
 }
 
 #activity-popover-item-default {

@@ -16,13 +16,13 @@
 .color-square {
     height: 22px;
     width: inherit;
-    border-bottom: solid 2px hsl(0, 0%, 90%);
+    border-bottom: solid 2px $dark-primary;
 }
 
 .default-color-square {
     @extend .color-square;
     border: none;
-    background-color: #ebebe0;
+    background-color: #2A353C;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }

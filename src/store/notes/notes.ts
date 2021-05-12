@@ -1,5 +1,5 @@
 // External imports
-import { action, debug, thunkOn } from 'easy-peasy'
+import {Action, action, debug, ThunkOn, thunkOn, TargetPayload} from 'easy-peasy'
 import { v4 as uuidv4 } from 'uuid';
 import { debounce } from "debounce";
 
@@ -8,7 +8,51 @@ import { findStackExtremes } from '../../components/MainDashboard/Day/Day/helper
 import store from '../storeSetup'
 import database from '../../firebase/firebase'
 
-const notesModel = {
+export interface NoteType {
+    day:string,
+    position:number,
+    note:string,
+    stackid:string
+}
+
+export interface NotesModel {
+    notes:NoteType[],
+    setNotes: Action<NotesModel,{notes:NoteType[]}>,
+    createNotes: Action<NotesModel>,
+    syncToDb: ThunkOn<NotesModel>,
+
+    // Cache values for above difference action
+    aboveDifferenceCache: { draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, dragNoteText:string },
+
+    /**
+     * Updates notes above the drag note.
+     * @param  draggedIntoPosition The position of the note that was dragged into.
+     * @param  dragPosition The position of the note currently being dragged (drag note).
+     * @param  day The day of both note dragged into and drag note.
+     * @param  dragStackid The stackid of the drag note.
+     * @param  dragNoteText The note text of the drag note.
+     */
+    aboveDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, dragNoteText:string}>,
+
+    // Cache values for belowDifference action
+    belowDifferenceCache: { draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, oldStackid:string, oldNote:string},
+    /**
+     * Updates notes below the drag note.
+     * @param  draggedIntoPosition The position of the note that was dragged into.
+     * @param  dragPosition The position of the note currently being dragged (drag note).
+     * @param  day Day of both note dragged into and drag note.
+     * @param  dragStackid The stackid of the drag note.
+     * @param  oldStackid The stackid of note that was dragged into.
+     * @param  oldNote The note text of note that was dragged into.
+     */
+    belowDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, oldStackid:string, oldNote:string }>,
+
+    setNoteText: Action<NotesModel, NoteType>,
+    deleteNoteText: Action<NotesModel, NoteType>,
+    deleteNoteStack: Action<NotesModel, {stackid:string, day:string}>
+}
+
+const notesModel:NotesModel = {
     notes: [],
     setNotes: action((state, payload) => {
         state.notes= payload.notes
@@ -16,8 +60,8 @@ const notesModel = {
     createNotes: action((state, payload) => {
         const notes = []
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        days.forEach((day, index) => {
-            for (var i = 1; i < 97; i++) {
+        days.forEach(day => {
+            for (let i = 1; i < 97; i++) {
                 notes.push({
                     day,
                     position: i,
@@ -39,19 +83,16 @@ const notesModel = {
         ],
 
         debounce(
-            async function(actions, target) {
-                const uid = store.getState().auth.uid // user login id
-                const {weekNr, year} = store.getState().settings.currentDate // Get current weeknr and year
-                
-                const notes = store.getState().notes.notes // all current notes
-                
-                
-                const weekid = await database.ref(`users/${uid}/weekYearTable/${weekNr}_${year}`).once('value') // Fetching weekid value from auth weekYearTable
+            async function(actions, target:TargetPayload<{ day:string }>) {
+                const uid = store.getState().auth.uid // User id
+                const {weekNr, year} = store.getState().settings.currentDate // Current store weekNr and year
+                const notes = store.getState().notes.notes // All current week's notes
+
+                const weekid = await database.ref(`users/${uid}/weekYearTable/${weekNr}_${year}`).once('value') // Fetching weekid value from Firebase weekYearTable
 
                 const updates = {}
                 // Updates notes from the day that was dragged or updated in terms of text or 
-                //deleting stack, etc. See thunkOn target resolver function for the list of 
-                //actions this responds to.
+                //deleting stack, etc.
                 notes.forEach((note, index) => {
                     if (note.day === target.payload.day) {
                         updates[`users/${uid}/notes/${weekid.val()}/${index}`] = note
@@ -64,17 +105,8 @@ const notesModel = {
         ) 
     ),
 
-    // Cache values for above difference action
     aboveDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, day: '', dragStackid: '', dragNoteText: '' },
-    
-    /**
-     * Updates notes above drag note
-     * @param  {number} payload.draggedIntoPosition position of the note that was dragged into
-     * @param  {number} payload.dragPosition position of the note currently being dragged (drag note)
-     * @param  {string} payload.day day of both note dragged into and drag note
-     * @param  {string} payload.dragStackid stackid of the drag note
-     * @param  {string} payload.dragNoteText the note text of the drag note
-     */
+
     aboveDifference: action((state, payload) => {
 
         // Extract variables from payload
@@ -84,7 +116,7 @@ const notesModel = {
         const dragStackid = payload.dragStackid
         const dragNoteText = payload.dragNoteText 
 
-        if ( // Compares cache to current values
+        if ( // Compares cache to current values and if they differ then proceed to update the note stack.
             state.aboveDifferenceCache.draggedIntoPosition !== draggedIntoPosition ||
             state.aboveDifferenceCache.dragPosition !== dragPosition ||
             state.aboveDifferenceCache.day !== day ||
@@ -124,22 +156,10 @@ const notesModel = {
             state.aboveDifferenceCache.dragStackid = dragStackid 
             state.aboveDifferenceCache.dragNoteText = dragNoteText
         }
-
-        return state.notes
     }),
 
-    // Cache values for belowDifference action 
     belowDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, day: '', dragStackid: '', oldStackid: '', oldNote: ''},
 
-    /**
-     * Updates notes above drag note
-     * @param  {number} payload.draggedIntoPosition position of the note that was dragged into
-     * @param  {number} payload.dragPosition position of the note currently being dragged (drag note)
-     * @param  {string} payload.day day of both note dragged into and drag note
-     * @param  {string} payload.dragStackid stackid of the drag note
-     * @param  {string} payload.oldStackid the stackid of note that was dragged into
-     * @param  {string} payload.oldNote the note text of note that was dragged into
-     */
     belowDifference: action((state, payload) => {
         
         // Extract variables from payload
@@ -151,12 +171,12 @@ const notesModel = {
         const oldNote = payload.oldNote
         
         if ( // Compares cache to current values
-            state.aboveDifferenceCache.draggedIntoPosition !== draggedIntoPosition ||
-            state.aboveDifferenceCache.dragPosition !== dragPosition ||
-            state.aboveDifferenceCache.day !== day ||
-            state.aboveDifferenceCache.dragStackid !== dragStackid ||
-            state.aboveDifferenceCache.oldStackid !== oldStackid ||
-            state.aboveDifferenceCache.oldNote !== oldNote 
+            state.belowDifferenceCache.draggedIntoPosition !== draggedIntoPosition ||
+            state.belowDifferenceCache.dragPosition !== dragPosition ||
+            state.belowDifferenceCache.day !== day ||
+            state.belowDifferenceCache.dragStackid !== dragStackid ||
+            state.belowDifferenceCache.oldStackid !== oldStackid ||
+            state.belowDifferenceCache.oldNote !== oldNote
         ) {
             const notesToUpdate = [] // contains the positions of notes to update
     
@@ -199,12 +219,12 @@ const notesModel = {
         }
 
         // Renew cache
-        state.aboveDifferenceCache.draggedIntoPosition = draggedIntoPosition 
-        state.aboveDifferenceCache.dragPosition = dragPosition 
-        state.aboveDifferenceCache.day = day 
-        state.aboveDifferenceCache.dragStackid = dragStackid 
-        state.aboveDifferenceCache.oldStackid = oldStackid 
-        state.aboveDifferenceCache.oldNote = oldNote 
+        state.belowDifferenceCache.draggedIntoPosition = draggedIntoPosition
+        state.belowDifferenceCache.dragPosition = dragPosition
+        state.belowDifferenceCache.day = day
+        state.belowDifferenceCache.dragStackid = dragStackid
+        state.belowDifferenceCache.oldStackid = oldStackid
+        state.belowDifferenceCache.oldNote = oldNote
     }),
 
     setNoteText: action((state, payload) => {
@@ -215,6 +235,7 @@ const notesModel = {
             }
         });
     }),
+
     deleteNoteText: action((state, payload) => {
         // payload = {position, day}
         state.notes.forEach((note, index) => {
@@ -223,8 +244,8 @@ const notesModel = {
             }
         });
     }),
+
     deleteNoteStack: action((state, payload) => {
-        // payload = {stackid, day}
         const {min} = findStackExtremes(debug(state.notes), payload.stackid)
         state.notes.forEach((note, index) => {
             if (note.stackid === payload.stackid && note.day === payload.day) {

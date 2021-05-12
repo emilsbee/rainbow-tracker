@@ -1,5 +1,6 @@
 // External imports
 import {Action, action} from "easy-peasy"
+import {DateTime} from "luxon";
 
 // Internal imports
 
@@ -69,13 +70,12 @@ const settingsModel:SettingsModel = {
     }),
 
     setCategorySettings: action((state, payload) => {
-        console.log(payload.categorySettings)
         state.categorySettings = payload.categorySettings
     }),
 
     currentDate: {
-        weekNr: '0',
-        year: '0'
+        weekNr: DateTime.now().weekNumber.toString(),
+        year: DateTime.now().startOf("week").year.toString()
     },
     setDate: action((state, payload) => {
         state.currentDate = payload.date

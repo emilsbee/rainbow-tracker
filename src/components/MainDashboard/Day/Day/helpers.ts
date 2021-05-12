@@ -1,6 +1,13 @@
-export const findStackExtremes = (notes, stackid) => {
-    let maximum;
-    let minimum;
+import {NoteType} from "../../../../store/notes/notes";
+
+/**
+ * Finds the top and bottom note's position of a give note stack.
+ * @param notes The notes in which to find the min and max.
+ * @param stackid The stackid for which to find the min and max.
+ */
+export const findStackExtremes = (notes:NoteType[], stackid:string):{max:number, min:number} => {
+    let maximum:number;
+    let minimum:number;
     let init = true;
 
     // This function iterates over all notes. If a note has a property stackid that

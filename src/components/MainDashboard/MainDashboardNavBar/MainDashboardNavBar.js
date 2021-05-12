@@ -2,6 +2,7 @@
 import { useStoreActions } from 'easy-peasy'
 import React from 'react'
 import moment from 'moment'
+import {DateTime} from "luxon";
 import PropTypes from 'prop-types'
 
 
@@ -15,20 +16,16 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
     const nextWeek = useStoreActions(actions => actions.weeks.nextWeek)
     const previousWeek = useStoreActions(actions => actions.weeks.previousWeek)
     const getWeek = useStoreActions(actions => actions.weeks.getWeek)
-    const setNotes = useStoreActions(actions => actions.notes.setNotes)
-    const setCategories = useStoreActions(actions => actions.activities.setCategories)
 
-    const currentWeekNr = moment().isoWeek()
-    const currentYear = moment().startOf("isoWeek")._d.getFullYear()
+    const currentWeekNr = DateTime.now().weekNumber
+    // It is important to get the year from the start of the current week because there can be a scenario when a week
+    // is the last week of a year, however the current year could already be a new year so it would show the last week of the next year.
+    const currentYear = DateTime.now().startOf("week").year
 
     /**
      * Handles to current week button press.
      */
     const handleToCurrentWeek = () => {
-        // Necessary to set these to empty array to initiate loading in mainDashboardTable
-        setNotes({notes: []})
-        setCategories({categories: []})
-        
         getWeek({weekNr: currentWeekNr, year: currentYear})
     }
 

@@ -4,7 +4,7 @@ import { thunk } from 'easy-peasy'
 // Internal imports
 import store from '../storeSetup'
 import database from '../../firebase/firebase'
-import { createWeekData } from '../initialise/helpers'
+import { createWeekData } from '../../utils/dataGenerators'
 import { getMonthDateRange } from './helpers'
 
 const weeksModel = {
@@ -157,7 +157,8 @@ const weeksModel = {
         const setCategories = store.getActions().activities.setCategories
         const setNotes = store.getActions().notes.setNotes
         const setDate = store.getActions().settings.setDate
-
+        setNotes({notes: []})
+        setCategories({categories: []})
 
         const weekNr = payload.weekNr
         const year = payload.year

@@ -7,33 +7,33 @@ $activityWidth: 22px;
   height: $activityHeight;
   width: $activityWidth;
   border-radius: 3px;
-  
+
   padding-left: $sizing-1;
   padding-right: $sizing-1;
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  
+
+
   font-weight: 200;
-  color: $grey-8;
+  color: $accent;
   font-size: $type-sizing-2;
 }
 
 .activity-container-active:hover {
-    cursor: pointer;
-    background-color: #D3D3D3;
+  cursor: pointer;
+  background-color: #314149;
 }
 
 .activity-loading {
-    height: $activityHeight;
-    width: $activityWidth;
-    background-color: #e6e6e6;
-    border-radius: 3px;
+  height: $activityHeight;
+  width: $activityWidth;
+  background-color: #e6e6e6;
+  border-radius: 3px;
 }
 
 
 :export {
-    categoryHeight: $activityHeight;
-    categoryWidth: $activityWidth;
+  categoryHeight: $activityHeight;
+  categoryWidth: $activityWidth;
 }

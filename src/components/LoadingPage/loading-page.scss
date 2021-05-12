@@ -1,3 +1,5 @@
+@import '../../styles/base/settings';
+
 .loader {
     align-items: center;
     flex-direction: column;
@@ -5,9 +7,11 @@
     height: 100%;
     justify-content: center;
     width: 100vw;
+    background-color: $primary;
 }
 
 .loader__image {
     height: 6rem;
     width:  6rem;
+    fill: $accent;
 }

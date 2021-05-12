@@ -5,11 +5,13 @@ import { createTypedHooks } from 'easy-peasy'
 import {SettingsModel} from './settings/settings'
 import {CategoriesModel} from './categories/categories'
 import {AuthModel} from './auth/auth'
+import {NotesModel} from "./notes/notes";
 
 interface StoreModel {
     settings:SettingsModel,
     activities:CategoriesModel,
-    auth:AuthModel
+    auth:AuthModel,
+    notes:NotesModel
 }
 
 const typedHooks = createTypedHooks<StoreModel>();

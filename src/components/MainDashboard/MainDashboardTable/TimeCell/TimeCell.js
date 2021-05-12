@@ -13,14 +13,12 @@ const TimeCell  = ({ timeValues }) => {
         <div className="time-cell-container" >
         {timeValues().map((timeVal,index) => {
             return (
-                <div 
-                    className={(index+1) % 4 === 0 ? 'time-cell-thick' : 'time-cell'}
+                <div
+                    className="time-cell"
                     key={index}
-                    style={{"backgroundColor": timeHoverIndex === index && '#e1e1d0'}}
+                    style={{"backgroundColor": timeHoverIndex === index && '#314149'}}
                 >
                     {timeVal}
-                    
-              
                 </div>
             )
         })}
@@ -28,12 +26,8 @@ const TimeCell  = ({ timeValues }) => {
     )
 }
 
-function areEqual (prevProps, nextProps) {
-    return true
-}
-
 TimeCell.propTypes = {
     timeValues: PropTypes.func.isRequired
 }
 
-export default React.memo(TimeCell, areEqual)
+export default TimeCell

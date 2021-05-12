@@ -25,6 +25,7 @@
     border: none;
     font-size: $type-sizing-3;
     outline: none;
+    color: #c48852;
 }
 
 #main-dashboard-nav-central-container {
@@ -41,13 +42,16 @@
     margin: 5px;
     font-size: $type-sizing-6;
     font-weight: 300;
-    color: $grey-8;
+    //color: $grey-8;
+    color: #c48852;
 }
+
 
 #main-dashboard-week-change-button {
     height: $sizing-5;
     width: $sizing-9;
     transition: 0.2s;
+    fill: #c48852;
 }
 
 #main-dashboard-week-change-button:hover {

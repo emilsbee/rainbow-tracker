@@ -1,7 +1,7 @@
 // External imports
 import {thunk, action, Thunk, Action} from "easy-peasy"
 
-// Internal imforports
+// Internal imports
 import {firebase, googleAuthProvider} from '../../firebase/firebase'
 
 /**
@@ -15,11 +15,11 @@ export interface AuthModel {
     /**
      * Starts anonymous login with auth.
      */
-    startLoginAnonymously: Thunk<AuthModel, {}>,
+    startLoginAnonymously: Thunk<AuthModel>,
     /**
      * Start login with Google.
      */
-    startLoginWithGoogle: Thunk<AuthModel, {}>,
+    startLoginWithGoogle: Thunk<AuthModel>,
 
     /**
      * Sets the user as logged in.
@@ -28,11 +28,11 @@ export interface AuthModel {
     /**
      * Starts logout with Firebase.
      */
-    startLogout: Thunk<AuthModel, {}>,
+    startLogout: Thunk<AuthModel>,
     /**
      * Sets the user as logged out.
      */
-    logout: Action<AuthModel, {}>
+    logout: Action<AuthModel>
 }
 
 const authModel:AuthModel = {
@@ -52,10 +52,10 @@ const authModel:AuthModel = {
     login: action((state, payload) => {
         state.uid = payload.userId
     }),
-    startLogout: thunk(async (actions, payload) => {
+    startLogout: thunk(async () => {
         await firebase.auth().signOut()
     }),
-    logout: action((state, payload) => {
+    logout: action((state) => {
         state.uid = ''
     })
 }

@@ -6,10 +6,12 @@ import { StoreProvider } from 'easy-peasy'
 //Internal imports
 import * as serviceWorker from './serviceWorker';
 import store from "./store/storeSetup"
-import { firebase } from './firebase/firebase'
+import database, { firebase } from './firebase/firebase'
 import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'
+import {initializeUser} from "./utils/userInitialization";
+import {createData} from "./utils/dataGenerators";
 
 // Configuring environment variables
 require('dotenv').config()
@@ -36,7 +38,22 @@ ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
 firebase.auth().onAuthStateChanged( async (user) => {
     if (user) {
         store.dispatch.auth.login({userId: user.uid}) // Sets the uid in store
-        store.dispatch.init.initialiseUser({history, renderApp})
+
+        const init = await database.ref(`users/${user.uid}/init`).once('value')
+
+        if (init.val() == null) {
+            const {activitySettings, categorySettings} = createData()
+            let updates = {}
+            updates[`users/${user.uid}/activitySettings`] = activitySettings
+            updates[`users/${user.uid}/categorySettings`] = categorySettings
+            updates[`users/${user.uid}/init`] = true
+            await database.ref().update(updates)
+        }
+
+        renderApp()
+        if (history.location.pathname === '/') {
+            history.push(`/dashboard`)
+        }
     } else {
         store.dispatch.auth.logout()
         renderApp()

@@ -15,7 +15,8 @@
 #nav-bar-toggle-icon {
     height: 25px;
     width: 25px;
-    fill: $primary;
+    //fill: $primary;
+    fill: #c48852;;
 }
 
 #nav-bar-toggle-icon:hover {
@@ -31,7 +32,7 @@
     position: absolute;
     z-index: 10;
 
-    background-color: $primary;
+    background-color: $dark-primary;
     width: 65px;
     height: 100%;
 }

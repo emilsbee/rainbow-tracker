@@ -8,7 +8,7 @@
     height: $sizing-11;
     border-radius: $sizing-3;
 
-    background-color: white;
+    background-color: $dark-primary;
     box-shadow: $shadow-1;
     border: solid 0.8px $grey-9;
 }
@@ -36,7 +36,7 @@
     color: $primary-8;
 }
 
-    /* Modal Content/Box */
+/* Modal Content/Box */
 #modal-textarea {
     width: 100%;
     display: flex;
@@ -45,21 +45,23 @@
     align-items: center;
     flex-grow: 2;
 }
-    
+
 #note-modal-input {
-    border: 1px solid $grey-2;
+    border: 1px solid $accent;
     border-radius: $sizing-2;
     padding: $sizing-2;
     width: 95%;
     height: 85%;
-    
+
     outline: none;
     resize: none;
     font-family: Helvetica;
     font-weight: 300;
     font-size: $type-sizing-2;
+    background-color: $primary;
+    color: $accent;
 }
-    
+
 #note-modal-button-container {
     flex-grow: 1;
     width: 100%;
@@ -72,7 +74,7 @@
 
 #note-modal-save-button {
     display: inline-block;
-    color: $grey-9;
+    color: $accent;
     font-size: $type-sizing-3;
     font-weight: 300;
     margin-left: $sizing-6;
@@ -81,16 +83,16 @@
 #note-modal-save-button:hover {
     cursor: pointer;
     color: $primary-8;
-    
+
 }
 
 #note-modal-delete-button {
     display: inline-block;
-    color: $grey-9;
+    color: $accent;
     font-size: $type-sizing-3;
     font-weight: 300;
     margin-left: 40px;
-    margin-right: 40px; 
+    margin-right: 40px;
 }
 
 #note-modal-delete-button:hover {

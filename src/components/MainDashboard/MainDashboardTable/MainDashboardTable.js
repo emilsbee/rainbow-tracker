@@ -4,21 +4,18 @@ import { useStoreState } from 'easy-peasy'
 
 // Internal imports
 import Day from '../Day/Day/Day'
-import {timeValues} from '../../../utils/staticData'
+import {timeValues} from '../../../utils/dataGenerators'
 import TimeCell from './TimeCell/TimeCell'
 import { createDayArrays, mapDayIndexToDay } from './helpers'
 import './MainDashboardTable.scss'
 import {ReactComponent as Loader} from "../../../svgIcons/spinner.svg";
 
-function MainDashboardTable() {
-    const categories = useStoreState(state => state.activities.categories)
+function MainDashboardTable({categories, notes}) {
 
-    const notes = useStoreState(state => state.notes.notes)
-
-    if (categories.length === 0 || notes.length === 0) {
+    if (!categories || categories.length === 0 ||!notes || notes.length === 0) {
         return (
             <div id="main-dashboard-table__loading">
-                <Loader style={{backgroundColor:'#f6f7f9', height: '6rem', width: '6rem'}}/>
+                <Loader style={{backgroundColor:'#28292a', height: '6rem', width: '6rem'}}/>
             </div>
         )
     }

@@ -22,6 +22,7 @@ const NavBar = () => {
 
     // Store actions
     const startLogout = useStoreActions(actions => actions.auth.startLogout)
+    const reset = useStoreActions(actions => actions.reset)
 
     // Every time the location changes, currentLocation is updated.
     let location = useLocation()
@@ -33,6 +34,7 @@ const NavBar = () => {
      * Handles logout button press
      */
     const beginLogout = () => {
+        reset()
         startLogout()
     }
 
@@ -47,7 +49,7 @@ const NavBar = () => {
                         <DashboardIcon
                             id="nav-bar-link-icon"
                             style={{
-                                fill: currentLocation === '/dashboard' ? "rgb(253,190,64)" : hovering === '/dashboard' ? "rgb(253,190,64)" : "white",
+                                fill: currentLocation === '/dashboard' ? "#c48852" : hovering === '/dashboard' ? "#c48852" : "white",
                                 marginTop: 20,
                             }}
                         />
@@ -60,7 +62,7 @@ const NavBar = () => {
                         <AnalyticsIcon
                             id="nav-bar-link-icon"
                             style={{
-                                fill: currentLocation === '/analytics' ? "rgb(253,190,64)" : hovering === '/analytics' ? "rgb(253,190,64)" : "white"
+                                fill: currentLocation === '/analytics' ? "#c48852" : hovering === '/analytics' ? "#c48852" : "white"
                             }}
                         />
                     </NavLink>
@@ -72,7 +74,7 @@ const NavBar = () => {
                         <SettingsIcon
                             id="nav-bar-link-icon"
                             style={{
-                                fill: currentLocation === '/settings' ? "rgb(253,190,64)" : hovering === '/settings' ? "rgb(253,190,64)" : "white"
+                                fill: currentLocation === '/settings' ? "#c48852" : hovering === '/settings' ? "#c48852" : "white"
                             }}
                         />
                     </NavLink>

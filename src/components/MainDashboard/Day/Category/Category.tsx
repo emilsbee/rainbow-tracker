@@ -68,7 +68,7 @@ function Category({category, onDragStart, onDragEnter}: CategoryProps) {
                 draggable={true}
                 onClick={() => setShowPopover(true)}
                 style={{
-                    backgroundColor: category.categoryid === "" ?  'rgb(235, 235, 224)' : categorySettings[category.categoryid].color, // If category exists sets the color to that categories color, else empty cell color
+                    backgroundColor: category.categoryid === "" ?  '#2A353C' : categorySettings[category.categoryid].color, // If category exists sets the color to that categories color, else empty cell color
                 }}
             />
             

@@ -1,3 +1,5 @@
+@import '../../../../styles/base/settings';
+
 $compositionWidth: 252px;
 $activityWidth: 47px;
 $noteWidth: 121px;
@@ -14,6 +16,8 @@ $noteWidth: 121px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    color: $accent;
+    font-size: $type-sizing-4;
 }
 
 .composition-container {
