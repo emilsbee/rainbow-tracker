@@ -30,7 +30,6 @@ const analyticsModel =  {
         Promise.all(
             weekids.map(weekid => database.ref(`users/${uid}/analytics/${weekid}`).once('value'))
         ).then((data) => {
-            console.log(data)
             data.forEach((week, index) => {
                 weeks.push({...week.val(), weekid: weekids[index]})
             })

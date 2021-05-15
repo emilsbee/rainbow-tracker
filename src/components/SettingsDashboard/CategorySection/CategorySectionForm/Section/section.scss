@@ -1,0 +1,18 @@
+@import '../../../../../styles/base/settings';
+
+#category-section-section-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  width: 450px;
+  margin: 20px;
+}
+
+#category-section-section-title {
+  margin: 0;
+  font-size: $type-sizing-4;
+  font-weight: 500;
+  color: wheat;
+}

@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 // Internal imports
 import database from "../../firebase/firebase";
 import {createData} from "../../utils/dataGenerators";
-import {CategorySettings} from "../settings/settings";
+import {ActivitySettings, CategorySettings} from "../settings/settings";
 
 /**
  * Fetches categories from Firebase for a given week and user by the weekid.
@@ -41,9 +41,19 @@ export const createCategories = (uid:string, weekid:string):Promise<firebase.dat
 /**
  * Finds the category id from category settings for a given category name.
  * @param categoryName The name of the category for which to find id.
- * @param categorySettings The categgory settings object.
+ * @param categorySettings The category settings object.
  * @return Undefined or category id.
  */
-export const getCategoryidByName = (categoryName:string, categorySettings:CategorySettings) => {
+export const getCategoryidByName = (categoryName:string, categorySettings:CategorySettings):string => {
     return Object.keys(categorySettings).find(categoryid => categorySettings[categoryid].category === categoryName)
+}
+
+/**
+ * Finds the activity id from activity settings for a given activity name.
+ * @param activityLong The long nae of activity for which to find id.
+ * @param activitySettings The activity settings object.
+ * @return Undefined or activity id.
+ */
+export const getActivityidByLongName = (activityLong:string, activitySettings:ActivitySettings):string => {
+    return Object.keys(activitySettings).find(activityid => activitySettings[activityid].long === activityLong)
 }

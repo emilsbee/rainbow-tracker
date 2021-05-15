@@ -6,6 +6,7 @@ import './category-section.scss'
 import {ActivitySettings, CategorySettings} from "../../../../store/settings/settings";
 import SectionTitle from "../../SectionTitle/SectionTitle";
 import CategoryList from "../CategoryList/CategoryList";
+import CategorySectionForm from "../CategorySectionForm/CategorySectionForm/CategorySectionForm";
 
 type CategorySectionProps = {
     categorySettings:CategorySettings,
@@ -13,13 +14,27 @@ type CategorySectionProps = {
 }
 
 function CategorySection ({categorySettings, activitySettings}:CategorySectionProps) {
-    const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(null)
+    const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(Object.keys(categorySettings)[0])
 
     return (
         <div id="category-section-container">
             <SectionTitle title={"Categories"}/>
 
-            <CategoryList categorySettings={categorySettings} setCategory={(catgoryid) => setSelectedCategoryid(catgoryid)} selectedCategoryid={selectedCategoryid}/>
+            <div id={"category-section-content-container"}>
+                <CategoryList
+                    categorySettings={categorySettings}
+                    setCategory={(catgoryid) => setSelectedCategoryid(catgoryid)}
+                    selectedCategoryid={selectedCategoryid}
+                />
+
+                {selectedCategoryid != null &&
+                    <CategorySectionForm
+                        category={{categoryid:selectedCategoryid, ...categorySettings[selectedCategoryid]}}
+                        categorySettings={categorySettings}
+                        activitySettings={activitySettings}
+                    />
+                }
+            </div>
         </div>
     )
 }
