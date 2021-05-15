@@ -5,10 +5,9 @@ import PropTypes from 'prop-types'
 
 // Internal imports
 import './Note.scss'
-import * as constants from './Note.scss'
 import { getStackHeight, CONSTANTS } from './helpers'
 
-export const exportHeight = constants.noteHeight
+
 
 const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown}) => {
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)

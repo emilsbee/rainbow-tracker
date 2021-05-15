@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 // Internal imports
 import database from "../../firebase/firebase";
 import {createData} from "../../utils/dataGenerators";
+import {CategorySettings} from "../settings/settings";
 
 /**
  * Fetches categories from Firebase for a given week and user by the weekid.
@@ -26,7 +27,7 @@ export const getCategoriesByWeekNrAndYear = async (uid:string, weekNr:string, ye
 }
 
 /**
- * Generates and sets categories for a given weekid.
+ * Generates and sets categories for a given weekid in firebase.
  * @param uid The user for which to set generated categories.
  * @param weekid The weekid of week for which to set the categories.
  */
@@ -35,4 +36,14 @@ export const createCategories = (uid:string, weekid:string):Promise<firebase.dat
     const updates = {}
     updates[`users/${uid}/categories/${weekid}`] = categories
     return database.ref().update(updates)
+}
+
+/**
+ * Finds the category id from category settings for a given category name.
+ * @param categoryName The name of the category for which to find id.
+ * @param categorySettings The categgory settings object.
+ * @return Undefined or category id.
+ */
+export const getCategoryidByName = (categoryName:string, categorySettings:CategorySettings) => {
+    return Object.keys(categorySettings).find(categoryid => categorySettings[categoryid].category === categoryName)
 }

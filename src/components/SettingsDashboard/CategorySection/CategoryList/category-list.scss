@@ -1,0 +1,29 @@
+@import '../../../../styles/base/settings';
+
+#category-section-category-list-container {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 20px;
+}
+
+#category-section-category-list-item-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#category-section-category-list-item {
+  border-bottom: .5px solid transparent;
+  font-size: $type-sizing-4;
+}
+
+#category-section-category-list-item:hover {
+  @extend #category-section-category-list-item;
+  border-bottom: .5px solid $accent;
+  cursor: pointer;
+}
+
+#category-section-category-list-item-selected {
+  @extend #category-section-category-list-item;
+  border-bottom: .5px solid $accent;
+}

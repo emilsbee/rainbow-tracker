@@ -1,0 +1,32 @@
+@import '../../../styles/base/settings.scss';
+
+#settings-dashboard__loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: $primary;
+}
+
+#settings-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  height: 100vh;
+  background-color: $primary;
+}
+
+#settings-dashboard-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  width: 100%;
+  padding: $sizing-5;
+
+  font-weight: 200;
+  font-size: $type-sizing-7;
+}

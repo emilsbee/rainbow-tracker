@@ -1,13 +1,17 @@
 // External imports
 import React from 'react'
-import { useStoreState } from 'easy-peasy'
-import PropTypes from 'prop-types'
 
 // Internal imports 
 import './ActivityItemPopover.scss'
+import {useStoreState} from "../../../../../store/hookSetup";
 
+type ActivityItemPopoverProps = {
+    onClick: (activityid:string) => void,
+    handleCloseModal: () => void,
+    categoryid:string
+}
 
-const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }) => {
+const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }:ActivityItemPopoverProps) => {
     const activities = useStoreState(state => state.settings.activitySettings)
     
     return (
@@ -47,11 +51,5 @@ const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }) => {
         </div>
     )
 }
-
-ActivityItemPopover.propTypes = {
-    categoryid: PropTypes.string,
-    onClick: PropTypes.func,
-    handleCloseModal: PropTypes.func
-};
 
 export default ActivityItemPopover

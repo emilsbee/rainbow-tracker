@@ -1,11 +1,17 @@
 // External imports
 import React from 'react'
-import PropTypes from 'prop-types'
 
 // Internal imports
 import './Activity.scss'
 
-const Activity = ({  short, categoryid, onClick, block }) => {
+type ActivityProps = {
+    short: string,
+    categoryid: string,
+    onClick: () => void,
+    block: boolean
+}
+
+const Activity = ({  short, categoryid, onClick, block }:ActivityProps) => {
 
     /**
      * Handles clicking on an activity.
@@ -28,12 +34,5 @@ const Activity = ({  short, categoryid, onClick, block }) => {
         </div>
     )
 }
-
-Activity.propTypes = {
-    short: PropTypes.string.isRequired,
-    categoryid: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired,
-    block: PropTypes.bool.isRequired
-};
 
 export default Activity

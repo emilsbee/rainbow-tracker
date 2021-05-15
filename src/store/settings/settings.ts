@@ -111,7 +111,7 @@ const settingsModel:SettingsModel = {
     nextWeek: action((state, payload) => {
         const currentWeekNr = parseInt(payload.date.weekNr)
         const currentYear = parseInt(payload.date.year)
-        const weeksInCurrentYear = DateTime.fromObject({weekYear:currentYear-1}).weeksInWeekYear
+        const weeksInCurrentYear = DateTime.fromObject({weekYear:currentYear}).weeksInWeekYear
 
         let newWeekNr, newYear
 
