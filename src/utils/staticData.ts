@@ -70,17 +70,17 @@ export const activitySettings = {
         long: 'place holder 3'
     },
     act15: {
-        categoryid: 'cat2',
+        categoryid: 'cat5',
         short: 'ph',
         long: 'place holder 4'
     },
     act16: {
-        categoryid: 'cat2',
+        categoryid: 'cat5',
         short: 'ph',
         long: 'place holder 5'
     },
     act17: {
-        categoryid: 'cat2',
+        categoryid: 'cat5',
         short: 'ph',
         long: 'place holder 6'
     },
