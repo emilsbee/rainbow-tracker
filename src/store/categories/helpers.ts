@@ -57,3 +57,66 @@ export const getCategoryidByName = (categoryName:string, categorySettings:Catego
 export const getActivityidByLongName = (activityLong:string, activitySettings:ActivitySettings):string => {
     return Object.keys(activitySettings).find(activityid => activitySettings[activityid].long === activityLong)
 }
+
+/**
+ * Validates submission of new category. Checks the general string constraints for name and color.
+ * Also, validates that all categories in the category setting object have unique names.
+ * @param categoryid The categoryid of category to be checked.
+ * @param name The name of the category.
+ * @param color The color of the category.
+ * @param categorySettings Category settings object.
+ * @return {valid, message} Valid indicates whether input is valid, and message is present if the input is invalid.
+ */
+export const validateCategorySubmission = (categoryid:string, name:string, color:string, categorySettings:CategorySettings):{valid:boolean, message:string} => {
+    let returnVal = {valid:true, message:""}
+
+    if (!name || name.trim().length <= 0 || name.trim().length > 18) {
+        returnVal.valid = false
+        returnVal.message = "You must provide a category name of length 1-18."
+    } else if (!color || color.length <= 0 || color.length > 7) {
+        returnVal.valid = false
+        returnVal.message = "You must provide a valid hex color value."
+    } else {
+        for (let i = 0; i < Object.keys(categorySettings).length; i++) {
+
+            if (name === categorySettings[Object.keys(categorySettings)[i]].category && categoryid !== Object.keys(categorySettings)[i]) {
+                returnVal.valid = false
+                returnVal.message = `Given category name is a duplicate.`
+                return returnVal
+            }
+        }
+    }
+    return returnVal
+}
+
+/**
+ * Validates submission of new activity. Checks the general string constraints for long name and short name.
+ * Also, validates that all long names and short names in the activity setting object are unique.
+ * @param activityid The activity id of the activity.
+ * @param long The long name of activity.
+ * @param short The short name of activity.
+ * @param activitySettings The activity settings object.
+ */
+export const validateActivitySubmission = (activityid:string, long:string, short:string, activitySettings:ActivitySettings):{valid:boolean, message:string} => {
+    let returnVal = {valid:true, message:""}
+
+    if (!long || long.trim().length <= 0 || long.trim().length > 40) {
+        returnVal.valid = false
+        returnVal.message = "Activity long name must be of length 1-18."
+    } else if (!short || short.length <= 0 || short.length > 2) {
+        returnVal.valid = false
+        returnVal.message = "Activity short name must be of length 1-2."
+    } else {
+        for (let i = 0; i < Object.keys(activitySettings).length; i++) {
+            let currentActivityid = Object.keys(activitySettings)[i]
+
+            if ((long === activitySettings[currentActivityid].long || short === activitySettings[currentActivityid].short) && activityid !== currentActivityid) {
+                returnVal.valid = false
+                returnVal.message = `Given long or short activity name is a duplicate.`
+                return returnVal
+            }
+        }
+    }
+
+    return returnVal
+}

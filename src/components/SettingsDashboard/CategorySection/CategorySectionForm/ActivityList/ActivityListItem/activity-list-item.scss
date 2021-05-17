@@ -17,7 +17,9 @@
   caret-color: $accent;
   color: $accent;
   font-size: $type-sizing-4;
-  width: 200px;
+  width: 255px;
+  margin-right: 5px;
+  text-align: end;
 }
 
 #activity-list-item-short-input {
@@ -28,6 +30,6 @@
   caret-color: $accent;
   color: $accent;
   font-size: $type-sizing-4;
-  width: 28px;
+  width: 35px;
 }
 

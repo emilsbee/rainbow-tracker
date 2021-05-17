@@ -9,34 +9,10 @@
     border-radius: $sizing-3;
 
     background-color: $dark-primary;
-    box-shadow: $shadow-1;
-    border: solid 0.8px $grey-9;
+    box-shadow: $modal-shadow;
+    border: solid 0.8px $dark-primary;
 }
 
-#note-modal-header {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    height: $sizing-5;
-}
-
-#note-modal-title {
-    font-size: $type-sizing-5;
-    color: $grey-7;
-    font-weight: 300;
-    width: $sizing-1;
-    height: $sizing-1;
-    margin-right: $sizing-4;
-    margin-top: $sizing-1;
-}
-
-#note-modal-title:hover {
-    cursor: pointer;
-    color: $primary-8;
-}
-
-/* Modal Content/Box */
 #modal-textarea {
     width: 100%;
     display: flex;
@@ -70,20 +46,6 @@
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-}
-
-#note-modal-save-button {
-    display: inline-block;
-    color: $accent;
-    font-size: $type-sizing-3;
-    font-weight: 300;
-    margin-left: $sizing-6;
-}
-
-#note-modal-save-button:hover {
-    cursor: pointer;
-    color: $primary-8;
-
 }
 
 #note-modal-delete-button {
