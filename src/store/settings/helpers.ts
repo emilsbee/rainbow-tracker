@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 
 // Internal imports
 import database from "../../firebase/firebase";
-import {ActivitySettings} from "./settings";
+import {ActivitySettings, CategorySettings} from "./settings";
 
 /**
  * Fetches category settings from Firebase for a given user.
@@ -21,6 +21,20 @@ export const getCategorySettings = (uid):Promise<firebase.database.DataSnapshot>
  */
 export const getActivitySettings = (uid):Promise<firebase.database.DataSnapshot> => {
     return database.ref(`users/${uid}/activitySettings`).once('value')
+}
+
+/**
+ * Saves current activity and category settings in Firebase.
+ * @param activitySettings The activity setting object.
+ * @param categorySettings The category setting object.
+ * @param uid The user id.
+ */
+export const saveSettings = (activitySettings:ActivitySettings, categorySettings:CategorySettings, uid:string):Promise<any> => {
+    console.log(activitySettings)
+    const updates = {}
+    updates[`users/${uid}/activitySettings`] = activitySettings
+    updates[`users/${uid}/categorySettings`] = categorySettings
+    return database.ref().update(updates)
 }
 
 /**

@@ -10,10 +10,12 @@ import CategorySectionForm from "../CategorySectionForm/CategorySectionForm/Cate
 
 type CategorySectionProps = {
     categorySettings:CategorySettings,
-    activitySettings:ActivitySettings
+    activitySettings:ActivitySettings,
+    setLoading:(loading:boolean) => void
 }
 
-function CategorySection ({categorySettings, activitySettings}:CategorySectionProps) {
+function CategorySection ({categorySettings, activitySettings, setLoading}:CategorySectionProps) {
+    console.log(categorySettings)
     const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(Object.keys(categorySettings)[0])
 
     return (
@@ -32,6 +34,7 @@ function CategorySection ({categorySettings, activitySettings}:CategorySectionPr
                         category={{categoryid:selectedCategoryid, ...categorySettings[selectedCategoryid]}}
                         categorySettings={categorySettings}
                         activitySettings={activitySettings}
+                        setLoading={setLoading}
                     />
                 }
             </div>

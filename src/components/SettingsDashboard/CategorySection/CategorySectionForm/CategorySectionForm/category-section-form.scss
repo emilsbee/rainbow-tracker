@@ -48,6 +48,7 @@
   color: $accent;
   font-size: $type-sizing-4;
   width: 100px;
+  text-align: end;
 }
 
 #category-section-form-save-button {
@@ -62,4 +63,8 @@
 #category-section-form-save-button:hover {
   background-color: $accent;
   color: $primary;
+}
+
+#category-section-activity-error {
+
 }

@@ -5,15 +5,17 @@ import React from "react";
 import {ActivitySettings} from "../../../../../store/settings/settings";
 import ActivityListItem from "./ActivityListItem/ActivityListItem";
 import {getActivityidByLongName, validateActivitySubmission} from "../../../../../store/categories/helpers";
+import {useStoreActions} from "../../../../../store/hookSetup";
 
 type ActivityListProps = {
     activitySettings:ActivitySettings,
     categoryid:string,
-    setActivitySettings: (activitySettings:ActivitySettings) => void,
-    setError: ({message: string, category:boolean}) => void,
+    setError: ({message: string}) => void,
 }
 
-const ActivityList:React.FC<ActivityListProps> = ({activitySettings, categoryid, setActivitySettings, setError}) => {
+const ActivityList:React.FC<ActivityListProps> = ({activitySettings, categoryid, setError}) => {
+    // Store actions
+    const setActivitySettings = useStoreActions(actions => actions.settings.setActivitySettings)
 
     /**
      * Handles event when one of the activity inputs comes out of focus.
@@ -21,15 +23,15 @@ const ActivityList:React.FC<ActivityListProps> = ({activitySettings, categoryid,
      * as the activityCategory state in parent component.
      */
     const handleActivityChange = (activity:{activityid:string, long:string, short:string}):void => {
-        const {valid, message} = validateActivitySubmission(activity.activityid, activity.long, activity.short, activitySettings)
+        const {valid, message} = validateActivitySubmission(activity.long, activity.short)
 
-        if (!valid) {
-            setError({message, category: false})
-        } else {
-            setError({message: "", category: false})
+        if (valid) {
             activitySettings[activity.activityid].short = activity.short
             activitySettings[activity.activityid].long = activity.long
-            setActivitySettings(activitySettings)
+            setActivitySettings({activitySettings})
+            setError({message: ""})
+        } else {
+            setError({message})
         }
     }
 
@@ -40,7 +42,7 @@ const ActivityList:React.FC<ActivityListProps> = ({activitySettings, categoryid,
                 if (activitySetting.categoryid === categoryid) {
                     return (
                         <ActivityListItem
-                            activity={{...activitySetting, activityid: getActivityidByLongName(activitySetting.long, activitySettings)}}
+                            activity={{...activitySetting, activityid: getActivityidByLongName(activitySetting.long, activitySettings, categoryid)}}
                             key={activitySetting.long}
                             onChange={handleActivityChange}
                         />

@@ -13,8 +13,17 @@ type SettingsDashboardProps = {
 }
 
 const SettingsDashboard  = ({categorySettings, activitySettings}:SettingsDashboardProps) => {
+    const [loading, setLoading] = React.useState(true)
 
-    if (categorySettings == null || activitySettings == null) {
+    React.useEffect(() => {
+        if (categorySettings == null || activitySettings == null) {
+            setLoading(true)
+        } else {
+            setLoading(false)
+        }
+    },[categorySettings, activitySettings])
+
+    if (loading) {
         return (
             <div id="settings-dashboard__loading">
                 <Loader style={{height: '6rem', width: '6rem'}}/>
@@ -27,7 +36,7 @@ const SettingsDashboard  = ({categorySettings, activitySettings}:SettingsDashboa
             <div id="settings-dashboard-title">
                 Settings
             </div>
-            <CategorySection categorySettings={categorySettings} activitySettings={activitySettings}/>
+            <CategorySection categorySettings={categorySettings} activitySettings={activitySettings} setLoading={setLoading}/>
         </div>
     )
 }

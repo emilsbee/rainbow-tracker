@@ -8,19 +8,29 @@ import './category-section-form.scss'
 import ActivityList from "../ActivityList/ActivityList";
 import {validateCategorySubmission} from "../../../../../store/categories/helpers";
 import {categorySettings} from "../../../../../utils/staticData";
+import {useStoreActions, useStoreState} from "../../../../../store/hookSetup";
+import {saveSettings} from "../../../../../store/settings/helpers";
 
 type CategorySectionFormProps = {
     category: { category:string, color:string, categoryid:string},
     categorySettings:CategorySettings,
-    activitySettings:ActivitySettings
+    activitySettings:ActivitySettings,
+    setLoading: (loading:boolean) => void
 }
 
-function CategorySectionForm ({category, activitySettings, categorySettings}:CategorySectionFormProps) {
+function CategorySectionForm ({category, activitySettings, categorySettings, setLoading}:CategorySectionFormProps) {
+    // Store actions
+    const setCategorySettings = useStoreActions(actions => actions.settings.setCategorySettings)
+
+    // Store state
+    const uid = useStoreState(state => state.auth.uid)
+
+    // Local state
     const [colorValue, setColorValue] = React.useState(category.color)
     const [nameValue, setNameValue] = React.useState(category.category)
     const [localActivitySettings, setLocalActivitySettings] = React.useState<ActivitySettings>(activitySettings)
-
-    const [error, setError] = React.useState({message:"", category:true})
+    const [error, setError] = React.useState({message:""})
+    const [activityError, setActivityError] = React.useState({message:""})
 
     React.useEffect(() => {
         setColorValue(category.color)
@@ -30,16 +40,27 @@ function CategorySectionForm ({category, activitySettings, categorySettings}:Cat
     /**
      * Handles press on save button.
      */
-    const handleFormSubmit = ():void => {
-
+    const handleFormSubmit = async ():Promise<void> => {
         const {valid, message} = validateCategorySubmission(category.categoryid, nameValue, colorValue, categorySettings)
 
-        if (!valid) {
-            setError({message, category: true})
-        } else {
-            if (error.message.length !== 0 && error.category) {
-                setError({message: "", category: true})
-            }
+        if (valid && activityError.message.length === 0) {
+            categorySettings[category.categoryid].category = nameValue
+            categorySettings[category.categoryid].color = colorValue
+            setCategorySettings({categorySettings})
+            setLoading(true)
+            saveSettings(activitySettings, categorySettings, uid)
+                .then(() => {
+                    setError({message: ""})
+                    setLoading(false)
+                })
+                .catch(e => {
+                    console.error(e)
+                    setError({message: "Failed to save settings to Firebase."})
+                    setLoading(false)
+                })
+
+        } else if (!valid) {
+            setError({message})
         }
     }
 
@@ -57,12 +78,14 @@ function CategorySectionForm ({category, activitySettings, categorySettings}:Cat
                     <input type="text" id="category-color" value={colorValue} onChange={e => setColorValue(e.target.value)} maxLength={7}/>
                 </div>
             </Section>
+            <div id={"category-section-form-error"}>
+                {activityError.message}
+            </div>
             <Section title={"Activities"}>
                 <ActivityList
-                    activitySettings={localActivitySettings}
-                    setActivitySettings={setLocalActivitySettings}
                     categoryid={category.categoryid}
-                    setError={setError}
+                    setError={setActivityError}
+                    activitySettings={activitySettings}
                 />
             </Section>
             <Section title={""}>
