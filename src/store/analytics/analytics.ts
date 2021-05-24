@@ -1,44 +1,30 @@
 // External imports
-import { action, thunk } from "easy-peasy";
-import moment from 'moment'
+import {Thunk, thunk} from "easy-peasy";
+import firebase from "firebase/app";
 
 // Internal imports
 import database from '../../firebase/firebase'
 import store from '../storeSetup'
 import { getCurrentYearWeekIds, createSortedYearObject } from './helpers'
+import {ActivitySettings, CategorySettings} from "../settings/settings";
 
-const analyticsModel =  {
-    weekYearTable: [],
-    categories: [],
+export interface AnalyticsModel {
+    stopCategoryListener: Thunk<AnalyticsModel>,
+    startCategoryListener: Thunk<AnalyticsModel>
+}
 
-    setcategories: action((state, payload) => {
-        state.categories = payload.categories
-    }),
-    setWeekYearTable: action((state, payload) => {
-        state.weekYearTable = payload.weekYearTable
-    }),
-    
-    getCategories: thunk( async (actions, payload) => {   
-        const uid = store.getState().auth.uid 
-        const year = payload.year
-        const weekYearTable = await database.ref(`users/${uid}/weekYearTable`).once('value')
-        actions.setWeekYearTable({weekYearTable: weekYearTable.val()})
+export interface AnalyticsType {
+        activities: {
+            activityid?:number,
+        },
+        categories: {
+            categoryid?:number
+        }
+}
 
-        const weekids = getCurrentYearWeekIds(weekYearTable.val(), year)
-        var weeks = []
-        
-        Promise.all(
-            weekids.map(weekid => database.ref(`users/${uid}/analytics/${weekid}`).once('value'))
-        ).then((data) => {
-            data.forEach((week, index) => {
-                weeks.push({...week.val(), weekid: weekids[index]})
-            })
-            
-            actions.setcategories({categories: createSortedYearObject(weeks, year, weekYearTable.val())})
-        })
-    }),
+const analyticsModel:AnalyticsModel =  {
     stopCategoryListener: thunk(async (actions, payload) => {
-        const uid = store.getState().auth.uid 
+        const uid = store.getState().auth.uid
 
         await database.ref(`users/${uid}/categories/`).off()
     }),
@@ -46,14 +32,13 @@ const analyticsModel =  {
     // Recounts the activities and categories for the current week.
     // This recounting happens after every change in categories in one of the weeks.
     startCategoryListener: thunk( async (actions, payload) => {
-        const uid = store.getState().auth.uid 
+        const uid = store.getState().auth.uid
 
-        database.ref(`users/${uid}/categories/`).on('child_changed', async (data) => {
-      
-            let weekid = data.ref.path.pieces_[3]
-     
+        database.ref(`users/${uid}/categories/`).on('child_changed', async (data:firebase.database.DataSnapshot) => {
+            let weekid = data.key
+
             // Analytics object initialised
-            const analytics = {
+            const analytics:AnalyticsType = {
                 categories: {
                     
                 }, 
@@ -62,8 +47,8 @@ const analyticsModel =  {
                 }
             } 
 
-            const activitySettings = store.getState().settings.activitySettings
-            const categorySettings = store.getState().settings.categorySettings
+            const activitySettings:ActivitySettings = store.getState().settings.activitySettings
+            const categorySettings:CategorySettings = store.getState().settings.categorySettings
 
             // Initialise all categories from categorySettings to have count 0
             Object.keys(categorySettings).forEach(categid => {
@@ -76,8 +61,9 @@ const analyticsModel =  {
             })
             
             // Iterates over all 15 minute intervals in a week. In this loop the counting happens.
+
             data.val().forEach(interval => {
-                
+
                 if (interval.activityid !== "") { // If there is an activityid in this interval
 
                     if (!analytics.activities[interval.activityid]) { // If such activityid is not yet present in analyitics object

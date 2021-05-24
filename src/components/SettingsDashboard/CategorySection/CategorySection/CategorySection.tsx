@@ -15,7 +15,6 @@ type CategorySectionProps = {
 }
 
 function CategorySection ({categorySettings, activitySettings, setLoading}:CategorySectionProps) {
-    console.log(categorySettings)
     const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(Object.keys(categorySettings)[0])
 
     return (

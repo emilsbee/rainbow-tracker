@@ -1,5 +1,53 @@
+// External imports
 import moment from 'moment'
+import database from "../../firebase/firebase";
+import {getWeekDateByWeekid} from "../settings/helpers";
+import {DateTime} from "luxon";
 
+// Internal imports
+
+/**
+ * Fetches the current week year table object for a given user.
+ * @param uid The user id.
+ * @return Promise That contains the week year table object.
+ */
+export const getWeekYearTable = (uid) => {
+    return database.ref(`users/${uid}/weekYearTable`).once("value")
+}
+
+/**
+ * Fetches the analytics object for a given user and a given year.
+ * @param uid The user id.
+ * @param year The year for which to fetch the analytics.
+ * @param weekYearTable The week year table object.
+ * @return weeks Array of {categories:{categoryid:number}, activities:{activityid:number}, weekid}
+ */
+export const getAnalytics = async (uid, year, weekYearTable) => {
+    const weekids = getCurrentYearWeekIds(weekYearTable, year)
+    let weeks = []
+
+    try {
+        for (let i = 0; i < weekids.length; i++) {
+            let week = await database.ref(`users/${uid}/analytics/${weekids[i]}`).once("value")
+            weeks.push({
+                analytics: week.val(),
+                weekid:weekids[i], weekNr: getWeekDateByWeekid(weekYearTable, weekids[i]).split("_")[0],
+                year: getWeekDateByWeekid(weekYearTable, weekids[i]).split("_")[1]
+            })
+        }
+    } catch (e) {
+        console.error(e)
+    }
+
+    return weeks
+}
+
+/**
+ * Finds week ids in the week year table for a given year.
+ * @param weekYearTable The week year table object.
+ * @param year The year for which to find week ids.
+ * @returns weekids An array of weekids.
+ */
 export const getCurrentYearWeekIds = (weekYearTable, year) => {
     const weekIdArr = []
 
@@ -10,7 +58,6 @@ export const getCurrentYearWeekIds = (weekYearTable, year) => {
     })
 
     return weekIdArr
-
 }
 
 const monthTable = {
@@ -30,7 +77,7 @@ const monthTable = {
 
 // A sort of pipeline function that converts analytics data fetched (categories)
 // to a formatted object. This formatted object contains the amount of times times each activity and category has been selected 
-// in all the weeks in a specific year. This data is then nicely formatted for each week, month and the whole year. This esentially
+// in all the weeks in a specific year. This data is then nicely formatted for each week, month and the whole year. This essentially
 // makes it easy to display this data. This final object can be seen in more detail in roamresearch. Throughout the pipeline some other functions
 // are occasionally called (all from this file) to make this function cleaner, although it ended up quite unclean. 
 export const createSortedYearObject = (categories, year, weekYearTable) => {
@@ -58,7 +105,7 @@ export const createSortedYearObject = (categories, year, weekYearTable) => {
     /* MONTHS LOGIC */
 
     /* WEEKS LOGIC */
-    const weeksInYear = moment().isoWeeksInYear(year) 
+    const weeksInYear = DateTime.fromObject({weekYear:year}).weeksInWeekYear
     // Iterates over weeks in the year provided
     for (var i = 1; i <= weeksInYear; i++) {
         // The basic weekObj
@@ -183,14 +230,13 @@ const getSpecificWeek = (weekYearTable, categories, weekNr, year) => {
 }  
 
 
-// Returns an array of objects (each object represents a month) 
-// The objects are like so
-//  {
-//      month: Number (1 to 12),
-//      weeks: [Number] the array includes all the week numbers in that month
-//  }
-const getWeekNrsInEachMonth = (year) => {
-    const finalArr = [] // The finall array of month objects
+/**
+ * Returns information about week numbers in each month for a given year.
+ * @param year The year.
+ * @return {{month:number, weeks:number[]}[]} The information
+ */
+const getWeekNrsInEachMonth = (year):{month:number, weeks:number[]}[] => {
+    const finalArr = [] // The final array of month objects
 
     const months = [1,2,3,4,5,6,7,8,9,10,11,12]
     months.forEach(month => { // Iterates through the months

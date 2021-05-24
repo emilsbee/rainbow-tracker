@@ -11,15 +11,16 @@ import Card from '../Card'
 import LoadingPage from '../../LoadingPage/LoadingPage'
 import {getDataToDisplay} from './helpers'
 
-const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, weekYearTable, view, date }) => {
+const AnalyticsDashboard = ({ loading, analytics, categorySettings, activitySettings, weekYearTable, view, date }) => {
     const [dataToDisplay, setDataToDisplay] = useState(false)
     
     useEffect(() => {
-        setDataToDisplay(getDataToDisplay(view, date, categories))
-    },[view, date, categories, setDataToDisplay])
+        // setDataToDisplay(getDataToDisplay(view, date, categories))
+
+    },[view, date, analytics, setDataToDisplay])
 
     
-    if (categories.length === 0 || !dataToDisplay) {
+    if (loading) {
         return (
             <div id="analytics-dashboard-loading-container">
                 <LoadingPage />
@@ -31,13 +32,13 @@ const AnalyticsDashboard = ({ categories, categorySettings, activitySettings, we
         <div id="analytics-dashboard-container">
             
             <Card title="Total">
-                <TotalCard 
-                    categories={dataToDisplay.categories} 
-                    activities={dataToDisplay.activities}
-                    activitySettings={activitySettings} 
-                    categorySettings={categorySettings}
-                    view={view}
-                />
+                {/*<TotalCard */}
+                {/*    categories={dataToDisplay.categories} */}
+                {/*    activities={dataToDisplay.activities}*/}
+                {/*    activitySettings={activitySettings} */}
+                {/*    categorySettings={categorySettings}*/}
+                {/*    view={view}*/}
+                {/*/>*/}
             </Card>
             
             <Card title="Total">

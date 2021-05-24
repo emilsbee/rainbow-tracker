@@ -56,7 +56,6 @@ export const getCategoryidByName = (categoryName:string, categorySettings:Catego
  * @return Undefined or activity id.
  */
 export const getActivityidByLongName = (activityLong:string, activitySettings:ActivitySettings, categoryid:string):string => {
-    console.log(activitySettings)
     return Object.keys(activitySettings).find(activityid => activitySettings[activityid].long === activityLong && activitySettings[activityid].categoryid === categoryid)
 }
 

@@ -30,7 +30,6 @@ export const getActivitySettings = (uid):Promise<firebase.database.DataSnapshot>
  * @param uid The user id.
  */
 export const saveSettings = (activitySettings:ActivitySettings, categorySettings:CategorySettings, uid:string):Promise<any> => {
-    console.log(activitySettings)
     const updates = {}
     updates[`users/${uid}/activitySettings`] = activitySettings
     updates[`users/${uid}/categorySettings`] = categorySettings
@@ -38,22 +37,16 @@ export const saveSettings = (activitySettings:ActivitySettings, categorySettings
 }
 
 /**
- * Finds activities of a given category and returns them or returns null.
- * @param categoryid Categoryid of the category for which to find activities.
- * @param activitySettings Current state activity settings in which to look.
- * @return ActivitySettings Activities of a category.
+ * Given the weekYearTable object and a weekid, returns the year and weekNr of the week or null.
+ * @param weekYearTable The weekYearTable object.
+ * @param weekid The id of week for which to find year and weekNr.
+ * @return weekid The weekid or null.
  */
-export const getCategoryActivities = (categoryid:string, activitySettings:ActivitySettings):ActivitySettings | null => {
-    let categoryActivities:any = {};
-    const activityIds = Object.keys(activitySettings)
-
-    for (let i = 0; i < activityIds.length; i++) {
-        let activityid = activityIds[i]
-
-        if (activitySettings[activityid].categoryid === categoryid) {
-            categoryActivities[activityid] = activitySettings[activityid]
+export const getWeekDateByWeekid = (weekYearTable, weekid):string => {
+    for (let i = 0; i < Object.values(weekYearTable).length; i++) {
+        if (Object.values(weekYearTable)[i] === weekid) {
+            return Object.keys(weekYearTable)[i]
         }
     }
-
-    return categoryActivities
+    return null
 }

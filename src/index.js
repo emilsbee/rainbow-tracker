@@ -49,6 +49,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
             await database.ref().update(updates)
         }
 
+        store.dispatch.analytics.startCategoryListener()
         renderApp()
         if (history.location.pathname === '/') {
             history.push(`/dashboard`)
