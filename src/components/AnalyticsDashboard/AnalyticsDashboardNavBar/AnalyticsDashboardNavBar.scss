@@ -1,24 +1,82 @@
 @import '../../../styles/base/settings.scss';
 
-#anal-dash-nav-bar__container {
-    width: 100%;
-    height: 60px;
-    background-color: $accent;
-
+#anal-dash-nav-container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
+
+    width: 100%;
+    height: 60px;
+    padding-top: 50px;
 }
 
-#anal-dash-nav-bar__view-by__container {
-    user-select: none;
+#anal-dash-nav-to-current-container {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    align-items: center; 
+
+    user-select: none;
+    width: 33%;
+}
+
+#anal-dash-nav-to-current {
+    background-color: transparent;
+    border: none;
+    font-size: $type-sizing-3;
+    outline: none;
+    color: #c48852;
+}
+
+#anal-dash-nav-central-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 33%;
+}
+
+#anal-dash-nav-banner {
+    user-select: none;
+    margin: 5px;
+    font-size: $type-sizing-6;
+    font-weight: 300;
+    color: #c48852;
+}
+
+#anal-dash-nav-change-button {
+    height: $sizing-5;
+    width: $sizing-9;
+    transition: 0.2s;
+    fill: #c48852;
+}
+
+#anal-dash-nav-change-button:hover {
+    cursor: pointer;
+    height: $sizing-6;
+}
+
+#anal-dash-nav-view-by-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 33%;
+}
+
+#anal-dash-nav-bar__view-by__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    user-select: none;
     width: 33%;
     height: 60px;
     padding-right: 40px;
+
     font-size: $type-sizing-3;
 }
 
@@ -28,6 +86,7 @@
     border: none;
     outline: none;
     font-size: $type-sizing-3;
+    color: $accent;
     border-radius: 5px;
 }
 
@@ -39,14 +98,3 @@
     border-radius: 5px;
 }
 
-#anal-dash-nav-bar__controls-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 33%;
-}
-
-#anal-dash-nav-bar__placeholder {
-    width: 33%;
-}

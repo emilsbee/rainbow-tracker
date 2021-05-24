@@ -55,6 +55,7 @@ firebase.auth().onAuthStateChanged( async (user) => {
             history.push(`/dashboard`)
         }
     } else {
+        store.dispatch.analytics.stopCategoryListener()
         store.dispatch.auth.logout()
         renderApp()
         history.push('/')

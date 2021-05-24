@@ -1,19 +1,11 @@
 @import '../../../styles/base/settings.scss';
 
-.analytics-wrapper {
-    //display: flex;
-    //flex-direction: column;
-    //justify-content: space-between;
-    //
-    //background-color: rgb(248,248,250);
-    //height: 100%;
-    background-color: $primary;
+#analytics-dashboard-wrapper {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    font-size: $type-sizing-6;
+    justify-content: space-between;
+    //background-color: #f6f7f9;
+    background-color: $primary;
 }
 
 

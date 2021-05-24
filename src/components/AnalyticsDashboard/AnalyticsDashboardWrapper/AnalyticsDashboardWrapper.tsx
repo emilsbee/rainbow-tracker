@@ -1,16 +1,15 @@
 // External imports
-import React, { useEffect, useState } from 'react'
-import { useStoreActions, useStoreState } from 'easy-peasy';
-import moment from 'moment'
+import React, {useState} from 'react'
 import {DateTime} from "luxon";
 
 // Internal imports
 import AnalyticsDashboardNavBar from '../AnalyticsDashboardNavBar/AnalyticsDashboardNavBar'
+import { goBack, goForward, setCurrentDate } from '../AnalyticsDashboard/helpers'
 import './AnalyticsDashboardWrapper.scss'
 import AnalyticsDashboard from '../AnalyticsDashboard'
-import { goBack, goForward, setCurrentDate } from '../AnalyticsDashboard/helpers'
-import {getActivitySettings, getCategorySettings} from "../../../store/settings/helpers";
 import {getAnalytics, getWeekYearTable} from "../../../store/analytics/helpers";
+import {VIEW_WEEK} from "../constants/constants";
+import {useStoreState} from "../../../store/hookSetup";
 
 const AnalyticsDashboardWrapper = () => {
     // Store state
@@ -19,20 +18,19 @@ const AnalyticsDashboardWrapper = () => {
     const uid = useStoreState(state => state.auth.uid)
 
     // Local state
-    const [date, setDate] = useState({week: moment().isoWeek(), year: moment().year(), month: moment().month() }) // week: a week number, year: a year, month: monthNumber (0 to 11 instead of 1 to 12)
-    const [view, setView] = useState("week") // Possible values: "week", "month", "year"
-    const [currentYear, setCurrentYear] = useState(moment().year())
+    const [date, setDate] = useState({week: DateTime.now().weekNumber, year: DateTime.now().startOf("week").year, month: DateTime.now().month })
+    const [view, setView] = useState(VIEW_WEEK)
     const [loading, setLoading]=  React.useState(true)
-    const [analytics, setanalytics] = React.useState(null)
+    const [analytics, setAnalytics] = React.useState(null)
     const [weekYearTable, setWeekYearTable] = React.useState(null)
 
-    useEffect(() => {
+    React.useEffect(() => {
         (async function fetchData() {
             try {
                 setLoading(true)
                 const weekYearTable = await getWeekYearTable(uid)
                 const analytics = await getAnalytics(uid, DateTime.now().year, weekYearTable.val())
-                setanalytics(analytics)
+                setAnalytics(analytics)
                 setWeekYearTable(weekYearTable.val())
                 setLoading(false)
             } catch (e) {
@@ -55,23 +53,23 @@ const AnalyticsDashboardWrapper = () => {
     
     
     return (
-        <div className="analytics-wrapper">
-            {/*<AnalyticsDashboardNavBar */}
-            {/*    date={date} */}
-            {/*    view={view} */}
-            {/*    setView={setView} */}
-            {/*    goBack={() => goBack(view, date, setDate)} */}
-            {/*    goForward={() => goForward(view, date, setDate)}*/}
-            {/*    setCurrentDate={() => setCurrentDate(setDate)}*/}
-            {/*/>*/}
+        <div id="analytics-dashboard-wrapper">
+            <AnalyticsDashboardNavBar
+                date={date}
+                view={view}
+                setView={setView}
+                goBack={() => goBack(view, date, setDate)}
+                goForward={() => goForward(view, date, setDate)}
+                setCurrentDate={() => setCurrentDate(setDate)}
+            />
             <AnalyticsDashboard
                 loading={loading}
                 analytics={analytics}
                 activitySettings={activitySettings}
                 categorySettings={categorySettings}
                 weekYearTable={weekYearTable}
-                view={view}
                 date={date}
+                view={view}
             />
         </div>
     )

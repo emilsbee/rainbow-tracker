@@ -7,6 +7,7 @@ import './AnalyticsDashboardNavBar.scss'
 import { ReactComponent as BackArrow } from '../../../svgIcons/back.svg'
 import { ReactComponent as NextArrow } from '../../../svgIcons/next.svg'
 import {VIEW_WEEK, VIEW_MONTH, VIEW_YEAR} from '../constants/constants'
+import {DateTime} from "luxon";
 
 const monthTable = {
     0: "January",
@@ -24,17 +25,17 @@ const monthTable = {
 }
 
 const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCurrentDate}) => {
-     
-    const currentWeekNr = moment().isoWeek()
-    const currentYear = moment().year()
+
+    const currentWeekNr = DateTime.now().weekNumber
+    const currentYear = DateTime.now().startOf("week").year
 
     return (
-        <div id="anal-dash-nav-bar__container">
-            <div id="dashboard-nav-back-to-current-container">
+        <div id="anal-dash-nav-container">
+            <div id="anal-dash-nav-to-current-container">
                 {
                     !(currentWeekNr === date.week && currentYear === date.year) && 
                     <button
-                        id="dashboard-nav-back-to-current"
+                        id="anal-dash-nav-to-current"
                         onClick={setCurrentDate}
                     >
                         To current week
@@ -43,18 +44,15 @@ const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCu
             </div>
     
 
-            <div id="anal-dash-nav-bar__controls-container">
-                <BackArrow id="dashboard-nav-previous-week" onClick={goBack}/>
-                    <h2 id="dashboard-nav-year-banner">{date.year}{view !== "year" && ","}</h2>
-                    {view === "month" && <h2 id="dashboard-nav-week-banner">{monthTable[date.month]}</h2>}
-                    {view === "week" && <h2 id="dashboard-nav-week-banner">week {date.week}</h2>}
-                <NextArrow 
-                    id="dashboard-nav-next-week" 
-                    onClick={goForward}
-                />
+            <div id="anal-dash-nav-central-container">
+                <BackArrow onClick={goBack} id="anal-dash-nav-change-button"/>
+                    <h2 id="anal-dash-nav-banner">{date.year}{view !== "year" && ","}</h2>
+                    {view === "month" && <h2 id="anal-dash-nav-banner">{monthTable[date.month]}</h2>}
+                    {view === "week" && <h2 id="anal-dash-nav-banner">week {date.week}</h2>}
+                <NextArrow onClick={goForward} id="anal-dash-nav-change-button"/>
             </div>
             
-            <div id="anal-dash-nav-bar__view-by__container">
+            <div id="anal-dash-nav-view-by-container">
                 View by
                 <select name="viewBy" id="anal-dash-nav-bar__view-by__dropdown" onChange={(e) => setView(e.target.value)}>
                     <option value={VIEW_WEEK} id="anal-dash-nav-bar__view-by__dropdown-item">week</option>
