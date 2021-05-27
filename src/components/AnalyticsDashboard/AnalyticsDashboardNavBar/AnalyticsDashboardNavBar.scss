@@ -87,7 +87,7 @@
     outline: none;
     font-size: $type-sizing-3;
     color: $accent;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 #anal-dash-nav-bar__view-by__dropdown:hover {
@@ -95,6 +95,12 @@
 }
 
 #anal-dash-nav-bar__view-by__dropdown-item {
+    background-color: $dark-primary;
+    border-radius: 5px;
+}
+
+#anal-dash-nav-bar__view-by__dropdown-item:focus {
+    background-color: $accent;
     border-radius: 5px;
 }
 

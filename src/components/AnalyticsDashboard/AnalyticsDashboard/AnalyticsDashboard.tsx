@@ -1,7 +1,5 @@
 // External imports
 import React, { useState, useEffect } from 'react'
-import {DateTime} from "luxon";
-import moment from "moment";
 
 // Internal imports
 import './AnalyticsDashboard.scss'
@@ -13,14 +11,15 @@ import {ReactComponent as Loader} from "../../../svgIcons/spinner.svg";
 
 const AnalyticsDashboard = ({ loading, analytics, categorySettings, activitySettings, weekYearTable, date, view}) => {
     // Local state
-    const [dataToDisplay, setDataToDisplay] = useState(false)
+    const [dataToDisplay, setDataToDisplay] = useState(null)
     
     useEffect(() => {
-        // setDataToDisplay(getDataToDisplay(view, date, analytics))
-    },[view, date, analytics, setDataToDisplay])
-
+        if (analytics != null) {
+            setDataToDisplay(getDataToDisplay(view, date, analytics))
+        }
+    },[analytics, date, view])
     
-    if (loading) {
+    if (loading || dataToDisplay == null) {
         return (
             <div id="analytics-dashboard-loading-container">
                 <Loader style={{height: '6rem', width: '6rem'}}/>
@@ -30,19 +29,18 @@ const AnalyticsDashboard = ({ loading, analytics, categorySettings, activitySett
 
     return (
         <div id="analytics-dashboard-container">
-            {/*<Card >*/}
-            {/*    <TotalCard */}
-            {/*        categories={dataToDisplay.categories} */}
-            {/*        activities={dataToDisplay.activities}*/}
-            {/*        activitySettings={activitySettings} */}
-            {/*        categorySettings={categorySettings}*/}
-            {/*        view={view}*/}
-            {/*    />*/}
-            {/*</Card>*/}
-            
             <Card>
-                <TotalPie />    
+                <TotalCard
+                    categories={dataToDisplay.categories}
+                    activities={dataToDisplay.activities}
+                    activitySettings={activitySettings}
+                    categorySettings={categorySettings}
+                    view={view}
+                />
             </Card>
+            {/*<Card>*/}
+            {/*    <TotalPie />    */}
+            {/*</Card>*/}
         </div>
     )
 }

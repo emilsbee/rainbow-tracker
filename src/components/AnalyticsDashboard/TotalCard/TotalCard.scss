@@ -1,10 +1,13 @@
 @import '../../../styles/base/settings.scss';
 
+
+
 #anal-total-card__header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    border-bottom: solid .1px $accent;
+    padding-bottom: 7px;
     text-align: center;
     margin-bottom: 10px;
 }
@@ -33,5 +36,5 @@
 #anal-total-card__content-arrow {
     width: 10px;
     height: 10px;
-    fill: $primary;
+    fill: $accent;
 }

@@ -1,30 +1,19 @@
 // External imports
 import React from 'react';
-import moment from 'moment'
 
 // Internal imports
 import './AnalyticsDashboardNavBar.scss'
 import { ReactComponent as BackArrow } from '../../../svgIcons/back.svg'
 import { ReactComponent as NextArrow } from '../../../svgIcons/next.svg'
 import {VIEW_WEEK, VIEW_MONTH, VIEW_YEAR} from '../constants/constants'
-import {DateTime} from "luxon";
+import {DateTime, Info} from "luxon";
+import {useStoreActions} from "../../../store/hookSetup";
 
-const monthTable = {
-    0: "January",
-    1: "February",
-    2: "March",
-    3: "April",
-    4: "May",
-    5: "June",
-    6: "July",
-    7: "August",
-    8: "September",
-    9: "October",
-    10: "November",
-    11: "December"
-}
-
-const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCurrentDate}) => {
+const AnalyticsDashboardNavBar = ({date, view, setView}) => {
+    // Store actions
+    const goBackInTime = useStoreActions(actions => actions.analytics.goBackInTime)
+    const goForwardInTime = useStoreActions(actions => actions.analytics.goForwardInTime)
+    const setCurrentDate = useStoreActions(actions => actions.analytics.setCurrentDate)
 
     const currentWeekNr = DateTime.now().weekNumber
     const currentYear = DateTime.now().startOf("week").year
@@ -33,23 +22,27 @@ const AnalyticsDashboardNavBar = ({date, view, setView, goBack, goForward, setCu
         <div id="anal-dash-nav-container">
             <div id="anal-dash-nav-to-current-container">
                 {
-                    !(currentWeekNr === date.week && currentYear === date.year) && 
+                    !(currentWeekNr === date.weekNr && currentYear === date.year) &&
                     <button
                         id="anal-dash-nav-to-current"
-                        onClick={setCurrentDate}
+                        onClick={() => setCurrentDate()}
                     >
-                        To current week
+                        To current date
                     </button>
                 }
             </div>
     
 
             <div id="anal-dash-nav-central-container">
-                <BackArrow onClick={goBack} id="anal-dash-nav-change-button"/>
+                <BackArrow onClick={() => {
+                    goBackInTime({timeUnit: view})
+                }} id="anal-dash-nav-change-button"/>
                     <h2 id="anal-dash-nav-banner">{date.year}{view !== "year" && ","}</h2>
-                    {view === "month" && <h2 id="anal-dash-nav-banner">{monthTable[date.month]}</h2>}
-                    {view === "week" && <h2 id="anal-dash-nav-banner">week {date.week}</h2>}
-                <NextArrow onClick={goForward} id="anal-dash-nav-change-button"/>
+                    {view === "month" && <h2 id="anal-dash-nav-banner">{Info.months()[date.month]}</h2>}
+                    {view === "week" && <h2 id="anal-dash-nav-banner">week {date.weekNr}</h2>}
+                <NextArrow onClick={() => {
+                    goForwardInTime({timeUnit: view})
+                }} id="anal-dash-nav-change-button"/>
             </div>
             
             <div id="anal-dash-nav-view-by-container">

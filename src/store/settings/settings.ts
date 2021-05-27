@@ -24,6 +24,10 @@ export interface Date {
     year:string
 }
 
+export interface WeekYearTable {
+    weekNr: string
+}
+
 export interface SettingsModel {
     // Indicates which time slot should be highlighted.
     timeHoverIndex:number,

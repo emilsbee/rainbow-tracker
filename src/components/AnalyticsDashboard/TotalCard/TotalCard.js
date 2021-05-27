@@ -82,7 +82,7 @@ const TotalCard = ({ categories, activities, categorySettings, activitySettings,
                                                 </p>
                                                 <p style={{userSelect: "none"}}>
                                                     {
-                                                        currentUnitView === "h" ?
+                                                         currentUnitView === "h" ?
                                                         Math.floor((parseInt(activities[activity.activityid])*15)/60) : // Total hours
                                                         Math.floor((parseInt(activities[activity.activityid])/getMaximumTimeUnits(view))*100) // Percentage of total time in current view
                                                     }

@@ -2,7 +2,9 @@
 import moment from 'moment'
 import database from "../../firebase/firebase";
 import {getWeekDateByWeekid} from "../settings/helpers";
-import {DateTime} from "luxon";
+import {DateTime, Info} from "luxon";
+import {WeekYearTable} from "../settings/settings";
+import {AnalyticsExtendedType, AnalyticsType} from "./analytics";
 
 // Internal imports
 
@@ -11,9 +13,10 @@ import {DateTime} from "luxon";
  * @param uid The user id.
  * @return Promise That contains the week year table object.
  */
-export const getWeekYearTable = (uid) => {
+export const getWeekYearTable = (uid:String):Promise<firebase.database.DataSnapshot> => {
     return database.ref(`users/${uid}/weekYearTable`).once("value")
 }
+
 
 /**
  * Fetches the analytics object for a given user and a given year.
@@ -22,17 +25,19 @@ export const getWeekYearTable = (uid) => {
  * @param weekYearTable The week year table object.
  * @return weeks Array of {categories:{categoryid:number}, activities:{activityid:number}, weekid}
  */
-export const getAnalytics = async (uid, year, weekYearTable) => {
+export const getAnalytics = async (uid:String, year:number, weekYearTable:WeekYearTable):Promise<AnalyticsExtendedType[]> => {
     const weekids = getCurrentYearWeekIds(weekYearTable, year)
     let weeks = []
 
     try {
         for (let i = 0; i < weekids.length; i++) {
             let week = await database.ref(`users/${uid}/analytics/${weekids[i]}`).once("value")
+
             weeks.push({
                 analytics: week.val(),
-                weekid:weekids[i], weekNr: getWeekDateByWeekid(weekYearTable, weekids[i]).split("_")[0],
-                year: getWeekDateByWeekid(weekYearTable, weekids[i]).split("_")[1]
+                weekid:weekids[i],
+                weekNr: parseInt(getWeekDateByWeekid(weekYearTable, weekids[i]).split("_")[0]),
+                year: parseInt(getWeekDateByWeekid(weekYearTable, weekids[i]).split("_")[1])
             })
         }
     } catch (e) {
@@ -48,7 +53,7 @@ export const getAnalytics = async (uid, year, weekYearTable) => {
  * @param year The year for which to find week ids.
  * @returns weekids An array of weekids.
  */
-export const getCurrentYearWeekIds = (weekYearTable, year) => {
+export const getCurrentYearWeekIds = (weekYearTable:WeekYearTable, year:number):string[] => {
     const weekIdArr = []
 
     Object.keys(weekYearTable).forEach((weekYear) => {
@@ -58,21 +63,6 @@ export const getCurrentYearWeekIds = (weekYearTable, year) => {
     })
 
     return weekIdArr
-}
-
-const monthTable = {
-    1: "January",
-    2: "February",
-    3: "March",
-    4: "April",
-    5: "May",
-    6: "June",
-    7: "July",
-    8: "August",
-    9: "September",
-    10: "October",
-    11: "November",
-    12: "December"
 }
 
 // A sort of pipeline function that converts analytics data fetched (categories)
@@ -91,7 +81,7 @@ export const createSortedYearObject = (categories, year, weekYearTable) => {
     /* MONTHS LOGIC */
     const monthObjects = getWeekNrsInEachMonth(year); // Array of objects (months) that includes the month number and an array of week numbers in each month
     monthObjects.forEach(monthObj => {
-        const formattedMonthObj = {categories: {}, activities: {}, monthNr: monthObj.month, monthName: monthTable[monthObj.month]}
+        const formattedMonthObj = {categories: {}, activities: {}, monthNr: monthObj.month, monthName: Info.months()[monthObj.month]}
 
         monthObj.weeks.forEach(weekNr => {
             let week = getSpecificWeek(weekYearTable, categories, weekNr, year)

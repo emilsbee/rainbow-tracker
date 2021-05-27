@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 
 // Internal imports
 import database from "../../firebase/firebase";
-import {ActivitySettings, CategorySettings} from "./settings";
+import {ActivitySettings, CategorySettings, WeekYearTable} from "./settings";
 
 /**
  * Fetches category settings from Firebase for a given user.
@@ -40,9 +40,9 @@ export const saveSettings = (activitySettings:ActivitySettings, categorySettings
  * Given the weekYearTable object and a weekid, returns the year and weekNr of the week or null.
  * @param weekYearTable The weekYearTable object.
  * @param weekid The id of week for which to find year and weekNr.
- * @return weekid The weekid or null.
+ * @return weekDate as a string in the form weekNr_year.
  */
-export const getWeekDateByWeekid = (weekYearTable, weekid):string => {
+export const getWeekDateByWeekid = (weekYearTable:WeekYearTable, weekid:string):string => {
     for (let i = 0; i < Object.values(weekYearTable).length; i++) {
         if (Object.values(weekYearTable)[i] === weekid) {
             return Object.keys(weekYearTable)[i]

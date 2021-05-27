@@ -1,7 +1,6 @@
 // External imports
 import React from 'react'
 import {DateTime} from "luxon";
-import PropTypes from 'prop-types'
 
 // Internal imports
 import './MainDashboardNavBar.scss'
@@ -71,11 +70,6 @@ const MainDashboardNavBar = ({ weekNr, year}) => {
                 
         </div>
     )
-}   
-
-MainDashboardNavBar.propTypes = {
-    weekNr: PropTypes.number.isRequired,
-    year: PropTypes.number.isRequired
 }
 
 export default MainDashboardNavBar

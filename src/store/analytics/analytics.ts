@@ -1,16 +1,39 @@
 // External imports
-import {Thunk, thunk} from "easy-peasy";
+import {action, Action, Thunk, thunk} from "easy-peasy";
 import firebase from "firebase/app";
+import {DateTime} from "luxon";
 
 // Internal imports
 import database from '../../firebase/firebase'
 import store from '../storeSetup'
-import { getCurrentYearWeekIds, createSortedYearObject } from './helpers'
 import {ActivitySettings, CategorySettings} from "../settings/settings";
+import {VIEW_MONTH, VIEW_WEEK, VIEW_YEAR} from "../../components/AnalyticsDashboard/constants/constants";
+
+export interface AnalyticsDate {
+    year:number,
+    weekNr:number,
+    month:number
+}
 
 export interface AnalyticsModel {
+    currentDate:AnalyticsDate,
+    /**
+     * Goes back in time a given unit of time (week, month or year).
+     * @param timeUnit One of the views from src/components/AnalyticsDashboard/constants/constants.ts
+     */
+    goBackInTime: Action<AnalyticsModel, {timeUnit:string}>,
+    /**
+     * Goes forward in time a given unit of time (week, month or year).
+     * @param timeUnit One of the views from src/components/AnalyticsDashboard/constants/constants.ts
+     */
+    goForwardInTime: Action<AnalyticsModel, {timeUnit:string}>,
+    /**
+     * Sets the current date to the real life current date.
+     */
+    setCurrentDate: Action<AnalyticsModel>,
+
     stopCategoryListener: Thunk<AnalyticsModel>,
-    startCategoryListener: Thunk<AnalyticsModel>
+    startCategoryListener: Thunk<AnalyticsModel>,
 }
 
 export interface AnalyticsType {
@@ -22,7 +45,112 @@ export interface AnalyticsType {
         }
 }
 
+export type AnalyticsExtendedType = {
+    analytics:AnalyticsType,
+    weekid:string,
+    year:number,
+    weekNr:number
+}
+
 const analyticsModel:AnalyticsModel =  {
+    currentDate: {
+        weekNr: DateTime.now().weekNumber,
+        month: DateTime.now().month,
+        year: DateTime.now().startOf("week").year
+    },
+    goBackInTime: action((state, payload) => {
+        let timeUnit = payload.timeUnit
+        let newDate = {weekNr:0, month: 0, year:0}
+        let dt:DateTime
+
+        /* WEEK */
+        if (timeUnit === VIEW_WEEK) {
+
+            dt = DateTime.fromObject({
+                weekYear: state.currentDate.year,
+                weekNumber: state.currentDate.weekNr,
+            });
+
+            newDate.year = dt.minus({week: 1}).year
+            newDate.month = dt.minus({week: 1}).month
+            newDate.weekNr = dt.minus({week: 1}).weekNumber
+
+        /* MONTH */
+        } else if (timeUnit === VIEW_MONTH) {
+
+            dt = DateTime.fromObject({
+                year: state.currentDate.year,
+                month: state.currentDate.month
+            });
+
+            newDate.year = dt.minus({month: 1}).year
+            newDate.month = dt.minus({month: 1}).month
+            newDate.weekNr = dt.minus({month: 1}).weekNumber
+
+        /* YEAR */
+        } else if (timeUnit === VIEW_YEAR) {
+            dt = DateTime.fromObject({
+                weekYear: state.currentDate.year,
+                weekNumber: state.currentDate.weekNr
+            });
+
+            newDate.year = dt.minus({year: 1}).year
+            newDate.month = dt.minus({year: 1}).month
+            newDate.weekNr = dt.minus({year: 1}).weekNumber
+        }
+
+        state.currentDate = newDate
+    }),
+    goForwardInTime: action((state, payload) => {
+        let timeUnit = payload.timeUnit
+        let newDate = {weekNr:0, month: 0, year:0}
+        let dt:DateTime
+
+        /* WEEK */
+        if (timeUnit === VIEW_WEEK) {
+
+            dt = DateTime.fromObject({
+                weekYear: state.currentDate.year,
+                weekNumber: state.currentDate.weekNr,
+            });
+
+            newDate.year = dt.plus({week: 1}).year
+            newDate.month = dt.plus({week: 1}).month
+            newDate.weekNr = dt.plus({week: 1}).weekNumber
+
+            /* MONTH */
+        } else if (timeUnit === VIEW_MONTH) {
+
+            dt = DateTime.fromObject({
+                year: state.currentDate.year,
+                month: state.currentDate.month
+            });
+
+            newDate.year = dt.plus({month: 1}).year
+            newDate.month = dt.plus({month: 1}).month
+            newDate.weekNr = dt.plus({month: 1}).weekNumber
+
+            /* YEAR */
+        } else if (timeUnit === VIEW_YEAR) {
+            dt = DateTime.fromObject({
+                weekYear: state.currentDate.year,
+                weekNumber: state.currentDate.weekNr
+            });
+
+            newDate.year = dt.plus({year: 1}).year
+            newDate.month = dt.plus({year: 1}).month
+            newDate.weekNr = dt.plus({year: 1}).weekNumber
+        }
+
+        state.currentDate = newDate
+    }),
+    setCurrentDate: action((state) => {
+          state.currentDate = {
+              weekNr: DateTime.now().weekNumber,
+              month: DateTime.now().month,
+              year: DateTime.now().startOf("week").year
+          }
+    }),
     stopCategoryListener: thunk(async (actions, payload) => {
         const uid = store.getState().auth.uid
 

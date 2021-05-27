@@ -5,15 +5,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    //background-color: $primary;
-    height: 100vh;
+    margin-top: 20%;
 }
 
 #analytics-dashboard-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: flex-start;
-    align-items: center;
-    height: 100vh;
+    align-items: flex-start;
+    padding: 0px 65px 0px;
+    height: 100%;
     //background-color: $primary;
 }
