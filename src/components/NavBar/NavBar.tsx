@@ -1,7 +1,6 @@
 // External imports
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { useStoreActions } from 'easy-peasy'
 
 // Internal imports
 import './nav-bar.scss'
@@ -10,6 +9,7 @@ import { ReactComponent as DashboardIcon } from "../../svgIcons/dashboard.svg";
 import { ReactComponent as SettingsIcon } from "../../svgIcons/settings.svg";
 import { ReactComponent as AnalyticsIcon } from "../../svgIcons/analytics.svg";
 import { ReactComponent as MenuIcon } from "../../svgIcons/list.svg";
+import {useStoreActions, useStoreState} from "../../store/hookSetup";
 
 /**
  * The navigation bar on the left side of page.
@@ -21,8 +21,9 @@ const NavBar = () => {
     const [open, setOpen] = React.useState(false)
 
     // Store actions
-    const startLogout = useStoreActions(actions => actions.auth.startLogout)
+    const logout = useStoreActions(actions => actions.auth.logout)
     const reset = useStoreActions(actions => actions.reset)
+    const userid = useStoreState(state => state.auth.uid)
 
     // Every time the location changes, currentLocation is updated.
     let location = useLocation()
@@ -35,7 +36,7 @@ const NavBar = () => {
      */
     const beginLogout = () => {
         reset()
-        startLogout()
+        logout({userid})
     }
 
     return (

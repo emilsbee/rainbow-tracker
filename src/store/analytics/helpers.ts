@@ -13,7 +13,7 @@ import {AnalyticsExtendedType, AnalyticsType} from "./analytics";
  * @param uid The user id.
  * @return Promise That contains the week year table object.
  */
-export const getWeekYearTable = (uid:String):Promise<firebase.database.DataSnapshot> => {
+export const getWeekYearTable = (uid:String):Promise<any> => {
     return database.ref(`users/${uid}/weekYearTable`).once("value")
 }
 

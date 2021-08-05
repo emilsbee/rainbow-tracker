@@ -11,6 +11,7 @@ import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'
 import {createData} from "./utils/dataGenerators";
+import LoginPage from "./components/LoginPage/LoginPage";
 
 // Configuring environment variables
 require('dotenv').config()
@@ -29,38 +30,53 @@ const renderApp = () => {
 }
 
 // If nothing is being rendered, display loading page
-ReactDOM.render(<LoadingPage/>,document.getElementById('root'));
+// ReactDOM.render(<LoginPage/>,document.getElementById('root'));
 
-/**
- * Listener for use authentication state.
- */
-firebase.auth().onAuthStateChanged( async (user) => {
-    if (user) {
-        store.dispatch.auth.login({userId: user.uid}) // Sets the uid in store
+renderApp()
 
-        const init = await database.ref(`users/${user.uid}/init`).once('value')
+let userid = window.localStorage.getItem("userid")
 
-        if (init.val() == null) {
-            const {activitySettings, categorySettings} = createData()
-            let updates = {}
-            updates[`users/${user.uid}/activitySettings`] = activitySettings
-            updates[`users/${user.uid}/categorySettings`] = categorySettings
-            updates[`users/${user.uid}/init`] = true
-            await database.ref().update(updates)
+fetch(`/user/${userid}/auth/is-logged-in`,
+    {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+    }).then(res => {
+
+        if (res.ok) {
+            store.getActions().auth.setuid({userid})
+            history.push("/dashboard")
         }
-
-        store.dispatch.analytics.startCategoryListener()
-        renderApp()
-        if (history.location.pathname === '/') {
-            history.push(`/dashboard`)
-        }
-    } else {
-        store.dispatch.analytics.stopCategoryListener()
-        store.dispatch.auth.logout()
-        renderApp()
-        history.push('/')
-    }
 })
+
+
+// firebase.auth().onAuthStateChanged( async (user) => {
+//     if (user) {
+//         store.dispatch.auth.login({userId: user.uid}) // Sets the uid in store
+//
+//         const init = await database.ref(`users/${user.uid}/init`).once('value')
+//
+//         if (init.val() == null) {
+//             const {activitySettings, categorySettings} = createData()
+//             let updates = {}
+//             updates[`users/${user.uid}/activitySettings`] = activitySettings
+//             updates[`users/${user.uid}/categorySettings`] = categorySettings
+//             updates[`users/${user.uid}/init`] = true
+//             await database.ref().update(updates)
+//         }
+//
+//         store.dispatch.analytics.startCategoryListener()
+//         renderApp()
+//         if (history.location.pathname === '/') {
+//             history.push(`/dashboard`)
+//         }
+//     } else {
+//         store.dispatch.analytics.stopCategoryListener()
+//         store.dispatch.auth.logout()
+//         renderApp()
+//         history.push('/')
+//     }
+// })
 
 serviceWorker.unregister();
 

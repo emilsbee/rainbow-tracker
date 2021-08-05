@@ -1,10 +1,10 @@
 // External imports
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { useStoreState } from 'easy-peasy'
 
 // Internal imports
 import NavBar from "../components/NavBar/NavBar";
+import {useStoreState} from "../store/hookSetup";
 
 /**
  * Private routes require uid to not be an empty string thereby
