@@ -6,6 +6,7 @@ import database from "../../firebase/firebase";
 import {createData} from "../../utils/dataGenerators";
 import {ActivitySettings, CategorySettings} from "../settings/settings";
 
+
 /**
  * Fetches categories from Firebase for a given week and user by the weekid.
  * @param uid User for which to fetch the categories.

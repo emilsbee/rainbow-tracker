@@ -1,5 +1,14 @@
 @import '../../styles/base/settings';
 
+#login-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //background-color: $primary;
+    height: 100vh;
+}
+
 #login-container {
     background-color: $primary;
     height: 100vh;

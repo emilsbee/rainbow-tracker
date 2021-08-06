@@ -6,49 +6,19 @@ import { StoreProvider } from 'easy-peasy'
 //Internal imports
 import * as serviceWorker from './serviceWorker';
 import store from "./store/storeSetup"
-import database, { firebase } from './firebase/firebase'
-import LoadingPage from './components/LoadingPage/LoadingPage'
 import AppRouter, { history } from './routers/AppRouter'
 import './styles/styles.scss'
+import database, { firebase } from './firebase/firebase'
+import LoadingPage from './components/LoadingPage/LoadingPage'
 import {createData} from "./utils/dataGenerators";
 import LoginPage from "./components/LoginPage/LoginPage";
 
-// Configuring environment variables
-require('dotenv').config()
-
-let hasRendered = false;
-const renderApp = () => {
-    if(!hasRendered) {
-        ReactDOM.render(
-            <StoreProvider store={store}>
-                <AppRouter/>
-            </StoreProvider>,
-            document.getElementById('root')
-        )
-        hasRendered = true;
-    }
-}
-
-// If nothing is being rendered, display loading page
-// ReactDOM.render(<LoginPage/>,document.getElementById('root'));
-
-renderApp()
-
-let userid = window.localStorage.getItem("userid")
-
-fetch(`/user/${userid}/auth/is-logged-in`,
-    {
-        method: "GET",
-        mode: "cors",
-        credentials: "include",
-    }).then(res => {
-
-        if (res.ok) {
-            store.getActions().auth.setuid({userid})
-            history.push("/dashboard")
-        }
-})
-
+ReactDOM.render(
+    <StoreProvider store={store}>
+        <AppRouter/>
+    </StoreProvider>,
+    document.getElementById('root')
+)
 
 // firebase.auth().onAuthStateChanged( async (user) => {
 //     if (user) {

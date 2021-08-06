@@ -55,9 +55,9 @@ const MainDashboardWrapper = () => {
     return (
         <div id="main-dash-wrapper">
             
-            <MainDashboardNavBar weekNr={parseInt(currentDate.weekNr)} year={parseInt(currentDate.year)}/>
+            {/*<MainDashboardNavBar weekNr={parseInt(currentDate.weekNr)} year={parseInt(currentDate.year)}/>*/}
 
-            <MainDashboardTable categories={categories} notes={notes}/>
+            {/*<MainDashboardTable categories={categories} notes={notes}/>*/}
         </div>
     );
 }
