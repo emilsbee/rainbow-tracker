@@ -28,7 +28,6 @@ const LoginPage = () => {
 
             if (loggedIn) {
                 setuid({userid})
-                history.push("/dashboard")
             } else {
                 setLoading(false)
             }

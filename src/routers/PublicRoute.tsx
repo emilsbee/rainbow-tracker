@@ -1,7 +1,9 @@
 // External imports
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { useStoreState } from 'easy-peasy'
+
+// Internal imports
+import {useStoreState} from "../store/hookSetup";
 
 /**
  * The public route requires no authentication so can be access by anyone.

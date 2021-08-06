@@ -15,6 +15,15 @@ export interface NoteType {
     stackid:string
 }
 
+export type Note = {
+    weekid: string,
+    weekDay: number,
+    notePosition: number,
+    stackid: string,
+    userid: string,
+    note: string
+}
+
 export interface NotesModel {
     notes:NoteType[],
     setNotes: Action<NotesModel,{notes:NoteType[]}>,

@@ -3,7 +3,6 @@ import React from 'react'
 import { createBrowserHistory } from 'history'
 import {Router, Route, Switch} from 'react-router-dom'
 
-
 // Internal imports
 import MainDashboardWrapper from '../components/MainDashboard/MainDashboardWrapper'
 import LoginPage from '../components/LoginPage/LoginPage'

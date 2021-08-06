@@ -9,7 +9,6 @@ import {useStoreState, useStoreActions} from "../../../store/hookSetup"
 import {getActivitySettings, getCategorySettings} from "../../../store/settings/helpers";
 import {getCategoriesByWeekNrAndYear} from "../../../store/categories/helpers";
 import {getNotesByWeekNrAndYear} from "../../../store/notes/helpers";
-import {createMainDashboardContext} from "./helpers";
 
 const MainDashboardWrapper = () => {
     // Store state
@@ -23,16 +22,17 @@ const MainDashboardWrapper = () => {
     const setNotes = useStoreActions(actions => actions.notes.setNotes)
     const setActivitySettings = useStoreActions(actions => actions.settings.setActivitySettings)
     const setCategorySettings = useStoreActions(actions => actions.settings.setCategorySettings)
+    const getWeek = useStoreActions(actions => actions.weeks.getWeek)
 
     React.useEffect(() => {
-
         (async function fetchData() {
             try {
                 // It is necessary to set these to empty arrays to trigger loading spinner in MainDashboardTable
                 setCategories({categories: []})
                 setNotes({notes: []})
 
-                await createMainDashboardContext(uid, currentDate.weekNr, currentDate.year)
+                // Either fetches week right away or if it doesnt exist, it is created. Either way it will be set in store categories.
+                getWeek({weekNr: parseInt(currentDate.weekNr), year: parseInt(currentDate.year)})
 
                 const fetchedCategorySettings = await getCategorySettings(uid)
                 setCategorySettings({categorySettings: fetchedCategorySettings.val()})

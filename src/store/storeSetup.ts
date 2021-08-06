@@ -12,6 +12,7 @@ import {CategoriesModel} from './categories/categories'
 import {AuthModel} from './auth/auth'
 import {NotesModel} from "./notes/notes";
 import {AnalyticsModel} from "./analytics/analytics"
+import weeksModel, {WeeksModel} from "./weeks/weeks";
 
 export interface StoreModel {
     settings:SettingsModel,
@@ -19,7 +20,7 @@ export interface StoreModel {
     auth:AuthModel,
     notes:NotesModel,
     analytics:AnalyticsModel,
-
+    weeks:WeeksModel
     /**
      * Used to reset store state to the initial state empty state.
      */
@@ -33,6 +34,7 @@ const store = createStore<StoreModel>({
     activities: categoriesModel,
     notes: notesModel,
     analytics: analyticsModel,
+    weeks: weeksModel,
     reset: action((state, payload) => ({
         ...initialState
     }))

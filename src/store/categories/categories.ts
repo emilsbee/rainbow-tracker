@@ -19,6 +19,15 @@ export interface CategoryType {
     position:number
 }
 
+export type Category = {
+    weekid: string,
+    weekDay: number,
+    categoryPosition: number,
+    userid: string,
+    categoryid: string | null,
+    activityid: string | null
+}
+
 export interface CategoriesModel {
     // Current week's categories.
     categories:CategoryType[],
