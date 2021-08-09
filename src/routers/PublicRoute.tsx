@@ -12,7 +12,7 @@ import {useStoreState} from "../store/hookSetup";
  * logged in there's no reason to display it.
  * @param props The component to render and current path.
  */
-const PublicRoute = (props) => {
+const PublicRoute = (props:{path:string, component: React.FC, exact: boolean}) => {
 
     const uid = useStoreState(state => state.auth.uid)
     const isAuthenticated = !!uid

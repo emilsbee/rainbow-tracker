@@ -3,19 +3,29 @@ import React from 'react'
 
 // Internal imports 
 import './category-section.scss'
-import {ActivitySettings, CategorySettings} from "../../../../store/settings/settings";
+import {ActivityType, CategoryType} from "../../../../store/settings/settings";
 import SectionTitle from "../../SectionTitle/SectionTitle";
 import CategoryList from "../CategoryList/CategoryList";
 import CategorySectionForm from "../CategorySectionForm/CategorySectionForm/CategorySectionForm";
 
 type CategorySectionProps = {
-    categorySettings:CategorySettings,
-    activitySettings:ActivitySettings,
+    categoryTypes:CategoryType[],
+    activityTypes:ActivityType[],
     setLoading:(loading:boolean) => void
 }
 
-function CategorySection ({categorySettings, activitySettings, setLoading}:CategorySectionProps) {
-    const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(Object.keys(categorySettings)[0])
+function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySectionProps) {
+    const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes[0].categoryid)
+
+    const findCategoryForForm = ():CategoryType => {
+        for (let i = 0; i < categoryTypes.length; i++) {
+            if (categoryTypes[i].categoryid === selectedCategoryid) {
+                return categoryTypes[i]
+            }
+        }
+
+        return {categoryid: "", userid: "", color: "", name: "", archived: false}
+    }
 
     return (
         <div id="category-section-container">
@@ -23,16 +33,15 @@ function CategorySection ({categorySettings, activitySettings, setLoading}:Categ
 
             <div id={"category-section-content-container"}>
                 <CategoryList
-                    categorySettings={categorySettings}
-                    setCategory={(catgoryid) => setSelectedCategoryid(catgoryid)}
+                    categoryTypes={categoryTypes}
+                    setCategory={(categoryid) => setSelectedCategoryid(categoryid)}
                     selectedCategoryid={selectedCategoryid}
                 />
 
                 {selectedCategoryid != null &&
                     <CategorySectionForm
-                        category={{categoryid:selectedCategoryid, ...categorySettings[selectedCategoryid]}}
-                        categorySettings={categorySettings}
-                        activitySettings={activitySettings}
+                        category={findCategoryForForm()}
+                        activityTypes={activityTypes}
                         setLoading={setLoading}
                     />
                 }

@@ -8,27 +8,28 @@ import ActivityPopover from '../Activity/ActivityItemPopover/ActivityItemPopover
 import Activity from '../Activity/Activity'
 import './Category.scss'
 import { hasActivities } from './helpers'
-import {CategoryType} from "../../../../store/categories/categories";
+import {Category} from "../../../../store/categories/categories";
 
 type CategoryProps = {
-    category:CategoryType;
-    onDragStart: (e:DragEvent<HTMLDivElement>, category:CategoryType) => void;
-    onDragEnter: (category:CategoryType) => void;
+    category:Category;
+    onDragStart: (e:DragEvent<HTMLDivElement>, category:Category) => void;
+    onDragEnter: (category:Category) => void;
 }
 
-function Category({category, onDragStart, onDragEnter}: CategoryProps) {
+function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) {
     // Store actions
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
-    const setCategory = useStoreActions(actions => actions.activities.setCategory)
-    const setActivity = useStoreActions(actions => actions.activities.setActivity)
+    const setCategory = useStoreActions(actions => actions.categories.setCategory)
+    const setActivity = useStoreActions(actions => actions.categories.setActivity)
 
     // Store state
-    const activitySettings = useStoreState(state => state.settings.activitySettings)
-    const categorySettings = useStoreState(state => state.settings.categorySettings)
+    const activityTypes = useStoreState(state => state.settings.activityTypes)
+    const categoryTypes = useStoreState(state => state.settings.categoryTypes)
 
     // Local state
     const [showActivityPopover, setShowActivityPopover] = useState(false)
     const [showPopover, setShowPopover] = useState(false)
+
 
     /**
      * Handles category picking from the category popover.
@@ -38,10 +39,12 @@ function Category({category, onDragStart, onDragEnter}: CategoryProps) {
     const onCategoryPick = (categoryid:string):void => {
         setShowPopover(false)
         setCategory({
-            categoryid, 
-            day: category.day,
-            position: category.position,
-            activityid: ""
+            userid: category.userid,
+            weekid: category.weekid,
+            categoryid,
+            weekDay: category.weekDay,
+            categoryPosition: category.categoryPosition,
+            activityid: null
         })
     }
 
@@ -54,13 +57,40 @@ function Category({category, onDragStart, onDragEnter}: CategoryProps) {
         setShowActivityPopover(false)
         setActivity({
             activityid, 
-            day: category.day,
-            position: category.position
+            weekDay: category.weekDay,
+            categoryPosition: category.categoryPosition
         })
     }
 
+    /**
+     * Finds category's (from props) color using the category types array.
+     * If the category has no categoryid (it's empty) a default color is returned.
+     */
+    const getBackgroundColor = ():string => {
+        if (category.categoryid) {
+            for (let i = 0; i < categoryTypes.length; i++) {
+                if (categoryTypes[i].categoryid === category.categoryid) {
+                    return categoryTypes[i].color
+                }
+            }
+        }
+
+        return "#2A353C"
+    }
+
+    const getActivityTypeShort = ():string => {
+        if (category.activityid) {
+            for (let i = 0; i < activityTypes.length; i++) {
+                if (activityTypes[i].activityid === category.activityid) {
+                    return activityTypes[i].short
+                }
+            }
+        }
+        return ""
+    }
+
     return (
-        <div id="category-activity-container" onMouseOver={() => setHoverIndex({timeHoverIndex: category.position-1})}>
+        <div id="category-activity-container" onMouseOver={() => setHoverIndex({timeHoverIndex: category.categoryPosition-1})}>
             <div   
                 id="category-container"
                 onDragEnter={() => onDragEnter(category)}
@@ -68,14 +98,14 @@ function Category({category, onDragStart, onDragEnter}: CategoryProps) {
                 draggable={true}
                 onClick={() => setShowPopover(true)}
                 style={{
-                    backgroundColor: category.categoryid === "" ?  '#2A353C' : categorySettings[category.categoryid].color, // If category exists sets the color to that categories color, else empty cell color
+                    backgroundColor: getBackgroundColor()
                 }}
             />
             
             <Activity 
-                short={category.activityid ? activitySettings[category.activityid].short : ""} // If activity exists, sets the short, otherwise sets it as an empty string
+                short={getActivityTypeShort()}
                 categoryid={category.categoryid}
-                block={!hasActivities(category.categoryid, activitySettings)}
+                block={!hasActivities(category.categoryid, activityTypes)}
                 onClick={() => setShowActivityPopover(true)}
             />
             
@@ -97,4 +127,4 @@ function Category({category, onDragStart, onDragEnter}: CategoryProps) {
     );
 }
 
-export default Category;
+export default CategoryComponent;

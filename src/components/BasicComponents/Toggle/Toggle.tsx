@@ -1,11 +1,16 @@
 // External imports
 import React from 'react';
-import PropTypes from 'prop-types'
 
 // Internal imports
 import './Toggle.scss'
 
-const Toggle = ({ values, activeValue, setActiveValue }) => {
+type ToggleProps = {
+    values: string[] | number[] | boolean[],
+    activeValue: string | number | boolean,
+    setActiveValue: (value: string | number | boolean) => void
+}
+
+const Toggle = ({ values, activeValue, setActiveValue }: ToggleProps) => {
 
     return (
         <div id="toggle-container">
@@ -25,10 +30,4 @@ const Toggle = ({ values, activeValue, setActiveValue }) => {
     );
 }
 
-Toggle.propTypes = {
-    values: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool])),
-    activeValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool]),
-    setActiveValue: PropTypes.func
-}
- 
 export default Toggle;

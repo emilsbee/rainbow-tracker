@@ -1,9 +1,6 @@
 // External imports
 import {thunk, action, Thunk, Action} from "easy-peasy"
 
-// Internal imports
-import {firebase} from '../../firebase/firebase'
-
 /**
  * Authentication model. Stores state and functionality to change it
  * related to user authentication.

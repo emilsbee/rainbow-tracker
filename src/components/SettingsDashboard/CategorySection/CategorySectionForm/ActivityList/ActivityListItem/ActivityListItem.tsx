@@ -3,10 +3,11 @@ import React from "react";
 
 // Internal imports
 import './activity-list-item.scss'
+import {ActivityType} from "../../../../../../store/settings/settings";
 
 type ActivityListItemProps = {
-    activity: {activityid, categoryid, long, short},
-    onChange: (activity:{activityid:string, long:string, short:string}) => void
+    activity: ActivityType,
+    onChange: (activity:ActivityType) => void
 }
 
 const ActivityListItem:React.FC<ActivityListItemProps> = ({activity, onChange}) => {
@@ -19,7 +20,14 @@ const ActivityListItem:React.FC<ActivityListItemProps> = ({activity, onChange}) 
      * state in parent component.
      */
     const handleFocusOut = () => {
-        onChange({long: longValue, short: shortValue, activityid: activity.activityid})
+        onChange({
+            long: longValue,
+            short: shortValue,
+            activityid: activity.activityid,
+            categoryid: activity.categoryid,
+            archived: activity.archived,
+            userid: activity.userid
+        })
     }
 
     return (

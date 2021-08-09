@@ -1,14 +1,22 @@
 // External imports
 import React, { useEffect, useState } from 'react'
-import { useStoreActions } from 'easy-peasy'
-import PropTypes from 'prop-types'
+import {Info} from "luxon";
 
 // Internal imports
-import Category from '../Category/Category'
-import Note from '../Note/Note'
+import CategoryComponent from '../Category/CategoryComponent'
+import NoteComponent from '../Note/NoteComponent'
 import { findStackExtremes } from './helpers'
 import NoteModal from '../Note/NoteModal/NoteModal'
 import './Day.scss'
+import {useStoreActions} from "../../../../store/hookSetup";
+import {Note} from "../../../../store/notes/notes";
+import {Category} from "../../../../store/categories/categories";
+
+type DayProps = {
+    categories:Category[],
+    notes:Note[],
+    weekDay: number
+}
 
 /**
  * The Day component controls dragging and regular clicking
@@ -17,11 +25,11 @@ import './Day.scss'
  * component.
  * @param categories The categories to display.
  * @param notes The notes to display.
- * @param day The day.
+ * @param weekDay The day.
  */
-function Day({categories, notes, day}) {
+function Day({categories, notes, weekDay}: DayProps) {
     // Store actions
-    const categoryDragSet = useStoreActions(actions => actions.activities.categoryDragSet)
+    const categoryDragSet = useStoreActions(actions => actions.categories.categoryDragSet)
     const aboveDifference = useStoreActions(actions => actions.notes.aboveDifference)
     const belowDifference = useStoreActions(actions => actions.notes.belowDifference)
     const setNoteText = useStoreActions(actions => actions.notes.setNoteText)
@@ -30,99 +38,95 @@ function Day({categories, notes, day}) {
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
 
     // Note modal logic
-    const [noteModalData, setNoteModalData] = useState(false) 
-    const onNoteClick = (note) => {
+    const [noteModalData, setNoteModalData] = useState<Note | null>(null)
+
+    const onNoteClick = (note: Note):void => {
         setNoteModalData(note)
     }
 
-    const onNoteSave = (note) => {
-        setNoteText({
-            position: note.position, 
-            day: note.day,
-            note: note.note,
-        }) 
-        setNoteModalData(false)
+    const onNoteSave = (note: Note):void => {
+        setNoteText(note)
+        setNoteModalData(null)
     }
 
-    const onNoteDeleteText = (note) => {
-        deleteNoteText({
-            position: note.position, 
-            day: note.day
-        })
-        setNoteModalData(false)
+    const onNoteDeleteText = (note: Note):void => {
+        deleteNoteText(note)
+        setNoteModalData(null)
     }
 
-    const onNoteDeleteStack = (note) => {
-        deleteNoteStack({
-            day: note.day,
-            stackid: note.stackid,
-            note: note.note
-        })
-        setNoteModalData(false)
+    const onNoteDeleteStack = (note: Note) => {
+        deleteNoteStack(note)
+        setNoteModalData(null)
     }
 
     // Drag image
-    const [img, setImg] = useState(null)
+    const [img, setImg] = useState<HTMLImageElement | null>(null)
     useEffect(() => {    
         // Initialise the drag "ghost" transparent image
-        let dragImg = new Image(0,0);
+        let dragImg: HTMLImageElement = new Image(0,0);
         dragImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         setImg(dragImg)
     }, [])
 
 
     // CategoryType logic
-    const [dragCategory, setDragCategory] = useState(null)
+    const [dragCategory, setDragCategory] = useState<Category | null>(null)
 
-    const onCategoryDragStart = (e, category) => {
-        e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
+    const onCategoryDragStart = (e:  React.DragEvent<HTMLDivElement>, category: Category) => {
+        if (img) {
+            e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
+        }
+
         setDragCategory(category) // Sets the category 
-        setHoverIndex({timeHoverIndex: category.position-1})
+        setHoverIndex({timeHoverIndex: category.categoryPosition-1})
     }
     
-    const onCategoryDragEnter = (category) => {
+    const onCategoryDragEnter = (category: Category) => {
         if (dragCategory) {
             categoryDragSet({
-                dragPosition: dragCategory.position,
-                draggedIntoPosition: category.position,
-                day,
+                dragPosition: dragCategory.categoryPosition,
+                draggedIntoPosition: category.categoryPosition,
+                weekDay,
                 dragCategoryid: dragCategory.categoryid,
                 dragActivityid: dragCategory.activityid
             })
         }
-        setHoverIndex({timeHoverIndex: category.position-1})
+        setHoverIndex({timeHoverIndex: category.categoryPosition-1})
     }
 
     // Note logic
-    const [dragNote, setDragNote] = useState(null)
+    const [dragNote, setDragNote] = useState<Note | null>(null)
     
-    const onNoteDragStart = (e, note) => {
-        e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
+    const onNoteDragStart = (e: React.DragEvent<HTMLDivElement>, note: Note) => {
+        if (img) {
+            e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
+        }
+
         setDragNote(note) // Sets the initial drag note (local state)
-        setHoverIndex({timeHoverIndex: note.position-1})
+        setHoverIndex({timeHoverIndex: note.notePosition-1})
     }
 
-    const onNoteDragEnter = (note) => {
+    const onNoteDragEnter = (note: Note) => {
         if (dragNote) { // Checks if the dragging comes from a note rather than a category
             const noteExtremes = findStackExtremes(notes, note.stackid)
             const dragExtremes = findStackExtremes(notes, dragNote.stackid)
             
-            if (note.position > dragExtremes.max) { // If drag downwards
+            if (note.notePosition > dragExtremes.max) { // If drag downwards
                 setHoverIndex({timeHoverIndex: dragExtremes.max})
                 belowDifference({
-                    draggedIntoPosition: note.position,
-                    dragPosition: dragNote.position,
-                    day: note.day,
+                    draggedIntoPosition: note.notePosition,
+                    dragPosition: dragNote.notePosition,
+                    weekDay: note.weekDay,
                     dragStackid: dragNote.stackid,
                     oldStackid: note.stackid,
                     oldNote: note.note 
                 }) 
-            } else if (note.position < dragExtremes.min) { // If drag upwards
+            } else if (note.notePosition < dragExtremes.min) { // If drag upwards
                 setHoverIndex({timeHoverIndex: dragExtremes.min-2})
                 aboveDifference({
                     draggedIntoPosition: noteExtremes.max,
-                    dragPosition: dragNote.position,
-                    day: note.day,
+                    dragPosition: dragNote.notePosition,
+                    weekDay: note.weekDay,
                     dragStackid: dragNote.stackid,
                     dragNoteText: dragNote.note
                 })
@@ -131,11 +135,11 @@ function Day({categories, notes, day}) {
     }
 
     // Delete note stack when mouse wheel is pressed on a stack
-    const onNoteMouseDown = (e, note) => {
+    const onNoteMouseDown = (e: React.MouseEvent, note: Note) => {
         const {max, min} = findStackExtremes(notes, note.stackid)
         if (e.button === 1 && (max!==min)) {
             deleteNoteStack({
-                day: note.day,
+                weekDay: note.weekDay,
                 stackid: note.stackid
             })
         }
@@ -150,15 +154,15 @@ function Day({categories, notes, day}) {
             }}
         >
             <div className="day-header">
-                {day}
+                {Info.weekdays()[weekDay]}
             </div>
 
             <div className="composition-container">
                 <div className="activity-outer-container">
                     {categories.map(category => {
                         return (
-                            <Category 
-                                key={category.position} 
+                            <CategoryComponent
+                                key={category.categoryPosition}
                                 category={category} 
                                 onDragStart={onCategoryDragStart}
                                 onDragEnter={onCategoryDragEnter}
@@ -169,14 +173,14 @@ function Day({categories, notes, day}) {
                 
                 <div className="note-outer-container">
                     
-                    {notes.map(note => { // Iterates over all notes from the day
+                    {notes.map((note: Note) => { // Iterates over all notes from the day
 
                         const {max, min} = findStackExtremes(notes, note.stackid) // Extremes of the note about to be rendered
 
-                        if (note.position === min) { // If the note is highest from notes with the same stackid 
+                        if (note.notePosition === min) { // If the note is highest from notes with the same stackid
                             return (
-                                <Note 
-                                    key={note.position}
+                                <NoteComponent
+                                    key={note.notePosition}
                                     note={note}
                                     max={max}
                                     min={min}
@@ -213,27 +217,11 @@ function Day({categories, notes, day}) {
 // Memoization of the Day component to prevent the many uncessary 
 // re-renders. This is because the data comes from parent component and all days
 // are updated when something changes in one day since in easy-peasy notes is one big array.  
-const areEqual = (prevProps, nextProps) => {
+const areEqual = (prevProps: DayProps, nextProps: DayProps) => {
     return (
         JSON.stringify(prevProps.notes) === JSON.stringify(nextProps.notes) 
         && JSON.stringify(prevProps.categories) === JSON.stringify(nextProps.categories)
     )
-}
-
-Day.propTypes = {
-    day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
-    notes: PropTypes.arrayOf(PropTypes.exact({
-        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
-        note: PropTypes.string.isRequired,
-        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired,
-        stackid: PropTypes.string.isRequired
-    })).isRequired,
-    categories: PropTypes.arrayOf(PropTypes.exact({
-        activityid: PropTypes.string.isRequired,
-        categoryid: PropTypes.string.isRequired,
-        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
-        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired
-    }))
 }
 
 export default React.memo(Day, areEqual);

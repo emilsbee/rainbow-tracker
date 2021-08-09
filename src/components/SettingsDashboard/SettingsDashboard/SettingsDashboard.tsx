@@ -4,24 +4,24 @@ import React from 'react'
 // Internal imports
 import './settingsDashboard.scss'
 import CategorySection from '../CategorySection/CategorySection/CategorySection'
-import {ActivitySettings, CategorySettings} from "../../../store/settings/settings";
+import {ActivityType, CategoryType} from "../../../store/settings/settings";
 import {ReactComponent as Loader} from "../../../svgIcons/spinner.svg";
 
 type SettingsDashboardProps = {
-    categorySettings: CategorySettings,
-    activitySettings: ActivitySettings
+    categoryTypes: CategoryType[],
+    activityTypes: ActivityType[]
 }
 
-const SettingsDashboard  = ({categorySettings, activitySettings}:SettingsDashboardProps) => {
+const SettingsDashboard  = ({categoryTypes, activityTypes}:SettingsDashboardProps) => {
     const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
-        if (categorySettings == null || activitySettings == null) {
+        if (categoryTypes == null || activityTypes == null) {
             setLoading(true)
         } else {
             setLoading(false)
         }
-    },[categorySettings, activitySettings])
+    },[categoryTypes, activityTypes])
 
     if (loading) {
         return (
@@ -36,7 +36,7 @@ const SettingsDashboard  = ({categorySettings, activitySettings}:SettingsDashboa
             <div id="settings-dashboard-title">
                 Settings
             </div>
-            <CategorySection categorySettings={categorySettings} activitySettings={activitySettings} setLoading={setLoading}/>
+            <CategorySection categoryTypes={categoryTypes} activityTypes={activityTypes} setLoading={setLoading}/>
         </div>
     )
 }

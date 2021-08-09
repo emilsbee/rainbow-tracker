@@ -12,7 +12,7 @@ type CategoryItemPopoverType = {
 
 
 const CategoryItemPopover  = ({ onClick, handleCloseModal }:CategoryItemPopoverType) => {
-    const categories = useStoreState(state => state.settings.categorySettings)
+    const categoryTypes = useStoreState(state => state.settings.categoryTypes)
     
     return (
         <div>
@@ -23,16 +23,17 @@ const CategoryItemPopover  = ({ onClick, handleCloseModal }:CategoryItemPopoverT
                     cursor: 'pointer' // To immediately set the cursor to pointer
                 }}
             >
-                {Object.keys(categories).map((categoryid, index) => { // iterates over categoryids
+                {categoryTypes.map((categoryType, index) => {
+
                     return (
-                        <div 
-                            className="color-square"  
-                            key={categoryid} 
-                            onClick={() => onClick(categoryid)} 
+                        <div
+                            className="color-square"
+                            key={categoryType.categoryid}
+                            onClick={() => onClick(categoryType.categoryid)}
                             style={{
-                                "backgroundColor": categories[categoryid].color,
-                                "borderTopLeftRadius": index === 0  && '3px',
-                                "borderTopRightRadius": index === 0  && '3px'
+                                "backgroundColor": categoryType.color,
+                                "borderTopLeftRadius": index === 0  ? '3px' : "0",
+                                "borderTopRightRadius": index === 0  ? '3px' : "0"
                             }}
                         />
                     )

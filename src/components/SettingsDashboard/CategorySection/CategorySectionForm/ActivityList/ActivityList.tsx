@@ -2,33 +2,31 @@
 import React from "react";
 
 // Internal imports
-import {ActivitySettings} from "../../../../../store/settings/settings";
+import {ActivityType} from "../../../../../store/settings/settings";
 import ActivityListItem from "./ActivityListItem/ActivityListItem";
-import {getActivityidByLongName, validateActivitySubmission} from "../../../../../store/categories/helpers";
+import {validateActivitySubmission} from "../../../../../store/categories/helpers";
 import {useStoreActions} from "../../../../../store/hookSetup";
 
 type ActivityListProps = {
-    activitySettings:ActivitySettings,
+    activityTypes:ActivityType[],
     categoryid:string,
-    setError: ({message: string}) => void,
+    setError: ({message}:{message:string}) => void,
 }
 
-const ActivityList:React.FC<ActivityListProps> = ({activitySettings, categoryid, setError}) => {
+const ActivityList:React.FC<ActivityListProps> = ({activityTypes, categoryid, setError}) => {
     // Store actions
-    const setActivitySettings = useStoreActions(actions => actions.settings.setActivitySettings)
+    const updateActivityTypes = useStoreActions(actions => actions.settings.updateActivityType)
 
     /**
      * Handles event when one of the activity inputs comes out of focus.
-     * This function then updates the activity in activity settings and sets it
+     * This function then updates the activity in activity types and sets it
      * as the activityCategory state in parent component.
      */
-    const handleActivityChange = (activity:{activityid:string, long:string, short:string}):void => {
-        const {valid, message} = validateActivitySubmission(activity.long, activity.short)
+    const handleActivityChange = (activityType:ActivityType):void => {
+        const {valid, message} = validateActivitySubmission(activityType.long, activityType.short)
 
         if (valid) {
-            activitySettings[activity.activityid].short = activity.short
-            activitySettings[activity.activityid].long = activity.long
-            setActivitySettings({activitySettings})
+            updateActivityTypes({activityType: activityType})
             setError({message: ""})
         } else {
             setError({message})
@@ -37,13 +35,12 @@ const ActivityList:React.FC<ActivityListProps> = ({activitySettings, categoryid,
 
     return (
         <div>
-            {Object.values(activitySettings).map(activitySetting => {
-
-                if (activitySetting.categoryid === categoryid) {
+            {activityTypes.map(activityType => {
+                if (activityType.categoryid === categoryid) {
                     return (
                         <ActivityListItem
-                            activity={{...activitySetting, activityid: getActivityidByLongName(activitySetting.long, activitySettings, categoryid)}}
-                            key={activitySetting.long}
+                            key={activityType.activityid}
+                            activity={activityType}
                             onChange={handleActivityChange}
                         />
                     )

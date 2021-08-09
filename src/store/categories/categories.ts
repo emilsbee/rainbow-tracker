@@ -4,20 +4,7 @@ import {Action, action, thunkOn, ThunkOn} from 'easy-peasy'
 
 // Internal imports
 import store from '../storeSetup'
-import database from '../../firebase/firebase'
 
-export interface ActivityType {
-    activityid:string,
-    day:string,
-    position:number
-}
-
-export interface CategoryType {
-    activityid:string,
-    categoryid:string,
-    day:string,
-    position:number
-}
 
 export type Category = {
     weekid: string,
@@ -30,22 +17,28 @@ export type Category = {
 
 export interface CategoriesModel {
     // Current week's categories.
-    categories:CategoryType[],
+    categories:Category[][],
+
     /**
-     * Sets the given week categories.
-     * @param Category[] Categories of a whole week.
+     * Sets categories.
+     * @param Category[][ Categories to set.
      */
-    setCategories: Action<CategoriesModel, {categories:CategoryType[]}>
+    setCategories: Action<CategoriesModel, {categories:Category[][]}>
+
     /**
-     * Updates given category. Sets the category's activity to empty string.
+     * Updates a category in state with the given category.
+     * Also, sets the category's activity to empty string.
      * @param Category The category to be updated.
      */
-    setCategory: Action<CategoriesModel, CategoryType>,
+    setCategory: Action<CategoriesModel, Category>,
+
     /**
-     * Updates given category's activity.
-     * @param Activity The activity to be updated.
+     * Updates a category's activity.
+     * @param categoryPosition of the category for which to update activity.
+     * @param weekDay of the category to update.
+     * @param activityid of the activity to update with.
      */
-    setActivity: Action<CategoriesModel, ActivityType>,
+    setActivity: Action<CategoriesModel, { categoryPosition: number, weekDay: number, activityid: string }>,
 
     /**
      * Debounced function that runs when 200ms have passed
@@ -63,11 +56,11 @@ export interface CategoriesModel {
      * in the missed categories as if they were dragged onto.
      * @param  dragPosition Position of the category currently being dragged (drag category).
      * @param  draggedIntoPosition Position of the category that was dragged onto.
-     * @param  day The day in which dragging occurs.
+     * @param  weekDay The day in which dragging occurs.
      * @param  dragCategoryid The categoryid of the drag category.
      * @param  dragActivityid The activityid of the drag category.
      */
-    categoryDragSet: Action<CategoriesModel, { dragPosition:number, draggedIntoPosition:number, day:string, dragCategoryid:string, dragActivityid:string }>
+    categoryDragSet: Action<CategoriesModel, { dragPosition:number, draggedIntoPosition:number, weekDay: number, dragCategoryid:string | null, dragActivityid:string | null }>
 }
 
 const categoriesModel:CategoriesModel = {
@@ -76,42 +69,70 @@ const categoriesModel:CategoriesModel = {
         state.categories = payload.categories
     }),
     setCategory: action((state, payload) => {
-        const index = state.categories.findIndex(category => category.position === payload.position && category.day === payload.day)
+        let dayIndex = -1;
+        let categoryIndex = -1;
 
-        if (~index) {
-            state.categories[index].categoryid = payload.categoryid
-            state.categories[index].activityid = ""
+        for (let i = 0; i < state.categories.length; i++) {
+            for (let j = 0; j < state.categories[i].length; j++) {
+                let category = state.categories[i][j]
+
+                if (category.categoryPosition === payload.categoryPosition && category.weekDay === payload.weekDay) {
+                    dayIndex = i
+                    categoryIndex = j
+                    break;
+                }
+            }
+         }
+
+        if (dayIndex !== -1 && categoryIndex !== -1) {
+            state.categories[dayIndex][categoryIndex].categoryid = payload.categoryid
+            state.categories[dayIndex][categoryIndex].activityid = null
         }
     }),
     setActivity: action((state, payload) => {
-        const index = state.categories.findIndex(category => category.position === payload.position && category.day === payload.day)
+        let dayIndex = -1
+        let categoryIndex = -1
 
-        if (~index) {
-            state.categories[index].activityid = payload.activityid
+        for (let i = 0; i < state.categories.length; i++) {
+            for (let j = 0; j < state.categories[i].length; j++) {
+                let category = state.categories[i][j]
+
+                if (category.categoryPosition === payload.categoryPosition && category.weekDay === payload.weekDay) {
+                    dayIndex = i
+                    categoryIndex = j
+                    break;
+                }
+            }
+        }
+
+        if (dayIndex !== -1 && categoryIndex !== -1) {
+            state.categories[dayIndex][categoryIndex].activityid = payload.activityid
         }
     }),
-
     syncToDb: thunkOn(
         actions => [actions.categoryDragSet, actions.setCategory, actions.setActivity],
+        // @ts-ignore
         debounce(
             async function (actions, target) {
-                const uid = store.getState().auth.uid // User's id
-                const {weekNr, year} = store.getState().settings.currentDate // Get current week number and year
-                const categories = store.getState().activities.categories // All current week's categories
+                const userid: string = store.getState().auth.uid // User's id
+                const categories: Category[][] = store.getState().categories.categories // All current week's categories
+                const weekDay: number = target.payload.weekDay
 
-                // Fetching weekid value from auth weekYearTable
-                const weekid = await database.ref(`users/${uid}/weekYearTable/${weekNr}_${year}`).once('value')
-
-                // Updates all the categories from the given day. The categories
-                // that are used as updates are taken from the store.
-                const updates = {}
-                categories.forEach((category, index) => {
-                    if (category.day === target.payload.day) {
-                        updates[`users/${uid}/categories/${weekid.val()}/${index}`] = category
-                    }
+                let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week/${categories[0][0].weekid}/day/${weekDay}/categories `, {
+                    method: "PATCH",
+                    mode: "cors",
+                    credentials: "include",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(categories[weekDay])
                 })
-                
-                await database.ref().update(updates)
+
+                if (!res.ok) {
+                    console.log(categories[weekDay])
+                    alert("Category sync failed.")
+                }
             },
             200
         )
@@ -121,15 +142,15 @@ const categoriesModel:CategoriesModel = {
 
         const dragPosition = payload.dragPosition
         const draggedIntoPosition = payload.draggedIntoPosition
-        const day = payload.day
+        const weekDay = payload.weekDay
         const dragCategoryid = payload.dragCategoryid
         const dragActivityid = payload.dragActivityid
 
         const categoriesToUpdate = [] // categories between drag category and category dragged onto (including)
 
         if (dragPosition > draggedIntoPosition) { // if dragging upwards
-            for (let j = draggedIntoPosition; j < dragPosition; j++) { // Iterates downwards starting from the category that was dragged onto
-                categoriesToUpdate.push(j)
+            for (let c = draggedIntoPosition; c < dragPosition; c++) { // Iterates downwards starting from the category that was dragged onto
+                categoriesToUpdate.push(c)
             }
         } else { // if dragging downwards
             for (let p = dragPosition + 1; p < draggedIntoPosition + 1; p++) { // Iterates downwards starting from the next category after the original drag category
@@ -137,13 +158,17 @@ const categoriesModel:CategoriesModel = {
             }
         }
 
-        // Updates all categories from categoriesToUpdate to have categoryid and activityid of drag category
-        state.categories.forEach((category, index) => {
-            if (categoriesToUpdate.includes(category.position) && category.day === day) {
-                state.categories[index].categoryid = dragCategoryid
-                state.categories[index].activityid = dragActivityid
+
+        for (let i = 0; i < state.categories.length; i++) {
+            for (let j = 0; j < state.categories[i].length; j++) {
+                let category = state.categories[i][j]
+
+                if (categoriesToUpdate.includes(category.categoryPosition) && category.weekDay === weekDay) {
+                    state.categories[i][j].categoryid = dragCategoryid
+                    state.categories[i][j].activityid = dragActivityid
+                }
             }
-        })
+        }
     })
 }
 

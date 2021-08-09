@@ -6,7 +6,6 @@ import './login-page.scss'
 import {useStoreActions} from "../../store/hookSetup";
 import {ReactComponent as Loader} from "../../svgIcons/spinner.svg";
 import {checkIfLoggedIn} from "../../store/auth/helpers";
-import {history} from "../../routers/AppRouter";
 
 
 const LoginPage = () => {
@@ -24,10 +23,15 @@ const LoginPage = () => {
 
         (async function () {
             const userid = window.localStorage.getItem("userid")
-            const loggedIn: boolean = await checkIfLoggedIn(userid)
 
-            if (loggedIn) {
-                setuid({userid})
+            if (userid) {
+                const loggedIn: boolean = await checkIfLoggedIn(userid)
+
+                if (loggedIn) {
+                    setuid({userid})
+                } else {
+                    setLoading(false)
+                }
             } else {
                 setLoading(false)
             }
@@ -36,7 +40,7 @@ const LoginPage = () => {
     }, [])
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e:  React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         if (email && email.length > 0 && password && password.length > 0) {

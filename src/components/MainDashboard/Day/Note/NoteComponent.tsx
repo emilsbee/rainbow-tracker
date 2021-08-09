@@ -1,28 +1,35 @@
 // External imports
 import React from 'react'
-import { useStoreActions } from 'easy-peasy'
-import PropTypes from 'prop-types'
 
 // Internal imports
 import './Note.scss'
 import { getStackHeight, CONSTANTS } from './helpers'
+import {Note} from "../../../../store/notes/notes";
+import {useStoreActions} from "../../../../store/hookSetup";
 
+type NoteComponentProps = {
+    note: Note,
+    max: number,
+    min: number,
+    onDragStart: (e: React.DragEvent<HTMLDivElement>, note: Note) => void,
+    onDragEnter: (note: Note) => void,
+    onClick: (note: Note) => void,
+    onMouseDown: (e:  React.MouseEvent<HTMLDivElement>, note: Note) => void
+}
 
-
-const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown}) => {
+const NoteComponent = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown}: NoteComponentProps) => {
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
 
     if (max === min) {
         return (
         <div
+            id="note-container"
             onMouseOver={() => setHoverIndex({timeHoverIndex: min-1})}
             onClick={() => onClick(note)}
-            id="note-container"
             draggable={true}
             onDragStart={(e) => onDragStart(e, note)}
             // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
             onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
-            style={{textOverflow: "ellipsis"}}
         >
                 {note.note}
         </div>
@@ -48,19 +55,4 @@ const Note = ({note, max, min, onDragStart, onDragEnter, onClick, onMouseDown}) 
     );
 }
 
-Note.propTypes = {
-    note: PropTypes.exact({
-        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
-        note: PropTypes.string.isRequired,
-        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired,
-        stackid: PropTypes.string.isRequired
-    }).isRequired, 
-    max: PropTypes.number.isRequired, 
-    min: PropTypes.number.isRequired, 
-    onDragStart: PropTypes.func.isRequired, 
-    onDragEnter: PropTypes.func.isRequired, 
-    onClick: PropTypes.func.isRequired, 
-    onMouseDown: PropTypes.func.isRequired,  
-}
-
-export default Note;
+export default NoteComponent;

@@ -1,26 +1,22 @@
 // External imports
-import {Action, action, createStore} from 'easy-peasy'
+import {Action, action, createStore, EasyPeasyConfig, Store} from 'easy-peasy'
 
 // Internal imports
 import authModel from './auth/auth'
 import notesModel from './notes/notes'
 import settingsModel from './settings/settings'
-import categoriesModel from './categories/categories'
-import analyticsModel from './analytics/analytics'
 import {SettingsModel} from './settings/settings'
-import {CategoriesModel} from './categories/categories'
+import categoriesModel, {CategoriesModel} from './categories/categories'
 import {AuthModel} from './auth/auth'
 import {NotesModel} from "./notes/notes";
-import {AnalyticsModel} from "./analytics/analytics"
 import weeksModel, {WeeksModel} from "./weeks/weeks";
 
 export interface StoreModel {
     settings:SettingsModel,
-    activities:CategoriesModel,
     auth:AuthModel,
     notes:NotesModel,
-    analytics:AnalyticsModel,
-    weeks:WeeksModel
+    weeks:WeeksModel,
+    categories:CategoriesModel,
     /**
      * Used to reset store state to the initial state empty state.
      */
@@ -28,13 +24,12 @@ export interface StoreModel {
 }
 
 
-const store = createStore<StoreModel>({
+const store: Store<StoreModel, EasyPeasyConfig<undefined, {}>> = createStore<StoreModel>({
     auth: authModel,
     settings: settingsModel,
-    activities: categoriesModel,
     notes: notesModel,
-    analytics: analyticsModel,
     weeks: weeksModel,
+    categories: categoriesModel,
     reset: action((state, payload) => ({
         ...initialState
     }))

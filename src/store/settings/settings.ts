@@ -1,31 +1,31 @@
 // External imports
-import {Action, action} from "easy-peasy"
+import {Action, action, thunk, Thunk} from "easy-peasy"
 import {DateTime} from "luxon";
 
 // Internal imports
+import store from "../storeSetup";
 
-export interface ActivitySettings {
-    activitySettingsid: {
-        categoryid:string,
-        long:string,
-        short:string,
-    }
+// New ones
+export type CategoryType = {
+    categoryid:string,
+    userid:string,
+    color:string,
+    name:string,
+    archived:boolean
 }
 
-export interface CategorySettings {
-    categorySettingsid: {
-        category:string,
-        color:string
-    }
+export type ActivityType = {
+    activityid:string,
+    categoryid:string,
+    userid:string,
+    long:string,
+    short:string,
+    archived:boolean
 }
 
 export interface Date {
-    weekNr:string,
-    year:string
-}
-
-export interface WeekYearTable {
-    weekNr: string
+    weekNr:number,
+    year:number
 }
 
 export interface SettingsModel {
@@ -37,20 +37,36 @@ export interface SettingsModel {
      */
     setHoverIndex: Action<SettingsModel, {timeHoverIndex:number}>,
 
-    // ActivityType settings contain the actual activity objects.
-    activitySettings:ActivitySettings,
-    // CategoryType settings contain the actual category objects.
-    categorySettings:CategorySettings,
+    activityTypes:ActivityType[],
+    categoryTypes:CategoryType[],
     /**
-     * Sets activity settings.
-     * @param activitySettings The settings that are to be set.
+     * Fetches all category and activity types for a user and sets them in the store.
      */
-    setActivitySettings: Action<SettingsModel, { activitySettings:ActivitySettings}>,
+    getCategoryTypesFull: Thunk<SettingsModel>,
+
     /**
-     * Sets category settings.
-     * @param categorySettings The settings that are to be set.
+     * Sets activity types.
+     * @param activityTypes to update with.
      */
-    setCategorySettings: Action<SettingsModel, { categorySettings:CategorySettings}>,
+    setActivityTypes: Action<SettingsModel, { activityTypes:ActivityType[]}>,
+    /**
+     * Sets category types.
+     * @param categorySettings to update with.
+     */
+    setCategoryTypes: Action<SettingsModel, { categoryTypes:CategoryType[]}>,
+    /**
+     * Updates specific category type's name and color using the given category type.
+     */
+    setCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
+    /**
+     * Updates an activity type's long and short.
+     * @param activityType to update with.
+     */
+    updateActivityType: Action<SettingsModel, {activityType:ActivityType}>,
+    /**
+     * Updates a category type's name and color.
+     */
+    updateCategoryType: Thunk<SettingsModel, {categoryType:CategoryType}>,
 
     // Date that should be displayed.
     currentDate: Date,
@@ -74,31 +90,98 @@ export interface SettingsModel {
 }
 
 const settingsModel:SettingsModel = {
-    timeHoverIndex: null,
+    timeHoverIndex: 0,
     setHoverIndex: action((state, payload) => {
         state.timeHoverIndex = payload.timeHoverIndex
     }),
 
-    activitySettings: null,
-    categorySettings: null,
-    setActivitySettings: action((state, payload) => {
-        state.activitySettings = payload.activitySettings
+    activityTypes: [],
+    categoryTypes: [],
+
+    getCategoryTypesFull: thunk(async (actions) => {
+        const userid = store.getState().auth.uid
+
+        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-types-full`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+        })
+
+        if (!res.ok) {
+            alert("Failed to fetch category types full.")
+        }
+
+        const settingTypes = await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]
+
+        if (settingTypes.length > 0) {
+            actions.setActivityTypes({activityTypes: settingTypes[0].activityTypes})
+            actions.setCategoryTypes({categoryTypes: settingTypes[0].categoryTypes})
+        } else {
+            actions.setActivityTypes({activityTypes: []})
+            actions.setCategoryTypes({categoryTypes: []})
+        }
     }),
 
-    setCategorySettings: action((state, payload) => {
-        state.categorySettings = payload.categorySettings
+
+    setActivityTypes: action((state, payload) => {
+        state.activityTypes = payload.activityTypes
+    }),
+    setCategoryTypes: action((state, payload) => {
+        state.categoryTypes = payload.categoryTypes
+    }),
+    setCategoryType: action((state, payload) => {
+        for (let i = 0; i < state.categoryTypes.length; i++) {
+            if (state.categoryTypes[i].categoryid === payload.categoryType.categoryid) {
+                state.categoryTypes[i].name = payload.categoryType.name
+                state.categoryTypes[i].color = payload.categoryType.color
+                break;
+            }
+        }
+    }),
+    updateActivityType: action((state, payload) => {
+        for (let i = 0; i < state.activityTypes.length; i++) {
+            if(state.activityTypes[i].activityid === payload.activityType.activityid) {
+                state.activityTypes[i].long = payload.activityType.long
+                state.activityTypes[i].short = payload.activityType.short
+                break;
+            }
+        }
+    }),
+    updateCategoryType: thunk(async (actions, payload) => {
+        const userid = store.getState().auth.uid
+
+        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-type/${payload.categoryType.categoryid}`, {
+            method: "PATCH",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                color: payload.categoryType.color,
+                name: payload.categoryType.name
+            })
+        })
+
+        if (res.ok) {
+            const categoryType: CategoryType[] = await res.json()
+            actions.setCategoryType({categoryType: categoryType[0]})
+        } else {
+            alert("Failed to update category type.")
+        }
     }),
 
     currentDate: {
-        weekNr: DateTime.now().weekNumber.toString(),
-        year: DateTime.now().startOf("week").year.toString()
+        weekNr: DateTime.now().weekNumber,
+        year: DateTime.now().startOf("week").year
     },
     setDate: action((state, payload) => {
         state.currentDate = payload.date
     }),
     previousWeek: action((state, payload) => {
-        const currentWeekNr = parseInt(payload.date.weekNr)
-        const currentYear = parseInt(payload.date.year)
+        const currentWeekNr = payload.date.weekNr
+        const currentYear = payload.date.year
 
         let newWeekNr, newYear;
 
@@ -110,11 +193,11 @@ const settingsModel:SettingsModel = {
             newYear = currentYear
         }
 
-        state.currentDate = {weekNr: newWeekNr.toString(), year: newYear.toString()}
+        state.currentDate = {weekNr: newWeekNr, year: newYear}
     }),
     nextWeek: action((state, payload) => {
-        const currentWeekNr = parseInt(payload.date.weekNr)
-        const currentYear = parseInt(payload.date.year)
+        const currentWeekNr = payload.date.weekNr
+        const currentYear = payload.date.year
         const weeksInCurrentYear = DateTime.fromObject({weekYear:currentYear}).weeksInWeekYear
 
         let newWeekNr, newYear
@@ -127,12 +210,12 @@ const settingsModel:SettingsModel = {
             newYear = currentYear
         }
 
-        state.currentDate = {weekNr: newWeekNr.toString(), year: newYear.toString()}
+        state.currentDate = {weekNr: newWeekNr, year: newYear}
     }),
     toCurrentWeek: action((state) => {
         state.currentDate = {
-            weekNr: DateTime.now().weekNumber.toString(),
-            year: DateTime.now().startOf("week").year.toString()
+            weekNr: DateTime.now().weekNumber,
+            year: DateTime.now().startOf("week").year
         }
     })
 }

@@ -1,13 +1,13 @@
-import {NoteType} from "../../../../store/notes/notes";
+import {Note} from "../../../../store/notes/notes";
 
 /**
  * Finds the top and bottom note's position of a give note stack.
  * @param notes The notes in which to find the min and max.
  * @param stackid The stackid for which to find the min and max.
  */
-export const findStackExtremes = (notes:NoteType[], stackid:string):{max:number, min:number} => {
-    let maximum:number;
-    let minimum:number;
+export const findStackExtremes = (notes:Note[], stackid:string):{max:number, min:number} => {
+    let max:number = -1;
+    let min:number = -1;
     let init = true;
 
     // This function iterates over all notes. If a note has a property stackid that
@@ -20,19 +20,23 @@ export const findStackExtremes = (notes:NoteType[], stackid:string):{max:number,
     notes.forEach((note, index) => {
         if (note.stackid === stackid) {
             if (init) {
-                maximum = note.position
-                minimum = note.position
+                max = note.notePosition
+                min = note.notePosition
                 init = false
             } else {
-                if (note.position > maximum) {
-                    maximum = note.position
-                } else if (note.position < minimum) {
-                    minimum = note.position
+                if (note.notePosition > max) {
+                    max = note.notePosition
+                } else if (note.notePosition < min) {
+                    min = note.notePosition
                 }
-            } 
-            
+            }
+
         }
     })
 
-    return {max: maximum, min: minimum}
+    if (max === -1 || min === -1) {
+        alert("Note stack extremes are bad.")
+    }
+
+    return {max, min}
 }

@@ -2,7 +2,7 @@
 // come in the form '20px' as a string with px attached,
 // the px has to be removed and string has to be converted
 // to an integer to perform math and calculate height.
-export const removePX = (str) => {
+export const removePX = (str: string): number => {
     return parseInt(str.slice(0,-2))
 }
 
@@ -10,7 +10,7 @@ export const removePX = (str) => {
 // of highest and lowest note in the stack, as well
 // as the constants for height of one note and the 
 // bottom margin for one note.
-export const getStackHeight = (max, min, height, marginBottom) => {
+export const getStackHeight = (max: number, min: number, height: string, marginBottom: string): string => {
     return `${((max-min+1)*removePX(height))+((max-min)*removePX(marginBottom))}px`
 }
 

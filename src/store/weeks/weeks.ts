@@ -42,7 +42,8 @@ const weeksModel: WeeksModel = {
         if (week.length === 0) {
             actions.createWeek({weekNr: payload.weekNr, year: payload.year})
         } else {
-            console.log(week)
+            store.getActions().categories.setCategories({categories: week[0].categories})
+            store.getActions().notes.setNotes({notes: week[0].notes})
         }
     }),
 
@@ -52,7 +53,10 @@ const weeksModel: WeeksModel = {
         const week: FullWeek[] = await createWeekByWeekNrAndYear(userid, payload.weekNr, payload.year)
 
         if (week.length !== 0) {
-            console.log(week)
+            store.getActions().categories.setCategories({categories: week[0].categories})
+            store.getActions().notes.setNotes({notes: week[0].notes})
+        } else {
+            alert("Could not create a week.")
         }
     })
 }

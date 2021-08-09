@@ -1,29 +1,28 @@
 // External imports
-import React, { useEffect, useState } from 'react'
-import onClickOutside from "react-onclickoutside";
-import PropTypes from 'prop-types'
+import React, { useState } from 'react'
 
 // Internal imports 
 import './NoteModal.scss'
+import {Note} from "../../../../../store/notes/notes";
 
-function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
+type NoteModalProps = {
+    note: Note,
+    saveNote: (note: Note) => void,
+    deleteText: (note: Note) => void,
+    deleteStack: (note: Note) => void,
+    stack: boolean
+}
 
-    const [localNote, setLocalNote] = useState(note.note)
+function NoteModal  ({note, saveNote, deleteText, deleteStack, stack}: NoteModalProps)  {
 
-    /**
-     * Handles clicking outside of the modal.
-     * Saves the note as it was in the modal at the time of the click.
-     */
-    NoteModal.handleClickOutside = () => {
-        note.note = localNote
-        saveNote(note)
-    }
+    const [localNote, setLocalNote] = useState<string>(note.note)
+
 
     /**
      * Handles text change in the modal.
      * @param e onChange event.
      */
-    const handleNoteChange = (e) => {
+    const handleNoteChange = (e:  React.ChangeEvent<HTMLTextAreaElement>) => {
         setLocalNote(e.target.value)
     }
 
@@ -32,7 +31,7 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
      * the note as is.
      * @param e onKeyDown event.
      */
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e:  React.KeyboardEvent<HTMLDivElement>) => {
         if(e.which === 13 && !e.shiftKey) {        
             note.note = localNote
             saveNote(note)
@@ -48,8 +47,7 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
             <div id="note-modal-container" onKeyDown={handleKeyDown}>
                 <div id="modal-textarea">
                     <textarea 
-                        autoFocus={true}  
-                        type="text" 
+                        autoFocus={true}
                         id="note-modal-input" 
                         onChange={handleNoteChange}
                         spellCheck={false}
@@ -81,21 +79,4 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack})  {
     )
 }
 
-const clickOutsideConfig = {
-    handleClickOutside: (localNote) => NoteModal.handleClickOutside
-}
-
-NoteModal.propTypes = {
-    note: PropTypes.exact({
-        day: PropTypes.oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]).isRequired,
-        note: PropTypes.string.isRequired,
-        position: PropTypes.oneOf(Array.from({length: 96}, (_, i) => i + 1)).isRequired,
-        stackid: PropTypes.string.isRequired
-    }).isRequired, 
-    stack: PropTypes.bool.isRequired,
-    saveNote: PropTypes.func.isRequired, 
-    deleteText: PropTypes.func.isRequired, 
-    deleteStack: PropTypes.func.isRequired
-}
-
-export default onClickOutside(NoteModal, clickOutsideConfig) 
+export default NoteModal
