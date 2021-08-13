@@ -139,7 +139,6 @@ const categoriesModel:CategoriesModel = {
                 })
 
                 if (!res.ok) {
-                    console.log(categories[weekDay])
                     alert("Category sync failed.")
                 }
             },

@@ -77,7 +77,11 @@ const notesModel:NotesModel = {
                     method: "PATCH",
                     mode: "cors",
                     credentials: "include",
-                    body: JSON.stringify(notes.flat(1))
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(notes[weekDay])
                 })
 
                 if (!res.ok) {
@@ -120,7 +124,7 @@ const notesModel:NotesModel = {
 
                     if (notesToUpdate.includes(note.notePosition) && note.weekDay === weekDay) { // If current iteration note is one of the notes to update
                         state.notes[i][k].stackid = dragStackid // Updates stackid of the current iteration note to drag note stackid
-                        state.notes[i][k].note = dragStackid // Updates note text of the current iteration note to drag note text
+                        state.notes[i][k].note = dragNoteText // Updates note text of the current iteration note to drag note text
 
                         // Remove the note text from all other notes from the note stack except note that was dragged into
                         for (let m = 0; m < state.notes.length; m++) {
@@ -192,14 +196,14 @@ const notesModel:NotesModel = {
 
                                 if (noteToRemoveText.stackid === dragStackid &&
                                     noteToRemoveText.weekDay === weekDay &&
-                                    noteToRemoveText.notePosition !== draggedIntoPosition
+                                    noteToRemoveText.notePosition !== dragPosition
                                 ) {
                                     state.notes[m][n].note = ""
                                 }
                             }
                         }
 
-                        let {min, max} = findStackExtremes(debug(state.notes.flat(1)), oldStackid) // Finds extremes of the note that was dragged into
+                        let {min, max} = findStackExtremes(state.notes.flat(1), oldStackid) // Finds extremes of the note that was dragged into
                         if (min !== max) { // If the note that was dragged into is a stack note
 
                             // Since the note that was dragged into is the topmost note of its stack,

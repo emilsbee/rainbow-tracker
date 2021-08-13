@@ -34,9 +34,9 @@ export const findStackExtremes = (notes:Note[], stackid:string):{max:number, min
         }
     })
 
-    if (max === -1 || min === -1) {
-        alert("Note stack extremes are bad.")
-    }
+    // if (max === -1 || min === -1) {
+    //     alert("Note stack extremes are bad.")
+    // }
 
     return {max, min}
 }

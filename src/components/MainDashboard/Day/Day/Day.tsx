@@ -113,7 +113,7 @@ function Day({categories, notes, weekDay}: DayProps) {
                     weekDay: note.weekDay,
                     dragStackid: dragNote.stackid,
                     oldStackid: note.stackid,
-                    oldNote: note.note 
+                    oldNote: note.note,
                 }) 
             } else if (note.notePosition < dragExtremes.min) { // If drag upwards
                 setHoverIndex({timeHoverIndex: dragExtremes.min-2})
