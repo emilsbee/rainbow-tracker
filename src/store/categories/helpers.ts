@@ -1,3 +1,56 @@
+// Internal imports
+import {FullWeek} from "./categories";
+
+/**
+ * Fetches a week by week number and year for a specific user from the api.
+ * @param userid for which to fetch the week.
+ * @param weekNr of the week to fetch.
+ * @param year of the week to fetch.
+ */
+export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
+    const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
+        method: "GET",
+        mode: "cors",
+        credentials: "include",
+    })
+
+    if (res.ok) {
+        return await res.json()
+    } else {
+        if (res.status === 400) {
+            alert("Fetching week by weekNr and year failed. 400.")
+        }
+
+        return await createWeekByWeekNrAndYear(userid, weekNr, year)
+    }
+}
+
+/**
+ * Creates a week with a given week number and year for a given user.
+ * @param userid for which to create the week.
+ * @param weekNr of the week to create.
+ * @param year of the week to create.
+ */
+export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
+    const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/weeks`, {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: new Headers({'content-type': 'application/json'}),
+        body: JSON.stringify({
+            weekNr,
+            weekYear: year
+        })
+    })
+
+    if (res.ok) {
+        return await res.json()
+    } else {
+        alert("Failed to create a week by weekNr and year " + res.status)
+        return []
+    }
+}
+
 /**
  * Validates submission of new category. Checks the general string constraints for name and color.
  * Also, validates that all categories in the category setting object have unique names.

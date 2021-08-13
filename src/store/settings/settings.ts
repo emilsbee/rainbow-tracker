@@ -40,11 +40,6 @@ export interface SettingsModel {
     activityTypes:ActivityType[],
     categoryTypes:CategoryType[],
     /**
-     * Fetches all category and activity types for a user and sets them in the store.
-     */
-    getCategoryTypesFull: Thunk<SettingsModel>,
-
-    /**
      * Sets activity types.
      * @param activityTypes to update with.
      */
@@ -97,32 +92,6 @@ const settingsModel:SettingsModel = {
 
     activityTypes: [],
     categoryTypes: [],
-
-    getCategoryTypesFull: thunk(async (actions) => {
-        const userid = store.getState().auth.uid
-
-        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-types-full`, {
-            method: "GET",
-            mode: "cors",
-            credentials: "include",
-        })
-
-        if (!res.ok) {
-            alert("Failed to fetch category types full.")
-        }
-
-        const settingTypes = await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]
-
-        if (settingTypes.length > 0) {
-            actions.setActivityTypes({activityTypes: settingTypes[0].activityTypes})
-            actions.setCategoryTypes({categoryTypes: settingTypes[0].categoryTypes})
-        } else {
-            actions.setActivityTypes({activityTypes: []})
-            actions.setCategoryTypes({categoryTypes: []})
-        }
-    }),
-
-
     setActivityTypes: action((state, payload) => {
         state.activityTypes = payload.activityTypes
     }),

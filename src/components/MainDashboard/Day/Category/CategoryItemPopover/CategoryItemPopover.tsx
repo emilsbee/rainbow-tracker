@@ -6,7 +6,7 @@ import './CategoryItemPopover.scss'
 import {useStoreState} from "../../../../../store/hookSetup";
 
 type CategoryItemPopoverType = {
-    onClick: (categoryid:string) => void,
+    onClick: (categoryid:string | null) => void,
     handleCloseModal: () => void
 }
 
@@ -42,7 +42,7 @@ const CategoryItemPopover  = ({ onClick, handleCloseModal }:CategoryItemPopoverT
                 {/* The default square at the bottom*/}
                 <div
                     className="default-color-square"  
-                    onClick={() => onClick("")} 
+                    onClick={() => onClick(null)}
                 />
 
             </div>

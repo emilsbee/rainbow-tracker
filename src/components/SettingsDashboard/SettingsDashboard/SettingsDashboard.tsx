@@ -9,19 +9,12 @@ import {ReactComponent as Loader} from "../../../svgIcons/spinner.svg";
 
 type SettingsDashboardProps = {
     categoryTypes: CategoryType[],
-    activityTypes: ActivityType[]
+    activityTypes: ActivityType[],
+    loading: boolean,
+    setLoading: (loading: boolean) => void
 }
 
-const SettingsDashboard  = ({categoryTypes, activityTypes}:SettingsDashboardProps) => {
-    const [loading, setLoading] = React.useState(true)
-
-    React.useEffect(() => {
-        if (categoryTypes == null || activityTypes == null) {
-            setLoading(true)
-        } else {
-            setLoading(false)
-        }
-    },[categoryTypes, activityTypes])
+const SettingsDashboard  = ({categoryTypes, activityTypes, loading, setLoading}:SettingsDashboardProps) => {
 
     if (loading) {
         return (

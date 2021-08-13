@@ -1,5 +1,5 @@
 // External imports
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {Info} from "luxon";
 
 // Internal imports
@@ -60,22 +60,18 @@ function Day({categories, notes, weekDay}: DayProps) {
     }
 
     // Drag image
-    const [img, setImg] = useState<HTMLImageElement | null>(null)
-    useEffect(() => {    
+    const initDragImageState = ():HTMLImageElement => {
         // Initialise the drag "ghost" transparent image
         let dragImg: HTMLImageElement = new Image(0,0);
         dragImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-        setImg(dragImg)
-    }, [])
-
+        return dragImg
+    }
 
     // CategoryType logic
     const [dragCategory, setDragCategory] = useState<Category | null>(null)
 
     const onCategoryDragStart = (e:  React.DragEvent<HTMLDivElement>, category: Category) => {
-        if (img) {
-            e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
-        }
+        e.dataTransfer.setDragImage(initDragImageState(), 1, 1) // Sets the ghost image
 
         setDragCategory(category) // Sets the category 
         setHoverIndex({timeHoverIndex: category.categoryPosition-1})
@@ -98,9 +94,7 @@ function Day({categories, notes, weekDay}: DayProps) {
     const [dragNote, setDragNote] = useState<Note | null>(null)
     
     const onNoteDragStart = (e: React.DragEvent<HTMLDivElement>, note: Note) => {
-        if (img) {
-            e.dataTransfer.setDragImage(img, 1, 1) // Sets the ghost image
-        }
+        e.dataTransfer.setDragImage(initDragImageState(), 1, 1) // Sets the ghost image
 
         setDragNote(note) // Sets the initial drag note (local state)
         setHoverIndex({timeHoverIndex: note.notePosition-1})
@@ -214,7 +208,7 @@ function Day({categories, notes, weekDay}: DayProps) {
 }
 
 
-// Memoization of the Day component to prevent the many uncessary 
+// Memoization of the Day component to prevent the many unnecessary
 // re-renders. This is because the data comes from parent component and all days
 // are updated when something changes in one day since in easy-peasy notes is one big array.  
 const areEqual = (prevProps: DayProps, nextProps: DayProps) => {

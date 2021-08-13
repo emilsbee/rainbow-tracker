@@ -9,13 +9,11 @@ import {SettingsModel} from './settings/settings'
 import categoriesModel, {CategoriesModel} from './categories/categories'
 import {AuthModel} from './auth/auth'
 import {NotesModel} from "./notes/notes";
-import weeksModel, {WeeksModel} from "./weeks/weeks";
 
 export interface StoreModel {
     settings:SettingsModel,
     auth:AuthModel,
     notes:NotesModel,
-    weeks:WeeksModel,
     categories:CategoriesModel,
     /**
      * Used to reset store state to the initial state empty state.
@@ -28,7 +26,6 @@ const store: Store<StoreModel, EasyPeasyConfig<undefined, {}>> = createStore<Sto
     auth: authModel,
     settings: settingsModel,
     notes: notesModel,
-    weeks: weeksModel,
     categories: categoriesModel,
     reset: action((state, payload) => ({
         ...initialState

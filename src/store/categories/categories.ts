@@ -4,7 +4,16 @@ import {Action, action, thunkOn, ThunkOn} from 'easy-peasy'
 
 // Internal imports
 import store from '../storeSetup'
+import {Note} from "../notes/notes";
 
+export type Week = {
+    weekid: string,
+    userid: string,
+    weekNr: number,
+    weekYear: number
+}
+
+export type FullWeek = Week & { categories: Category[][], notes: Note[][] }
 
 export type Category = {
     weekid: string,
@@ -157,7 +166,6 @@ const categoriesModel:CategoriesModel = {
                 categoriesToUpdate.push(p)
             }
         }
-
 
         for (let i = 0; i < state.categories.length; i++) {
             for (let j = 0; j < state.categories[i].length; j++) {

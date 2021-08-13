@@ -36,7 +36,7 @@ function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) 
      * Closes the popover and sets the new category.
      * @param categoryid The categoryid of category that was picked.
      */
-    const onCategoryPick = (categoryid:string):void => {
+    const onCategoryPick = (categoryid:string | null):void => {
         setShowPopover(false)
         setCategory({
             userid: category.userid,
@@ -92,7 +92,7 @@ function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) 
     return (
         <div id="category-activity-container" onMouseOver={() => setHoverIndex({timeHoverIndex: category.categoryPosition-1})}>
             <div   
-                id="category-container"
+                id={`category-container`}
                 onDragEnter={() => onDragEnter(category)}
                 onDragStart={(e) => onDragStart(e, category)}
                 draggable={true}
