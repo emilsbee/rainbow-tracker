@@ -3,7 +3,7 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
 // Internal imports
-import NavBar from "../components/NavBar/NavBar";
+import NavBar from "../components/BasicComponents/NavBar/NavBar";
 import {useStoreState} from "../store/hookSetup";
 
 /**

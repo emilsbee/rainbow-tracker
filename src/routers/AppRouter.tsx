@@ -6,11 +6,11 @@ import {Router, Route, Switch} from 'react-router-dom'
 // Internal imports
 import MainDashboardWrapper from '../components/MainDashboard/MainDashboardWrapper'
 import LoginPage from '../components/LoginPage/LoginPage'
-import NotFound from '../components/NotFound/NotFound'
-import SettingsDashboardWrapper from '../components/SettingsDashboard/SettingsDashboardWrapper/SettingsDashboardWrapper'
+import NotFound from '../components/NotFoundPage/NotFound'
+import SettingsDashboardWrapper from '../components/Settings/SettingsDashboardWrapper/SettingsDashboardWrapper'
 import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
-import BackendError from "../components/BackendError/BackendError";
+import BackendError from "../components/BackendErrorPage/BackendError";
 
 
 export const history = createBrowserHistory()

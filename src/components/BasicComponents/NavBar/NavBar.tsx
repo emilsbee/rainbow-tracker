@@ -4,12 +4,12 @@ import { NavLink, useLocation } from 'react-router-dom'
 
 // Internal imports
 import './nav-bar.scss'
-import { ReactComponent as LogoutIcon } from '../../svgIcons/logout.svg'
-import { ReactComponent as DashboardIcon } from "../../svgIcons/dashboard.svg";
-import { ReactComponent as SettingsIcon } from "../../svgIcons/settings.svg";
-import { ReactComponent as AnalyticsIcon } from "../../svgIcons/analytics.svg";
-import { ReactComponent as MenuIcon } from "../../svgIcons/list.svg";
-import {useStoreActions, useStoreState} from "../../store/hookSetup";
+import { ReactComponent as LogoutIcon } from '../../../svgIcons/logout.svg'
+import { ReactComponent as DashboardIcon } from "../../../svgIcons/dashboard.svg";
+import { ReactComponent as SettingsIcon } from "../../../svgIcons/settings.svg";
+import { ReactComponent as AnalyticsIcon } from "../../../svgIcons/analytics.svg";
+import { ReactComponent as MenuIcon } from "../../../svgIcons/list.svg";
+import {useStoreActions, useStoreState} from "../../../store/hookSetup";
 
 /**
  * The navigation bar on the left side of page.
