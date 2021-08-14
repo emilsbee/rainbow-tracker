@@ -15,7 +15,7 @@ type CategorySectionProps = {
 }
 
 function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySectionProps) {
-    const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes[0].categoryid)
+    const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes.length === 0 ? "" : categoryTypes[0].categoryid)
 
     const findCategoryForForm = ():CategoryType => {
         for (let i = 0; i < categoryTypes.length; i++) {
@@ -38,7 +38,7 @@ function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySec
                     selectedCategoryid={selectedCategoryid}
                 />
 
-                {selectedCategoryid != null &&
+                {selectedCategoryid.length !== 0 &&
                     <CategorySectionForm
                         category={findCategoryForForm()}
                         activityTypes={activityTypes}
