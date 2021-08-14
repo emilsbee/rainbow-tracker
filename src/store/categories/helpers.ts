@@ -1,5 +1,6 @@
 // Internal imports
 import {FullWeek} from "./categories";
+import {history} from "../../routers/AppRouter";
 
 /**
  * Fetches a week by week number and year for a specific user from the api.
@@ -8,19 +9,24 @@ import {FullWeek} from "./categories";
  * @param year of the week to fetch.
  */
 export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
-    const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
-        method: "GET",
-        mode: "cors",
-        credentials: "include",
-    })
+    try {
+        const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+        })
 
-    if (res.ok) {
-        return await res.json()
-    } else {
-        if (res.status === 400) {
-            alert("Fetching week by weekNr and year failed. 400.")
+        if (res.ok) {
+            return await res.json()
+        } else {
+            if (res.status === 400) {
+                history.push("/internalError")
+            }
+
+            return await createWeekByWeekNrAndYear(userid, weekNr, year)
         }
-
+    } catch (e) {
+        history.push("/internalError")
         return await createWeekByWeekNrAndYear(userid, weekNr, year)
     }
 }
@@ -32,21 +38,26 @@ export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, yea
  * @param year of the week to create.
  */
 export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
-    const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/weeks`, {
-        method: "POST",
-        mode: "cors",
-        credentials: "include",
-        headers: new Headers({'content-type': 'application/json'}),
-        body: JSON.stringify({
-            weekNr,
-            weekYear: year
+    try {
+        const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/weeks`, {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            headers: new Headers({'content-type': 'application/json'}),
+            body: JSON.stringify({
+                weekNr,
+                weekYear: year
+            })
         })
-    })
 
-    if (res.ok) {
-        return await res.json()
-    } else {
-        alert("Failed to create a week by weekNr and year " + res.status)
+        if (res.ok) {
+            return await res.json()
+        } else {
+            history.push("/internalError")
+            return []
+        }
+    } catch (e) {
+        history.push("/internalError")
         return []
     }
 }

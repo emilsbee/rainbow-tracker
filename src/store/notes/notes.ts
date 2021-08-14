@@ -6,6 +6,7 @@ import { debounce } from "debounce";
 // Internal imports
 import { findStackExtremes } from '../../components/MainDashboard/Day/Day/helpers'
 import store from '../storeSetup'
+import {history} from "../../routers/AppRouter";
 
 export type Note = {
     weekid: string,
@@ -73,19 +74,23 @@ const notesModel:NotesModel = {
                 const notes: Note[][] = store.getState().notes.notes // All current week's notes
                 const weekDay = target.payload.weekDay
 
-                let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week/${notes[0][0].weekid}/day/${weekDay}/notes `, {
-                    method: "PATCH",
-                    mode: "cors",
-                    credentials: "include",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(notes[weekDay])
-                })
+                try {
+                    let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week/${notes[0][0].weekid}/day/${weekDay}/notes `, {
+                        method: "PATCH",
+                        mode: "cors",
+                        credentials: "include",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(notes[weekDay])
+                    })
 
-                if (!res.ok) {
-                    alert("Note sync failed.")
+                    if (!res.ok) {
+                        history.push("/internalError")
+                    }
+                } catch (e) {
+                    history.push("/internalError")
                 }
             }, 
             200

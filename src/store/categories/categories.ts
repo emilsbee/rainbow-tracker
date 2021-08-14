@@ -5,6 +5,7 @@ import {Action, action, thunkOn, ThunkOn} from 'easy-peasy'
 // Internal imports
 import store from '../storeSetup'
 import {Note} from "../notes/notes";
+import {history} from "../../routers/AppRouter";
 
 export type Week = {
     weekid: string,
@@ -127,19 +128,23 @@ const categoriesModel:CategoriesModel = {
                 const categories: Category[][] = store.getState().categories.categories // All current week's categories
                 const weekDay: number = target.payload.weekDay
 
-                let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week/${categories[0][0].weekid}/day/${weekDay}/categories `, {
-                    method: "PATCH",
-                    mode: "cors",
-                    credentials: "include",
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(categories[weekDay])
-                })
+                try {
+                    let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week/${categories[0][0].weekid}/day/${weekDay}/categories `, {
+                        method: "PATCH",
+                        mode: "cors",
+                        credentials: "include",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(categories[weekDay])
+                    })
 
-                if (!res.ok) {
-                    alert("Category sync failed.")
+                    if (!res.ok) {
+                        history.push("/internalError")
+                    }
+                } catch (e) {
+                    history.push("/internalError")
                 }
             },
             200

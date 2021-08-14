@@ -19,8 +19,7 @@ const ActivityList:React.FC<ActivityListProps> = ({activityTypes, categoryid, se
 
     /**
      * Handles event when one of the activity inputs comes out of focus.
-     * This function then updates the activity in activity types and sets it
-     * as the activityCategory state in parent component.
+     * This function then updates the activity in activity types.
      */
     const handleActivityChange = (activityType:ActivityType):void => {
         const {valid, message} = validateActivitySubmission(activityType.long, activityType.short)

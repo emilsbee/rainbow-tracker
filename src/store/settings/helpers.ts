@@ -1,20 +1,26 @@
 // Internal imports
 import {ActivityType, CategoryType} from "./settings";
+import {history} from "../../routers/AppRouter";
 
 /**
  * Fetches all category and activity types for a user.
  * @param userid of the user for which to fetch the category types full.
  */
 export const getCategoryTypesFull = async (userid: string):Promise<{activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]> => {
-    let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-types-full`, {
-        method: "GET",
-        mode: "cors",
-        credentials: "include",
-    })
+    try {
+        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-types-full`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+        })
 
-    if (!res.ok) {
-        alert("Failed to fetch category types full.")
+        if (!res.ok) {
+            history.push("/internalError")
+        }
+
+        return  await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]
+    } catch (e) {
+        history.push("/internalError")
+        return []
     }
-
-    return  await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]
 }

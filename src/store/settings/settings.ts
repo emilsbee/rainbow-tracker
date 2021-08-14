@@ -4,6 +4,7 @@ import {DateTime} from "luxon";
 
 // Internal imports
 import store from "../storeSetup";
+import {history} from "../../routers/AppRouter";
 
 // New ones
 export type CategoryType = {
@@ -119,25 +120,29 @@ const settingsModel:SettingsModel = {
     updateCategoryType: thunk(async (actions, payload) => {
         const userid = store.getState().auth.uid
 
-        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-type/${payload.categoryType.categoryid}`, {
-            method: "PATCH",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                color: payload.categoryType.color,
-                name: payload.categoryType.name
+        try {
+            let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-type/${payload.categoryType.categoryid}`, {
+                method: "PATCH",
+                mode: "cors",
+                credentials: "include",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    color: payload.categoryType.color,
+                    name: payload.categoryType.name
+                })
             })
-        })
 
-        if (res.ok) {
-            const categoryType: CategoryType[] = await res.json()
-            actions.setCategoryType({categoryType: categoryType[0]})
-        } else {
-            alert("Failed to update category type.")
+            if (res.ok) {
+                const categoryType: CategoryType[] = await res.json()
+                actions.setCategoryType({categoryType: categoryType[0]})
+            } else {
+                history.push("/internalError")
+            }
+        } catch (e) {
+            history.push("/internalError")
         }
     }),
 

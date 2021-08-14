@@ -1,5 +1,6 @@
 // External imports
 import {thunk, action, Thunk, Action} from "easy-peasy"
+import {history} from "../../routers/AppRouter";
 
 /**
  * Authentication model. Stores state and functionality to change it
@@ -27,21 +28,28 @@ const authModel:AuthModel = {
     uid: "",
 
     login: thunk(async (actions, payload) => {
-        let res = await fetch(`${process.env.REACT_APP_HOST}/auth/login`, {
-            method: "POST",
-            mode: "cors",
-            credentials: "include",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email: payload.email, password: payload.password})
-        })
+        try {
+            let res = await fetch(`${process.env.REACT_APP_HOST}/auth/login`, {
+                method: "POST",
+                mode: "cors",
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: payload.email, password: payload.password})
+            })
 
-        let user = await res.json()
-
-        if (res.ok) {
-            window.localStorage.setItem("userid", user[0].userid)
-            actions.setuid({userid: user[0].userid})
+            if (res.ok) {
+                let user = await res.json()
+                window.localStorage.setItem("userid", user[0].userid)
+                actions.setuid({userid: user[0].userid})
+            } else {
+                if (res.status !== 401) {
+                    history.push("/internalError")
+                }
+            }
+        } catch (e) {
+            history.push("/internalError")
         }
     }),
 
@@ -50,16 +58,21 @@ const authModel:AuthModel = {
     }),
 
     logout: thunk(async (actions, payload) => {
-        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${payload.userid}/auth/logout`,
-            {
-                method: "GET",
-                mode: "cors",
-                credentials: "include",
-            })
-
-        if (res.ok) {
-            window.localStorage.removeItem("userid")
-            actions.setuid({userid: ""})
+        try {
+            let res = await fetch(`${process.env.REACT_APP_HOST}/user/${payload.userid}/auth/logout`,
+                {
+                    method: "GET",
+                    mode: "cors",
+                    credentials: "include",
+                })
+            if (res.ok) {
+                window.localStorage.removeItem("userid")
+                actions.setuid({userid: ""})
+            } else {
+                history.push("/internalError")
+            }
+        } catch (e) {
+            history.push("/internalError")
         }
     }),
 }
