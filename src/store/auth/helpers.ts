@@ -15,8 +15,6 @@ export const checkIfLoggedIn = async (userid: string):Promise<boolean> => {
             }
         )
 
-        console.log(res)
-
         if (res.ok) {
             return res.ok
         } else {
@@ -28,7 +26,6 @@ export const checkIfLoggedIn = async (userid: string):Promise<boolean> => {
         }
 
     } catch (e) {
-        console.log('error')
         history.push("/internalError")
         return false
     }

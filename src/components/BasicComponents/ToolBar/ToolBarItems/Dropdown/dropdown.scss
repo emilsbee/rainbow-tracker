@@ -1,0 +1,15 @@
+@import "src/styles/base/_settings.scss";
+
+.tool-bar-item__dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.tool-bar-item__label {
+  font-size: $type-sizing-5;
+}
+
+.tool-bar-item__dropdown__select {
+  margin-top: 5px;
+  margin-right: 15px;
+}

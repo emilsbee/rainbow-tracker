@@ -1,0 +1,24 @@
+@import "src/styles/base/_settings.scss";
+
+.cell {
+    font-size: $type-sizing-4;
+}
+
+.total-per-week-table__category-row__cell {
+  padding-top: 10px;
+}
+
+.total-per-week-table__category-row__cell-count {
+  padding-top: 10px;
+  padding-left: 25px;
+}
+
+.total-per-week-table__activity-row__cell {
+  padding-left: 20px;
+  padding-top: 5px;
+}
+
+.total-per-week-table__activity-row__cell-count {
+  padding-top: 5px;
+  padding-left: 25px;
+}

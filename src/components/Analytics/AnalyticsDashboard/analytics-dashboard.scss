@@ -1,0 +1,14 @@
+.analytics-dashboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  padding: 50px 80px 0 140px;
+  height: 100%;
+  width: 100%;
+}
+
+.analytics-dashboard__content {
+  padding: 40px;
+}
