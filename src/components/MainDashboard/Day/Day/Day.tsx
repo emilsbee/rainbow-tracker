@@ -1,6 +1,6 @@
 // External imports
 import React, { useState } from 'react'
-import {Info} from "luxon";
+import {DateTime, Info} from "luxon";
 
 // Internal imports
 import CategoryComponent from '../Category/CategoryComponent'
@@ -148,7 +148,8 @@ function Day({categories, notes, weekDay}: DayProps) {
             }}
         >
             <div className="day-header">
-                {`${Info.weekdays()[weekDay]}, ${categories[0].weekDayDate}`}
+                <p className={"day-header__day"}>{`${Info.weekdays()[weekDay]}`}</p>
+                <p className={"day-header__date"}>{`${DateTime.fromISO(categories[0].weekDayDate).toLocaleString({month: "long", day: "numeric"})}`}</p>
             </div>
 
             <div className="composition-container">
