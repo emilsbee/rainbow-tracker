@@ -44,7 +44,8 @@ function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) 
             categoryid,
             weekDay: category.weekDay,
             categoryPosition: category.categoryPosition,
-            activityid: null
+            activityid: null,
+            weekDayDate: category.weekDayDate
         })
     }
 

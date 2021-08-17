@@ -22,7 +22,8 @@ export type Category = {
     categoryPosition: number,
     userid: string,
     categoryid: string | null,
-    activityid: string | null
+    activityid: string | null,
+    weekDayDate: string
 }
 
 export interface CategoriesModel {

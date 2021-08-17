@@ -148,7 +148,7 @@ function Day({categories, notes, weekDay}: DayProps) {
             }}
         >
             <div className="day-header">
-                {Info.weekdays()[weekDay]}
+                {`${Info.weekdays()[weekDay]}, ${categories[0].weekDayDate}`}
             </div>
 
             <div className="composition-container">

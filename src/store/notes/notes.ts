@@ -14,7 +14,8 @@ export type Note = {
     notePosition: number,
     stackid: string,
     userid: string,
-    note: string
+    note: string,
+    weekDayDate: string
 }
 
 export interface NotesModel {
