@@ -1,48 +1,32 @@
 @import '../../../styles/base/settings';
 
-#nav-bar-closed-container {
+.nav-bar {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 
-    position: absolute;
-    z-index: 1;
-
-    margin-top: 10px;
-}
-
-#nav-bar-toggle-icon {
-    height: 25px;
-    width: 25px;
-    //fill: $primary;
-    fill: #c48852;;
-}
-
-#nav-bar-toggle-icon:hover {
-    cursor: pointer;
-}
-
-#nav-bar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-
+    -webkit-transition: all 0.25s;
     position: absolute;
     z-index: 10;
-
     background-color: $dark-primary;
     width: 65px;
     height: 100%;
+    left: 0;
 }
 
-#nav-bar-inner-container {
+.nav-bar.closed {
+    transition: all 0.25s;
+    left: -100px;
+}
+
+.nav-bar__inner-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
 }
+
 
 #nav-bar-link-icon {
     height: 25px;
@@ -66,6 +50,27 @@
     cursor: pointer;
     fill: $accent;
 }
+
+.nav-bar-toggle-icon {
+    height: 25px;
+    width: 25px;
+
+    -webkit-transition: all 0.25s;
+    position: absolute;
+    fill: #c48852;;
+    margin-top: 10px;
+    margin-left: 30px;
+    transform: rotate(90deg);
+}
+
+.nav-bar-toggle-icon.closed {
+    transform: rotate(180deg);
+}
+
+.nav-bar-toggle-icon:hover {
+    cursor: pointer;
+}
+
 
 
 

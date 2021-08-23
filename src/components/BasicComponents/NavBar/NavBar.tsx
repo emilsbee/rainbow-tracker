@@ -40,55 +40,53 @@ const NavBar = () => {
     }
 
     return (
-        <div>
-            { open && <div id="nav-bar">
-                <div id="nav-bar-inner-container">
-                    <NavLink to="/dashboard"
-                         onMouseOver={() => setHovering('/dashboard')}
+        <>
+            <div className={`nav-bar ${!open ? "closed" : ""}`}>
+                <div className={"nav-bar__inner-container"}>
+                <NavLink to="/dashboard"
+                     onMouseOver={() => setHovering('/dashboard')}
+                     onMouseLeave={() => setHovering("")}
+                >
+                    <DashboardIcon
+                        id="nav-bar-link-icon"
+                        style={{
+                            fill: currentLocation === '/dashboard' ? "#c48852" : hovering === '/dashboard' ? "#c48852" : "white",
+                            marginTop: 20,
+                        }}
+                    />
+                </NavLink>
+
+                <NavLink to="/analytics"
+                         onMouseEnter={() => setHovering('/analytics')}
                          onMouseLeave={() => setHovering("")}
-                    >
-                        <DashboardIcon
-                            id="nav-bar-link-icon"
-                            style={{
-                                fill: currentLocation === '/dashboard' ? "#c48852" : hovering === '/dashboard' ? "#c48852" : "white",
-                                marginTop: 20,
-                            }}
-                        />
-                    </NavLink>
+                >
+                    <AnalyticsIcon
+                        id="nav-bar-link-icon"
+                        style={{
+                            fill: currentLocation === '/analytics' ? "#c48852" : hovering === '/analytics' ? "#c48852" : "white"
+                        }}
+                    />
+                </NavLink>
 
-                    <NavLink to="/analytics"
-                             onMouseEnter={() => setHovering('/analytics')}
-                             onMouseLeave={() => setHovering("")}
-                    >
-                        <AnalyticsIcon
-                            id="nav-bar-link-icon"
-                            style={{
-                                fill: currentLocation === '/analytics' ? "#c48852" : hovering === '/analytics' ? "#c48852" : "white"
-                            }}
-                        />
-                    </NavLink>
-
-                    <NavLink to="/settings"
-                             onMouseEnter={() => setHovering('/settings')}
-                             onMouseLeave={() => setHovering("")}
-                    >
-                        <SettingsIcon
-                            id="nav-bar-link-icon"
-                            style={{
-                                fill: currentLocation === '/settings' ? "#c48852" : hovering === '/settings' ? "#c48852" : "white"
-                            }}
-                        />
-                    </NavLink>
+                <NavLink to="/settings"
+                         onMouseEnter={() => setHovering('/settings')}
+                         onMouseLeave={() => setHovering("")}
+                >
+                    <SettingsIcon
+                        id="nav-bar-link-icon"
+                        style={{
+                            fill: currentLocation === '/settings' ? "#c48852" : hovering === '/settings' ? "#c48852" : "white"
+                        }}
+                    />
+                </NavLink>
                 </div>
-
                 <div onClick={beginLogout}>
                     <LogoutIcon id="nav-bar-logout-icon" height={50} width={50}/>
                 </div>
-            </div>}
-            <div id="nav-bar-closed-container">
-                <MenuIcon id="nav-bar-toggle-icon" onClick={() => setOpen(!open)} style={{marginLeft: open ? 80 : 20}}/>
             </div>
-        </div>
+
+            <MenuIcon className={`nav-bar-toggle-icon ${!open ? "closed" : ""}`} onClick={() => setOpen(!open)} style={{marginLeft: open ? 80 : 20}}/>
+        </>
 
     )
 }
