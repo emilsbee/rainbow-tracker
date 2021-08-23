@@ -24,3 +24,20 @@ button:disabled {
     cursor: default;
 }
 
+.card {
+    background-color: #181717;
+    padding: 20px 40px 20px 40px;
+    margin: 20px;
+    border-radius: 10px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-title {
+    font-size: $type-sizing-5;
+    font-weight: 500;
+    margin-top: 0;
+}

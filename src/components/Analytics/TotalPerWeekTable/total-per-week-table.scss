@@ -5,6 +5,10 @@
 }
 
 .total-per-week-table__category-row__cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   padding-top: 10px;
 }
 
@@ -21,4 +25,12 @@
 .total-per-week-table__activity-row__cell-count {
   padding-top: 5px;
   padding-left: 25px;
+}
+
+.total-per-week-table__category-color {
+  height: 12px;
+  width: 12px;
+
+  border-radius: 2px;
+  margin-right: 10px;
 }

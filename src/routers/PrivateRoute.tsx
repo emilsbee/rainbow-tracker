@@ -19,20 +19,19 @@ const PrivateRoute = (props: {path: string, component: React.FC}) => {
     const Component = props.component
 
     return (
-        <div>
+        <>
             {uid !== "" && <NavBar />}
             <Route path={props.path} component={() => (
                 isAuthenticated ? (
-                    <div>
+                    <>
                         <Component/>
-
-                    </div>
+                    </>
                 ) : (
                     <Redirect to="/"/>
                 )
             )}>
             </Route>
-        </div>
+        </>
     )
 }
 export default PrivateRoute

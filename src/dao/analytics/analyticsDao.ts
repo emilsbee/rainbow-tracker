@@ -12,7 +12,7 @@ export type TotalPerWeek = {
  * @param weekNr of week for which to fetch total per week.
  * @param year of week for which to fetch total per week.
  */
-export const getTotalPerWeek = async (userid: string, weekNr: number, year: number):Promise<TotalPerWeek[]> => {
+export const getTotalPerWeek = async (userid: string, weekNr: number, year: number):Promise<TotalPerWeek> => {
     try {
         let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/analytics/total-per-week?week_number=${weekNr}&week_year=${year}`, {
             method: "GET",
@@ -20,7 +20,8 @@ export const getTotalPerWeek = async (userid: string, weekNr: number, year: numb
             credentials: "include",
         })
 
-        let totalPerWeek;
+        let totalPerWeek: TotalPerWeek;
+
         if (res.ok) {
             totalPerWeek = await res.json()
         } else {
@@ -28,10 +29,37 @@ export const getTotalPerWeek = async (userid: string, weekNr: number, year: numb
                 history.push("/internalError")
             }
 
-            totalPerWeek = []
+            totalPerWeek = {categoryTypes: [], activityTypes: []}
         }
 
         return totalPerWeek
+    } catch (e) {
+        history.push("/internalError")
+        return {categoryTypes: [], activityTypes: []}
+    }
+}
+
+export type AvailableDate = {
+    year: number,
+    weeks: number[]
+}
+export const getAvailableDates = async (userid: string): Promise<AvailableDate[]> => {
+    try {
+        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/analytics/available-dates`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+        })
+
+        let availableDates: AvailableDate[] = []
+
+        if (res.ok) {
+            availableDates = await res.json()
+        } else {
+            history.push("/internalError")
+        }
+
+        return availableDates
     } catch (e) {
         history.push("/internalError")
         return []

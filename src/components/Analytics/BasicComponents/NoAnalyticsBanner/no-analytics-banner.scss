@@ -1,0 +1,13 @@
+@import '../../../../styles/base/settings';
+
+.no-analytics-banner {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: $type-sizing-5;
+}
