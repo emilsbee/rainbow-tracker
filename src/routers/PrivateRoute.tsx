@@ -13,7 +13,7 @@ import {useStoreState} from "../store/hookSetup";
  * back to login screen.
  * @param props The component to render and current path.
  */
-const PrivateRoute = (props: {path: string, component: React.FC}) => {
+const PrivateRoute = (props: {path: string, component: React.FC }) => {
     const uid = useStoreState(state => state.auth.uid)
     const isAuthenticated = !!uid
     const Component = props.component

@@ -6,6 +6,7 @@ import './login-page.scss'
 import {useStoreActions} from "../../store/hookSetup";
 import {ReactComponent as Loader} from "../../svgIcons/spinner.svg";
 import {checkIfLoggedIn} from "../../store/auth/helpers";
+import {history} from "../../routers/AppRouter";
 
 
 const LoginPage = () => {

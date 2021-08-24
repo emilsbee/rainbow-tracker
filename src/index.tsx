@@ -8,7 +8,6 @@ import store from "./store/storeSetup"
 import AppRouter from './routers/AppRouter'
 import './styles/styles.scss'
 
-
 ReactDOM.render(
     <StoreProvider store={store}>
         <AppRouter/>

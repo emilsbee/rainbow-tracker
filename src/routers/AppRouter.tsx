@@ -1,6 +1,6 @@
 // External imports
 import React from 'react'
-import { createBrowserHistory } from 'history'
+import {createBrowserHistory} from 'history'
 import {Router, Route, Switch} from 'react-router-dom'
 
 // Internal imports
