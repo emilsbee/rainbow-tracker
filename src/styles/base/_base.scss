@@ -37,7 +37,11 @@ button:disabled {
 }
 
 .card-title {
+    width: 100%;
+    text-align: center;
+    padding-bottom: $sizing-2;
     font-size: $type-sizing-5;
     font-weight: 500;
     margin-top: 0;
+    border-bottom: 1px solid rgb(119, 72, 49);
 }

@@ -2,18 +2,23 @@
 import React from "react"
 
 // Internal imports
-import './total-per-week-table.scss'
-import {TotalPerWeek} from "../../../dao/analytics/analyticsDao";
+import './total-per-week-categories-table.scss'
+import {TotalPerWeek} from "../../../../../dao/analytics/analyticsDao";
+import {Duration} from "luxon";
 
 type TotalPerWeekProps = {
     totalPerWeek: TotalPerWeek
 }
 
-const TotalPerWeekTable = ({totalPerWeek}: TotalPerWeekProps) => {
+const TotalPerWeekCategoriesTable = ({totalPerWeek}: TotalPerWeekProps) => {
 
     return (
         <table style={{width: "100%"}}>
             <tbody>
+            <tr>
+                <th style={{textAlign: "left"}}>Category</th>
+                <th>Hours total</th>
+            </tr>
             {totalPerWeek.categoryTypes.map(categoryType => (
                 <tr key={categoryType.categoryid}>
                     <td className={"total-per-week-table__category-row__cell cell"}>
@@ -25,7 +30,8 @@ const TotalPerWeekTable = ({totalPerWeek}: TotalPerWeekProps) => {
                         />
                         {categoryType.name}
                     </td>
-                    <td className={"total-per-week-table__category-row__cell-count cell"}>{categoryType.count}</td>
+
+                    <td className={"total-per-week-table__category-row__cell-count cell"}>{Duration.fromObject({minutes: categoryType.count*15}).toFormat("h:mm")}</td>
                 </tr>
             ))}
             </tbody>
@@ -33,4 +39,4 @@ const TotalPerWeekTable = ({totalPerWeek}: TotalPerWeekProps) => {
     )
 }
 
-export default TotalPerWeekTable
+export default TotalPerWeekCategoriesTable
