@@ -8,7 +8,7 @@ import {history} from "../../routers/AppRouter";
  */
 export const getCategoryTypesFull = async (userid: string):Promise<{activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]> => {
     try {
-        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-types-full`, {
+        let res = await fetch(`api/user/${userid}/category-types-full`, {
             method: "GET",
             mode: "cors",
             credentials: "include",

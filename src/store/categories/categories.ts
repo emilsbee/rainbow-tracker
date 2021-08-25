@@ -130,7 +130,7 @@ const categoriesModel:CategoriesModel = {
                 const weekDay: number = target.payload.weekDay
 
                 try {
-                    let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week/${categories[0][0].weekid}/day/${weekDay}/categories `, {
+                    let res = await fetch(`api/user/${userid}/week/${categories[0][0].weekid}/day/${weekDay}/categories `, {
                         method: "PATCH",
                         mode: "cors",
                         credentials: "include",

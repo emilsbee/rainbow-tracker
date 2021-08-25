@@ -76,7 +76,7 @@ const notesModel:NotesModel = {
                 const weekDay = target.payload.weekDay
 
                 try {
-                    let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week/${notes[0][0].weekid}/day/${weekDay}/notes `, {
+                    let res = await fetch(`api/user/${userid}/week/${notes[0][0].weekid}/day/${weekDay}/notes `, {
                         method: "PATCH",
                         mode: "cors",
                         credentials: "include",

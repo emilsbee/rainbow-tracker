@@ -14,7 +14,7 @@ export type TotalPerWeek = {
  */
 export const getTotalPerWeek = async (userid: string, weekNr: number, year: number):Promise<TotalPerWeek> => {
     try {
-        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/analytics/total-per-week?week_number=${weekNr}&week_year=${year}`, {
+        let res = await fetch(`api/user/${userid}/analytics/total-per-week?week_number=${weekNr}&week_year=${year}`, {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -45,7 +45,7 @@ export type AvailableDate = {
 }
 export const getAvailableDates = async (userid: string): Promise<AvailableDate[]> => {
     try {
-        let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/analytics/available-dates`, {
+        let res = await fetch(`api/user/${userid}/analytics/available-dates`, {
             method: "GET",
             mode: "cors",
             credentials: "include",

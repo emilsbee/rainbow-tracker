@@ -10,7 +10,7 @@ import {history} from "../../routers/AppRouter";
  */
 export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
     try {
-        const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
+        const res = await fetch(`api/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -39,7 +39,7 @@ export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, yea
  */
 export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
     try {
-        const res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/weeks`, {
+        const res = await fetch(`api/user/${userid}/weeks`, {
             method: "POST",
             mode: "cors",
             credentials: "include",

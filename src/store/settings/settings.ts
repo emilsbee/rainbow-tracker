@@ -121,7 +121,7 @@ const settingsModel:SettingsModel = {
         const userid = store.getState().auth.uid
 
         try {
-            let res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/category-type/${payload.categoryType.categoryid}`, {
+            let res = await fetch(`api/user/${userid}/category-type/${payload.categoryType.categoryid}`, {
                 method: "PATCH",
                 mode: "cors",
                 credentials: "include",

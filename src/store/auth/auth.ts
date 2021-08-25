@@ -29,7 +29,7 @@ const authModel:AuthModel = {
 
     login: thunk(async (actions, payload) => {
         try {
-            let res = await fetch(`${process.env.REACT_APP_HOST}/auth/login`, {
+            let res = await fetch(`api/auth/login`, {
                 method: "POST",
                 mode: "cors",
                 credentials: "include",
@@ -59,7 +59,7 @@ const authModel:AuthModel = {
 
     logout: thunk(async (actions, payload) => {
         try {
-            let res = await fetch(`${process.env.REACT_APP_HOST}/user/${payload.userid}/auth/logout`,
+            let res = await fetch(`api/user/${payload.userid}/auth/logout`,
                 {
                     method: "GET",
                     mode: "cors",

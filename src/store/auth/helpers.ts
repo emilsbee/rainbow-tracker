@@ -7,7 +7,7 @@ import {history} from "../../routers/AppRouter";
 export const checkIfLoggedIn = async (userid: string):Promise<boolean> => {
     let res;
     try {
-        res = await fetch(`${process.env.REACT_APP_HOST}/user/${userid}/auth/is-logged-in`,
+        res = await fetch(`api/user/${userid}/auth/is-logged-in`,
             {
                 method: "GET",
                 mode: "cors",
