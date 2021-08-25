@@ -7,6 +7,7 @@ import {AvailableDate, getAvailableDates, getTotalPerWeek, TotalPerWeek} from ".
 import TotalPerWeekDashboard from "../TotalPerWeekDashboard/TotalPerWeekDashboard";
 import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
 import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
+import {DateTime} from "luxon";
 
 const TotalPerWeekWrapper = () => {
     // Store state
@@ -88,7 +89,7 @@ const TotalPerWeekWrapper = () => {
 
         return weeks
     }
-
+    // console.log(DateTime.fromObject({weekNumber: currentDate.weekNr, weekYear: currentDate.year}).monthLong)
     return (
         <>
             <ToolBar>
@@ -104,6 +105,7 @@ const TotalPerWeekWrapper = () => {
                     onSelect={data => changeWeek(parseInt(data.toString()))}
                     selected={currentDate.weekNr}
                 />
+
             </ToolBar>
 
             <TotalPerWeekDashboard totalPerWeek={totalPerWeek} loading={loading} availableDates={availableDates}/>

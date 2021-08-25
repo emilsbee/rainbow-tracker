@@ -9,6 +9,10 @@ import TotalPerWeekCategoriesTable from "../TotalPerWeekCategories/TotalPerWeekC
 import NoAnalyticsBanner from "../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner";
 import TotalPerWeekCategoriesPieChart
     from "../TotalPerWeekCategories/TotalPerWeekCategoriesPieChart/TotalPerWeekCategoriesPieChart";
+import TotalPerWeekActivitiesPieChart
+    from "../TotalPerWeekActivities/TotalPerWeekActivitiesPieChart/TotalPerWeekActivitiesPieChart";
+import TotalPerWeekActivitiesWrapper
+    from "../TotalPerWeekActivities/TotalPerWeekActivitiesWrapper/TotalPerWeekActivitiesWrapper";
 
 type TotalPerWeekDashboardProps = {
     totalPerWeek: TotalPerWeek,
@@ -17,7 +21,6 @@ type TotalPerWeekDashboardProps = {
 }
 
 const TotalPerWeekDashboard = ({totalPerWeek, availableDates, loading}: TotalPerWeekDashboardProps) => {
-
     if (loading) {
         return (
             <div id="main-dashboard-table__loading">
@@ -31,13 +34,21 @@ const TotalPerWeekDashboard = ({totalPerWeek, availableDates, loading}: TotalPer
 
                 {totalPerWeek.categoryTypes.length !== 0
                     ?
-                    <div className={"card"}>
-                        <h3 className={"card-title"}>Categories</h3>
+                    <>
+                        <div className={"card"}>
+                            <h3 className={"card-title"}>Categories</h3>
 
-                        <TotalPerWeekCategoriesTable totalPerWeek={totalPerWeek}/>
+                            <TotalPerWeekCategoriesTable totalPerWeek={totalPerWeek}/>
 
-                        <TotalPerWeekCategoriesPieChart totalPerWeek={totalPerWeek}/>
-                    </div>
+                            <TotalPerWeekCategoriesPieChart totalPerWeek={totalPerWeek}/>
+                        </div>
+
+                        <div className={"card"}>
+                            <h3 className={"card-title"}>Activities</h3>
+
+                            <TotalPerWeekActivitiesWrapper totalPerWeek={totalPerWeek}/>
+                        </div>
+                    </>
                     :
                     <NoAnalyticsBanner/>
                 }

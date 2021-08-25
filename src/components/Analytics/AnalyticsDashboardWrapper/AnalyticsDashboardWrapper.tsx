@@ -23,9 +23,9 @@ const AnalyticsDashboardWrapper = () => {
             {tabs.map((tab, index) => {
 
                 if (selectedTabIndex === 0 && selectedTabIndex === index) {
-                    return <TotalPerWeekWrapper />
+                    return <TotalPerWeekWrapper key={index}/>
                 } else if (selectedTabIndex === 1 && selectedTabIndex === index) {
-                    return <TotalPerDayWrapper />
+                    return <TotalPerDayWrapper key={index}/>
                 }
 
             })}

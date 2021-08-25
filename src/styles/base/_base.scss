@@ -29,10 +29,12 @@ button:disabled {
     padding: 20px 40px 20px 40px;
     margin: 20px;
     border-radius: 10px;
+    min-height: 600px;
     height: fit-content;
+
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -43,5 +45,5 @@ button:disabled {
     font-size: $type-sizing-5;
     font-weight: 500;
     margin-top: 0;
-    border-bottom: 1px solid rgb(119, 72, 49);
+    border-bottom: 1px solid $accent;
 }
