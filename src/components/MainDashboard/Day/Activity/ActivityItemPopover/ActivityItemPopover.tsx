@@ -6,46 +6,44 @@ import './ActivityItemPopover.scss'
 import {useStoreState} from "../../../../../store/hookSetup";
 
 type ActivityItemPopoverProps = {
-    onClick: (activityid:string) => void,
+    onClick: (activityid: string) => void,
     handleCloseModal: () => void,
-    categoryid:string
+    categoryid: string | null
 }
 
-const ActivityItemPopover  = ({ onClick, handleCloseModal, categoryid }:ActivityItemPopoverProps) => {
-    const activities = useStoreState(state => state.settings.activitySettings)
-    
+const ActivityItemPopover = ({onClick, handleCloseModal, categoryid}: ActivityItemPopoverProps) => {
+    const activityTypes = useStoreState(state => state.settings.activityTypes)
+
     return (
         <div>
-            <div 
-                id="activity-popover-container" 
-                onMouseLeave={handleCloseModal} 
+            <div
+                id="activity-popover-container"
+                onMouseLeave={handleCloseModal}
                 style={{
                     cursor: 'pointer' // To immediately set the cursor to pointer, 
                 }}
             >
-                {Object.keys(activities).map((activityid, index) => { // iterates over all activityids
-
-                    if (activities[activityid].categoryid === categoryid) { // checks that the activity belongs to current category
+                {activityTypes.map((activityType, index) => {
+                    if (activityType.categoryid === categoryid) { // checks that the activity belongs to current category
                         return (
-                            <div 
+                            <div
                                 id="activity-popover-item"
-                                onClick={() => onClick(activityid)} 
-                                key={activityid} 
+                                onClick={() => onClick(activityType.activityid)}
+                                key={activityType.activityid}
                                 style={{
-                                    "borderTopLeftRadius": index === 0  && '5px',
-                                    "borderTopRightRadius": index === 0  && '5px'
+                                    "borderTopLeftRadius": index === 0 ? '5px' : "0",
+                                    "borderTopRightRadius": index === 0 ? '5px' : "0"
                                 }}
                             >
-                                {activities[activityid].short}
+                                {activityType.short}
                             </div>
                         )
                     } else return null
-                        
                 })}
 
-                <div 
+                <div
                     id="activity-popover-item-default"
-                    onClick={() => onClick("")} 
+                    onClick={() => onClick("")}
                 />
             </div>
         </div>

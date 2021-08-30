@@ -8,8 +8,12 @@ import { ReactComponent as BackArrow } from '../../../svgIcons/back.svg'
 import { ReactComponent as NextArrow } from '../../../svgIcons/next.svg'
 import {useStoreActions} from "../../../store/hookSetup";
 
+type MainDashboardNavBarProps = {
+    weekNr: number
+    year: number
+}
 
-const MainDashboardNavBar = ({ weekNr, year}) => {
+const MainDashboardNavBar = ({ weekNr, year}: MainDashboardNavBarProps) => {
     // Store actions
     const nextWeek = useStoreActions(actions => actions.settings.nextWeek)
     const previousWeek = useStoreActions(actions => actions.settings.previousWeek)

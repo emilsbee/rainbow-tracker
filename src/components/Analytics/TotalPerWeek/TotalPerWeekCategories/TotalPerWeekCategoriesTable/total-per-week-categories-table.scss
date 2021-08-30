@@ -1,0 +1,32 @@
+@import "../../../../../styles/base/settings";
+
+.cell {
+    font-size: $type-sizing-4;
+}
+
+.total-per-week-table__category-header {
+  color: white;
+  text-align: right;
+}
+
+.total-per-week-table__category-row__cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding-top: 10px;
+}
+
+.total-per-week-table__category-row__cell-count {
+  padding-top: 10px;
+  padding-left: 25px;
+  text-align: right;
+}
+
+.total-per-week-table__category-color {
+  height: 12px;
+  width: 12px;
+
+  border-radius: 2px;
+  margin-right: 10px;
+}

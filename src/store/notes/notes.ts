@@ -6,71 +6,58 @@ import { debounce } from "debounce";
 // Internal imports
 import { findStackExtremes } from '../../components/MainDashboard/Day/Day/helpers'
 import store from '../storeSetup'
-import database from '../../firebase/firebase'
+import {history} from "../../routers/AppRouter";
 
-export interface NoteType {
-    day:string,
-    position:number,
-    note:string,
-    stackid:string
+export type Note = {
+    weekid: string,
+    weekDay: number,
+    notePosition: number,
+    stackid: string,
+    userid: string,
+    note: string,
+    weekDayDate: string
 }
 
 export interface NotesModel {
-    notes:NoteType[],
-    setNotes: Action<NotesModel,{notes:NoteType[]}>,
-    createNotes: Action<NotesModel>,
+    notes:Note[][],
+    setNotes: Action<NotesModel,{notes:Note[][]}>,
     syncToDb: ThunkOn<NotesModel>,
 
     // Cache values for above difference action
-    aboveDifferenceCache: { draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, dragNoteText:string },
+    aboveDifferenceCache: { draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, dragNoteText:string },
 
     /**
      * Updates notes above the drag note.
      * @param  draggedIntoPosition The position of the note that was dragged into.
      * @param  dragPosition The position of the note currently being dragged (drag note).
-     * @param  day The day of both note dragged into and drag note.
+     * @param  weekDay The day of both note dragged into and drag note.
      * @param  dragStackid The stackid of the drag note.
      * @param  dragNoteText The note text of the drag note.
      */
-    aboveDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, dragNoteText:string}>,
+    aboveDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, dragNoteText:string}>,
 
     // Cache values for belowDifference action
-    belowDifferenceCache: { draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, oldStackid:string, oldNote:string},
+    belowDifferenceCache: { draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, oldStackid:string, oldNote:string},
     /**
      * Updates notes below the drag note.
      * @param  draggedIntoPosition The position of the note that was dragged into.
      * @param  dragPosition The position of the note currently being dragged (drag note).
-     * @param  day Day of both note dragged into and drag note.
+     * @param  weekDay Day of both note dragged into and drag note.
      * @param  dragStackid The stackid of the drag note.
      * @param  oldStackid The stackid of note that was dragged into.
      * @param  oldNote The note text of note that was dragged into.
      */
-    belowDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, day:string, dragStackid:string, oldStackid:string, oldNote:string }>,
+    belowDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, oldStackid:string, oldNote:string }>,
 
-    setNoteText: Action<NotesModel, NoteType>,
-    deleteNoteText: Action<NotesModel, NoteType>,
-    deleteNoteStack: Action<NotesModel, {stackid:string, day:string}>
+    setNoteText: Action<NotesModel, Note>,
+    deleteNoteText: Action<NotesModel, Note>,
+    deleteNoteStack: Action<NotesModel, {stackid:string, weekDay:number}>
 }
 
 const notesModel:NotesModel = {
     notes: [],
     setNotes: action((state, payload) => {
         state.notes= payload.notes
-    }),
-    createNotes: action((state, payload) => {
-        const notes = []
-        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-        days.forEach(day => {
-            for (let i = 1; i < 97; i++) {
-                notes.push({
-                    day,
-                    position: i,
-                    note:'',
-                    stackid: uuidv4(),
-                })
-            }
-        })
-        state.notes = notes
     }),
    
     syncToDb: thunkOn(
@@ -83,43 +70,49 @@ const notesModel:NotesModel = {
         ],
 
         debounce(
-            async function(actions, target:TargetPayload<{ day:string }>) {
-                const uid = store.getState().auth.uid // User id
-                const {weekNr, year} = store.getState().settings.currentDate // Current store weekNr and year
-                const notes = store.getState().notes.notes // All current week's notes
+            async function(actions, target:TargetPayload<{ weekDay:number }>) {
+                const userid = store.getState().auth.uid // User id
+                const notes: Note[][] = store.getState().notes.notes // All current week's notes
+                const weekDay = target.payload.weekDay
 
-                const weekid = await database.ref(`users/${uid}/weekYearTable/${weekNr}_${year}`).once('value') // Fetching weekid value from Firebase weekYearTable
+                try {
+                    let res = await fetch(`api/user/${userid}/week/${notes[0][0].weekid}/day/${weekDay}/notes `, {
+                        method: "PATCH",
+                        mode: "cors",
+                        credentials: "include",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(notes[weekDay])
+                    })
 
-                const updates = {}
-                // Updates notes from the day that was dragged or updated in terms of text or 
-                //deleting stack, etc.
-                notes.forEach((note, index) => {
-                    if (note.day === target.payload.day) {
-                        updates[`users/${uid}/notes/${weekid.val()}/${index}`] = note
+                    if (!res.ok) {
+                        history.push("/internalError")
                     }
-                })
-                
-                await database.ref().update(updates)
+                } catch (e) {
+                    history.push("/internalError")
+                }
             }, 
             200
         ) 
     ),
 
-    aboveDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, day: '', dragStackid: '', dragNoteText: '' },
+    aboveDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, weekDay: -1, dragStackid: '', dragNoteText: '' },
 
     aboveDifference: action((state, payload) => {
 
         // Extract variables from payload
         const draggedIntoPosition = payload.draggedIntoPosition
         const dragPosition = payload.dragPosition
-        const day = payload.day
+        const weekDay = payload.weekDay
         const dragStackid = payload.dragStackid
         const dragNoteText = payload.dragNoteText 
 
         if ( // Compares cache to current values and if they differ then proceed to update the note stack.
             state.aboveDifferenceCache.draggedIntoPosition !== draggedIntoPosition ||
             state.aboveDifferenceCache.dragPosition !== dragPosition ||
-            state.aboveDifferenceCache.day !== day ||
+            state.aboveDifferenceCache.weekDay !== weekDay ||
             state.aboveDifferenceCache.dragStackid !== dragStackid ||
             state.aboveDifferenceCache.dragNoteText !== dragNoteText
         ) {
@@ -130,42 +123,49 @@ const notesModel:NotesModel = {
             for (let j = draggedIntoPosition; j < dragPosition; j++) {
                 notesToUpdate.push(j)
             }
-            
-        
-            state.notes.forEach((note,index) => { // Iterates overal all notes
 
-                if (notesToUpdate.includes(note.position) && note.day === day) { // If current iteration note is one of the notes to update
-                    
-                    state.notes[index].stackid = dragStackid // Updates stackid of the current iteration note to drag note stackid
-                    state.notes[index].note = dragNoteText // Updates note text of the current iteration note to drag note text
-    
-                    // Remove the note text from all other notes from the note stack except note that was dragged into
-                    state.notes.forEach((nt,i) => {
-                        if (nt.stackid === dragStackid && nt.day === day && nt.position !== draggedIntoPosition) { 
-                            state.notes[i].note = ""
+            for (let i = 0; i < state.notes.length; i++) {
+                for (let k = 0; k < state.notes[i].length; k++) {
+                    let note: Note = state.notes[i][k]
+
+                    if (notesToUpdate.includes(note.notePosition) && note.weekDay === weekDay) { // If current iteration note is one of the notes to update
+                        state.notes[i][k].stackid = dragStackid // Updates stackid of the current iteration note to drag note stackid
+                        state.notes[i][k].note = dragNoteText // Updates note text of the current iteration note to drag note text
+
+                        // Remove the note text from all other notes from the note stack except note that was dragged into
+                        for (let m = 0; m < state.notes.length; m++) {
+                            for (let n = 0; n < state.notes[m].length; n++) {
+                                let noteToRemoveText = state.notes[m][n]
+
+                                if (noteToRemoveText.stackid === dragStackid &&
+                                    noteToRemoveText.weekDay === weekDay &&
+                                    noteToRemoveText.notePosition !== draggedIntoPosition
+                                ) {
+                                    state.notes[m][n].note = ""
+                                }
+                            }
                         }
-                    })
-                    
+                    }
                 }
-            })
+            }
 
             // Renew cache
             state.aboveDifferenceCache.draggedIntoPosition = draggedIntoPosition 
             state.aboveDifferenceCache.dragPosition = dragPosition 
-            state.aboveDifferenceCache.day = day 
+            state.aboveDifferenceCache.weekDay = weekDay
             state.aboveDifferenceCache.dragStackid = dragStackid 
             state.aboveDifferenceCache.dragNoteText = dragNoteText
         }
     }),
 
-    belowDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, day: '', dragStackid: '', oldStackid: '', oldNote: ''},
+    belowDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, weekDay: -1, dragStackid: '', oldStackid: '', oldNote: ''},
 
     belowDifference: action((state, payload) => {
         
         // Extract variables from payload
         const draggedIntoPosition = payload.draggedIntoPosition
         const dragPosition = payload.dragPosition
-        const day = payload.day
+        const weekDay = payload.weekDay
         const dragStackid = payload.dragStackid
         const oldStackid = payload.oldStackid
         const oldNote = payload.oldNote
@@ -173,7 +173,7 @@ const notesModel:NotesModel = {
         if ( // Compares cache to current values
             state.belowDifferenceCache.draggedIntoPosition !== draggedIntoPosition ||
             state.belowDifferenceCache.dragPosition !== dragPosition ||
-            state.belowDifferenceCache.day !== day ||
+            state.belowDifferenceCache.weekDay !== weekDay ||
             state.belowDifferenceCache.dragStackid !== dragStackid ||
             state.belowDifferenceCache.oldStackid !== oldStackid ||
             state.belowDifferenceCache.oldNote !== oldNote
@@ -185,76 +185,102 @@ const notesModel:NotesModel = {
             for (let p = dragPosition + 1; p < draggedIntoPosition + 1; p++) {
                 notesToUpdate.push(p)
             }
-            
-            
-            state.notes.forEach((note,index) => { // Iterates overal all notes
 
-                if (notesToUpdate.includes(note.position) && note.day === day) {  // If current iteration note is one of the notes to update
 
-                    state.notes[index].stackid = dragStackid // Updates stackid of the current iteration note to stackid of drag note
+            for (let i = 0; i < state.notes.length; i++) {
+                for (let j = 0; j < state.notes[i].length; j++) {
+                    let note: Note = state.notes[i][j]
 
-    
-                    // Remove the note text from all notes from the note stack except the highest one which is the drag note itself
-                    state.notes.forEach((nt,i) => {
-                        if (nt.stackid === dragStackid && nt.day === day && nt.position !== dragPosition) {
-                            state.notes[i].note = ""
-                        }
-                    })
-                    
-                    
-                    let {min, max} = findStackExtremes(debug(state.notes), oldStackid) // Finds extremes of the note that was dragged into 
-                    if (min !== max) { // If the note that was dragged into is a stack note
+                    if (notesToUpdate.includes(note.notePosition) && note.weekDay === weekDay) { // If current iteration note is one of the notes to update
 
-                        // Since the note that was dragged into is the topmost note of its stack,
-                        // it is the only one that contains the stack note text, hence here
-                        // the stack note text is passed onto the next highest note from the stack.
-                        state.notes.forEach((nt,i) => {
-                            if (nt.stackid === oldStackid && nt.day === day && nt.position === min+1) {
-                                state.notes[i].note = oldNote 
+                        state.notes[i][j].stackid = dragStackid // Updates stackid of the current iteration note to stackid of drag note
+
+                        // Remove the note text from all notes from the note stack except the highest one which is the drag note itself
+                        for (let m = 0; m < state.notes.length; m++) {
+                            for (let n = 0; n < state.notes[m].length; n++) {
+                                let noteToRemoveText = state.notes[m][n]
+
+                                if (noteToRemoveText.stackid === dragStackid &&
+                                    noteToRemoveText.weekDay === weekDay &&
+                                    noteToRemoveText.notePosition !== dragPosition
+                                ) {
+                                    state.notes[m][n].note = ""
+                                }
                             }
-                        })
+                        }
+
+                        let {min, max} = findStackExtremes(state.notes.flat(1), oldStackid) // Finds extremes of the note that was dragged into
+                        if (min !== max) { // If the note that was dragged into is a stack note
+
+                            // Since the note that was dragged into is the topmost note of its stack,
+                            // it is the only one that contains the stack note text, hence here
+                            // the stack note text is passed onto the next highest note from the stack.
+                            for (let p = 0; p < state.notes.length; p++) {
+                                for (let l = 0; l < state.notes[p].length; l++) {
+                                    let nt: Note = state.notes[p][l]
+
+                                    if (nt.stackid === oldStackid && nt.weekDay === weekDay && nt.notePosition === min+1) {
+                                        state.notes[p][l].note = oldNote
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-            })
+            }
         }
 
         // Renew cache
         state.belowDifferenceCache.draggedIntoPosition = draggedIntoPosition
         state.belowDifferenceCache.dragPosition = dragPosition
-        state.belowDifferenceCache.day = day
+        state.belowDifferenceCache.weekDay = weekDay
         state.belowDifferenceCache.dragStackid = dragStackid
         state.belowDifferenceCache.oldStackid = oldStackid
         state.belowDifferenceCache.oldNote = oldNote
     }),
 
     setNoteText: action((state, payload) => {
-        // payload {position, note, day}
-        state.notes.forEach((note, index) => {
-            if (note.position === payload.position && note.day === payload.day) {
-                state.notes[index].note = payload.note 
+        for (let i = 0; i < state.notes.length; i++) {
+            for (let j = 0; j < state.notes[i].length; j++) {
+                let note: Note = state.notes[i][j]
+
+                if (note.notePosition === payload.notePosition && note.weekDay === payload.weekDay) {
+                    state.notes[i][j].note = payload.note
+                    break;
+                }
             }
-        });
+        }
     }),
 
     deleteNoteText: action((state, payload) => {
-        // payload = {position, day}
-        state.notes.forEach((note, index) => {
-            if (note.position === payload.position && note.day === payload.day) {
-                state.notes[index].note = ""
+        for (let i = 0; i < state.notes.length; i++) {
+            for (let j = 0; j < state.notes[i].length; j++) {
+                let note: Note =  state.notes[i][j]
+
+                if (note.notePosition === payload.notePosition && note.weekDay === payload.weekDay) {
+                    state.notes[i][j].note = ""
+                    break;
+                }
             }
-        });
+        }
     }),
 
     deleteNoteStack: action((state, payload) => {
-        const {min} = findStackExtremes(debug(state.notes), payload.stackid)
-        state.notes.forEach((note, index) => {
-            if (note.stackid === payload.stackid && note.day === payload.day) {
-                state.notes[index].stackid = uuidv4()
-                if (note.position !== min) {
-                    state.notes[index].note = ""
-                } 
+        const {min} = findStackExtremes(debug(state.notes.flat(1)), payload.stackid)
+
+        for (let i = 0; i < state.notes.length; i++) {
+            for (let j = 0; j < state.notes[i].length; j++) {
+                let note: Note = state.notes[i][j]
+
+                if (note.stackid === payload.stackid && note.weekDay === payload.weekDay) {
+                    state.notes[i][j].stackid = uuidv4()
+
+                    if (note.notePosition !== min) {
+                        state.notes[i][j].note = ""
+                    }
+                }
             }
-        });
+        }
     })
 }
 

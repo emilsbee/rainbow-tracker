@@ -1,50 +1,50 @@
 {
   "name": "rainbow-tracker",
-  "version": "0.1.0",
+  "version": "2.2.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.0.2",
-    "@types/react": "^17.0.5",
-    "@types/react-dom": "^17.0.3",
-    "debounce": "^1.2.0",
-    "easy-peasy": "^4.0.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "firebase": "^7.14.2",
-    "gh-pages": "^2.2.0",
-    "levenary": "^1.1.1",
-    "luxon": "^1.26.0",
-    "moment": "^2.25.3",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-beforeunload": "^2.2.1",
-    "react-color": "^2.18.1",
-    "react-dom": "^16.13.1",
-    "react-onclickoutside": "^6.9.0",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "^4.0.0",
-    "react-simple-pie-chart": "^0.5.0",
-    "react-sticky-footer": "0.1.0-rc3",
-    "react-test-renderer": "^16.13.1",
-    "react-transition-group": "^1.2.1",
-    "react-vis": "^1.11.7",
-    "sass": "^1.26.5",
-    "typescript": "^4.2.4"
-  },
+  "description": "Laziness tracker.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Emils Bernhards",
+  "license": "ISC",
   "scripts": {
     "dev": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "build:prod": "env-cmd -f .env.production npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "create:component": "cd createReactComponent && yarn create:component"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "5.14.1",
+    "@testing-library/react": "12.0.0",
+    "@testing-library/user-event": "13.2.1",
+    "debounce": "1.2.1",
+    "easy-peasy": "5.0.3",
+    "luxon": "2.0.2",
+    "node-sass": "^6.0.1",
+    "prop-types": "^15.7.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-onclickoutside": "6.11.2",
+    "react-router-dom": "5.2.1",
+    "react-scripts": "4.0.3",
+    "recharts": "2.1.2"
+  },
+  "devDependencies": {
+    "@types/debounce": "^1.2.0",
+    "@types/jest": "27.0.1",
+    "@types/luxon": "2.0.1",
+    "@types/react": "17.0.19",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-onclickoutside": "^6.7.4",
+    "@types/react-router-dom": "^5.1.8",
+    "@types/uuid": "^8.3.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "4.4.2"
   },
   "eslintConfig": {
     "extends": [
@@ -59,21 +59,5 @@
     "development": [
       "since 2010"
     ]
-  },
-  "description": "Laziness tracker.",
-  "main": "index.js",
-  "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@types/luxon": "^1.26.5",
-    "chromatic": "^5.3.0",
-    "css-loader": "^5.0.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "node-sass": "4.14.1",
-    "react-is": "^17.0.1",
-    "sass-loader": "^10.0.5",
-    "style-loader": "^2.0.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

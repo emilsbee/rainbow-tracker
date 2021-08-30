@@ -6,58 +6,54 @@ import './MainDashboardWrapper.scss'
 import MainDashboardTable from '../MainDashboardTable/MainDashboardTable'
 import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 import {useStoreState, useStoreActions} from "../../../store/hookSetup"
-import {getActivitySettings, getCategorySettings} from "../../../store/settings/helpers";
-import {getCategoriesByWeekNrAndYear} from "../../../store/categories/helpers";
-import {getNotesByWeekNrAndYear} from "../../../store/notes/helpers";
-import {createMainDashboardContext} from "./helpers";
+import {Category} from "../../../store/categories/categories";
+import {Note} from "../../../store/notes/notes";
+import {getCategoryTypesFull} from "../../../store/settings/helpers";
+import {FullWeek} from "../../../store/categories/categories";
+import {getWeekByWeekNrAndYear} from "../../../store/categories/helpers";
+import {ActivityType, CategoryType} from "../../../store/settings/settings";
 
 const MainDashboardWrapper = () => {
     // Store state
     const uid = useStoreState(state => state.auth.uid)
     const currentDate = useStoreState(state => state.settings.currentDate)
-    const categories = useStoreState(state => state.activities.categories)
-    const notes = useStoreState(state => state.notes.notes)
+    const categories: Category[][] = useStoreState(state => state.categories.categories)
+    const notes: Note[][] = useStoreState(state => state.notes.notes)
 
     // Store actions
-    const setCategories = useStoreActions(actions => actions.activities.setCategories)
+    const setCategories = useStoreActions(actions => actions.categories.setCategories)
     const setNotes = useStoreActions(actions => actions.notes.setNotes)
-    const setActivitySettings = useStoreActions(actions => actions.settings.setActivitySettings)
-    const setCategorySettings = useStoreActions(actions => actions.settings.setCategorySettings)
+    const setCategoryTypes = useStoreActions(actions => actions.settings.setCategoryTypes)
+    const setActivityTypes = useStoreActions(actions => actions.settings.setActivityTypes)
+
+    // Local state
+    const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
-
         (async function fetchData() {
-            try {
-                // It is necessary to set these to empty arrays to trigger loading spinner in MainDashboardTable
-                setCategories({categories: []})
-                setNotes({notes: []})
+            setLoading(true)
 
-                await createMainDashboardContext(uid, currentDate.weekNr, currentDate.year)
+            // Either fetches week right away or if it doesnt exist, it is created. Either way it will be set in store categories.
+            // await getWeek({weekNr: currentDate.weekNr, year: currentDate.year})
+            const fullWeek: FullWeek[] = await getWeekByWeekNrAndYear(uid, currentDate.weekNr, currentDate.year)
+            setCategories({categories: fullWeek[0].categories})
+            setNotes({notes: fullWeek[0].notes})
 
-                const fetchedCategorySettings = await getCategorySettings(uid)
-                setCategorySettings({categorySettings: fetchedCategorySettings.val()})
+            // Fetch category and activity types
+            const categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[] = await getCategoryTypesFull(uid)
+            setCategoryTypes({categoryTypes: categoryTypesFull[0].categoryTypes})
+            setActivityTypes({activityTypes: categoryTypesFull[0].activityTypes})
 
-                const fetchedActivitySettings = await getActivitySettings(uid)
-                setActivitySettings({activitySettings: fetchedActivitySettings.val()})
-
-                const fetchedCategories = await getCategoriesByWeekNrAndYear(uid, currentDate.weekNr, currentDate.year)
-                setCategories({categories: fetchedCategories.val()})
-
-                const fetchedNotes = await getNotesByWeekNrAndYear(uid, currentDate.weekNr, currentDate.year)
-                setNotes({notes: fetchedNotes.val()})
-            } catch (e) {
-                console.error(e)
-            }
+            setLoading(false)
         })()
 
     },[currentDate.weekNr, currentDate.year, uid])
 
     return (
         <div id="main-dash-wrapper">
-            
-            <MainDashboardNavBar weekNr={parseInt(currentDate.weekNr)} year={parseInt(currentDate.year)}/>
+            <MainDashboardNavBar weekNr={currentDate.weekNr} year={currentDate.year}/>
 
-            <MainDashboardTable categories={categories} notes={notes}/>
+            <MainDashboardTable categories={categories} notes={notes} loading={loading}/>
         </div>
     );
 }

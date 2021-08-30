@@ -13,11 +13,24 @@ $noteWidth: 121px;
 .day-header {
     height: 42px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     color: $accent;
     font-size: $type-sizing-4;
+    padding-left: 55px;
+}
+
+.day-header__day {
+    margin: 0;
+}
+
+.day-header__date {
+    margin: 5px 0 25px 0;
+    font-size: $type-sizing-2;
+    color: wheat;
+    opacity: .75;
+
 }
 
 .composition-container {

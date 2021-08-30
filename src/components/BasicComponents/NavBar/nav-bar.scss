@@ -1,0 +1,77 @@
+@import '../../../styles/base/settings';
+
+.nav-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    -webkit-transition: all 0.25s;
+    position: absolute;
+    z-index: 10;
+    background-color: $dark-primary;
+    width: 65px;
+    height: 100%;
+    left: 0;
+}
+
+.nav-bar.closed {
+    transition: all 0.25s;
+    left: -100px;
+}
+
+.nav-bar__inner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+#nav-bar-link-icon {
+    height: 25px;
+    width: 25px;
+    margin-bottom: 20px;
+}
+
+#nav-bar-link-icon:hover {
+    cursor: pointer;
+    fill: $accent;
+}
+
+#nav-bar-logout-icon {
+    height: 25px;
+    width: 25px;
+    margin-bottom: 20px;
+    fill: $accent-2;
+}
+
+#nav-bar-logout-icon:hover {
+    cursor: pointer;
+    fill: $accent;
+}
+
+.nav-bar-toggle-icon {
+    height: 25px;
+    width: 25px;
+
+    -webkit-transition: all 0.25s;
+    position: absolute;
+    fill: #c48852;;
+    margin-top: 10px;
+    margin-left: 30px;
+    transform: rotate(90deg);
+}
+
+.nav-bar-toggle-icon.closed {
+    transform: rotate(180deg);
+}
+
+.nav-bar-toggle-icon:hover {
+    cursor: pointer;
+}
+
+
+
+
+

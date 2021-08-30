@@ -1,0 +1,32 @@
+@import "src/styles/base/_settings.scss";
+
+.tab-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  width: 100%;
+  border-bottom: 1px solid $accent;
+}
+
+.tab-bar-item {
+  margin-right: 50px;
+  font-weight: 500;
+  font-size: $type-sizing-4;
+  padding: 4px;
+
+  border: 1px solid transparent;
+  border-radius: 5px;
+}
+
+.tab-bar-item:hover {
+  cursor: pointer;
+  border: .5px solid $accent;
+  border-radius: 5px;
+}
+
+.selected-item {
+  border: .5px solid $accent;
+  border-radius: 5px;
+}

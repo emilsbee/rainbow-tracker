@@ -36,7 +36,7 @@ $noteBorderRadius: 4px;
     
     white-space: nowrap; 
     overflow: hidden;
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
 }
 
 #note-container:hover {
@@ -50,7 +50,7 @@ $noteBorderRadius: 4px;
     flex-direction: column;
     justify-content: center;
 
-    // This odd combination (with WebkitLineClamp in Note.js) 
+    // This odd combination (with WebkitLineClamp in Note.tsx)
     // produces the ellipsis in multiline text. The WebkitLineClamp
     // specifies how many lines of text should the text take, which 
     // is basically the amount of notes since 1 line is set to be 

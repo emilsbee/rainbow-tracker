@@ -1,8 +1,6 @@
 // External imports
 import {thunk, action, Thunk, Action} from "easy-peasy"
-
-// Internal imports
-import {firebase, googleAuthProvider} from '../../firebase/firebase'
+import {history} from "../../routers/AppRouter";
 
 /**
  * Authentication model. Stores state and functionality to change it
@@ -13,51 +11,70 @@ export interface AuthModel {
     uid:string,
 
     /**
-     * Starts anonymous login with auth.
+     * Performs login with the given email and password.
      */
-    startLoginAnonymously: Thunk<AuthModel>,
-    /**
-     * Start login with Google.
-     */
-    startLoginWithGoogle: Thunk<AuthModel>,
-
+    login: Thunk<AuthModel, {email:string, password:string}>,
     /**
      * Sets the user as logged in.
      */
-    login: Action<AuthModel, {userId:string}>,
+    setuid: Action<AuthModel, {userid:string}>,
     /**
-     * Starts logout with Firebase.
+     * Performs logout.
      */
-    startLogout: Thunk<AuthModel>,
-    /**
-     * Sets the user as logged out.
-     */
-    logout: Action<AuthModel>
+    logout: Thunk<AuthModel, {userid:string}>,
 }
 
 const authModel:AuthModel = {
-    uid: '',
+    uid: "",
 
-    startLoginAnonymously: thunk(async (actions, payload) => {
-        firebase.auth().signInAnonymously().catch(function(error) {
-            console.error("Error code: "+error.code+"Error message: "+error.message)
-        });
-    }),
-    startLoginWithGoogle: thunk(async (actions, payload) => {
-        firebase.auth().signInWithRedirect(googleAuthProvider).catch(function(error) {
-            console.error("Error code: "+error.code+"Error message: "+error.message)
-        });
+    login: thunk(async (actions, payload) => {
+        try {
+            let res = await fetch(`api/auth/login`, {
+                method: "POST",
+                mode: "cors",
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({email: payload.email, password: payload.password})
+            })
+
+            if (res.ok) {
+                let user = await res.json()
+                window.localStorage.setItem("userid", user[0].userid)
+                actions.setuid({userid: user[0].userid})
+            } else {
+                if (res.status !== 401) {
+                    history.push("/internalError")
+                }
+            }
+        } catch (e) {
+            history.push("/internalError")
+        }
     }),
 
-    login: action((state, payload) => {
-        state.uid = payload.userId
+    setuid: action((state, payload) => {
+        state.uid = payload.userid
     }),
-    startLogout: thunk(async () => {
-        await firebase.auth().signOut()
+
+    logout: thunk(async (actions, payload) => {
+        try {
+            let res = await fetch(`api/user/${payload.userid}/auth/logout`,
+                {
+                    method: "GET",
+                    mode: "cors",
+                    credentials: "include",
+                })
+            if (res.ok) {
+                window.localStorage.removeItem("userid")
+                actions.setuid({userid: ""})
+            } else {
+                history.push("/internalError")
+            }
+        } catch (e) {
+            history.push("/internalError")
+        }
     }),
-    logout: action((state) => {
-        state.uid = ''
-    })
 }
 
 

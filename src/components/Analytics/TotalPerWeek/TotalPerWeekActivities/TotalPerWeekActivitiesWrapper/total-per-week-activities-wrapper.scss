@@ -1,0 +1,18 @@
+@import '../../../../../styles/base/settings';
+
+.total-per-week-activities-wrapper__description-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: $sizing-4;
+
+  padding-bottom: $sizing-2;
+  border-bottom: 1px solid $accent;
+}
+
+.total-per-week-activities-wrapper__description-text {
+  margin: 0 $sizing-4 0 0;
+  color: white;
+}

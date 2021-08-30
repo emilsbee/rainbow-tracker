@@ -1,5 +1,14 @@
 @import '../../styles/base/settings';
 
+#login-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //background-color: $primary;
+    height: 100vh;
+}
+
 #login-container {
     background-color: $primary;
     height: 100vh;
@@ -8,74 +17,4 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-
-#login-components {
-    margin: 0;
-    height: $sizing-13;
-    width: $sizing-15;
-    padding: $sizing-5;
-    
-    background-color: $primary;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    
-}
-
-#login-text-components {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#login-title {
-    font-size: $type-sizing-9;
-    margin: 0;
-    font-weight: 300;
-    color: white;
-}
-
-#login-text {
-    font-size: $type-sizing-4;
-    color: white;
-    font-weight: 300;
-}
-
-#login-button {
-    margin-bottom: $sizing-4;
-    background-color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: $sizing-13;
-    border-radius: $sizing-3;
-    border: none;
-    transition: 0.3s;
-    outline:none;
-}
-
-#login-button:hover {
-    background-color: #dbdddf
-}
-
-#google-logo {
-    height: 60%;
-    margin: $sizing-2;
-}
-
-#login-button-svg {
-    height: 60%;
-    width: 30px;
-    margin: $sizing-2;
-}
-
-#login-button-text {
-    font-size: $type-sizing-3;
-    font-weight: 500;
-    color: #3A4856;
 }

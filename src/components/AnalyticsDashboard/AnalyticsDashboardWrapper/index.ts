@@ -1,3 +1,0 @@
-import AnalyticsDashboardWrapper from './AnalyticsDashboardWrapper'
-
-export default AnalyticsDashboardWrapper
