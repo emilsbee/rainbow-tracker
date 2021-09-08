@@ -33,9 +33,9 @@ const TotalPerWeekActivitiesWrapper = ({totalPerWeek}: TotalPerWeekActivitiesWra
                 />
             </div>
 
-            <TotalPerWeekActivitiesTable totalPerWeek={totalPerWeek} pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}/>
+            <TotalPerWeekActivitiesTable color={totalPerWeek.categoryTypes[pickedCategoryIndex].color} totalPerWeek={totalPerWeek} pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}/>
 
-            <TotalPerWeekActivitiesPieChart totalPerWeek={totalPerWeek} pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}/>
+            <TotalPerWeekActivitiesPieChart color={totalPerWeek.categoryTypes[pickedCategoryIndex].color} totalPerWeek={totalPerWeek} pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}/>
         </>
     )
 }

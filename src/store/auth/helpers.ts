@@ -1,9 +1,9 @@
+import {history} from "../../routers/AppRouter";
+
 /**
  * Checks whether the user is logged in.
  * @param userid for which to check login status.
  */
-import {history} from "../../routers/AppRouter";
-
 export const checkIfLoggedIn = async (userid: string):Promise<boolean> => {
     let res;
     try {

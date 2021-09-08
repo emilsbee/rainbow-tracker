@@ -7,10 +7,11 @@ import {TotalPerWeek} from "../../../../../dao/analytics/analyticsDao";
 
 type TotalPerWeekActivitiesPieChartProps = {
     totalPerWeek: TotalPerWeek,
-    pickedCategoryid: string
+    pickedCategoryid: string,
+    color: string
 }
 
-const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid}: TotalPerWeekActivitiesPieChartProps) => {
+const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid, color}: TotalPerWeekActivitiesPieChartProps) => {
 
     return (
         <PieChart width={300} height={300}>
@@ -38,8 +39,8 @@ const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid}: TotalP
                         return (
                             <Cell
                                 key={`cell-${index}`}
-                                fill={"red"}
-                                stroke={"red"}
+                                fill={color}
+                                stroke={color}
                             />
                         )
                     } else return null

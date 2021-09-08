@@ -8,10 +8,11 @@ import {Duration} from "luxon";
 
 type TotalPerWeekActivitiesTableProps = {
     totalPerWeek: TotalPerWeek,
-    pickedCategoryid: string
+    pickedCategoryid: string,
+    color: string
 }
 
-const TotalPerWeekActivitiesTable = ({totalPerWeek, pickedCategoryid}: TotalPerWeekActivitiesTableProps) => {
+const TotalPerWeekActivitiesTable = ({totalPerWeek, pickedCategoryid, color}: TotalPerWeekActivitiesTableProps) => {
 
     return (
         <table style={{width: "100%"}}>
@@ -29,7 +30,7 @@ const TotalPerWeekActivitiesTable = ({totalPerWeek, pickedCategoryid}: TotalPerW
                                 <div
                                     className={"total-per-week-table__category-color"}
                                     style={{
-                                        backgroundColor: "red"
+                                        backgroundColor: color
                                     }}
                                 />
                                 {activityType.long}
