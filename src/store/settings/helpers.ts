@@ -6,7 +6,7 @@ import {history} from "../../routers/AppRouter";
  * Fetches all category and activity types for a user.
  * @param userid of the user for which to fetch the category types full.
  */
-export const getCategoryTypesFull = async (userid: string):Promise<{activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]> => {
+export const getCategoryTypesFull = async (userid: string):Promise<{activityTypes: ActivityType[], categoryTypes: CategoryType[]}> => {
     try {
         let res = await fetch(`api/user/${userid}/category-types-full`, {
             method: "GET",
@@ -14,13 +14,15 @@ export const getCategoryTypesFull = async (userid: string):Promise<{activityType
             credentials: "include",
         })
 
-        if (!res.ok) {
+        if (res.status === 401) {
+            history.push("/login")
+        } else if (!res.ok) {
             history.push("/internalError")
         }
 
-        return  await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[]
+        return  await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}
     } catch (e) {
         history.push("/internalError")
-        return []
+        return {categoryTypes: [], activityTypes: []}
     }
 }

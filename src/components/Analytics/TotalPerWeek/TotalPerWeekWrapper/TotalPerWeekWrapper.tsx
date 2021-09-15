@@ -89,7 +89,7 @@ const TotalPerWeekWrapper = () => {
 
         return weeks
     }
-    // console.log(DateTime.fromObject({weekNumber: currentDate.weekNr, weekYear: currentDate.year}).monthLong)
+
     return (
         <>
             <ToolBar>

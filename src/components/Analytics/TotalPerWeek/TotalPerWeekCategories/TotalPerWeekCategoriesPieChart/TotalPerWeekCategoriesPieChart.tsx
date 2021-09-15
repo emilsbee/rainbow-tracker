@@ -1,9 +1,10 @@
 // External imports
 import React from "react"
-import {PieChart, Pie, Cell, Tooltip} from 'recharts';
+import {PieChart, Pie, Cell, Tooltip, TooltipProps} from 'recharts';
 
 // Internal imports
 import {TotalPerWeek} from "../../../../../dao/analytics/analyticsDao";
+import {Duration} from "luxon";
 
 type TotalPerWeekCategoriesPieChartProps = {
     totalPerWeek: TotalPerWeek
@@ -11,12 +12,26 @@ type TotalPerWeekCategoriesPieChartProps = {
 
 const TotalPerWeekCategoriesPieChart = ({totalPerWeek}: TotalPerWeekCategoriesPieChartProps) => {
 
+    const CustomTooltip = ({ payload, active}: TooltipProps<number, string>) => {
+        if (active && payload && payload.length) {
+
+            return (
+                <div className="custom-tooltip">
+                    {payload.map(entry => (
+                        <p style={{color: entry.payload.stroke}}>
+                            {entry.name}: {entry.value && Duration.fromObject({minutes: entry.value*15}).toFormat("h:mm")}h
+                        </p>
+                    ))}
+                </div>
+            );
+        } else return null
+    }
+
     return (
         <PieChart width={300} height={300}>
 
             <Tooltip
-                contentStyle={{backgroundColor: "white", borderColor: "white", borderRadius: "7px", opacity: .85}}
-                itemStyle={{color: "black"}}
+                content={<CustomTooltip />}
             />
 
             <Pie
@@ -25,19 +40,18 @@ const TotalPerWeekCategoriesPieChart = ({totalPerWeek}: TotalPerWeekCategoriesPi
                 cy={150}
                 innerRadius={75}
                 outerRadius={100}
-                fill="#8884d8"
                 paddingAngle={5}
                 dataKey="count"
                 animationBegin={10}
                 animationDuration={900}
             >
-                {totalPerWeek.categoryTypes.map((entry, index) => {
-                    return (<Cell
+                {totalPerWeek.categoryTypes.map((entry, index) => (
+                    <Cell
                         key={`cell-${index}`}
                         fill={entry.color}
-                        stroke={entry.color}
-                    />)
-                })}
+                        stroke={"black"}
+                    />
+                ))}
             </Pie>
         </PieChart>
     )

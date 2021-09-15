@@ -40,9 +40,9 @@ const MainDashboardWrapper = () => {
             setNotes({notes: fullWeek[0].notes})
 
             // Fetch category and activity types
-            const categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[] = await getCategoryTypesFull(uid)
-            setCategoryTypes({categoryTypes: categoryTypesFull[0].categoryTypes})
-            setActivityTypes({activityTypes: categoryTypesFull[0].activityTypes})
+            const categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]} = await getCategoryTypesFull(uid)
+            setCategoryTypes({categoryTypes: categoryTypesFull.categoryTypes})
+            setActivityTypes({activityTypes: categoryTypesFull.activityTypes})
 
             setLoading(false)
         })()

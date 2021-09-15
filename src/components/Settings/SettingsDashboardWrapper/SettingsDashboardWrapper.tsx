@@ -24,9 +24,9 @@ const SettingsDashboardWrapper  = () => {
         (async function fetchData() {
             setLoading(true)
 
-            let categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]}[] = await getCategoryTypesFull(uid)
-            setCategoryTypes({categoryTypes: categoryTypesFull[0].categoryTypes})
-            setActivityTypes({activityTypes: categoryTypesFull[0].activityTypes})
+            let categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]} = await getCategoryTypesFull(uid)
+            setCategoryTypes({categoryTypes: categoryTypesFull.categoryTypes})
+            setActivityTypes({activityTypes: categoryTypesFull.activityTypes})
 
             setLoading(false)
         })()
