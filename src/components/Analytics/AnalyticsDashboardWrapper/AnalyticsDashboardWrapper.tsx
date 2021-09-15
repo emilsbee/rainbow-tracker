@@ -11,7 +11,7 @@ import TotalPerDayWrapper from "../TotalPerDay/TotalPerDayWrapper/TotalPerDayWra
  * The wrapper component for all analytics tabs.
  */
 const AnalyticsDashboardWrapper = () => {
-    const tabs = ["Total per week", "Total per day"]
+    const tabs = ["Weekly", "Daily"]
 
     // Local state
     const [selectedTabIndex, setSelectedTabIndex] = React.useState(0)
