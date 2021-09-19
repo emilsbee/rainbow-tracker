@@ -9,11 +9,12 @@ type DropdownProps = {
     options: (string | number)[],
     onSelect: (option: string | number, selectedIndex: number) => void,
     selected: string | number,
-    styleSelect?:  React.CSSProperties
+    styleSelect?:  React.CSSProperties,
+    text?: string[]
 }
 
-const Dropdown = ({label, options, onSelect, selected, styleSelect}: DropdownProps) => {
-
+const Dropdown = ({label, options, onSelect, selected, styleSelect, text}: DropdownProps) => {
+    console.log(text)
     return (
         <div className={"tool-bar-item__dropdown"}>
             <label className={"tool-bar-item__label"} htmlFor="dropdown">{label}</label>
@@ -26,7 +27,7 @@ const Dropdown = ({label, options, onSelect, selected, styleSelect}: DropdownPro
             >
                 {options.map((option, index) => (
                     <option key={index} value={option}>
-                        {option}
+                        {text ? text[index] : option}
                     </option>
                 ))}
             </select>

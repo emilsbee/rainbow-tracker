@@ -90,6 +90,12 @@ const TotalPerWeekWrapper = () => {
         return weeks
     }
 
+    const formatWeeks = (weeks: number[], year: number) => {
+        return weeks.map(week => `${DateTime.fromObject({weekNumber: week, weekYear: year}).startOf("week").toLocaleString({month: "short", day: "numeric"})} - 
+        ${DateTime.fromObject({weekNumber: week, weekYear: year}).endOf("week").toLocaleString({month: "short", day: "numeric"})}
+        `)
+    }
+
     return (
         <>
             <ToolBar>
@@ -104,6 +110,7 @@ const TotalPerWeekWrapper = () => {
                     options={getWeekDropdownWeeks(currentDate.year)}
                     onSelect={data => changeWeek(parseInt(data.toString()))}
                     selected={currentDate.weekNr}
+                    text={formatWeeks(getWeekDropdownWeeks(currentDate.year), currentDate.year)}
                 />
 
             </ToolBar>
