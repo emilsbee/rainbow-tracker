@@ -14,7 +14,7 @@ type DropdownProps = {
 }
 
 const Dropdown = ({label, options, onSelect, selected, styleSelect, text}: DropdownProps) => {
-    console.log(text)
+    
     return (
         <div className={"tool-bar-item__dropdown"}>
             <label className={"tool-bar-item__label"} htmlFor="dropdown">{label}</label>
