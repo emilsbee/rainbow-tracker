@@ -83,7 +83,8 @@ const TotalPerDayCategoriesChart = ({totalPerDay}: TotalPerDayCategoriesChartPro
                         content={<CustomTooltip />}
                         animationDuration={100}
                         contentStyle={{backgroundColor: "white", borderRadius: "7px"}}
-                        cursor={<CustomCursor />}
+                        // cursor={<CustomCursor />}
+                        cursor={false}
                     />
                     <Legend />
                     {categoryTypes.map(categoryType => {

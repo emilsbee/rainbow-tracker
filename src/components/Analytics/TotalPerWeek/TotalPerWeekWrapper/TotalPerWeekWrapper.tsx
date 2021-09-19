@@ -8,6 +8,7 @@ import TotalPerWeekDashboard from "../TotalPerWeekDashboard/TotalPerWeekDashboar
 import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
 import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
 import {DateTime} from "luxon";
+import {formatWeeks, getWeekDropdownWeeks} from "../../TotalPerDay/TotalPerDayWrapper/helpers";
 
 const TotalPerWeekWrapper = () => {
     // Store state
@@ -73,34 +74,7 @@ const TotalPerWeekWrapper = () => {
         }
     }
 
-    /**
-     * Extracts the week numbers for a given year
-     * from the available dates array.
-     * @param year for which to find weeks.
-     */
-    const getWeekDropdownWeeks = (year: number): number[] => {
-        let weeks:  number[] = []
 
-        for (let i = 0; i < availableDates.length; i++) {
-            if (availableDates[i].year === year) {
-                weeks = availableDates[i].weeks
-            }
-        }
-
-        return weeks
-    }
-
-    /**
-     * Formats an array of week numbers and a year to array of dates represented as
-     * Sep 10 - Sep 16.
-     * @param weeks to format.
-     * @param year to format.
-     */
-    const formatWeeks = (weeks: number[], year: number) => {
-        return weeks.map(week => `${DateTime.fromObject({weekNumber: week, weekYear: year}).startOf("week").toLocaleString({month: "short", day: "numeric"})} - 
-        ${DateTime.fromObject({weekNumber: week, weekYear: year}).endOf("week").toLocaleString({month: "short", day: "numeric"})}
-        `)
-    }
 
     return (
         <>
@@ -113,10 +87,10 @@ const TotalPerWeekWrapper = () => {
                 />
                 <Dropdown
                     label={"Week"}
-                    options={getWeekDropdownWeeks(currentDate.year)}
+                    options={getWeekDropdownWeeks(availableDates, currentDate.year)}
                     onSelect={data => changeWeek(parseInt(data.toString()))}
                     selected={currentDate.weekNr}
-                    text={formatWeeks(getWeekDropdownWeeks(currentDate.year), currentDate.year)}
+                    text={formatWeeks(getWeekDropdownWeeks(availableDates, currentDate.year), currentDate.year)}
                 />
 
             </ToolBar>

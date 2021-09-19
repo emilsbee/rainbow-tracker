@@ -22,7 +22,10 @@ const TotalPerDayDashboard = ({loading, totalPerDay}: TotalPerDayDashboardProps)
     }
 
     return (
-        <TotalPerDayCategoriesChart totalPerDay={totalPerDay}/>
+        <div className={"card"} style={{marginLeft: 0}}>
+            <h3 className={"card-title"}>Categories</h3>
+            <TotalPerDayCategoriesChart totalPerDay={totalPerDay}/>
+        </div>
     )
 }
 
