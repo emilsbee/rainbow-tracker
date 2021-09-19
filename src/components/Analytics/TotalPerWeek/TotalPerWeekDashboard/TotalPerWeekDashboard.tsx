@@ -35,7 +35,7 @@ const TotalPerWeekDashboard = ({totalPerWeek, availableDates, loading}: TotalPer
                 {totalPerWeek.categoryTypes.length !== 0
                     ?
                     <>
-                        <div className={"card"}>
+                        <div className={"card"} style={{marginLeft: 0, marginTop: 0}}>
                             <h3 className={"card-title"}>Categories</h3>
 
                             <TotalPerWeekCategoriesTable totalPerWeek={totalPerWeek}/>
@@ -43,7 +43,7 @@ const TotalPerWeekDashboard = ({totalPerWeek, availableDates, loading}: TotalPer
                             <TotalPerWeekCategoriesPieChart totalPerWeek={totalPerWeek}/>
                         </div>
 
-                        <div className={"card"}>
+                        <div className={"card"} style={{marginTop: 0}}>
                             <h3 className={"card-title"}>Activities</h3>
 
                             <TotalPerWeekActivitiesWrapper totalPerWeek={totalPerWeek}/>
