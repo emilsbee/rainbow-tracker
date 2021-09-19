@@ -90,6 +90,12 @@ const TotalPerWeekWrapper = () => {
         return weeks
     }
 
+    /**
+     * Formats an array of week numbers and a year to array of dates represented as
+     * Sep 10 - Sep 16.
+     * @param weeks to format.
+     * @param year to format.
+     */
     const formatWeeks = (weeks: number[], year: number) => {
         return weeks.map(week => `${DateTime.fromObject({weekNumber: week, weekYear: year}).startOf("week").toLocaleString({month: "short", day: "numeric"})} - 
         ${DateTime.fromObject({weekNumber: week, weekYear: year}).endOf("week").toLocaleString({month: "short", day: "numeric"})}
