@@ -30,7 +30,9 @@ export interface Date {
 }
 
 export interface SettingsModel {
-    // Indicates which time slot should be highlighted.
+    /**
+     * Indicates which time slot should be highlighted.
+     */
     timeHoverIndex:number,
     /**
      * Sets the hover index.
@@ -64,7 +66,9 @@ export interface SettingsModel {
      */
     updateCategoryType: Thunk<SettingsModel, {categoryType:CategoryType}>,
 
-    // Date that should be displayed.
+    /**
+     * Date that should be displayed.
+     */
     currentDate: Date,
     /**
      * Sets date.
@@ -83,6 +87,15 @@ export interface SettingsModel {
      * Sets the date to the current real life week.
      */
     toCurrentWeek: Action<SettingsModel>
+
+    /**
+     * Indicates whether user has seen the feature popup.
+     */
+    featurePopupViewed: boolean
+    /**
+     * Sets the feature popup viewed indicator.
+     */
+    setFeaturePopupViewed: Action<SettingsModel, {featurePopupViewed: boolean}>
 }
 
 const settingsModel:SettingsModel = {
@@ -191,6 +204,11 @@ const settingsModel:SettingsModel = {
             weekNr: DateTime.now().weekNumber,
             year: DateTime.now().startOf("week").year
         }
+    }),
+
+    featurePopupViewed: true,
+    setFeaturePopupViewed: action((state, payload) => {
+        state.featurePopupViewed = payload.featurePopupViewed
     })
 }
 

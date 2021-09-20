@@ -12,9 +12,12 @@ import {getCategoryTypesFull} from "../../../store/settings/helpers";
 import {FullWeek} from "../../../store/categories/categories";
 import {getWeekByWeekNrAndYear} from "../../../store/categories/helpers";
 import {ActivityType, CategoryType} from "../../../store/settings/settings";
+import NewFeaturePopup from "../../NewFeaturePopup/NewFeaturePopup";
+import {getPopupViewed} from "../../NewFeaturePopup/helpers";
 
 const MainDashboardWrapper = () => {
     // Store state
+    const featurePopupViewed = useStoreState(state => state.settings.featurePopupViewed)
     const uid = useStoreState(state => state.auth.uid)
     const currentDate = useStoreState(state => state.settings.currentDate)
     const categories: Category[][] = useStoreState(state => state.categories.categories)
@@ -25,6 +28,7 @@ const MainDashboardWrapper = () => {
     const setNotes = useStoreActions(actions => actions.notes.setNotes)
     const setCategoryTypes = useStoreActions(actions => actions.settings.setCategoryTypes)
     const setActivityTypes = useStoreActions(actions => actions.settings.setActivityTypes)
+    const setFeaturePopupViewed = useStoreActions(actions => actions.settings.setFeaturePopupViewed)
 
     // Local state
     const [loading, setLoading] = React.useState(true)
@@ -49,11 +53,17 @@ const MainDashboardWrapper = () => {
 
     },[currentDate.weekNr, currentDate.year, uid])
 
+    React.useEffect(() => {
+        setFeaturePopupViewed({featurePopupViewed: getPopupViewed()})
+    }, [setFeaturePopupViewed])
+
     return (
         <div id="main-dash-wrapper">
             <MainDashboardNavBar weekNr={currentDate.weekNr} year={currentDate.year}/>
 
             <MainDashboardTable categories={categories} notes={notes} loading={loading}/>
+
+            {!featurePopupViewed && <NewFeaturePopup/>}
         </div>
     );
 }

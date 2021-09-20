@@ -14,9 +14,12 @@ import {useStoreState} from "../store/hookSetup";
  * @param props The component to render and current path.
  */
 const PrivateRoute = (props: {path: string, component: React.FC }) => {
+    // Store state
     const uid = useStoreState(state => state.auth.uid)
+
     const isAuthenticated = !!uid
     const Component = props.component
+
 
     return (
         <>
