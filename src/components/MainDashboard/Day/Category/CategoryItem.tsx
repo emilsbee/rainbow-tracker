@@ -54,7 +54,8 @@ function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) 
      * Closes the popover and sets the new activity.
      * @param activityid The activityid of activity that was picked.
      */
-    const onActivityPick = (activityid:string):void => {
+    const onActivityPick = (activityid:string | null):void => {
+        console.log(activityid)
         setShowActivityPopover(false)
         setActivity({
             activityid, 

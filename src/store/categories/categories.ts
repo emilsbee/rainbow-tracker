@@ -49,7 +49,7 @@ export interface CategoriesModel {
      * @param weekDay of the category to update.
      * @param activityid of the activity to update with.
      */
-    setActivity: Action<CategoriesModel, { categoryPosition: number, weekDay: number, activityid: string }>,
+    setActivity: Action<CategoriesModel, { categoryPosition: number, weekDay: number, activityid: string | null}>,
 
     /**
      * Debounced function that runs when 200ms have passed

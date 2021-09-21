@@ -36,7 +36,7 @@ function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) 
      * Closes the popover and sets the new category.
      * @param categoryid The categoryid of category that was picked.
      */
-    const onCategoryPick = (categoryid:string | null):void => {
+    const onCategoryPick = (categoryid: string | null):void => {
         setShowPopover(false)
         setCategory({
             userid: category.userid,
@@ -54,7 +54,7 @@ function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) 
      * Closes the popover and sets the new activity.
      * @param activityid The activityid of activity that was picked.
      */
-    const onActivityPick = (activityid:string):void => {
+    const onActivityPick = (activityid:string | null):void => {
         setShowActivityPopover(false)
         setActivity({
             activityid, 

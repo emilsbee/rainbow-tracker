@@ -6,7 +6,7 @@ import './ActivityItemPopover.scss'
 import {useStoreState} from "../../../../../store/hookSetup";
 
 type ActivityItemPopoverProps = {
-    onClick: (activityid: string) => void,
+    onClick: (activityid: string | null) => void,
     handleCloseModal: () => void,
     categoryid: string | null
 }
@@ -43,7 +43,7 @@ const ActivityItemPopover = ({onClick, handleCloseModal, categoryid}: ActivityIt
 
                 <div
                     id="activity-popover-item-default"
-                    onClick={() => onClick("")}
+                    onClick={() => onClick(null)}
                 />
             </div>
         </div>
