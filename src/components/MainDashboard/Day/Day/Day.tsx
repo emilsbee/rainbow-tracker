@@ -3,8 +3,8 @@ import React, { useState } from 'react'
 import {DateTime, Info} from "luxon";
 
 // Internal imports
-import CategoryComponent from '../Category/CategoryComponent'
-import NoteComponent from '../Note/NoteComponent'
+import CategoryItem from '../Category/CategoryItem'
+import NoteItem from '../Note/NoteItem'
 import { findStackExtremes } from './helpers'
 import NoteModal from '../Note/NoteModal/NoteModal'
 import './Day.scss'
@@ -156,7 +156,7 @@ function Day({categories, notes, weekDay}: DayProps) {
                 <div className="activity-outer-container">
                     {categories.map(category => {
                         return (
-                            <CategoryComponent
+                            <CategoryItem
                                 key={category.categoryPosition}
                                 category={category} 
                                 onDragStart={onCategoryDragStart}
@@ -174,7 +174,7 @@ function Day({categories, notes, weekDay}: DayProps) {
 
                         if (note.notePosition === min) { // If the note is highest from notes with the same stackid
                             return (
-                                <NoteComponent
+                                <NoteItem
                                     key={note.notePosition}
                                     note={note}
                                     max={max}
