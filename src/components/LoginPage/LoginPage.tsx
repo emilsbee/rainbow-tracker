@@ -88,7 +88,7 @@ const LoginPage = () => {
                 </label>
 
                 <div>
-                    <button type={"submit"}>Login</button>
+                    <button className="button" type={"submit"}>Login</button>
                 </div>
             </form>
         </div>
