@@ -60,16 +60,17 @@ const LoginPage = () => {
 
     return (
         <div id="login-container">
-            <h2>
+            <h2 style={{marginBottom: 0}}>
                 Welcome, lazy person!
             </h2>
-            <h3>
+            <h3 style={{marginBottom: 10}}>
                 Please Log In
             </h3>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <p>Email</p>
+                    <p style={{marginBottom: "5px"}}>Email</p>
                     <input
+                        style={{marginBottom: "20px"}}
                         type={"text"}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -77,8 +78,9 @@ const LoginPage = () => {
                 </label>
 
                 <label>
-                    <p>Password</p>
+                    <p style={{marginBottom: "5px"}}>Password</p>
                     <input
+                        style={{marginBottom: "20px"}}
                         type={"password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -86,7 +88,7 @@ const LoginPage = () => {
                 </label>
 
                 <div>
-                    <button type={"submit"}>Submit</button>
+                    <button type={"submit"}>Login</button>
                 </div>
             </form>
         </div>
