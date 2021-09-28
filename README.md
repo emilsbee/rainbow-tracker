@@ -22,13 +22,23 @@ See other rainbow tracker project repositories:
 
 Main dashboard is where all the logging of time happens. Each column represents a day and each row represents a 15-minute interval. As seen in the video, dragging both categories and notes makes it really convenient and quick to log what you have done during the day.  
 
-https://user-images.githubusercontent.com/31566289/134881360-f8fb813b-20aa-414a-b4bd-23e33ffe2cf9.mp4
+https://user-images.githubusercontent.com/31566289/135138578-b956fb3a-e4bc-4993-a924-3b88ba6d3ec8.mp4
 
 ### Analytics
 
-In analytics you can view your data over time in various different formats. As seen in the video, currently weekly and daily analytics are available. This means that data is aggregated either per week or per each week day.
+In analytics you can view your data over time in various different formats. As seen in the video, currently weekly and daily analytics are available. This means that data is aggregated either per week or per each week day. Many new graphs are to be implemented for even more extensive analytics possibilities. 
 
-https://user-images.githubusercontent.com/31566289/134937472-fce3f03c-2625-42a7-873f-15680e6f3b16.mp4
+https://user-images.githubusercontent.com/31566289/135138613-4f3bc941-f146-4fcd-a64a-1df414807270.mp4
+
+### Settings
+
+Settings page shows the user's categories and activities. Currently only category information can be edited but more functionality such as new activity creation is to be added.  
+
+https://user-images.githubusercontent.com/31566289/135138867-1d94217a-56cd-4924-b3d6-6d10b7e6aa03.mp4
+
+
+
+
 
 
 
