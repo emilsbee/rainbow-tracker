@@ -1,5 +1,8 @@
 # Rainbow tracker
 
+## About the app
+Rainbow tracker is a personal time tracker web application. It facilitates tracking your life in 15-minute intervals using user-defined categories and activities. You can also write notes next to the categories/activities to further elaborate on what you were doing at that point. With convenient dragging functionality for categories/activities and notes, logging your time becomes super easy. Furthermore, there is an evolving analytics page to view the various statistics of how you have spent your time. And of course, you can edit the categories and activities to fit what exactly you spend time on. 
+
 ## Explore the application
 Currently it is possible to explore the application using the test account. So head over to [rainbow.emils.xyz](https://rainbow.emils.xyz) and use the credentials:
 - email: `user@test.com`
