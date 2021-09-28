@@ -1,7 +1,14 @@
 # Rainbow tracker
 
+## Explore the application
+Currently it is possible to explore the application using the test account. So head over to [rainbow.emils.xyz](https://rainbow.emils.xyz) and use the credentials:
+- email: `user@test.com`
+- password: `password`
+
+The test account already has some data to play around with. The data ir reset every day so any edits you have made will be cleared.
+
 ## Related repositories
-See other rainbow tracker repositories:
+See other rainbow tracker project repositories:
 - [Rainbow tracker backend](https://github.com/emilsbee/rainbow-tracker-backend)
 - [Rainbow tracker backup tool](https://github.com/emilsbee/rainbow-tracker-backup-tool)
 - [Rainbow tracker data converter](https://github.com/emilsbee/rainbow-tracker-converter)
