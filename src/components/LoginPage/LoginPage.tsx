@@ -61,7 +61,7 @@ const LoginPage = () => {
     return (
         <div id="login-container">
             <h2 style={{marginBottom: 0}}>
-                Welcome, lazy person!
+                Welcome, curious person!
             </h2>
             <h3 style={{marginBottom: 10}}>
                 Please Log In
