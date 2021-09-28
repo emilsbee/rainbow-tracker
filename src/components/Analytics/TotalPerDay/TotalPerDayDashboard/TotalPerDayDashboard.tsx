@@ -22,7 +22,7 @@ const TotalPerDayDashboard = ({loading, totalPerDay}: TotalPerDayDashboardProps)
     }
 
     return (
-        <div className={"total-per-day card"} style={{marginLeft: 0}}>
+        <div className={"total-per-day card"} style={{marginLeft: 0, marginTop: "40px"}}>
             <h3 className={"card-title"}>Categories</h3>
             <TotalPerDayCategoriesChart totalPerDay={totalPerDay}/>
         </div>
