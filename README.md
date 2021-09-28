@@ -1,5 +1,11 @@
 # Rainbow tracker
 
+## Related repositories
+See other rainbow tracker repositories:
+- [Rainbow tracker backend](https://github.com/emilsbee/rainbow-tracker-backend)
+- [Rainbow tracker backup tool](https://github.com/emilsbee/rainbow-tracker-backup-tool)
+- [Rainbow tracker data converter](https://github.com/emilsbee/rainbow-tracker-converter)
+
 ## Feature showcase
 
 ### Main dashboard
