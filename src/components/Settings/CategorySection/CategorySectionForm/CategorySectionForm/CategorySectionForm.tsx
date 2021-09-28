@@ -5,7 +5,7 @@ import React from "react";
 import {ActivityType, CategoryType} from "../../../../../store/settings/settings";
 import Section from "../Section/Section";
 import './category-section-form.scss'
-import ActivityList from "../ActivityList/ActivityList";
+import ActivityList from "../../../ActivityList/ActivityList";
 import {validateCategorySubmission} from "../../../../../store/categories/helpers";
 import {useStoreActions} from "../../../../../store/hookSetup";
 
@@ -81,7 +81,7 @@ function CategorySectionForm({category, activityTypes, setLoading}: CategorySect
                 />
             </Section>
             <Section title={""}>
-                <button id={"category-section-form-save-button"} onClick={handleFormSubmit}>Save</button>
+                <button className={"button"} onClick={handleFormSubmit}>Save</button>
             </Section>
         </div>
     )

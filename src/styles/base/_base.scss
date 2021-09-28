@@ -62,3 +62,17 @@ p {
     border-radius: 7px;
     padding: 1px 10px 1px 10px;
 }
+
+.button {
+    background-color: $primary;
+    border: .5px solid $accent;
+    color: $accent;
+    padding: 6px;
+    border-radius: 9px;
+    font-size: $type-sizing-3;
+}
+
+.button:hover {
+    background-color: $accent;
+    color: $primary;
+}

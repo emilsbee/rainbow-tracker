@@ -3,7 +3,7 @@ import React from "react";
 
 // Internal imports
 import './activity-list-item.scss'
-import {ActivityType} from "../../../../../../store/settings/settings";
+import {ActivityType} from "../../../../store/settings/settings";
 
 type ActivityListItemProps = {
     activity: ActivityType,

@@ -2,10 +2,10 @@
 import React from "react";
 
 // Internal imports
-import {ActivityType} from "../../../../../store/settings/settings";
+import {ActivityType} from "../../../store/settings/settings";
 import ActivityListItem from "./ActivityListItem/ActivityListItem";
-import {validateActivitySubmission} from "../../../../../store/categories/helpers";
-import {useStoreActions} from "../../../../../store/hookSetup";
+import {validateActivitySubmission} from "../../../store/categories/helpers";
+import {useStoreActions} from "../../../store/hookSetup";
 
 type ActivityListProps = {
     activityTypes:ActivityType[],
