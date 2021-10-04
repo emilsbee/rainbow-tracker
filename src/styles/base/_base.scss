@@ -33,7 +33,7 @@ p {
 }
 
 .card {
-    background-color: #181717;
+    background-color: $dark-primary;
     padding: 20px 40px 20px 40px;
     margin: 20px;
     border-radius: 10px;
@@ -54,7 +54,8 @@ p {
     font-size: $type-sizing-5;
     font-weight: 500;
     margin-top: 0;
-    border-bottom: 1px solid $accent;
+    border-bottom: 2px solid $accent;
+    color: $accent-2;
 }
 
 .custom-tooltip {

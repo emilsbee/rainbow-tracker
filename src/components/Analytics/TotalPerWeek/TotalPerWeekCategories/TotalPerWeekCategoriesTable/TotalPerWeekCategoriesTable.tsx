@@ -17,7 +17,7 @@ const TotalPerWeekCategoriesTable = ({totalPerWeek}: TotalPerWeekProps) => {
             <tbody>
             <tr>
                 <th className={"total-per-week-table__category-header"} style={{textAlign: "left"}}>Category</th>
-                <th className={"total-per-week-table__category-header"}>Hours total</th>
+                <th className={"total-per-week-table__category-header"}>Hours</th>
             </tr>
             {totalPerWeek.categoryTypes.map(categoryType => (
                 <tr key={categoryType.categoryid}>
