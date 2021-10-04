@@ -56,6 +56,7 @@ function CategoryList ({categoryTypes, setCategory, selectedCategoryid}:Category
     return (
         <div id="category-section-category-list-container">
             {categoryTypes.map(categoryType => {
+
                 return (
                     <div key={categoryType.categoryid} id={"category-section-category-list-item-container"}>
                         <p

@@ -83,7 +83,7 @@ function CategorySectionForm({category, activityTypes, setLoading, resetSelected
             <Section title="Color">
                 <div id={"color-section-container"}>
                     <div style={{backgroundColor: colorValue}} id={"color-section-color"}/>
-                    <input type="text" className="category-section-form__category-color" value={colorValue}
+                    <input style={{color: colorValue}} type="text" className="category-section-form__category-color" value={colorValue}
                            onChange={e => setColorValue(e.target.value)} maxLength={7}/>
                 </div>
             </Section>
@@ -100,7 +100,7 @@ function CategorySectionForm({category, activityTypes, setLoading, resetSelected
             <Section title={""}>
                 <div>
                     <button className={"button-dlt"} onClick={handleDeleteCategory} style={{marginRight: 40}}>Archive</button>
-                    <button className={"button"} onClick={handleFormSubmit}>Save</button>
+                    <button className={"button-pos"} onClick={handleFormSubmit}>Save</button>
                 </div>
             </Section>
         </div>

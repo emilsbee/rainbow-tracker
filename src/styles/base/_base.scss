@@ -87,3 +87,10 @@ p {
     background-color: #c23b22;
     color: white;
 }
+
+.button-pos {
+    @extend .button-structure;
+    background-color: #618B25;
+    color: $accent-2;
+    border: 1px solid #618B25;
+}
