@@ -1,5 +1,5 @@
 // Internal imports
-import {history} from "../../routers/AppRouter";
+import {history} from "../routers/AppRouter";
 
 export type TotalPerDay = {
     weekDay: number

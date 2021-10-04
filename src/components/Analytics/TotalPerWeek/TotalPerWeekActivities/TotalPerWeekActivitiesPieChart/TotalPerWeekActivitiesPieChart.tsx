@@ -3,7 +3,7 @@ import React from "react"
 import {PieChart, Pie, Cell, Tooltip, TooltipProps} from 'recharts';
 
 // Internal imports
-import {TotalPerWeek} from "../../../../../dao/analytics/analyticsDao";
+import {TotalPerWeek} from "../../../../../dao/analyticsDao";
 import {Duration} from "luxon";
 
 type TotalPerWeekActivitiesPieChartProps = {

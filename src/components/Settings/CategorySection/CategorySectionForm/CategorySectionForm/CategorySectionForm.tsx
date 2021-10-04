@@ -7,17 +7,23 @@ import Section from "../Section/Section";
 import './category-section-form.scss'
 import ActivityList from "../../../ActivityList/ActivityList";
 import {validateCategorySubmission} from "../../../../../store/categories/helpers";
-import {useStoreActions} from "../../../../../store/hookSetup";
+import {useStoreActions, useStoreState} from "../../../../../store/hookSetup";
+import {deleteCategory} from "../../../../../dao/settingsDao";
 
 type CategorySectionFormProps = {
     category: CategoryType,
     activityTypes: ActivityType[],
-    setLoading: (loading: boolean) => void
+    setLoading: (loading: boolean) => void,
+    resetSelectedCategoryid: () => void
 }
 
-function CategorySectionForm({category, activityTypes, setLoading}: CategorySectionFormProps) {
+function CategorySectionForm({category, activityTypes, setLoading, resetSelectedCategoryid}: CategorySectionFormProps) {
+    // Store state
+    const userid = useStoreState(state => state.auth.uid)
+
     // Store actions
     const updateCategoryType = useStoreActions(actions => actions.settings.updateCategoryType)
+    const removeCategoryType = useStoreActions(actions => actions.settings.removeCategoryType)
 
     // Local state
     const [colorValue, setColorValue] = React.useState(category.color)
@@ -54,6 +60,17 @@ function CategorySectionForm({category, activityTypes, setLoading}: CategorySect
         }
     }
 
+    /**
+     * Handles delete category type.
+     */
+    const handleDeleteCategory = async () => {
+        const success = await deleteCategory(userid, category.categoryid)
+        if (success) {
+            removeCategoryType({categoryType: category})
+            resetSelectedCategoryid()
+        }
+    }
+
     return (
         <div id={"category-section-form-container"}>
             <div id={"category-section-form-error"}>
@@ -81,7 +98,10 @@ function CategorySectionForm({category, activityTypes, setLoading}: CategorySect
                 />
             </Section>
             <Section title={""}>
-                <button className={"button"} onClick={handleFormSubmit}>Save</button>
+                <div>
+                    <button className={"button-dlt"} onClick={handleDeleteCategory} style={{marginRight: 40}}>Archive</button>
+                    <button className={"button"} onClick={handleFormSubmit}>Save</button>
+                </div>
             </Section>
         </div>
     )

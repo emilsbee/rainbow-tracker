@@ -5,6 +5,7 @@ import {DateTime} from "luxon";
 // Internal imports
 import store from "../storeSetup";
 import {history} from "../../routers/AppRouter";
+import {createCategory} from "../../dao/settingsDao";
 
 // New ones
 export type CategoryType = {
@@ -56,6 +57,10 @@ export interface SettingsModel {
      * Updates specific category type's name and color using the given category type.
      */
     setCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
+    /**
+     * Removes a given category type from stores category type array.
+     */
+    removeCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
     /**
      * Updates an activity type's long and short.
      * @param activityType to update with.
@@ -119,6 +124,12 @@ const settingsModel:SettingsModel = {
                 state.categoryTypes[i].color = payload.categoryType.color
                 break;
             }
+        }
+    }),
+    removeCategoryType: action((state, payload) => {
+       const indexToDelete = state.categoryTypes.findIndex(categType => categType.categoryid === payload.categoryType.categoryid)
+        if (indexToDelete > -1) {
+            state.categoryTypes.splice(indexToDelete, 1)
         }
     }),
     updateActivityType: action((state, payload) => {

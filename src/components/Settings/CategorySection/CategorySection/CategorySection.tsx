@@ -27,6 +27,12 @@ function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySec
         return {categoryid: "", userid: "", color: "", name: "", archived: false}
     }
 
+    const resetSelectedCategoryid = ():void => {
+        if (categoryTypes.length > 0) {
+            setSelectedCategoryid(categoryTypes[0].categoryid)
+        }
+    }
+
     return (
         <div id="category-section-container">
             <SectionTitle title={"Categories"}/>
@@ -40,6 +46,7 @@ function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySec
 
                 {selectedCategoryid.length !== 0 &&
                     <CategorySectionForm
+                        resetSelectedCategoryid={resetSelectedCategoryid}
                         category={findCategoryForForm()}
                         activityTypes={activityTypes}
                         setLoading={setLoading}

@@ -3,7 +3,7 @@ import React, {useEffect} from "react"
 
 // Internal imports
 import "./total-per-week-activities-wrapper.scss"
-import {TotalPerWeek} from "../../../../../dao/analytics/analyticsDao";
+import {TotalPerWeek} from "../../../../../dao/analyticsDao";
 import TotalPerWeekActivitiesPieChart from "../TotalPerWeekActivitiesPieChart/TotalPerWeekActivitiesPieChart";
 import Dropdown from "../../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
 import TotalPerWeekActivitiesTable from "../TotalPerWeekActivitiesTable/TotalPerWeekActivitiesTable";

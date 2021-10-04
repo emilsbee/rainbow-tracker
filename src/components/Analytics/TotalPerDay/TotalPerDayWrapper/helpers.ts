@@ -1,4 +1,4 @@
-import {AvailableDate} from "../../../../dao/analytics/analyticsDao";
+import {AvailableDate} from "../../../../dao/analyticsDao";
 import {DateTime} from "luxon";
 
 /**

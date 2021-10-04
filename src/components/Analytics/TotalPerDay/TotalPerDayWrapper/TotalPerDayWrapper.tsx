@@ -7,11 +7,11 @@ import {
     getAvailableDates,
     getTotalPerDay,
     TotalPerDay,
-} from "../../../../dao/analytics/analyticsDao";
+} from "../../../../dao/analyticsDao";
 import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
 import TotalPerDayDashboard from "../TotalPerDayDashboard/TotalPerDayDashboard";
 import {ActivityType, CategoryType} from "../../../../store/settings/settings";
-import {getCategoryTypesFull} from "../../../../store/settings/helpers";
+import {getCategoryTypesFull} from "../../../../dao/settingsDao";
 import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
 import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
 import {formatWeeks, getWeekDropdownWeeks} from "./helpers";

@@ -3,6 +3,7 @@
 #category-section-category-list-container {
   display: flex;
   flex-direction: column;
+  width: 200px;
 }
 
 #category-section-category-list-item-container {
@@ -26,8 +27,24 @@
   border-bottom: .5px solid $accent;
 }
 
+.category-section-category-list-add-input {
+  background-color: transparent;
+  border: none;
+  border-bottom: .5px solid $accent;
+  font-size: $type-sizing-4;
+  caret: $accent;
+  color: $accent;
+  margin: 18px 0 0 0;
+  width: 160px;
+}
+
+.category-section-category-list-add-input:focus {
+  outline: none;
+}
+
 .category-section-category-list-add {
-  fill: wheat;
+  margin-top: 18px;
+  fill: white;
   height: 15px;
   width: 15px;
 }

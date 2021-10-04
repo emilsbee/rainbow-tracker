@@ -3,7 +3,7 @@ import React from "react"
 
 // Internal imports
 import "./total-per-week-dashboard.scss"
-import {AvailableDate, TotalPerWeek} from "../../../../dao/analytics/analyticsDao";
+import {AvailableDate, TotalPerWeek} from "../../../../dao/analyticsDao";
 import {ReactComponent as Loader} from "../../../../svgIcons/spinner.svg";
 import TotalPerWeekCategoriesTable from "../TotalPerWeekCategories/TotalPerWeekCategoriesTable/TotalPerWeekCategoriesTable";
 import NoAnalyticsBanner from "../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner";

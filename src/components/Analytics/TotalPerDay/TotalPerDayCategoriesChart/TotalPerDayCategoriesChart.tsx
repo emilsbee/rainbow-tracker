@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 
 // Internal imports
-import {TotalPerDay} from "../../../../dao/analytics/analyticsDao";
+import {TotalPerDay} from "../../../../dao/analyticsDao";
 import {useStoreState} from "../../../../store/hookSetup";
 import {Duration, Info} from "luxon";
 

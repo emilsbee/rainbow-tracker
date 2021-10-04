@@ -4,7 +4,7 @@ import React  from 'react'
 // Internal imports
 import {useStoreActions, useStoreState} from "../../../store/hookSetup";
 import SettingsDashboard from "../SettingsDashboard/SettingsDashboard";
-import {getCategoryTypesFull} from "../../../store/settings/helpers";
+import {getCategoryTypesFull} from "../../../dao/settingsDao";
 import {ActivityType, CategoryType} from "../../../store/settings/settings";
 
 const SettingsDashboardWrapper  = () => {

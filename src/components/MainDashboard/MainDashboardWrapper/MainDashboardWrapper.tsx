@@ -8,7 +8,7 @@ import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar'
 import {useStoreState, useStoreActions} from "../../../store/hookSetup"
 import {Category} from "../../../store/categories/categories";
 import {Note} from "../../../store/notes/notes";
-import {getCategoryTypesFull} from "../../../store/settings/helpers";
+import {getCategoryTypesFull} from "../../../dao/settingsDao";
 import {FullWeek} from "../../../store/categories/categories";
 import {getWeekByWeekNrAndYear} from "../../../store/categories/helpers";
 import {ActivityType, CategoryType} from "../../../store/settings/settings";

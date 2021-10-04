@@ -3,7 +3,7 @@ import React from "react"
 
 // Internal imports
 import "../../TotalPerWeekCategories/TotalPerWeekCategoriesTable/total-per-week-categories-table.scss"
-import {TotalPerWeek} from "../../../../../dao/analytics/analyticsDao";
+import {TotalPerWeek} from "../../../../../dao/analyticsDao";
 import {Duration} from "luxon";
 
 type TotalPerWeekActivitiesTableProps = {
