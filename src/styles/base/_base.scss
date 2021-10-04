@@ -63,26 +63,26 @@ p {
     padding: 1px 10px 1px 10px;
 }
 
-@mixin button {
-    background-color: $primary;
-    border: 1px solid white;
-    color: white;
+.button-structure {
     padding: 6px;
     border-radius: 5px;
     font-size: $type-sizing-3;
 }
 
 .button {
-    @include button;
-}
-
-.button:hover {
+    @extend .button-structure;
+    background-color: transparent;
     border: 1px solid $accent;
     color: $accent;
 }
 
+.button:hover {
+    background-color: $accent;
+    color: $accent-2;
+}
+
 .button-dlt {
-    @include button;
+    @extend .button-structure;
     border: 1px solid #c23b22;
     background-color: #c23b22;
     color: white;

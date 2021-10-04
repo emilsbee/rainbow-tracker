@@ -12,19 +12,20 @@
 }
 
 #category-section-category-list-item {
-  border-bottom: .5px solid transparent;
+  border-bottom: 2px solid transparent;
   font-size: $type-sizing-4;
+  color: $accent-2;
 }
 
 #category-section-category-list-item:hover {
   @extend #category-section-category-list-item;
-  border-bottom: .5px solid $accent;
+  border-bottom: 2px solid $accent;
   cursor: pointer;
 }
 
 #category-section-category-list-item-selected {
   @extend #category-section-category-list-item;
-  border-bottom: .5px solid $accent;
+  border-bottom: 2px solid $accent;
 }
 
 .category-section-category-list-add-input {
@@ -32,8 +33,8 @@
   border: none;
   border-bottom: .5px solid $accent;
   font-size: $type-sizing-4;
-  caret: $accent;
-  color: $accent;
+  caret: $accent-2;
+  color: $accent-2;
   margin: 18px 0 0 0;
   width: 160px;
 }

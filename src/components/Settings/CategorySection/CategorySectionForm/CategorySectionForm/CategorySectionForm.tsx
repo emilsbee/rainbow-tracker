@@ -77,13 +77,13 @@ function CategorySectionForm({category, activityTypes, setLoading, resetSelected
                 {error.message}
             </div>
             <Section title="Name">
-                <input type={"text"} id={"category-name"} value={nameValue} onChange={e => setNameValue(e.target.value)}
+                <input type={"text"} className={"category-section-form__category-name"} value={nameValue} onChange={e => setNameValue(e.target.value)}
                        maxLength={18}/>
             </Section>
             <Section title="Color">
                 <div id={"color-section-container"}>
                     <div style={{backgroundColor: colorValue}} id={"color-section-color"}/>
-                    <input type="text" id="category-color" value={colorValue}
+                    <input type="text" className="category-section-form__category-color" value={colorValue}
                            onChange={e => setColorValue(e.target.value)} maxLength={7}/>
                 </div>
             </Section>
