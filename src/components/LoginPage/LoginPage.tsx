@@ -60,11 +60,11 @@ const LoginPage = () => {
 
     return (
         <div id="login-container">
-            <h2 style={{marginBottom: 0}}>
+            <h2 style={{marginBottom: 0}} className={"login-header"}>
                 Welcome, curious person!
             </h2>
-            <h3 style={{marginBottom: 10}}>
-                Please Log In
+            <h3 style={{marginBottom: 10}} className={"login-header"}>
+                Log in!
             </h3>
             <form onSubmit={handleSubmit}>
                 <label>
@@ -87,8 +87,8 @@ const LoginPage = () => {
                     />
                 </label>
 
-                <div>
-                    <button className="button" type={"submit"}>Login</button>
+                <div className={"login-button-container"}>
+                    <button className="login-button" type={"submit"}>Login</button>
                 </div>
             </form>
         </div>

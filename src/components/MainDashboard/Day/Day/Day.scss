@@ -15,8 +15,8 @@ $noteWidth: 121px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
-    color: $accent;
+    align-items: center;
+    color: $accent-2;
     font-size: $type-sizing-4;
     padding-left: 55px;
 }
@@ -28,9 +28,8 @@ $noteWidth: 121px;
 .day-header__date {
     margin: 5px 0 25px 0;
     font-size: $type-sizing-2;
-    color: wheat;
+    color: $accent-2;
     opacity: .75;
-
 }
 
 .composition-container {

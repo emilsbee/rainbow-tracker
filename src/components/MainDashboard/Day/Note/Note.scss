@@ -1,3 +1,5 @@
+@import '../../../../styles/base/settings';
+
 // Constants
 $noteHeight: 22px;
 $noteWidth: 115px;
@@ -24,6 +26,7 @@ $noteBorderRadius: 4px;
 
     text-align: center;
 
+    color: $accent-2;
     font-weight: 300;
     font-size: 13px;
     line-height: $noteHeight;

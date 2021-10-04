@@ -18,3 +18,26 @@
     justify-content: center;
     align-items: center;
 }
+
+.login-header {
+    color: $accent-2;
+}
+
+.login-button-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.login-button {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: $accent-2;
+    font-size: $type-sizing-3;
+}
+
+.login-button:hover {
+    color: $accent;
+}

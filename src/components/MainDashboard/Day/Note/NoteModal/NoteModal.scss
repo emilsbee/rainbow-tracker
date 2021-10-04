@@ -35,7 +35,7 @@
     font-weight: 300;
     font-size: $type-sizing-2;
     background-color: $primary;
-    color: $accent;
+    color: $accent-2;
 }
 
 #note-modal-button-container {
@@ -50,7 +50,7 @@
 
 #note-modal-delete-button {
     display: inline-block;
-    color: $accent;
+    color: $accent-2;
     font-size: $type-sizing-3;
     font-weight: 300;
     margin-left: 40px;
@@ -59,4 +59,5 @@
 
 #note-modal-delete-button:hover {
     cursor: pointer;
+    color: $accent;
 }
