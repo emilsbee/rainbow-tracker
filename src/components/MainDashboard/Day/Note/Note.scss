@@ -26,7 +26,7 @@ $noteBorderRadius: 4px;
 
     text-align: center;
 
-    color: $accent-2;
+    color: darken($accent-2, 20%);
     font-weight: 300;
     font-size: 13px;
     line-height: $noteHeight;
