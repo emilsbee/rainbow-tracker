@@ -8,22 +8,23 @@ import './category-section-form.scss'
 import ActivityList from "../../../ActivityList/ActivityList";
 import {validateCategorySubmission} from "../../../../../store/categories/helpers";
 import {useStoreActions, useStoreState} from "../../../../../store/hookSetup";
-import {deleteCategory} from "../../../../../dao/settingsDao";
+import {archiveCategory, restoreCategoryType} from "../../../../../dao/settingsDao";
 
 type CategorySectionFormProps = {
     category: CategoryType,
     activityTypes: ActivityType[],
     setLoading: (loading: boolean) => void,
-    resetSelectedCategoryid: () => void
+    viewArchived:boolean
 }
 
-function CategorySectionForm({category, activityTypes, setLoading, resetSelectedCategoryid}: CategorySectionFormProps) {
+function CategorySectionForm({category, activityTypes, setLoading, viewArchived}: CategorySectionFormProps) {
     // Store state
     const userid = useStoreState(state => state.auth.uid)
 
     // Store actions
     const updateCategoryType = useStoreActions(actions => actions.settings.updateCategoryType)
-    const removeCategoryType = useStoreActions(actions => actions.settings.removeCategoryType)
+    const archiveCategoryType = useStoreActions(actions => actions.settings.archiveCategoryType)
+    const restoreCategoryTypeLocally = useStoreActions(actions => actions.settings.restoreCategoryType)
 
     // Local state
     const [colorValue, setColorValue] = React.useState(category.color)
@@ -63,11 +64,20 @@ function CategorySectionForm({category, activityTypes, setLoading, resetSelected
     /**
      * Handles delete category type.
      */
-    const handleDeleteCategory = async () => {
-        const success = await deleteCategory(userid, category.categoryid)
+    const handleArchiveCategory = async () => {
+        const success = await archiveCategory(userid, category.categoryid)
         if (success) {
-            removeCategoryType({categoryType: category})
-            resetSelectedCategoryid()
+            archiveCategoryType({categoryType: category})
+        }
+    }
+
+    /**
+     * Handle restore category type.
+     */
+    const handleRestoreCategory = async () => {
+        const success = await restoreCategoryType(userid, category.categoryid)
+        if (success) {
+            restoreCategoryTypeLocally({categoryType: category})
         }
     }
 
@@ -92,6 +102,7 @@ function CategorySectionForm({category, activityTypes, setLoading, resetSelected
             </div>
             <Section title={"Activities"}>
                 <ActivityList
+                    viewArchived={viewArchived}
                     categoryid={category.categoryid}
                     setError={setActivityError}
                     activityTypes={activityTypes}
@@ -99,7 +110,12 @@ function CategorySectionForm({category, activityTypes, setLoading, resetSelected
             </Section>
             <Section title={""}>
                 <div>
-                    <button className={"button-dlt"} onClick={handleDeleteCategory} style={{marginRight: 40}}>Archive</button>
+                    {!category.archived &&
+                        <button className={"button-dlt"} onClick={handleArchiveCategory} style={{marginRight: 40}}>Archive</button>
+                    }
+                    {category.archived &&
+                        <button className={"button-pos"} onClick={handleRestoreCategory} style={{marginRight: 40}}>Restore</button>
+                    }
                     <button className={"button-pos"} onClick={handleFormSubmit}>Save</button>
                 </div>
             </Section>

@@ -24,19 +24,20 @@ const CategoryItemPopover  = ({ onClick, handleCloseModal }:CategoryItemPopoverT
                 }}
             >
                 {categoryTypes.map((categoryType, index) => {
-
-                    return (
-                        <div
-                            className="color-square"
-                            key={categoryType.categoryid}
-                            onClick={() => onClick(categoryType.categoryid)}
-                            style={{
-                                "backgroundColor": categoryType.color,
-                                "borderTopLeftRadius": index === 0  ? '3px' : "0",
-                                "borderTopRightRadius": index === 0  ? '3px' : "0"
-                            }}
-                        />
-                    )
+                    if (!categoryType.archived) {
+                        return (
+                            <div
+                                className="color-square"
+                                key={categoryType.categoryid}
+                                onClick={() => onClick(categoryType.categoryid)}
+                                style={{
+                                    "backgroundColor": categoryType.color,
+                                    "borderTopLeftRadius": index === 0  ? '3px' : "0",
+                                    "borderTopRightRadius": index === 0  ? '3px' : "0"
+                                }}
+                            />
+                        )
+                    } else return null
                 })}
 
                 {/* The default square at the bottom*/}

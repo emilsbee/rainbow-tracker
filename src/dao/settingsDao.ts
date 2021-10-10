@@ -3,11 +3,101 @@ import {ActivityType, CategoryType} from "../store/settings/settings";
 import {history} from "../routers/AppRouter";
 
 /**
+ * Restore given activity type.
+ * @param userid
+ * @param activityid
+ */
+export const restoreActivityType = async (userid: string, activityid: string):Promise<boolean> => {
+    try {
+        let success = true
+
+        const res = await fetch(`api/user/${userid}/activity-type/restore/${activityid}`, {
+            method: "PATCH",
+            mode: "cors",
+            credentials: "include"
+        })
+
+        if (res.status === 401) {
+            history.push("/login")
+            success = false
+        } else if (!res.ok) {
+            history.push("/internalError")
+            success = false
+        }
+
+        return success
+    } catch (e) {
+        history.push("/internalError")
+        return false
+    }
+}
+
+/**
+ * Archive given activity type.
+ * @param userid
+ * @param activityid
+ */
+export const archiveActivityType = async (userid: string, activityid: string):Promise<boolean> => {
+    try {
+        let success = true
+
+        let res = await fetch(`api/user/${userid}/activity-type/${activityid}`, {
+            method: "DELETE",
+            mode: "cors",
+            credentials: "include",
+        })
+
+        if (res.status === 401) {
+            history.push("/login")
+            success = false
+        } else if (!res.ok) {
+            history.push("/internalError")
+            success = false
+        }
+
+        return success
+    } catch (e) {
+        history.push("/internalError")
+        return false
+    }
+}
+
+/**
+ * Restores a category type and its activities from being archived.
+ * @param userid
+ * @param categoryid
+ */
+export const restoreCategoryType = async (userid: string, categoryid: string):Promise<boolean> => {
+    try {
+        let success = true
+
+        let res = await fetch(`api/user/${userid}/category-type/restore/${categoryid}`, {
+            method: "PATCH",
+            mode: "cors",
+            credentials: "include"
+        })
+
+        if (res.status === 401) {
+            history.push("/login")
+            success = false
+        } else if (!res.ok) {
+            history.push("/internalError")
+            success = false
+        }
+
+        return success
+    } catch (e) {
+        history.push("/internalError")
+        return false
+    }
+}
+
+/**
  * Deletes a category type.
  * @param userid
  * @param categoryid
  */
-export const deleteCategory = async (userid:string, categoryid:string):Promise<boolean> => {
+export const archiveCategory = async (userid:string, categoryid:string):Promise<boolean> => {
     try {
         let success = true
 

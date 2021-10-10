@@ -15,6 +15,8 @@ type CategorySectionProps = {
 }
 
 function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySectionProps) {
+    // Local state
+    const [viewArchived, setViewArchived] = React.useState<boolean>(false)
     const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes.length === 0 ? "" : categoryTypes[0].categoryid)
 
     const findCategoryForForm = ():CategoryType => {
@@ -27,18 +29,13 @@ function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySec
         return {categoryid: "", userid: "", color: "", name: "", archived: false}
     }
 
-    const resetSelectedCategoryid = ():void => {
-        if (categoryTypes.length > 0) {
-            setSelectedCategoryid(categoryTypes[0].categoryid)
-        }
-    }
-
     return (
         <div id="category-section-container">
-            <SectionTitle title={"Categories"}/>
+            <SectionTitle title={"Categories"} viewArchived={viewArchived} setViewArchived={setViewArchived}/>
 
             <div id={"category-section-content-container"}>
                 <CategoryList
+                    viewArchived={viewArchived}
                     categoryTypes={categoryTypes}
                     setCategory={(categoryid) => setSelectedCategoryid(categoryid)}
                     selectedCategoryid={selectedCategoryid}
@@ -46,7 +43,7 @@ function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySec
 
                 {selectedCategoryid.length !== 0 &&
                     <CategorySectionForm
-                        resetSelectedCategoryid={resetSelectedCategoryid}
+                        viewArchived={viewArchived}
                         category={findCategoryForForm()}
                         activityTypes={activityTypes}
                         setLoading={setLoading}

@@ -12,9 +12,10 @@ type CategoryListProps = {
     categoryTypes:CategoryType[],
     setCategory: (categoryid:string) => void,
     selectedCategoryid:string
+    viewArchived:boolean
 }
 
-function CategoryList ({categoryTypes, setCategory, selectedCategoryid}:CategoryListProps) {
+function CategoryList ({categoryTypes, setCategory, selectedCategoryid, viewArchived}:CategoryListProps) {
     // Store actions
     const setCategoryTypes = useStoreActions(actions => actions.settings.setCategoryTypes)
 
@@ -57,16 +58,19 @@ function CategoryList ({categoryTypes, setCategory, selectedCategoryid}:Category
         <div id="category-section-category-list-container">
             {categoryTypes.map(categoryType => {
 
-                return (
-                    <div key={categoryType.categoryid} id={"category-section-category-list-item-container"}>
-                        <p
-                            id={`category-section-category-list-item${categoryType.categoryid === selectedCategoryid ? "-selected" : ""}`}
-                            onClick={() => setCategory(categoryType.categoryid)}
-                        >
-                            {categoryType.name}
-                        </p>
-                    </div>
-                )
+                if (viewArchived || (!viewArchived && !categoryType.archived)) {
+                    return (
+                        <div key={categoryType.categoryid} id={"category-section-category-list-item-container"}>
+                            <p
+                                id={`category-section-category-list-item${categoryType.categoryid === selectedCategoryid ? "-selected" : ""}`}
+                                onClick={() => setCategory(categoryType.categoryid)}
+                                style={{opacity: categoryType.archived ? 0.5 : 1}}
+                            >
+                                {categoryType.name}
+                            </p>
+                        </div>
+                    )
+                } else return null
             })}
 
             {newCategory &&

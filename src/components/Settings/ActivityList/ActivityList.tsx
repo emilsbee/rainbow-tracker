@@ -11,9 +11,10 @@ type ActivityListProps = {
     activityTypes:ActivityType[],
     categoryid:string,
     setError: ({message}:{message:string}) => void,
+    viewArchived: boolean
 }
 
-const ActivityList:React.FC<ActivityListProps> = ({activityTypes, categoryid, setError}) => {
+const ActivityList:React.FC<ActivityListProps> = ({activityTypes, categoryid, setError, viewArchived}) => {
     // Store actions
     const updateActivityTypes = useStoreActions(actions => actions.settings.updateActivityType)
 
@@ -36,16 +37,17 @@ const ActivityList:React.FC<ActivityListProps> = ({activityTypes, categoryid, se
         <div>
             {activityTypes.map(activityType => {
                 if (activityType.categoryid === categoryid) {
-                    return (
-                        <ActivityListItem
-                            key={activityType.activityid}
-                            activity={activityType}
-                            onChange={handleActivityChange}
-                        />
-                    )
-                } else {
-                    return null
-                }
+                    if (viewArchived || (!viewArchived && !activityType.archived)) {
+                        return (
+                            <ActivityListItem
+                                viewArchived={viewArchived}
+                                key={activityType.activityid}
+                                activity={activityType}
+                                onChange={handleActivityChange}
+                            />
+                        )
+                    } else return null
+                } else return null
             })}
         </div>
     )

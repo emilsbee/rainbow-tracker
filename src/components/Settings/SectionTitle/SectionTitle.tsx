@@ -6,13 +6,20 @@ import './section-title.scss'
 
 type SectionTitleProps = {
     title:string
+    viewArchived:boolean
+    setViewArchived: (viewArchived:boolean) => void
 }
 
-function SectionTitle ({title}:SectionTitleProps) {
+function SectionTitle ({title, viewArchived, setViewArchived}:SectionTitleProps) {
 
     return (
         <div id="settings-dashboard-section-title-container">
             {title}
+
+            <div>
+                <label className={"label"} htmlFor={"archived"}>View archived</label>
+                <input name={"archived"} type={"checkbox"} onChange={() => setViewArchived(!viewArchived)}/>
+            </div>
         </div>
     )
 }

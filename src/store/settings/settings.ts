@@ -6,6 +6,7 @@ import {DateTime} from "luxon";
 import store from "../storeSetup";
 import {history} from "../../routers/AppRouter";
 import {createCategory} from "../../dao/settingsDao";
+import {sortCategoryTypesByArchived} from "./helpers";
 
 // New ones
 export type CategoryType = {
@@ -60,12 +61,23 @@ export interface SettingsModel {
     /**
      * Removes a given category type from stores category type array.
      */
-    removeCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
+    archiveCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
+    /**
+     * Restores a category type and its activities from archived.
+     */
+    restoreCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
     /**
      * Updates an activity type's long and short.
-     * @param activityType to update with.
      */
     updateActivityType: Action<SettingsModel, {activityType:ActivityType}>,
+    /**
+     * Archives given activity type.
+     */
+    archiveActivityType: Action<SettingsModel, {activityType:ActivityType}>,
+    /**
+     * Restores given activity type.
+     */
+    restoreActivityType: Action<SettingsModel, {activityType:ActivityType}>,
     /**
      * Updates a category type's name and color.
      */
@@ -126,10 +138,38 @@ const settingsModel:SettingsModel = {
             }
         }
     }),
-    removeCategoryType: action((state, payload) => {
-       const indexToDelete = state.categoryTypes.findIndex(categType => categType.categoryid === payload.categoryType.categoryid)
-        if (indexToDelete > -1) {
-            state.categoryTypes.splice(indexToDelete, 1)
+    archiveCategoryType: action((state, payload) => {
+        // Archive category type
+        const categoryIndexToArchive = state.categoryTypes.findIndex(categType => categType.categoryid === payload.categoryType.categoryid)
+        if (categoryIndexToArchive > -1) {
+            state.categoryTypes[categoryIndexToArchive].archived = true
+        }
+
+        // Sort category types to have the unarchived ones at the top
+        state.categoryTypes = sortCategoryTypesByArchived(state.categoryTypes)
+
+        // Archive category type's activities
+        for (let i = 0; i < state.activityTypes.length; i++) {
+            if (state.activityTypes[i].categoryid === payload.categoryType.categoryid) {
+                state.activityTypes[i].archived = true
+            }
+        }
+    }),
+    restoreCategoryType: action((state, payload) => {
+        // Restore the category type
+        const categoryIndexToUpdate = state.categoryTypes.findIndex(categoryType => categoryType.categoryid === payload.categoryType.categoryid)
+        if (categoryIndexToUpdate > -1) {
+            state.categoryTypes[categoryIndexToUpdate].archived = false
+        }
+
+        // Sort category types to have the unarchived ones at the top
+        state.categoryTypes = sortCategoryTypesByArchived(state.categoryTypes)
+
+        // Restore the category type's activities
+        for (let i = 0; i < state.activityTypes.length; i++) {
+            if (state.activityTypes[i].categoryid === payload.categoryType.categoryid) {
+                state.activityTypes[i].archived = false
+            }
         }
     }),
     updateActivityType: action((state, payload) => {
@@ -139,6 +179,20 @@ const settingsModel:SettingsModel = {
                 state.activityTypes[i].short = payload.activityType.short
                 break;
             }
+        }
+    }),
+    archiveActivityType: action((state, payload) => {
+       const activityIndexToArchive = state.activityTypes.findIndex(activityType => activityType.activityid === payload.activityType.activityid)
+
+       if (activityIndexToArchive > -1) {
+           state.activityTypes[activityIndexToArchive].archived = true
+       }
+    }),
+    restoreActivityType: action((state, payload) => {
+        const activityIndexToRestore = state.activityTypes.findIndex(activityType => activityType.activityid === payload.activityType.activityid)
+
+        if (activityIndexToRestore > -1) {
+            state.activityTypes[activityIndexToRestore].archived = false
         }
     }),
     updateCategoryType: thunk(async (actions, payload) => {
