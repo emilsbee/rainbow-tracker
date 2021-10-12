@@ -59,6 +59,10 @@ export interface SettingsModel {
      */
     setCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
     /**
+     * Updates a category type's name and color.
+     */
+    updateCategoryType: Thunk<SettingsModel, {categoryType:CategoryType}>,
+    /**
      * Removes a given category type from stores category type array.
      */
     archiveCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
@@ -66,6 +70,10 @@ export interface SettingsModel {
      * Restores a category type and its activities from archived.
      */
     restoreCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
+    /**
+     * Creates a given activity type.
+     */
+    createActivityType: Action<SettingsModel, { activityType: ActivityType }>,
     /**
      * Updates an activity type's long and short.
      */
@@ -78,11 +86,6 @@ export interface SettingsModel {
      * Restores given activity type.
      */
     restoreActivityType: Action<SettingsModel, {activityType:ActivityType}>,
-    /**
-     * Updates a category type's name and color.
-     */
-    updateCategoryType: Thunk<SettingsModel, {categoryType:CategoryType}>,
-
     /**
      * Date that should be displayed.
      */
@@ -171,6 +174,9 @@ const settingsModel:SettingsModel = {
                 state.activityTypes[i].archived = false
             }
         }
+    }),
+    createActivityType: action((state, payload) => {
+        state.activityTypes[state.activityTypes.length] = payload.activityType
     }),
     updateActivityType: action((state, payload) => {
         for (let i = 0; i < state.activityTypes.length; i++) {

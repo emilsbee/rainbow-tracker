@@ -3,6 +3,68 @@ import {ActivityType, CategoryType} from "../store/settings/settings";
 import {history} from "../routers/AppRouter";
 
 /**
+ * Update activity type.
+ * @param userid
+ * @param activityType
+ */
+export const updateActivityType = async (userid: string, activityType: ActivityType):Promise<ActivityType> => {
+    try {
+        const res = await fetch(`api/user/${userid}/activity-type/${activityType.activityid}`, {
+            method: "PATCH",
+            mode: "cors",
+            credentials: "include",
+            headers: new Headers({'content-type': 'application/json'}),
+            body: JSON.stringify(activityType)
+        })
+
+        if (res.status === 401) {
+            history.push("/login")
+        } else if (!res.ok) {
+            history.push("/internalError")
+        }
+
+        return await res.json() as ActivityType
+    } catch (e) {
+        history.push("/internalError")
+        return {} as ActivityType
+    }
+}
+/**
+ * Creates a given activity type.
+ * @param userid
+ * @param long
+ * @param short
+ * @param categoryid
+ */
+export const createActivityType = async (userid: string , long: string, short: string, categoryid: string):Promise<ActivityType> => {
+    try {
+        const res = await fetch(`api/user/${userid}/activity-types`, {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            headers: new Headers({'content-type': 'application/json'}),
+            body: JSON.stringify({
+                long,
+                short,
+                categoryid
+            })
+        })
+
+        if (res.status === 401) {
+            history.push("/login")
+        } else if (!res.ok) {
+            history.push("/internalError")
+        }
+
+        return await res.json() as unknown as ActivityType
+
+    } catch (e) {
+        history.push("/internalError")
+        return {} as ActivityType
+    }
+}
+
+/**
  * Restore given activity type.
  * @param userid
  * @param activityid

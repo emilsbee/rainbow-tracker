@@ -12,6 +12,8 @@ import PrivateRoute from './PrivateRoute'
 import PublicRoute from './PublicRoute'
 import BackendError from "../components/BackendErrorPage/BackendError";
 import AnalyticsDashboardWrapper from "../components/Analytics/AnalyticsDashboardWrapper/AnalyticsDashboardWrapper";
+import EditActivityForm from "../components/Settings/EditActivityForm/EditActivityForm";
+
 
 
 export const history = createBrowserHistory()

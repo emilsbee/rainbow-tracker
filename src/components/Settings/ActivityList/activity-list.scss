@@ -1,0 +1,61 @@
+@import '../../../styles/base/settings';
+
+.activity-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.activity-list-add-icon-container {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  height: 30px;
+  margin-right: 40px;
+}
+
+.activity-list-add-icon {
+  margin-top: 18px;
+  fill: white;
+  height: 15px;
+  width: 15px;
+}
+
+.activity-list-add-icon:hover {
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+}
+
+.activity-list-input-container {
+  margin-bottom: 15px;
+}
+
+.activity-list-long-input {
+  background-color: $primary;
+  border: 1px solid $accent;
+  border-radius: 3px;
+
+  outline-width: 0;
+  caret-color: $accent-2;
+  color: $accent-2;
+  font-size: $type-sizing-4;
+  width: 255px;
+  margin-right: 5px;
+  text-align: start;
+}
+
+.activity-list-short-input {
+  background-color: $primary;
+  border: 1px solid $accent;
+  border-radius: 3px;
+  margin-left: 5px;
+  outline-width: 0;
+  caret-color: $accent-2;
+  color: $accent-2;
+  font-size: $type-sizing-4;
+  width: 35px;
+}

@@ -34,6 +34,11 @@
   width: 35px;
 }
 
+.activity-list-item__icon-container {
+  height: 18px;
+  width: 18px;
+}
+
 .activity-list-item__undo-icon {
   fill: $accent;
   height: 15px;
@@ -46,8 +51,8 @@
 
 .activity-list-item__archive-icon {
   fill: $accent;
-  height: 15px;
-  width: 15px;
+  height: 12px;
+  width: 12px;
 }
 
 .activity-list-item__archive-icon:hover {

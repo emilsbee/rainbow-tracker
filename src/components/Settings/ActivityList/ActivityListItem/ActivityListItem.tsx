@@ -87,6 +87,7 @@ const ActivityListItem:React.FC<ActivityListItemProps> = ({activity, onChange, v
                     style={{opacity: activity.archived ? 0.5 : 1}}
                 />
             </div>
+            <div className={"activity-list-item__icon-container"}>
             { activity.archived ?
                 <Restore
                     className={"activity-list-item__undo-icon"}
@@ -104,6 +105,7 @@ const ActivityListItem:React.FC<ActivityListItemProps> = ({activity, onChange, v
                     }}
                 />
             }
+            </div>
         </div>
     )
 }
