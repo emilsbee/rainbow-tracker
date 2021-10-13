@@ -1,5 +1,6 @@
 // Internal imports
 import {history} from "../routers/AppRouter";
+import {ActivityType, CategoryType} from "../store/settings/settings";
 
 export type TotalPerDay = {
     weekDay: number
@@ -42,9 +43,11 @@ export const getTotalPerDay = async (userid: string, weekNr: number, year: numbe
     }
 }
 
+type TotalPerWeekActivityType = ActivityType & { count: number }
+type TotalPerWeekCategoryType = CategoryType & {count: number }
 export type TotalPerWeek = {
-    categoryTypes: {categoryid: string, count: number, name: string, color: string}[],
-    activityTypes: {activityid: string, count: number, categoryid: string, long: string, short: string}[]
+    categoryTypes: TotalPerWeekCategoryType[],
+    activityTypes: TotalPerWeekActivityType[]
 }
 /**
  * Fetches the total per week which basically is the amount of time spent for each category and

@@ -30,7 +30,7 @@ const TotalPerWeekActivitiesTable = ({totalPerWeek, pickedCategoryid, color}: To
                                 <div
                                     className={"total-per-week-table__category-color"}
                                     style={{
-                                        backgroundColor: color
+                                        backgroundColor: activityType.long === "Empty" ? "white" : color
                                     }}
                                 />
                                 {activityType.long}
