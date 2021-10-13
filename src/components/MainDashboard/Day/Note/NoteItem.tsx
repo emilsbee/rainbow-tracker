@@ -23,7 +23,7 @@ const NoteComponent = ({note, max, min, onDragStart, onDragEnter, onClick, onMou
     if (max === min) {
         return (
         <div
-            id="note-container"
+            className="note-container"
             onMouseOver={() => setHoverIndex({timeHoverIndex: min-1})}
             onClick={() => onClick(note)}
             draggable={true}
@@ -31,17 +31,17 @@ const NoteComponent = ({note, max, min, onDragStart, onDragEnter, onClick, onMou
             // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
             onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
         >
-                {note.note}
+            {note.note}
         </div>
         )
     }
     return (
         <div
             onMouseOver={() => setHoverIndex({timeHoverIndex: min-1})}
-            id="stack-container"
+            className="stack-container"
             style={{ 
                 height: getStackHeight(max, min, CONSTANTS.NOTE_HEIGHT, CONSTANTS.NOTE_MARGIN_BOTTOM),
-                WebkitLineClamp: max-min+1
+                // WebkitLineClamp: max-min+1
             }}
             onClick={() => onClick(note)}
             onMouseDown={(e) => onMouseDown(e, note)}
@@ -50,7 +50,7 @@ const NoteComponent = ({note, max, min, onDragStart, onDragEnter, onClick, onMou
             // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
             onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
         >
-                {note.note}
+            {note.note}
         </div>
     );
 }
