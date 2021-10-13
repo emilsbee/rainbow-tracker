@@ -4,29 +4,59 @@ import { Route, Redirect } from 'react-router-dom'
 
 // Internal imports
 import NavBar from "../components/BasicComponents/NavBar/NavBar";
-import {useStoreState} from "../store/hookSetup";
+import {useStoreActions, useStoreState} from "../store/hookSetup";
+import {checkIfLoggedIn} from "../store/auth/helpers";
+import {ReactComponent as Loader} from "../svgIcons/spinner.svg";
 
 /**
- * Private routes require uid to not be an empty string thereby
- * assuming that the user has authenticated. If the user is trying to
- * access a private route while not authenticated, they are redirected
- * back to login screen.
- * @param props The component to render and current path.
+ * useEffect hook checks whether the current user is logged in. See
+ * docs/check-login-status.
  */
 const PrivateRoute = (props: {path: string, component: any }) => {
     // Store state
+    const setuid = useStoreActions(actions => actions.auth.setuid)
     const uid = useStoreState(state => state.auth.uid)
 
-    const isAuthenticated = !!uid
+    // Local state
+    const [loading, setLoading] = React.useState(true)
+
     const Component = props.component
 
+    React.useEffect(() => {
+
+        (async function () {
+            const userid = window.localStorage.getItem("userid")
+
+            if (userid) {
+                const loggedIn: boolean = await checkIfLoggedIn(userid)
+
+                if (loggedIn) {
+                    setuid({userid})
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            } else {
+                setLoading(false)
+            }
+        })()
+
+    }, [uid, checkIfLoggedIn, setLoading])
+
+    if (loading) {
+        return (
+            <div className="login-loading">
+                <Loader style={{height: '6rem', width: '6rem'}}/>
+            </div>
+        )
+    }
 
     return (
         <>
-            {uid !== "" && <NavBar />}
             <Route path={props.path} component={() => (
-                isAuthenticated ? (
+                !!uid ? (
                     <>
+                        <NavBar />
                         <Component/>
                     </>
                 ) : (

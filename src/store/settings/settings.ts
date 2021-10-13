@@ -223,10 +223,10 @@ const settingsModel:SettingsModel = {
                 const categoryType: CategoryType[] = await res.json()
                 actions.setCategoryType({categoryType: categoryType[0]})
             } else {
-                history.push("/internalError")
+                history.push("/internal-error")
             }
         } catch (e) {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
     }),
 

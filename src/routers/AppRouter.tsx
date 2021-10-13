@@ -14,8 +14,6 @@ import BackendError from "../components/BackendErrorPage/BackendError";
 import AnalyticsDashboardWrapper from "../components/Analytics/AnalyticsDashboardWrapper/AnalyticsDashboardWrapper";
 import EditActivityForm from "../components/Settings/EditActivityForm/EditActivityForm";
 
-
-
 export const history = createBrowserHistory()
 
 /**
@@ -27,8 +25,8 @@ const AppRouter = () => {
         <Router history={history}>
                 <Switch>
                         <PublicRoute path="/" component={LoginPage} exact={true}/>
-                        <PublicRoute path={"/internalError"} component={BackendError} exact={false}/>
-                        <PrivateRoute path={"/analytics"} component={AnalyticsDashboardWrapper}/>
+                        <PublicRoute path="/internal-error" component={BackendError} exact={false}/>
+                        <PrivateRoute path="/analytics" component={AnalyticsDashboardWrapper}/>
                         <PrivateRoute path="/dashboard" component={MainDashboardWrapper}/>
                         <PrivateRoute path="/settings" component={SettingsDashboardWrapper}/>
                         <Route component={NotFound}/>

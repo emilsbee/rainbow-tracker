@@ -45,11 +45,11 @@ const authModel:AuthModel = {
                 actions.setuid({userid: user[0].userid})
             } else {
                 if (res.status !== 401) {
-                    history.push("/internalError")
+                    history.push("/internal-error")
                 }
             }
         } catch (e) {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
     }),
 
@@ -69,10 +69,10 @@ const authModel:AuthModel = {
                 window.localStorage.removeItem("userid")
                 actions.setuid({userid: ""})
             } else {
-                history.push("/internalError")
+                history.push("/internal-error")
             }
         } catch (e) {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
     }),
 }

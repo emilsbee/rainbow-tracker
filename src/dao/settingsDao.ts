@@ -20,12 +20,12 @@ export const updateActivityType = async (userid: string, activityType: ActivityT
         if (res.status === 401) {
             history.push("/login")
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
 
         return await res.json() as ActivityType
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return {} as ActivityType
     }
 }
@@ -53,13 +53,13 @@ export const createActivityType = async (userid: string , long: string, short: s
         if (res.status === 401) {
             history.push("/login")
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
 
         return await res.json() as unknown as ActivityType
 
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return {} as ActivityType
     }
 }
@@ -83,13 +83,13 @@ export const restoreActivityType = async (userid: string, activityid: string):Pr
             history.push("/login")
             success = false
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
             success = false
         }
 
         return success
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return false
     }
 }
@@ -113,13 +113,13 @@ export const archiveActivityType = async (userid: string, activityid: string):Pr
             history.push("/login")
             success = false
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
             success = false
         }
 
         return success
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return false
     }
 }
@@ -143,13 +143,13 @@ export const restoreCategoryType = async (userid: string, categoryid: string):Pr
             history.push("/login")
             success = false
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
             success = false
         }
 
         return success
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return false
     }
 }
@@ -173,13 +173,13 @@ export const archiveCategory = async (userid:string, categoryid:string):Promise<
             history.push("/login")
             success = false
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
             success = false
         }
 
         return success
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return false
     }
 }
@@ -207,12 +207,12 @@ export const createCategory = async (userid:string, name:string, color:string):P
         if (res.status === 401) {
             history.push("/login")
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
 
         return await res.json() as unknown as CategoryType
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return {} as CategoryType
     }
 }
@@ -232,12 +232,12 @@ export const getCategoryTypesFull = async (userid: string):Promise<{activityType
         if (res.status === 401) {
             history.push("/login")
         } else if (!res.ok) {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
 
         return  await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return {categoryTypes: [], activityTypes: []}
     }
 }

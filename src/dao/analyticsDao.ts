@@ -29,7 +29,7 @@ export const getTotalPerDay = async (userid: string, weekNr: number, year: numbe
             totalPerDay = await res.json()
         } else {
             if (res.status !== 404) {
-                history.push("/internalError")
+                history.push("/internal-error")
             }
 
             totalPerDay = []
@@ -37,7 +37,7 @@ export const getTotalPerDay = async (userid: string, weekNr: number, year: numbe
 
         return totalPerDay
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return []
     }
 }
@@ -67,7 +67,7 @@ export const getTotalPerWeek = async (userid: string, weekNr: number, year: numb
             totalPerWeek = await res.json()
         } else {
             if (res.status !== 404) {
-                history.push("/internalError")
+                history.push("/internal-error")
             }
 
             totalPerWeek = {categoryTypes: [], activityTypes: []}
@@ -75,7 +75,7 @@ export const getTotalPerWeek = async (userid: string, weekNr: number, year: numb
 
         return totalPerWeek
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return {categoryTypes: [], activityTypes: []}
     }
 }
@@ -97,12 +97,12 @@ export const getAvailableDates = async (userid: string): Promise<AvailableDate[]
         if (res.ok) {
             availableDates = await res.json()
         } else {
-            history.push("/internalError")
+            history.push("/internal-error")
         }
 
         return availableDates
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return []
     }
 }

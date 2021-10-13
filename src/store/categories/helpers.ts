@@ -20,13 +20,13 @@ export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, yea
             return await res.json()
         } else {
             if (res.status === 400) {
-                history.push("/internalError")
+                history.push("/internal-error")
             }
 
             return await createWeekByWeekNrAndYear(userid, weekNr, year)
         }
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return await createWeekByWeekNrAndYear(userid, weekNr, year)
     }
 }
@@ -53,11 +53,11 @@ export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, 
         if (res.ok) {
             return await res.json()
         } else {
-            history.push("/internalError")
+            history.push("/internal-error")
             return []
         }
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return []
     }
 }

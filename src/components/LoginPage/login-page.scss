@@ -23,10 +23,15 @@
     margin-bottom: 10px;
 }
 
+.login-input-label {
+    margin-bottom: 5px;
+}
+
 .login-input {
     width: 300px;
     height: 30px;
     border-radius: 8px;
+    margin-bottom: 20px;
 
     font-size: $type-sizing-3;
 }

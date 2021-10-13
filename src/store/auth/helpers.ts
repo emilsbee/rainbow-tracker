@@ -19,14 +19,14 @@ export const checkIfLoggedIn = async (userid: string):Promise<boolean> => {
             return res.ok
         } else {
             if (res.status !== 401) {
-                history.push("/internalError")
+                history.push("/internal-error")
             }
 
             return false
         }
 
     } catch (e) {
-        history.push("/internalError")
+        history.push("/internal-error")
         return false
     }
 }

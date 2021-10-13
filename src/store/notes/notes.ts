@@ -88,10 +88,10 @@ const notesModel:NotesModel = {
                     })
 
                     if (!res.ok) {
-                        history.push("/internalError")
+                        history.push("/internal-error")
                     }
                 } catch (e) {
-                    history.push("/internalError")
+                    history.push("/internal-error")
                 }
             }, 
             200
