@@ -1,15 +1,14 @@
 @import '../../styles/base/settings';
 
-#login-loading {
+.login-loading {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    //background-color: $primary;
     height: 100vh;
 }
 
-#login-container {
+.login-container {
     background-color: $primary;
     height: 100vh;
     width: 100vw;
@@ -21,6 +20,19 @@
 
 .login-header {
     color: $accent-2;
+    margin-bottom: 10px;
+}
+
+.login-input {
+    width: 300px;
+    height: 30px;
+    border-radius: 8px;
+
+    font-size: $type-sizing-3;
+}
+
+.login-input:focus {
+    outline: 1px solid $accent;
 }
 
 .login-button-container {

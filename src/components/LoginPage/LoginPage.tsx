@@ -6,7 +6,6 @@ import './login-page.scss'
 import {useStoreActions} from "../../store/hookSetup";
 import {ReactComponent as Loader} from "../../svgIcons/spinner.svg";
 import {checkIfLoggedIn} from "../../store/auth/helpers";
-import {history} from "../../routers/AppRouter";
 
 
 const LoginPage = () => {
@@ -51,7 +50,7 @@ const LoginPage = () => {
 
     if (loading) {
         return (
-            <div id="login-loading">
+            <div className="login-loading">
                 <Loader style={{height: '6rem', width: '6rem'}}/>
             </div>
         )
@@ -59,13 +58,10 @@ const LoginPage = () => {
 
 
     return (
-        <div id="login-container">
-            <h2 style={{marginBottom: 0}} className={"login-header"}>
+        <section className="login-container">
+            <h2 className={"login-header"}>
                 Welcome, curious person!
             </h2>
-            <h3 style={{marginBottom: 10}} className={"login-header"}>
-                Log in!
-            </h3>
             <form onSubmit={handleSubmit}>
                 <label>
                     <p style={{marginBottom: "5px"}}>Email</p>
@@ -74,6 +70,7 @@ const LoginPage = () => {
                         type={"text"}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="login-input"
                     />
                 </label>
 
@@ -84,14 +81,15 @@ const LoginPage = () => {
                         type={"password"}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        className="login-input"
                     />
                 </label>
 
-                <div className={"login-button-container"}>
+                <section className={"login-button-container"}>
                     <button className="login-button" type={"submit"}>Login</button>
-                </div>
+                </section>
             </form>
-        </div>
+        </section>
     )
 }
 
