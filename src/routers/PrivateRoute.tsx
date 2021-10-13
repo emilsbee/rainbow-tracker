@@ -53,10 +53,10 @@ const PrivateRoute = (props: {path: string, component: any }) => {
 
     return (
         <>
+            {!!uid && <NavBar/>}
             <Route path={props.path} component={() => (
                 !!uid ? (
                     <>
-                        <NavBar />
                         <Component/>
                     </>
                 ) : (
