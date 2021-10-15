@@ -53,7 +53,6 @@ const NavBar = () => {
                             fill: currentLocation === '/dashboard' ? "#c48852" : hovering === '/dashboard' ? "#c48852" : "white",
                             marginTop: 20,
                         }}
-                        onClick={() => console.log("runs")}
                     />
                 </NavLink>
 

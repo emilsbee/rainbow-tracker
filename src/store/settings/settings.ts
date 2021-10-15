@@ -54,6 +54,7 @@ export interface SettingsModel {
      * @param categorySettings to update with.
      */
     setCategoryTypes: Action<SettingsModel, { categoryTypes:CategoryType[]}>,
+    fetchCategoryTypesFull: Thunk<SettingsModel, {userid: string}>,
     /**
      * Updates specific category type's name and color using the given category type.
      */
@@ -96,19 +97,6 @@ export interface SettingsModel {
      */
     setDate: Action<SettingsModel, {date:Date}>,
     /**
-     * Sets the previous weeks date given some week and year.
-     */
-    previousWeek:Action<SettingsModel, {date:Date}>,
-    /**
-     * Sets the next weeks date given some week and year.
-     */
-    nextWeek: Action<SettingsModel, {date:Date}>,
-    /**
-     * Sets the date to the current real life week.
-     */
-    toCurrentWeek: Action<SettingsModel>
-
-    /**
      * Indicates whether user has seen the feature popup.
      */
     featurePopupViewed: boolean
@@ -131,6 +119,23 @@ const settingsModel:SettingsModel = {
     }),
     setCategoryTypes: action((state, payload) => {
         state.categoryTypes = payload.categoryTypes
+    }),
+    fetchCategoryTypesFull: thunk(async (actions, payload) => {
+        let res = await fetch(`api/user/${payload.userid}/category-types-full`, {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+        })
+
+        if (res.ok) {
+            const categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]} = await res.json()
+            actions.setActivityTypes({activityTypes: categoryTypesFull.activityTypes})
+            actions.setCategoryTypes({categoryTypes: categoryTypesFull.categoryTypes})
+        } else if (res.status === 401) {
+            history.push("/login")
+        } else {
+            throw new Error("Could not fetch category types full")
+        }
     }),
     setCategoryType: action((state, payload) => {
         for (let i = 0; i < state.categoryTypes.length; i++) {
@@ -237,47 +242,7 @@ const settingsModel:SettingsModel = {
     setDate: action((state, payload) => {
         state.currentDate = payload.date
     }),
-    previousWeek: action((state, payload) => {
-        const currentWeekNr = payload.date.weekNr
-        const currentYear = payload.date.year
-
-        let newWeekNr, newYear;
-
-        if (currentWeekNr === 1) { // If current week is first week of the year
-            newYear = currentYear - 1
-            newWeekNr = DateTime.fromObject({weekYear:newYear}).weeksInWeekYear
-        } else {
-            newWeekNr = currentWeekNr -1
-            newYear = currentYear
-        }
-
-        state.currentDate = {weekNr: newWeekNr, year: newYear}
-    }),
-    nextWeek: action((state, payload) => {
-        const currentWeekNr = payload.date.weekNr
-        const currentYear = payload.date.year
-        const weeksInCurrentYear = DateTime.fromObject({weekYear:currentYear}).weeksInWeekYear
-
-        let newWeekNr, newYear
-
-        if (weeksInCurrentYear === currentWeekNr) { // If the current week is the last week of the year
-            newWeekNr = 1
-            newYear= currentYear + 1
-        } else {
-            newWeekNr = currentWeekNr + 1
-            newYear = currentYear
-        }
-
-        state.currentDate = {weekNr: newWeekNr, year: newYear}
-    }),
-    toCurrentWeek: action((state) => {
-        state.currentDate = {
-            weekNr: DateTime.now().weekNumber,
-            year: DateTime.now().startOf("week").year
-        }
-    }),
-
-    featurePopupViewed: true,
+    featurePopupViewed: false,
     setFeaturePopupViewed: action((state, payload) => {
         state.featurePopupViewed = payload.featurePopupViewed
     })

@@ -1,13 +1,12 @@
 // External imports
-import React, {useEffect} from "react"
+import React from "react"
 
 // Internal imports
 import "./total-per-week-activities-wrapper.scss"
-import {TotalPerWeek} from "../../../../../dao/analyticsDao";
 import TotalPerWeekActivitiesPieChart from "../TotalPerWeekActivitiesPieChart/TotalPerWeekActivitiesPieChart";
 import Dropdown from "../../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
 import TotalPerWeekActivitiesTable from "../TotalPerWeekActivitiesTable/TotalPerWeekActivitiesTable";
-import {useStoreState} from "../../../../../store/hookSetup";
+import {TotalPerWeek} from "../../../../../store/analytics";
 
 type TotalPerWeekActivitiesWrapperProps = {
     totalPerWeek: TotalPerWeek

@@ -2,72 +2,84 @@
 import React from "react"
 
 // Internal imports
-import {
-    AvailableDate,
-    getAvailableDates,
-    getTotalPerDay,
-    TotalPerDay,
-} from "../../../../dao/analyticsDao";
 import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
 import TotalPerDayDashboard from "../TotalPerDayDashboard/TotalPerDayDashboard";
-import {ActivityType, CategoryType} from "../../../../store/settings/settings";
-import {getCategoryTypesFull} from "../../../../dao/settingsDao";
 import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
 import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
 import {formatWeeks, getWeekDropdownWeeks} from "./helpers";
+import {useKeyPress} from "../../../../hooks/useKeyPress";
+import {isNewDateAvailable} from "../../TotalPerWeek/TotalPerWeekWrapper/helpers";
+import {DateTime} from "luxon";
 
 const TotalPerDayWrapper = () => {
     // Store actions
-    const setCategoryTypes = useStoreActions(actions => actions.settings.setCategoryTypes)
-    const setActivityTypes = useStoreActions(actions => actions.settings.setActivityTypes)
     const setDate = useStoreActions(actions => actions.settings.setDate)
+    const fetchTotalPerDay = useStoreActions(actions => actions.analytics.fetchTotalPerDay)
+    const fetchAvailableDates = useStoreActions(actions => actions.analytics.fetchAvailableDates)
+    const fetchCategoryTypesFull = useStoreActions(actions => actions.settings.fetchCategoryTypesFull)
 
     // Store state
     const userid = useStoreState(state => state.auth.uid)
     const currentDate = useStoreState(state => state.settings.currentDate)
+    const availableDates = useStoreState(state => state.analytics.availableDates)
+    const totalPerDay = useStoreState(state => state.analytics.totalPerDay)
 
     // Local state
-    const [totalPerDay, setTotalPerDay] = React.useState<TotalPerDay[]>([])
-    const [availableDates, setAvailableDates] = React.useState<AvailableDate[]>([])
     const [loading, setLoading] = React.useState(true)
 
+    // Document key press listeners
+    const arrowLeftPress = useKeyPress("ArrowLeft")
+    const arrowRightPress = useKeyPress("ArrowRight")
+    const cPress = useKeyPress("c")
+
+    React.useEffect(() => {
+
+        (async function () {
+            if (arrowLeftPress) {
+                if (isNewDateAvailable(availableDates, currentDate.year, currentDate.weekNr-1)) {
+                    await changeWeek(currentDate.weekNr-1, currentDate.year)
+                }
+            } else if (arrowRightPress) {
+                if (isNewDateAvailable(availableDates, currentDate.year, currentDate.weekNr+1)) {
+                    await changeWeek(currentDate.weekNr+1, currentDate.year)
+                }
+            } else if (cPress) {
+                await changeWeek(DateTime.now().weekNumber, DateTime.now().startOf("week").year)
+            }
+        })()
+
+    }, [arrowLeftPress, arrowRightPress, cPress])
 
     React.useEffect(() => {
         (async function () {
             setLoading(true)
 
-            const categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]} = await getCategoryTypesFull(userid)
-            setCategoryTypes({categoryTypes: categoryTypesFull.categoryTypes})
-            setActivityTypes({activityTypes: categoryTypesFull.activityTypes})
-
-            const fetchedTotalPerDay = await getTotalPerDay(userid, currentDate.weekNr, currentDate.year)
-            setTotalPerDay(fetchedTotalPerDay)
-
-            const fetchedAvailableDates = await getAvailableDates(userid)
-            setAvailableDates(fetchedAvailableDates)
-
-            setLoading(false)
+            try {
+                await fetchCategoryTypesFull({userid})
+                await fetchTotalPerDay({userid, weekNr: currentDate.weekNr, year: currentDate.year})
+                await fetchAvailableDates({userid})
+            } catch (e: any) {
+                console.log(e)
+            } finally {
+                setLoading(false)
+            }
         })()
     }, [])
 
-    /**
-     * Fetches the total per day for the new week. Also,
-     * updates the new week in the store current date object.
-     * @param weekNr to use for new total per day.
-     */
-    const changeWeek = async (weekNr: number): Promise<void> => {
-        let fetchedTotalPerDay = await getTotalPerDay(userid, weekNr, currentDate.year)
-        setTotalPerDay(fetchedTotalPerDay)
-        setDate({date: {weekNr, year: currentDate.year}})
+
+    const changeWeek = async (weekNr: number, year: number): Promise<void> => {
+        setLoading(true)
+
+        try {
+            await fetchTotalPerDay({userid, weekNr, year})
+        } catch (e: any) {
+            console.log(e)
+        } finally {
+            setLoading(false)
+            setDate({date: {weekNr, year}})
+        }
     }
 
-    /**
-     * Fetches the total per week for the new year. Also,
-     * updates the new year in the store current date object.
-     * Important to note that the week chosen for the new year
-     * is the latest one for it.
-     * @param year to use for new total per week.
-     */
     const changeYear =  async (year: number): Promise<void> => {
         let weekNr: number = -1
 
@@ -80,10 +92,16 @@ const TotalPerDayWrapper = () => {
         }
 
         if (weekNr !== -1) {
-            let fetchedTotalPerDay = await getTotalPerDay(userid, weekNr, year)
-            setTotalPerDay(fetchedTotalPerDay)
+            setLoading(true)
 
-            setDate({date: {year, weekNr}})
+            try {
+                await fetchTotalPerDay({userid, weekNr, year})
+            } catch (e: any) {
+                console.log(e)
+            } finally {
+                setLoading(false)
+                setDate({date: {year, weekNr}})
+            }
         }
     }
 
@@ -99,7 +117,7 @@ const TotalPerDayWrapper = () => {
                 <Dropdown
                     label={"Week"}
                     options={getWeekDropdownWeeks(availableDates, currentDate.year)}
-                    onSelect={data => changeWeek(parseInt(data.toString()))}
+                    onSelect={data => changeWeek(parseInt(data.toString()), currentDate.year)}
                     selected={currentDate.weekNr}
                     text={formatWeeks(getWeekDropdownWeeks(availableDates, currentDate.year), currentDate.year)}
                 />

@@ -4,10 +4,14 @@ import React from "react"
 // Internal imports
 import "./no-analytics-banner.scss"
 
-const NoAnalyticsBanner = () => (
-    <div className={"no-analytics-banner"}>
-        You have no analytics for this week.
-    </div>
+type NoAnalyticsBannerProps = {
+    message: string
+}
+
+const NoAnalyticsBanner:React.FC<NoAnalyticsBannerProps> = ({message}) => (
+    <section className={"no-analytics-banner"}>
+        {message}
+    </section>
 )
 
 export default NoAnalyticsBanner

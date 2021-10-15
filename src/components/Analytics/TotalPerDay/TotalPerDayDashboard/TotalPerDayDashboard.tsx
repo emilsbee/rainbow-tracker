@@ -3,8 +3,8 @@ import React from "react"
 
 // Internal imports
 import {ReactComponent as Loader} from "../../../../svgIcons/spinner.svg";
-import {TotalPerDay} from "../../../../dao/analyticsDao";
 import TotalPerDayCategoriesChart from "../TotalPerDayCategoriesChart/TotalPerDayCategoriesChart";
+import {TotalPerDay} from "../../../../store/analytics";
 
 type TotalPerDayDashboardProps = {
     loading: boolean,

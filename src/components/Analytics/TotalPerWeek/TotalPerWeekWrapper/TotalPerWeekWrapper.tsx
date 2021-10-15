@@ -3,58 +3,84 @@ import React from "react"
 
 // Internal imports
 import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
-import {AvailableDate, getAvailableDates, getTotalPerWeek, TotalPerWeek} from "../../../../dao/analyticsDao";
 import TotalPerWeekDashboard from "../TotalPerWeekDashboard/TotalPerWeekDashboard";
 import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
 import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
-import {DateTime} from "luxon";
 import {formatWeeks, getWeekDropdownWeeks} from "../../TotalPerDay/TotalPerDayWrapper/helpers";
+import {useKeyPress} from "../../../../hooks/useKeyPress";
+import {isNewDateAvailable} from "./helpers";
+import NoAnalyticsBanner from "../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner";
+import {DateTime} from "luxon";
 
 const TotalPerWeekWrapper = () => {
     // Store state
     const userid = useStoreState(state => state.auth.uid)
     const currentDate = useStoreState(state => state.settings.currentDate)
+    const availableDates = useStoreState(state => state.analytics.availableDates)
 
     // Store actions
     const setDate = useStoreActions(actions => actions.settings.setDate)
+    const fetchTotalPerWeek = useStoreActions(actions => actions.analytics.fetchTotalPerWeek)
+    const fetchAvailableDates = useStoreActions(actions => actions.analytics.fetchAvailableDates)
 
     // Local state
-    const [totalPerWeek, setTotalPerWeek] = React.useState<TotalPerWeek>({categoryTypes: [], activityTypes: []})
-    const [availableDates, setAvailableDates] = React.useState<AvailableDate[]>([])
     const [loading, setLoading] = React.useState(true)
+    const [error, setError] = React.useState<string | null>(null)
+
+    // Document key press listeners
+    const arrowLeftPress = useKeyPress("ArrowLeft")
+    const arrowRightPress = useKeyPress("ArrowRight")
+    const cPress = useKeyPress("c")
+
+
+    React.useEffect(() => {
+
+        (async function () {
+            if (arrowLeftPress) {
+                if (isNewDateAvailable(availableDates, currentDate.year, currentDate.weekNr-1)) {
+                    await changeWeek(currentDate.weekNr-1, currentDate.year)
+                }
+            } else if (arrowRightPress) {
+                if (isNewDateAvailable(availableDates, currentDate.year, currentDate.weekNr+1)) {
+                    await changeWeek(currentDate.weekNr+1, currentDate.year)
+                }
+            } else if (cPress) {
+                await changeWeek(DateTime.now().weekNumber, DateTime.now().startOf("week").year)
+            }
+        })()
+
+    }, [arrowLeftPress, arrowRightPress, cPress])
 
     React.useEffect(() => {
         (async function () {
             setLoading(true)
 
-            const fetchedTotalPerWeek = await getTotalPerWeek(userid, currentDate.weekNr, currentDate.year)
-            setTotalPerWeek(fetchedTotalPerWeek)
-
-            const fetchedAvailableDates = await getAvailableDates(userid)
-            setAvailableDates(fetchedAvailableDates)
-
-            setLoading(false)
+            try {
+                await fetchTotalPerWeek({userid, weekNr: currentDate.weekNr, year: currentDate.year})
+                await fetchAvailableDates({userid})
+                setError("")
+            } catch (e: any) {
+                setError(e.message)
+            } finally {
+                setLoading(false)
+            }
         })()
     }, [])
 
-    /**
-     * Fetches the total per week for the new week. Also,
-     * updates the new week in the store current date object.
-     * @param weekNr to use for new total per week.
-     */
-    const changeWeek = async (weekNr: number): Promise<void> => {
-        let fetchedTotalPerWeek = await getTotalPerWeek(userid, weekNr, currentDate.year)
-        setTotalPerWeek(fetchedTotalPerWeek)
-        setDate({date: {weekNr, year: currentDate.year}})
+    const changeWeek = async (weekNr: number, year: number): Promise<void> => {
+        setLoading(true)
+
+        try {
+            await fetchTotalPerWeek({userid, weekNr, year})
+            setError("")
+        } catch (e: any) {
+            setError(e.message)
+        } finally {
+            setLoading(false)
+            setDate({date: {weekNr, year}})
+        }
     }
 
-    /**
-     * Fetches the total per week for the new year. Also,
-     * updates the new year in the store current date object.
-     * Important to note that the week chosen for the new year
-     * is the latest one for it.
-     * @param year to use for new total per week.
-     */
     const changeYear =  async (year: number): Promise<void> => {
         let weekNr: number = -1
 
@@ -67,14 +93,19 @@ const TotalPerWeekWrapper = () => {
         }
 
         if (weekNr !== -1) {
-            let fetchedTotalPerWeek = await getTotalPerWeek(userid, weekNr, year)
-            setTotalPerWeek(fetchedTotalPerWeek)
+            setLoading(true)
 
-            setDate({date: {year, weekNr}})
+            try {
+                await fetchTotalPerWeek({userid, weekNr: currentDate.weekNr, year: currentDate.year})
+                setError("")
+            } catch (e: any) {
+                setError(e.message)
+            } finally {
+                setLoading(false)
+                setDate({date: {weekNr, year}})
+            }
         }
     }
-
-
 
     return (
         <>
@@ -88,14 +119,17 @@ const TotalPerWeekWrapper = () => {
                 <Dropdown
                     label={"Week"}
                     options={getWeekDropdownWeeks(availableDates, currentDate.year)}
-                    onSelect={data => changeWeek(parseInt(data.toString()))}
+                    onSelect={data => changeWeek(parseInt(data.toString()), currentDate.year)}
                     selected={currentDate.weekNr}
                     text={formatWeeks(getWeekDropdownWeeks(availableDates, currentDate.year), currentDate.year)}
                 />
-
             </ToolBar>
 
-            <TotalPerWeekDashboard totalPerWeek={totalPerWeek} loading={loading} availableDates={availableDates}/>
+            {error ?
+                <NoAnalyticsBanner message={error}/>
+                :
+                <TotalPerWeekDashboard loading={loading}/>
+            }
         </>
     )
 }

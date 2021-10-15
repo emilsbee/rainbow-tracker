@@ -8,6 +8,7 @@ import { ReactComponent as BackArrow } from '../../../svgIcons/back.svg'
 import { ReactComponent as NextArrow } from '../../../svgIcons/next.svg'
 import {useStoreActions} from "../../../store/hookSetup";
 import {useKeyPress} from "../../../hooks/useKeyPress";
+import {getCurrentWeek, getNextWeek, getPreviousWeek} from "./helpers";
 
 type MainDashboardNavBarProps = {
     weekNr: number
@@ -16,9 +17,7 @@ type MainDashboardNavBarProps = {
 
 const MainDashboardNavBar = ({ weekNr, year}: MainDashboardNavBarProps) => {
     // Store actions
-    const nextWeek = useStoreActions(actions => actions.settings.nextWeek)
-    const previousWeek = useStoreActions(actions => actions.settings.previousWeek)
-    const toCurrentWeek = useStoreActions(actions => actions.settings.toCurrentWeek)
+    const setDate = useStoreActions(actions => actions.settings.setDate)
 
     const currentWeekNr = DateTime.now().weekNumber // Current real life week number
     // It is important to get the year from the start of the current week because there can be a scenario when a week
@@ -33,21 +32,23 @@ const MainDashboardNavBar = ({ weekNr, year}: MainDashboardNavBarProps) => {
      * Handles to current week button press.
      */
     const handleToCurrentWeek = () => {
-        toCurrentWeek()
+        setDate({date:getCurrentWeek()})
     }
 
     /**
      * Handles next week button press.
      */
     const handleNextWeek = () => {
-        nextWeek({ date: {weekNr, year}})
+        const nextWeek = getNextWeek(weekNr, year)
+        setDate({date: nextWeek})
     }
 
     /**
      * Handles previous week button press.
      */
     const handlePrevWeek = () => {
-        previousWeek({ date: {weekNr, year}})
+        const prevWeek = getPreviousWeek(weekNr, year)
+        setDate({date: prevWeek})
     }
 
     React.useEffect(() => {

@@ -8,13 +8,13 @@ import {
     Tooltip,
     Legend,
     ResponsiveContainer,
-    Rectangle, Cell, TooltipProps,
+    Rectangle, TooltipProps,
 } from 'recharts';
 
 // Internal imports
-import {TotalPerDay} from "../../../../dao/analyticsDao";
 import {useStoreState} from "../../../../store/hookSetup";
 import {Duration, Info} from "luxon";
+import {TotalPerDay} from "../../../../store/analytics";
 
 type TotalPerDayCategoriesChartProps = {
     totalPerDay: TotalPerDay[]

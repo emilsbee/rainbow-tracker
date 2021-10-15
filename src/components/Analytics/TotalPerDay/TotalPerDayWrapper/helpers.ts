@@ -1,5 +1,8 @@
-import {AvailableDate} from "../../../../dao/analyticsDao";
+// External imports
 import {DateTime} from "luxon";
+
+// Internal imports
+import {AvailableDate} from "../../../../store/analytics";
 
 /**
  * Extracts the week numbers for a given year
