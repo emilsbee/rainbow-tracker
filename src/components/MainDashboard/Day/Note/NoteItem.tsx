@@ -41,7 +41,7 @@ const NoteComponent = ({
         // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
         onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
       >
-        <p>{note.note}</p>
+        <p className="note-text">{note.note}</p>
       </div>
     );
   }
@@ -65,7 +65,9 @@ const NoteComponent = ({
       // onDragEnter={() => onDragEnter(note)} // slower but kinda smoother
       onDragOver={() => onDragEnter(note)} // fast drag but leaves tail
     >
-      <p>{note.note}</p>
+      <p className="stack-text" style={{ WebkitLineClamp: max - min }}>
+        {note.note}
+      </p>
     </div>
   );
 };
