@@ -53,6 +53,13 @@ $noteBorderRadius: 4px;
   text-overflow: ellipsis;
 }
 
+.stack-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+}
+
 .stack-container {
   @include note();
 
