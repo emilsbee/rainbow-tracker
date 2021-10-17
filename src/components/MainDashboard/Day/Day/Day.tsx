@@ -194,7 +194,7 @@ function Day({categories, notes, weekDay}: DayProps) {
 
             {noteModalData && 
                 
-                <div id="note-modal-wrapper">
+                <div id="note-modal-wrapper" onClick={() => setNoteModalData(null)}>
                         <NoteModal 
                             stack={findStackExtremes(notes, noteModalData.stackid).max !== findStackExtremes(notes, noteModalData.stackid).min} // Determines whether note is a stack or not. True is stack, false otherwise
                             deleteStack={onNoteDeleteStack}

@@ -1,5 +1,5 @@
 // External imports
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 
 // Internal imports 
 import './NoteModal.scss'
@@ -17,7 +17,6 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack}: NoteModal
 
     const [localNote, setLocalNote] = useState<string>(note.note)
 
-
     /**
      * Handles text change in the modal.
      * @param e onChange event.
@@ -32,19 +31,19 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack}: NoteModal
      * @param e onKeyDown event.
      */
     const handleKeyDown = (e:  React.KeyboardEvent<HTMLDivElement>) => {
-        if(e.which === 13 && !e.shiftKey) {        
+        e.stopPropagation()
+        if(e.key === "Enter" && !e.shiftKey) {
             note.note = localNote
             saveNote(note)
             e.preventDefault();
-        } else if (e.keyCode === (27)) {
+        } else if (e.key === "Escape") {
             note.note = localNote
             saveNote(note)  
         }   
     }
 
     return (
-        
-            <div id="note-modal-container" onKeyDown={handleKeyDown}>
+            <div id="note-modal-container" onKeyDown={handleKeyDown} onClick={e => e.stopPropagation()}>
                 <div id="modal-textarea">
                     <textarea 
                         autoFocus={true}
@@ -52,6 +51,7 @@ function NoteModal  ({note, saveNote, deleteText, deleteStack, stack}: NoteModal
                         onChange={handleNoteChange}
                         spellCheck={false}
                         value={localNote}
+                        onKeyUp={(e) => e.stopPropagation()}
                     />
                 </div>
                 <div>
