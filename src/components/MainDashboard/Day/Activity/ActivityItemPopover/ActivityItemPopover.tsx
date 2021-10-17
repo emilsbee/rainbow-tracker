@@ -24,7 +24,7 @@ const ActivityItemPopover = ({onClick, handleCloseModal, categoryid}: ActivityIt
                 }}
             >
                 {activityTypes.map((activityType, index) => {
-                    if (activityType.categoryid === categoryid) { // checks that the activity belongs to current category
+                    if (activityType.categoryid === categoryid && !activityType.archived) { // checks that the activity belongs to current category
                         return (
                             <div
                                 id="activity-popover-item"
