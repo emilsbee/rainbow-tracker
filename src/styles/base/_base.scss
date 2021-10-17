@@ -32,6 +32,14 @@ p {
     line-height: 1.35;
 }
 
+textarea {
+    font-family: 'helvetica';
+}
+
+h1, h2, h3 {
+    color: white;
+}
+
 .card {
     background-color: $dark-primary;
     padding: 20px 40px 20px 40px;

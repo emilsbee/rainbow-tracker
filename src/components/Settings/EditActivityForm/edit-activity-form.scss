@@ -1,0 +1,97 @@
+@import '../../../styles/base/settings';
+
+.edit-activity-form__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  height: 100vh;
+  background-color: $primary;
+}
+
+.edit-activity-form__title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  width: 100%;
+  padding: $sizing-5;
+}
+
+.edit-activity-form__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-activity-form__form-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+
+  margin-bottom: 40px;
+  width: 600px;
+}
+
+.edit-activity-form__label {
+  color: $accent;
+  margin-right: 10px;
+  font-size: $type-sizing-4;
+}
+
+.edit-activity-form__category-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.edit-activity-form__category {
+  color: white;
+  font-size: $type-sizing-4;
+  margin-right: 20px;
+}
+
+.edit-activity-form__category-color {
+  width: 30px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.edit-activity-form__long-input {
+  background-color: transparent;
+  border: 1px solid $accent-2;
+  outline-width: 0;
+
+  line-height: 20px;
+  caret-color: $accent-2;
+  color: $accent-2;
+  font-size: $type-sizing-2;
+
+  height: 70px;
+  border-radius: 5px;
+  width: 255px;
+}
+
+.edit-activity-form__long-input:focus {
+  border: 1px solid $accent;
+}
+
+.edit-activity-form__short-input {
+  background-color: transparent;
+  border: 1px solid $accent-2;
+  outline-width: 0;
+
+  caret-color: $accent-2;
+  color: $accent-2;
+  font-size: $type-sizing-4;
+  text-align: center;
+
+  border-radius: 5px;
+  width: 35px;
+}
+
+.edit-activity-form__short-input:focus {
+  border: 1px solid $accent;
+
+}

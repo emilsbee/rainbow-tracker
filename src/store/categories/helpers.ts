@@ -83,22 +83,3 @@ export const validateCategorySubmission = (categoryid:string, name:string, color
 
     return returnVal
 }
-
-/**
- * Validates submission of new activity. Checks the general string constraints for long name and short name.
- * @param long The long name of activity.
- * @param short The short name of activity.
- * @return {valid, message} Valid indicates whether input is valid, and message is present if the input is invalid.
- */
-export const validateActivitySubmission = (long:string, short:string):{valid:boolean, message:string} => {
-    let returnVal = {valid:true, message:""}
-
-    if (!long || long.trim().length <= 0 || long.trim().length > 100) {
-        returnVal.valid = false
-        returnVal.message = "Activity long name must be of length 1-18."
-    } else if (!short || short.length <= 0 || short.length > 2) {
-        returnVal.valid = false
-        returnVal.message = "Activity short name must be of length 1-2."
-    }
-    return returnVal
-}

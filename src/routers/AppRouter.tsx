@@ -28,6 +28,7 @@ const AppRouter = () => {
                         <PublicRoute path="/internal-error" component={BackendError} exact={false}/>
                         <PrivateRoute path="/analytics" component={AnalyticsDashboardWrapper}/>
                         <PrivateRoute path="/dashboard" component={MainDashboardWrapper}/>
+                        <PrivateRoute path="/settings/category/:categoryid/edit-activity/:activityid" component={EditActivityForm}/>
                         <PrivateRoute path="/settings" component={SettingsDashboardWrapper}/>
                         <Route component={NotFound}/>
                 </Switch>

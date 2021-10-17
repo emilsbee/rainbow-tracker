@@ -1,6 +1,6 @@
 @import '../../../../../styles/base/settings';
 
-#category-section-form-container {
+.category-section-form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,7 +9,7 @@
   width: 100%;
 }
 
-#category-section-form-error {
+.category-section-form-error {
   height: 20px;
   color: $error;
   font-size: $type-sizing-4;
@@ -27,13 +27,13 @@
   text-align: end;
 }
 
-#color-section-container {
+.color-section-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-#color-section-color {
+.color-section-color {
   width: 50px;
   height: 20px;
   border-radius: 4px;
@@ -52,6 +52,6 @@
   text-align: end;
 }
 
-#category-section-activity-error {
+.category-section-activity-error {
 
 }

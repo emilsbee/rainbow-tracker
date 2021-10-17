@@ -1,6 +1,6 @@
 @import '../../../styles/base/settings.scss';
 
-#settings-dashboard__loading {
+.settings-dashboard__loading {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,7 +9,7 @@
   background-color: $primary;
 }
 
-#settings-dashboard-container {
+.settings-dashboard-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -19,7 +19,7 @@
   background-color: $primary;
 }
 
-#settings-dashboard-title {
+.settings-dashboard-title {
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -6,7 +6,7 @@ import './category-list.scss'
 import {CategoryType} from "../../../../store/settings/settings";
 import {ReactComponent as Add} from "../../../../svgIcons/add.svg"
 import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
-import {createCategory} from "../../../../dao/settingsDao";
+import {useKeyPress} from "../../../../hooks/useKeyPress";
 
 type CategoryListProps = {
     categoryTypes:CategoryType[],
@@ -17,7 +17,7 @@ type CategoryListProps = {
 
 function CategoryList ({categoryTypes, setCategory, selectedCategoryid, viewArchived}:CategoryListProps) {
     // Store actions
-    const setCategoryTypes = useStoreActions(actions => actions.settings.setCategoryTypes)
+    const createCategoryType = useStoreActions(actions => actions.settings.createCategoryType)
 
     // Store state
     const userid = useStoreState(state => state.auth.uid)
@@ -26,43 +26,39 @@ function CategoryList ({categoryTypes, setCategory, selectedCategoryid, viewArch
     const [newCategory, setNewCategory] = React.useState<boolean>(false)
     const [newCategoryName, setNewCategoryName] = React.useState<string>("")
 
-    const handleKeyPress = async (e:KeyboardEvent) => {
-        if (e.key === "Escape") {
-            setNewCategory(false)
-            setNewCategoryName("")
-        }
-    }
+    const escapeKeyPress = useKeyPress("Escape")
+
+    React.useEffect(() => {
+        setNewCategory(false)
+        setNewCategoryName("")
+    }, [escapeKeyPress])
 
     const handleSubmit = async (e:React.FormEvent) => {
         e.preventDefault()
 
         if (newCategory && newCategoryName.length > 0) {
-            let categoryType = await createCategory(userid, newCategoryName, "#CBC3E3")
-            setCategoryTypes({categoryTypes: [...categoryTypes, categoryType]})
-            setCategory(categoryType.categoryid)
-            setNewCategory(false)
-            setNewCategoryName("")
+
+            try {
+                await createCategoryType({userid, name: newCategoryName, color: "#CBC3E3"})
+            } catch (e) {
+                console.log(e)
+            } finally {
+                setNewCategory(false)
+                setNewCategoryName("")
+                setCategory("")
+            }
         }
     }
 
-    React.useEffect(() => {
-        document.addEventListener("keydown", handleKeyPress, false);
-
-
-        return () => {
-            document.removeEventListener("keydown", handleKeyPress, false);
-        }
-    }, [])
-
     return (
-        <div id="category-section-category-list-container">
+        <div className="category-section-category-list-container">
             {categoryTypes.map(categoryType => {
 
                 if (viewArchived || (!viewArchived && !categoryType.archived)) {
                     return (
-                        <div key={categoryType.categoryid} id={"category-section-category-list-item-container"}>
+                        <div key={categoryType.categoryid} className={"category-section-category-list-item-container"}>
                             <p
-                                id={`category-section-category-list-item${categoryType.categoryid === selectedCategoryid ? "-selected" : ""}`}
+                                className={`category-section-category-list-item${categoryType.categoryid === selectedCategoryid ? "-selected" : ""}`}
                                 onClick={() => setCategory(categoryType.categoryid)}
                                 style={{opacity: categoryType.archived ? 0.5 : 1}}
                             >

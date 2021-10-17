@@ -57,7 +57,7 @@ const PrivateRoute = (props: {path: string, component: any }) => {
             <Route path={props.path} component={() => (
                 !!uid ? (
                     <>
-                        <Component/>
+                        <Component props={{...props}}/>
                     </>
                 ) : (
                     <Redirect to="/"/>

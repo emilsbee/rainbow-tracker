@@ -18,15 +18,15 @@ const SettingsDashboard  = ({categoryTypes, activityTypes, loading, setLoading}:
 
     if (loading) {
         return (
-            <div id="settings-dashboard__loading">
+            <div className="settings-dashboard__loading">
                 <Loader style={{height: '6rem', width: '6rem'}}/>
             </div>
         )
     }
 
     return (
-        <div id="settings-dashboard-container">
-            <div id="settings-dashboard-title">
+        <div className="settings-dashboard-container">
+            <div className="settings-dashboard-title">
                 Settings
             </div>
             <CategorySection categoryTypes={categoryTypes} activityTypes={activityTypes} setLoading={setLoading}/>

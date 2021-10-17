@@ -2,9 +2,9 @@
 import React from "react";
 
 // Internal imports
+import './category-section-form.scss'
 import {ActivityType, CategoryType} from "../../../../../store/settings/settings";
 import Section from "../Section/Section";
-import './category-section-form.scss'
 import ActivityList from "../../../ActivityList/ActivityList";
 import {validateCategorySubmission} from "../../../../../store/categories/helpers";
 import {useStoreActions, useStoreState} from "../../../../../store/hookSetup";
@@ -30,7 +30,6 @@ function CategorySectionForm({category, activityTypes, setLoading, viewArchived}
     const [colorValue, setColorValue] = React.useState(category.color)
     const [nameValue, setNameValue] = React.useState(category.name)
     const [error, setError] = React.useState({message: ""})
-    const [activityError, setActivityError] = React.useState({message: ""})
 
     React.useEffect(() => {
         setColorValue(category.color)
@@ -43,20 +42,26 @@ function CategorySectionForm({category, activityTypes, setLoading, viewArchived}
     const handleFormSubmit = async (): Promise<void> => {
         const { valid, message } = validateCategorySubmission(category.categoryid, nameValue, colorValue)
 
-        if (valid && activityError.message.length === 0) {
+        if (valid) {
             setLoading(true)
 
-            await updateCategoryType({
-                categoryType: {
-                    userid: category.userid,
-                    categoryid: category.categoryid,
-                    name: nameValue,
-                    color: colorValue,
-                    archived: category.archived
-                }})
-
-            setLoading(false)
-        } else if (!valid) {
+            try {
+                await updateCategoryType({
+                    userid,
+                    categoryType: {
+                        userid: category.userid,
+                        categoryid: category.categoryid,
+                        name: nameValue,
+                        color: colorValue,
+                        archived: category.archived
+                    }
+                })
+            } catch (e:any) {
+                setError(e.message)
+            } finally {
+                setLoading(false)
+            }
+        } else {
             setError({message})
         }
     }
@@ -82,32 +87,43 @@ function CategorySectionForm({category, activityTypes, setLoading, viewArchived}
     }
 
     return (
-        <div id={"category-section-form-container"}>
-            <div id={"category-section-form-error"}>
+        <div className={"category-section-form-container"}>
+            <div className={"category-section-form-error"}>
                 {error.message}
             </div>
+
             <Section title="Name">
-                <input type={"text"} className={"category-section-form__category-name"} value={nameValue} onChange={e => setNameValue(e.target.value)}
-                       maxLength={18}/>
+                <input
+                    type={"text"}
+                    className={"category-section-form__category-name"}
+                    value={nameValue}
+                    onChange={e => setNameValue(e.target.value)}
+                    maxLength={18}
+                />
             </Section>
+
             <Section title="Color">
-                <div id={"color-section-container"}>
-                    <div style={{backgroundColor: colorValue}} id={"color-section-color"}/>
-                    <input style={{color: colorValue}} type="text" className="category-section-form__category-color" value={colorValue}
-                           onChange={e => setColorValue(e.target.value)} maxLength={7}/>
+                <div className={"color-section-container"}>
+                    <div style={{backgroundColor: colorValue}} className={"color-section-color"}/>
+                    <input
+                        style={{color: colorValue}}
+                        type="text"
+                        className="category-section-form__category-color"
+                        value={colorValue}
+                        onChange={e => setColorValue(e.target.value)}
+                        maxLength={7}
+                    />
                 </div>
             </Section>
-            <div id={"category-section-form-error"}>
-                {activityError.message}
-            </div>
+
             <Section title={"Activities"}>
                 <ActivityList
                     viewArchived={viewArchived}
                     categoryid={category.categoryid}
-                    setError={setActivityError}
                     activityTypes={activityTypes}
                 />
             </Section>
+
             <Section title={""}>
                 <div>
                     {!category.archived &&
@@ -119,6 +135,7 @@ function CategorySectionForm({category, activityTypes, setLoading, viewArchived}
                     <button className={"button-pos"} onClick={handleFormSubmit}>Save</button>
                 </div>
             </Section>
+
         </div>
     )
 }

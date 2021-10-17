@@ -6,8 +6,8 @@ import './section-title.scss'
 
 type SectionTitleProps = {
     title:string
-    viewArchived:boolean
-    setViewArchived: (viewArchived:boolean) => void
+    viewArchived:boolean,
+    setViewArchived: () => void
 }
 
 function SectionTitle ({title, viewArchived, setViewArchived}:SectionTitleProps) {
@@ -18,7 +18,7 @@ function SectionTitle ({title, viewArchived, setViewArchived}:SectionTitleProps)
 
             <div>
                 <label className={"label"} htmlFor={"archived"}>View archived</label>
-                <input name={"archived"} type={"checkbox"} onChange={() => setViewArchived(!viewArchived)}/>
+                <input name={"archived"} checked={viewArchived} type={"checkbox"} onChange={setViewArchived}/>
             </div>
         </div>
     )

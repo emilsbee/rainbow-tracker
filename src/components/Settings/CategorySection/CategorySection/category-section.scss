@@ -1,13 +1,13 @@
 @import '../../../../styles/base/settings';
 
-#category-section-container {
+.category-section-container {
     display: flex;
     flex-direction: column;
 
     width: 900px;
 }
 
-#category-section-content-container {
+.category-section-content-container {
     display: flex;
     flex-direction: row;
     margin-top: 20px;
