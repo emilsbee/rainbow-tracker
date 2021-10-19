@@ -1,5 +1,6 @@
 // External imports
 import React from "react"
+import {Info} from "luxon";
 
 // Internal imports
 import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
@@ -7,6 +8,7 @@ import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dro
 import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
 import NoAnalyticsBanner from "../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner";
 import TotalPerMonthDashboard from "../TotalPerMonthDashboard/TotalPerMonthDashboard";
+
 
 const TotalPerMonthWrapper:React.FC = () => {
     // Store state
@@ -94,6 +96,7 @@ const TotalPerMonthWrapper:React.FC = () => {
                     options={[... new Set(availableMonths.filter(availableMonth => availableMonth.year === currentMonthDate.year).flatMap(availableMonth => availableMonth.month))].sort((a,b) => a > b ? -1 : 1)}
                     onSelect={data => changeMonth(parseInt(data.toString()), currentMonthDate.year)}
                     selected={currentMonthDate.month}
+                    text={[... new Set(availableMonths.filter(availableMonth => availableMonth.year === currentMonthDate.year).flatMap(availableMonth => availableMonth.month))].sort((a,b) => a > b ? -1 : 1).map(month => Info.months()[month-1])}
                 />
             </ToolBar>
 
