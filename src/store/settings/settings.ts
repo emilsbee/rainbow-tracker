@@ -1,5 +1,5 @@
 // External imports
-import {Action, action, thunk, Thunk} from "easy-peasy"
+import {Action, action, computed, Computed, thunk, Thunk} from "easy-peasy"
 import {DateTime} from "luxon";
 
 // Internal imports
@@ -27,6 +27,12 @@ export type ActivityType = {
 export interface Date {
     weekNr:number,
     year:number
+}
+
+export interface MonthDate {
+    year: number,
+    month: number,
+    weekNr: number
 }
 
 export interface SettingsModel {
@@ -67,6 +73,7 @@ export interface SettingsModel {
 
     currentDate: Date,
     setDate: Action<SettingsModel, {date:Date}>,
+    currentMonthDate: Computed<SettingsModel, MonthDate>,
 
     featurePopupViewed: boolean
     setFeaturePopupViewed: Action<SettingsModel, {featurePopupViewed: boolean}>
@@ -243,6 +250,13 @@ const settingsModel:SettingsModel = {
         }
     }),
 
+    currentMonthDate: computed((state) => {
+        return {
+            month: DateTime.fromObject({weekNumber: state.currentDate.weekNr, weekYear: state.currentDate.year}).month,
+            year: DateTime.fromObject({weekNumber: state.currentDate.weekNr, weekYear: state.currentDate.year}).year,
+            weekNr: state.currentDate.weekNr
+        }
+    }),
     currentDate: {
         weekNr: DateTime.now().weekNumber,
         year: DateTime.now().startOf("week").year
