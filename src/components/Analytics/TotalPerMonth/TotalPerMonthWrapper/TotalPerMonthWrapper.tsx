@@ -1,6 +1,6 @@
 // External imports
 import React from "react"
-import {Info} from "luxon";
+import {DateTime, Info} from "luxon";
 
 // Internal imports
 import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
@@ -8,6 +8,8 @@ import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dro
 import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
 import NoAnalyticsBanner from "../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner";
 import TotalPerMonthDashboard from "../TotalPerMonthDashboard/TotalPerMonthDashboard";
+import {useKeyPress} from "../../../../hooks/useKeyPress";
+import {isNewMonthDateAvailable} from "./helpers";
 
 
 const TotalPerMonthWrapper:React.FC = () => {
@@ -25,6 +27,29 @@ const TotalPerMonthWrapper:React.FC = () => {
     const [loading, setLoading] = React.useState(true)
     const [error, setError] = React.useState<string | null>(null)
 
+    // Document key press listeners
+    const arrowLeftPress = useKeyPress("ArrowLeft")
+    const arrowRightPress = useKeyPress("ArrowRight")
+    const cPress = useKeyPress("c")
+
+
+    React.useEffect(() => {
+
+        (async function () {
+            if (arrowLeftPress) {
+                if (isNewMonthDateAvailable(availableMonths, currentMonthDate.year, currentMonthDate.month-1)) {
+                    await changeMonth(currentMonthDate.month-1, currentMonthDate.year)
+                }
+            } else if (arrowRightPress) {
+                if (isNewMonthDateAvailable(availableMonths, currentMonthDate.year, currentMonthDate.month+1)) {
+                    await changeMonth(currentMonthDate.month+1, currentMonthDate.year)
+                }
+            } else if (cPress) {
+                await changeMonth(DateTime.now().month, DateTime.now().startOf("week").year)
+            }
+        })()
+
+    }, [arrowLeftPress, arrowRightPress, cPress])
 
     React.useEffect(() => {
         (async function () {
