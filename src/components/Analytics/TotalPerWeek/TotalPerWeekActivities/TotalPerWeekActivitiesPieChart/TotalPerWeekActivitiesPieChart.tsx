@@ -54,7 +54,7 @@ const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid, color}:
                         return (
                             <Cell
                                 key={`cell-${index}`}
-                                fill={entry.long === "Empty" ? "white" : color}
+                                fill={color}
                                 stroke={"black"}
                             />
                         )

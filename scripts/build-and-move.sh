@@ -1,1 +1,1 @@
-yarn build && mv build frontendBuild && rm -rf ../rainbow-tracker-backend/frontendBuild && mv ./frontendBuild ../rainbow-tracker-backend/
+yarn build && mv build frontendBuild && rm -rf ../rainbow-tracker-backend/frontendBuild && mv ./frontendBuild ../rainbow-tracker-backend/ && cd ../rainbow-tracker-backend && git add . && git commit -m"Updated frontendBuild" && git push origin main
