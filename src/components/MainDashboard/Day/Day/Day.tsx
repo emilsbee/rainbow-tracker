@@ -12,6 +12,7 @@ import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
 import {Note} from "../../../../store/notes/notes";
 import {Category} from "../../../../store/categories/categories";
 import AnalyticsPopover from "../AnalyticsPopover/AnalyticsPopover";
+import {useKeyPress} from "../../../../hooks/useKeyPress";
 
 type DayProps = {
     categories:Category[],
@@ -29,6 +30,8 @@ type DayProps = {
  * @param weekDay The day.
  */
 function Day({categories, notes, weekDay}: DayProps) {
+    const controlPress = useKeyPress("Control")
+
     // Store state
     const currentDate = useStoreState(state => state.settings.currentDate)
 
@@ -48,7 +51,11 @@ function Day({categories, notes, weekDay}: DayProps) {
     const [noteModalData, setNoteModalData] = useState<Note | null>(null)
 
     const onNoteClick = (note: Note):void => {
-        setNoteModalData(note)
+        if (controlPress) {
+            deleteNoteText(note)
+        } else {
+            setNoteModalData(note)
+        }
     }
 
     const onNoteSave = (note: Note):void => {
@@ -138,7 +145,13 @@ function Day({categories, notes, weekDay}: DayProps) {
     // Delete note stack when mouse wheel is pressed on a stack
     const onNoteMouseDown = (e: React.MouseEvent, note: Note) => {
         const {max, min} = findStackExtremes(notes, note.stackid)
-        if (e.button === 1 && (max!==min)) {
+        if (e.button === 1 && controlPress && (max !== min)) {
+            deleteNoteText(note)
+            deleteNoteStack({
+                weekDay: note.weekDay,
+                stackid: note.stackid
+            })
+        } else if (e.button === 1 && (max!==min)) {
             deleteNoteStack({
                 weekDay: note.weekDay,
                 stackid: note.stackid
