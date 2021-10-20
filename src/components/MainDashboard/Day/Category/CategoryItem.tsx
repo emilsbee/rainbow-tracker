@@ -55,7 +55,6 @@ function CategoryComponent({category, onDragStart, onDragEnter}: CategoryProps) 
      * @param activityid The activityid of activity that was picked.
      */
     const onActivityPick = (activityid:string | null):void => {
-        console.log(activityid)
         setShowActivityPopover(false)
         setActivity({
             activityid, 

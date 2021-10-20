@@ -1,5 +1,5 @@
 // External imports
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import {DateTime, Info} from "luxon";
 
 // Internal imports
@@ -148,15 +148,15 @@ function Day({categories, notes, weekDay}: DayProps) {
 
     return (
         <div 
-            className="day-container" 
+            className={"day-container"}
             onDragEndCapture={() => {
                 setDragNote(null)
                 setDragCategory(null)
             }}
         >
-            {hoveringOverDayHeader && <AnalyticsPopover day={weekDay} weekNr={currentDate.weekNr} year={currentDate.year}/>}
+            {hoveringOverDayHeader && <AnalyticsPopover day={weekDay} weekNr={currentDate.weekNr} year={currentDate.year} />}
 
-            <div className="day-header" onMouseOver={() => setHoveringOverDayHeader(true)} onMouseLeave={() => setHoveringOverDayHeader(false)}>
+            <div className={`day-header ${weekDay}`} onMouseOver={() => setHoveringOverDayHeader(true)} onMouseLeave={() => setHoveringOverDayHeader(false)}>
                 <p className={"day-header__day"}>{`${Info.weekdays()[weekDay]}`}</p>
                 <p className={"day-header__date"}>{`${DateTime.fromISO(categories[0].weekDayDate).toLocaleString({month: "long", day: "numeric"})}`}</p>
             </div>
