@@ -11,7 +11,7 @@ $noteWidth: 121px;
 }
 
 .day-header {
-    height: 42px;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,12 +21,16 @@ $noteWidth: 121px;
     padding-left: 55px;
 }
 
+.day-header:hover {
+    cursor: default;
+}
+
 .day-header__day {
     margin: 0;
 }
 
 .day-header__date {
-    margin: 5px 0 25px 0;
+    margin: 5px 0 10px 0;
     font-size: $type-sizing-2;
     color: $accent-2;
     opacity: .75;

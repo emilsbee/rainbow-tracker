@@ -1,0 +1,27 @@
+@import '../../../../styles/base/settings';
+
+.main-dashboard__day-analytics-popover {
+  position: absolute;
+
+  box-shadow: 0 0 4px 5px rgba(0,0,0,0.45);
+
+  top: 170px;
+  padding: 7px;
+  border-radius: 5px;
+  background-color: $dark-primary;
+}
+
+.main-dashboard__day-analytics-popover__row {
+  opacity: .85;
+  font-size: $type-sizing-2;
+  color: $accent-2;
+  margin: 5px;
+}
+
+.main-dashboard__day-analytics-popover__category-color {
+  height: 12px;
+  width: 12px;
+
+  border-radius: 2px;
+  margin-right: 10px;
+}

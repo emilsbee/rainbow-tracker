@@ -8,9 +8,10 @@ import NoteItem from '../Note/NoteItem'
 import { findStackExtremes } from './helpers'
 import NoteModal from '../Note/NoteModal/NoteModal'
 import './Day.scss'
-import {useStoreActions} from "../../../../store/hookSetup";
+import {useStoreActions, useStoreState} from "../../../../store/hookSetup";
 import {Note} from "../../../../store/notes/notes";
 import {Category} from "../../../../store/categories/categories";
+import AnalyticsPopover from "../AnalyticsPopover/AnalyticsPopover";
 
 type DayProps = {
     categories:Category[],
@@ -28,6 +29,9 @@ type DayProps = {
  * @param weekDay The day.
  */
 function Day({categories, notes, weekDay}: DayProps) {
+    // Store state
+    const currentDate = useStoreState(state => state.settings.currentDate)
+
     // Store actions
     const categoryDragSet = useStoreActions(actions => actions.categories.categoryDragSet)
     const aboveDifference = useStoreActions(actions => actions.notes.aboveDifference)
@@ -36,6 +40,9 @@ function Day({categories, notes, weekDay}: DayProps) {
     const deleteNoteText = useStoreActions(actions => actions.notes.deleteNoteText)
     const deleteNoteStack = useStoreActions(actions => actions.notes.deleteNoteStack)
     const setHoverIndex = useStoreActions(actions => actions.settings.setHoverIndex)
+
+    // Local state
+    const [hoveringOverDayHeader, setHoveringOverDayHeader] = React.useState<boolean>(false)
 
     // Note modal logic
     const [noteModalData, setNoteModalData] = useState<Note | null>(null)
@@ -147,7 +154,9 @@ function Day({categories, notes, weekDay}: DayProps) {
                 setDragCategory(null)
             }}
         >
-            <div className="day-header">
+            {hoveringOverDayHeader && <AnalyticsPopover day={weekDay} weekNr={currentDate.weekNr} year={currentDate.year}/>}
+
+            <div className="day-header" onMouseOver={() => setHoveringOverDayHeader(true)} onMouseLeave={() => setHoveringOverDayHeader(false)}>
                 <p className={"day-header__day"}>{`${Info.weekdays()[weekDay]}`}</p>
                 <p className={"day-header__date"}>{`${DateTime.fromISO(categories[0].weekDayDate).toLocaleString({month: "long", day: "numeric"})}`}</p>
             </div>
