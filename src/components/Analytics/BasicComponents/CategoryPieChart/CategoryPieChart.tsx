@@ -3,6 +3,9 @@ import React from "react"
 import {Cell, Pie, PieChart, Tooltip, TooltipProps} from "recharts";
 import {Duration} from "luxon";
 
+// Internal imports
+import "./category-pie-chart.scss"
+
 type CategoryPieChartProps = {
     categoryTypes: {
         name: string

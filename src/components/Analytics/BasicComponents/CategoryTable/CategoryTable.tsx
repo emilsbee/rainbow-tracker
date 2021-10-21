@@ -24,7 +24,7 @@ const CategoryTable:React.FC<CategoryTableProps> = ({categoryTypes, totalCount})
                 <tr>
                     <th className={"analytics-category-table__header"} style={{textAlign: "left"}}>Category</th>
                     <th className={"analytics-category-table__header"}>Hours</th>
-                    <th className={"analytics-category-table__header"}>% of time</th>
+                    <th className={"analytics-category-table__header"}>% of total</th>
                 </tr>
             </thead>
 
