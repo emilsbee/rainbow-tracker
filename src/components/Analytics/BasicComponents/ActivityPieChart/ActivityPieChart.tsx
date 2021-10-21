@@ -17,9 +17,10 @@ type ActivityPieChartProps = {
     }[]
     pickedCategoryid: string,
     color: string
+    totalCount: number
 }
 
-const ActivityPieChart:React.FC<ActivityPieChartProps> = ({activityTypes, pickedCategoryid, color}) => {
+const ActivityPieChart:React.FC<ActivityPieChartProps> = ({activityTypes, pickedCategoryid, color, totalCount}) => {
 
     const CustomTooltip = ({ payload, active}: TooltipProps<number, string>) => {
         if (active && payload && payload.length) {
@@ -28,7 +29,7 @@ const ActivityPieChart:React.FC<ActivityPieChartProps> = ({activityTypes, picked
                 <div className="activity-pie-chart__custom-tooltip">
                     {payload.map(entry => (
                         <p style={{color: entry.payload.stroke}}>
-                            {entry.name}: {entry.value && Duration.fromObject({minutes: entry.value*15}).toFormat("h:mm")}h
+                            {entry.name}: {entry.value && Duration.fromObject({minutes: entry.value*15}).toFormat("h:mm")}h ({((entry.payload.count/totalCount)*100).toPrecision(2)}%)
                         </p>
                     ))}
                 </div>

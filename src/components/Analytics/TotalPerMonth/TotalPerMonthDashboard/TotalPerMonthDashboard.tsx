@@ -50,7 +50,7 @@ const TotalPerMonthDashboard:React.FC<TotalPerMonthDashboardProps> = ({loading})
                 <CardTitle title={"Categories"}/>
 
                 <CategoryTable categoryTypes={totalPerMonth.categoryTypes} totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}/>
-                <CategoryPieChart categoryTypes={totalPerMonth.categoryTypes}/>
+                <CategoryPieChart categoryTypes={totalPerMonth.categoryTypes} totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}/>
             </Card>
 
             <Card id={"total-per-week-dashboard__activities"}>

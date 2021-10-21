@@ -56,6 +56,7 @@ const ActivityCardContent:React.FC<ActivityCardContentProps> = ({categoryTypes, 
                 color={categoryTypes[pickedCategoryIndex].color}
                 activityTypes={activityTypes}
                 pickedCategoryid={categoryTypes[pickedCategoryIndex].categoryid}
+                totalCount={totalCount}
             />
         </>
     )

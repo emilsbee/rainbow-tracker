@@ -12,9 +12,11 @@ type CategoryPieChartProps = {
         count: number
         color: string
     }[]
+    totalCount: number
 }
 
-const CategoryPieChart:React.FC<CategoryPieChartProps> = ({categoryTypes}) => {
+const CategoryPieChart:React.FC<CategoryPieChartProps> = ({categoryTypes, totalCount}) => {
+
     const CustomTooltip = ({ payload, active}: TooltipProps<number, string>) => {
         if (active && payload && payload.length) {
 
@@ -22,7 +24,7 @@ const CategoryPieChart:React.FC<CategoryPieChartProps> = ({categoryTypes}) => {
                 <div className="category-pie-chart__custom-tooltip">
                     {payload.map(entry => (
                         <p style={{color: entry.payload.stroke}}>
-                            {entry.name}: {entry.value && Duration.fromObject({minutes: entry.value*15}).toFormat("h:mm")}h
+                            {entry.name}: {entry.value && Duration.fromObject({minutes: entry.value*15}).toFormat("h:mm")}h ({((entry.payload.count/totalCount)*100).toPrecision(2)}%)
                         </p>
                     ))}
                 </div>

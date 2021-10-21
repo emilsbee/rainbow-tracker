@@ -49,7 +49,7 @@ const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
 
                 <CategoryTable categoryTypes={totalPerWeek.categoryTypes} totalCount={672}/>
 
-                <CategoryPieChart categoryTypes={totalPerWeek.categoryTypes}/>
+                <CategoryPieChart categoryTypes={totalPerWeek.categoryTypes} totalCount={672}/>
             </Card>
 
             <Card id={"total-per-week-dashboard__activities"}>
