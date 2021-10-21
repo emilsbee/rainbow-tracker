@@ -1,22 +1,22 @@
 // External imports
 import React from "react"
-import {PieChart, Pie, Cell, Tooltip, TooltipProps} from 'recharts';
-
-// Internal imports
+import {Cell, Pie, PieChart, Tooltip, TooltipProps} from "recharts";
 import {Duration} from "luxon";
-import {TotalPerWeek} from "../../../../../store/analytics";
 
-type TotalPerWeekCategoriesPieChartProps = {
-    totalPerWeek: TotalPerWeek
+type CategoryPieChartProps = {
+    categoryTypes: {
+        name: string
+        count: number
+        color: string
+    }[]
 }
 
-const TotalPerWeekCategoriesPieChart = ({totalPerWeek}: TotalPerWeekCategoriesPieChartProps) => {
-
+const CategoryPieChart:React.FC<CategoryPieChartProps> = ({categoryTypes}) => {
     const CustomTooltip = ({ payload, active}: TooltipProps<number, string>) => {
         if (active && payload && payload.length) {
 
             return (
-                <div className="custom-tooltip">
+                <div className="category-pie-chart__custom-tooltip">
                     {payload.map(entry => (
                         <p style={{color: entry.payload.stroke}}>
                             {entry.name}: {entry.value && Duration.fromObject({minutes: entry.value*15}).toFormat("h:mm")}h
@@ -35,7 +35,7 @@ const TotalPerWeekCategoriesPieChart = ({totalPerWeek}: TotalPerWeekCategoriesPi
             />
 
             <Pie
-                data={totalPerWeek.categoryTypes}
+                data={categoryTypes}
                 cx={145}
                 cy={150}
                 innerRadius={75}
@@ -45,7 +45,7 @@ const TotalPerWeekCategoriesPieChart = ({totalPerWeek}: TotalPerWeekCategoriesPi
                 animationBegin={10}
                 animationDuration={900}
             >
-                {totalPerWeek.categoryTypes.map((entry, index) => (
+                {categoryTypes.map((entry, index) => (
                     <Cell
                         key={`cell-${index}`}
                         fill={entry.color}
@@ -57,4 +57,4 @@ const TotalPerWeekCategoriesPieChart = ({totalPerWeek}: TotalPerWeekCategoriesPi
     )
 }
 
-export default TotalPerWeekCategoriesPieChart
+export default CategoryPieChart

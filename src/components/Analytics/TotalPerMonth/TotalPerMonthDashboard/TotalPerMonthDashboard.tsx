@@ -5,13 +5,12 @@ import React from "react"
 import "./total-per-month-dashboard.scss"
 import {useStoreState} from "../../../../store/hookSetup";
 import {ReactComponent as Loader} from "../../../../svgIcons/spinner.svg";
-import TotalPerWeekCategoriesTable
-    from "../../TotalPerWeek/TotalPerWeekCategories/TotalPerWeekCategoriesTable/TotalPerWeekCategoriesTable";
-import TotalPerWeekCategoriesPieChart
-    from "../../TotalPerWeek/TotalPerWeekCategories/TotalPerWeekCategoriesPieChart/TotalPerWeekCategoriesPieChart";
-import TotalPerWeekActivitiesWrapper
-    from "../../TotalPerWeek/TotalPerWeekActivities/TotalPerWeekActivitiesWrapper/TotalPerWeekActivitiesWrapper";
 import {DateTime} from "luxon";
+import Card from "../../BasicComponents/Card/Card";
+import CardTitle from "../../BasicComponents/Card/CardTitle/CardTitle";
+import CategoryTable from "../../BasicComponents/CategoryTable/CategoryTable";
+import CategoryPieChart from "../../BasicComponents/CategoryPieChart/CategoryPieChart";
+import ActivityCardContent from "../../BasicComponents/ActivityCardContent/ActivityCardContent";
 
 type TotalPerMonthDashboardProps = {
     loading: boolean
@@ -31,27 +30,25 @@ const TotalPerMonthDashboard:React.FC<TotalPerMonthDashboardProps> = ({loading})
     }
 
     return (
-        <div className={"total-per-month"}>
+        <section className={"total-per-month"}>
 
-            <div className={"card"} style={{marginLeft: 0, marginTop: 0}}>
-                <h3 className={"card-title"}>Categories</h3>
+            <Card style={{marginLeft: 0, marginTop: 0}}>
+                <CardTitle title={"Categories"}/>
 
-                <TotalPerWeekCategoriesTable
-                    totalPerWeek={totalPerMonth}
+                <CategoryTable categoryTypes={totalPerMonth.categoryTypes} totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}/>
+                <CategoryPieChart categoryTypes={totalPerMonth.categoryTypes}/>
+            </Card>
+
+            <Card style={{marginTop: 0}}>
+                <CardTitle title={"Activities"}/>
+
+                <ActivityCardContent
+                    categoryTypes={totalPerMonth.categoryTypes}
+                    activityTypes={totalPerMonth.activityTypes}
                     totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}
                 />
-                <TotalPerWeekCategoriesPieChart totalPerWeek={totalPerMonth}/>
-            </div>
-
-            <div className={"card"} style={{marginTop: 0}}>
-                <h3 className={"card-title"}>Activities</h3>
-
-                <TotalPerWeekActivitiesWrapper
-                    totalPerWeek={totalPerMonth}
-                    totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}
-                />
-            </div>
-        </div>
+            </Card>
+        </section>
     )
 }
 

@@ -1,0 +1,18 @@
+@import '../../../../styles/base/settings';
+
+.analytics-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-color: $dark-primary;
+
+  padding: 20px 40px 20px 40px;
+  margin: 20px;
+  border-radius: 10px;
+  min-height: 600px;
+  height: fit-content;
+  min-width: 440px;
+  width: fit-content;
+}

@@ -1,0 +1,46 @@
+@import '../../../../styles/base/settings';
+
+.analytics-activity-table {
+  width: 100%;
+  max-width: 625px;
+}
+
+.analytics-activity-table__header {
+  color: $accent;
+  text-align: right;
+  padding: 0 20px;
+}
+
+.analytics-activity-table__cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  color: $accent-2;
+  font-size: $type-sizing-4;
+
+  padding: 10px 0 0 20px;
+}
+
+.analytics-activity-table__color {
+  height: 12px;
+  width: 12px;
+
+  border-radius: 2px;
+  margin-right: 10px;
+}
+
+.analytics-activity-table__long {
+  margin: 0;
+  word-wrap: break-word;
+  word-break: break-word;
+  max-width: 200px;
+}
+
+.analytics-activity-table__cell-count {
+  padding: 0 20px 0 25px;
+
+  font-size: $type-sizing-4;
+  text-align: right;
+  color: $accent-2;
+}

@@ -1,24 +1,31 @@
 // External imports
-import React from "react"
-import {PieChart, Pie, Cell, Tooltip, TooltipProps} from 'recharts';
+import {Cell, Pie, PieChart, Tooltip, TooltipProps} from "recharts";
+import {Duration} from "luxon";
+import React from "react";
 
 // Internal imports
-import {Duration} from "luxon";
-import {TotalPerWeek} from "../../../../../store/analytics";
+import "./activity-pie-chart.scss"
 
-type TotalPerWeekActivitiesPieChartProps = {
-    totalPerWeek: TotalPerWeek,
+
+type ActivityPieChartProps = {
+    activityTypes: {
+        categoryid: string
+        activityid: string
+        long: string
+        short: string
+        count: number
+    }[]
     pickedCategoryid: string,
     color: string
 }
 
-const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid, color}: TotalPerWeekActivitiesPieChartProps) => {
+const ActivityPieChart:React.FC<ActivityPieChartProps> = ({activityTypes, pickedCategoryid, color}) => {
 
     const CustomTooltip = ({ payload, active}: TooltipProps<number, string>) => {
         if (active && payload && payload.length) {
 
             return (
-                <div className="custom-tooltip">
+                <div className="activity-pie-chart__custom-tooltip">
                     {payload.map(entry => (
                         <p style={{color: entry.payload.stroke}}>
                             {entry.name}: {entry.value && Duration.fromObject({minutes: entry.value*15}).toFormat("h:mm")}h
@@ -37,7 +44,7 @@ const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid, color}:
             />
 
             <Pie
-                data={totalPerWeek.activityTypes.filter(activityType => activityType.categoryid === pickedCategoryid)}
+                data={activityTypes.filter(activityType => activityType.categoryid === pickedCategoryid)}
                 cx={145}
                 cy={150}
                 innerRadius={75}
@@ -49,7 +56,7 @@ const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid, color}:
                 animationDuration={900}
                 nameKey={"long"}
             >
-                {totalPerWeek.activityTypes.map((entry, index) => {
+                {activityTypes.map((entry, index) => {
                     if (entry.categoryid === pickedCategoryid) {
                         return (
                             <Cell
@@ -65,4 +72,4 @@ const TotalPerWeekActivitiesPieChart = ({totalPerWeek, pickedCategoryid, color}:
     )
 }
 
-export default TotalPerWeekActivitiesPieChart
+export default ActivityPieChart

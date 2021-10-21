@@ -1,0 +1,15 @@
+@import '../../../../../styles/base/settings';
+
+.analytics-card-title {
+  width: 100%;
+
+  text-align: center;
+  font-weight: 500;
+  font-size: $type-sizing-5;
+  color: $accent-2;
+
+  padding-bottom: $sizing-2;
+  margin-top: 0;
+
+  border-bottom: 2px solid $accent;
+}

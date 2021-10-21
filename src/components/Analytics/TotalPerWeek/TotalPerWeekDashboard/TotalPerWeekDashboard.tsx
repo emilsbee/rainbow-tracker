@@ -4,12 +4,12 @@ import React from "react"
 // Internal imports
 import "./total-per-week-dashboard.scss"
 import {ReactComponent as Loader} from "../../../../svgIcons/spinner.svg";
-import TotalPerWeekCategoriesTable from "../TotalPerWeekCategories/TotalPerWeekCategoriesTable/TotalPerWeekCategoriesTable";
-import TotalPerWeekCategoriesPieChart
-    from "../TotalPerWeekCategories/TotalPerWeekCategoriesPieChart/TotalPerWeekCategoriesPieChart";
-import TotalPerWeekActivitiesWrapper
-    from "../TotalPerWeekActivities/TotalPerWeekActivitiesWrapper/TotalPerWeekActivitiesWrapper";
 import {useStoreState} from "../../../../store/hookSetup";
+import Card from "../../BasicComponents/Card/Card";
+import CardTitle from "../../BasicComponents/Card/CardTitle/CardTitle";
+import CategoryTable from "../../BasicComponents/CategoryTable/CategoryTable";
+import CategoryPieChart from "../../BasicComponents/CategoryPieChart/CategoryPieChart";
+import ActivityCardContent from "../../BasicComponents/ActivityCardContent/ActivityCardContent";
 
 type TotalPerWeekDashboardProps = {
     loading: boolean
@@ -28,25 +28,26 @@ const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
     }
 
     return (
-        <div className={"total-per-week"}>
+        <section className={"total-per-week"}>
 
-            <div className={"card"} style={{marginLeft: 0, marginTop: 0}}>
-                <h3 className={"card-title"}>Categories</h3>
+            <Card style={{marginLeft: 0, marginTop: 0}}>
+                <CardTitle title={"Categories"}/>
 
-                <TotalPerWeekCategoriesTable totalPerWeek={totalPerWeek} totalCount={672}/>
+                <CategoryTable categoryTypes={totalPerWeek.categoryTypes} totalCount={672}/>
 
-                <TotalPerWeekCategoriesPieChart totalPerWeek={totalPerWeek}/>
-            </div>
+                <CategoryPieChart categoryTypes={totalPerWeek.categoryTypes}/>
+            </Card>
 
-            <div className={"card"} style={{marginTop: 0}}>
-                <h3 className={"card-title"}>Activities</h3>
+            <Card style={{marginTop: 0}}>
+                <CardTitle title={"Activities"}/>
 
-                <TotalPerWeekActivitiesWrapper
-                    totalPerWeek={totalPerWeek}
+                <ActivityCardContent
+                    categoryTypes={totalPerWeek.categoryTypes}
+                    activityTypes={totalPerWeek.activityTypes}
                     totalCount={672}
                 />
-            </div>
-        </div>
+            </Card>
+        </section>
     )
 }
 

@@ -6,6 +6,8 @@ import "./total-per-day-dashboard.scss"
 import {ReactComponent as Loader} from "../../../../svgIcons/spinner.svg";
 import TotalPerDayCategoriesChart from "../TotalPerDayCategoriesChart/TotalPerDayCategoriesChart";
 import {TotalPerDay} from "../../../../store/analytics";
+import Card from "../../BasicComponents/Card/Card";
+import CardTitle from "../../BasicComponents/Card/CardTitle/CardTitle";
 
 type TotalPerDayDashboardProps = {
     loading: boolean,
@@ -24,10 +26,11 @@ const TotalPerDayDashboard = ({loading, totalPerDay}: TotalPerDayDashboardProps)
 
     return (
         <section className={"total-per-day"}>
-            <div className={"card"} style={{marginLeft: 0, marginTop: "40px"}}>
-                <h3 className={"card-title"}>Categories</h3>
+            <Card style={{marginLeft: 0, marginTop: "40px"}}>
+                <CardTitle title={"Categories"}/>
+                
                 <TotalPerDayCategoriesChart totalPerDay={totalPerDay}/>
-            </div>
+            </Card>
         </section>
     )
 }
