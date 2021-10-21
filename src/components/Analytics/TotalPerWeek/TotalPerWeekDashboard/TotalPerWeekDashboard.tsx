@@ -19,6 +19,20 @@ const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
     // Store state
     const totalPerWeek = useStoreState(state => state.analytics.totalPerWeek)
 
+    React.useLayoutEffect(() => {
+        const categoryTable = document.getElementById("total-per-week-dashboard__categories")
+        const activityTable = document.getElementById("total-per-week-dashboard__activities")
+
+        if (categoryTable && activityTable) {
+
+            if (categoryTable.clientHeight > activityTable.clientHeight) {
+                activityTable.style.height = `${categoryTable.clientHeight}px`
+            } else if (categoryTable.clientHeight < activityTable.clientHeight) {
+                categoryTable.style.height = `${activityTable.clientHeight}px`
+            }
+        }
+    })
+
     if (loading) {
         return (
             <div id="main-dashboard-table__loading">
@@ -30,7 +44,7 @@ const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
     return (
         <section className={"total-per-week"}>
 
-            <Card style={{marginLeft: 0, marginTop: 0}}>
+            <Card style={{marginLeft: 0}} id={"total-per-week-dashboard__categories"}>
                 <CardTitle title={"Categories"}/>
 
                 <CategoryTable categoryTypes={totalPerWeek.categoryTypes} totalCount={672}/>
@@ -38,7 +52,7 @@ const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
                 <CategoryPieChart categoryTypes={totalPerWeek.categoryTypes}/>
             </Card>
 
-            <Card style={{marginTop: 0}}>
+            <Card id={"total-per-week-dashboard__activities"}>
                 <CardTitle title={"Activities"}/>
 
                 <ActivityCardContent

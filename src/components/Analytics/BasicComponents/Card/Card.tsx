@@ -5,13 +5,14 @@ import React from "react"
 import "./card.scss"
 
 type CardProps = {
-    style: React.CSSProperties
+    style?: React.CSSProperties
+    id?: string
 }
 
-const Card:React.FC<CardProps> = ({children, style}) => {
+const Card:React.FC<CardProps> = ({children, style, id}) => {
 
     return (
-        <section className={"analytics-card"} style={style}>
+        <section className={"analytics-card"} style={style} id={id}>
             {children}
         </section>
     )

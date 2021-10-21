@@ -18,7 +18,7 @@ type CategoryTableProps = {
 const CategoryTable:React.FC<CategoryTableProps> = ({categoryTypes, totalCount}) => {
 
     return (
-        <table>
+        <table className={"analytics-category-table"}>
 
             <thead>
                 <tr>

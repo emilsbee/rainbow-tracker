@@ -21,6 +21,20 @@ const TotalPerMonthDashboard:React.FC<TotalPerMonthDashboardProps> = ({loading})
     const totalPerMonth = useStoreState(state => state.analytics.totalPerMonth)
     const currentMonthDate = useStoreState(state => state.settings.currentMonthDate)
 
+    React.useLayoutEffect(() => {
+        const categoryTable = document.getElementById("total-per-week-dashboard__categories")
+        const activityTable = document.getElementById("total-per-week-dashboard__activities")
+
+        if (categoryTable && activityTable) {
+
+            if (categoryTable.clientHeight > activityTable.clientHeight) {
+                activityTable.style.height = `${categoryTable.clientHeight}px`
+            } else if (categoryTable.clientHeight < activityTable.clientHeight) {
+                categoryTable.style.height = `${activityTable.clientHeight}px`
+            }
+        }
+    })
+
     if (loading) {
         return (
             <div id="main-dashboard-table__loading">
@@ -32,14 +46,14 @@ const TotalPerMonthDashboard:React.FC<TotalPerMonthDashboardProps> = ({loading})
     return (
         <section className={"total-per-month"}>
 
-            <Card style={{marginLeft: 0, marginTop: 0}}>
+            <Card style={{marginLeft: 0}} id={"total-per-week-dashboard__categories"}>
                 <CardTitle title={"Categories"}/>
 
                 <CategoryTable categoryTypes={totalPerMonth.categoryTypes} totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}/>
                 <CategoryPieChart categoryTypes={totalPerMonth.categoryTypes}/>
             </Card>
 
-            <Card style={{marginTop: 0}}>
+            <Card id={"total-per-week-dashboard__activities"}>
                 <CardTitle title={"Activities"}/>
 
                 <ActivityCardContent
