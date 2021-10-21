@@ -28,7 +28,7 @@ const NavBar = () => {
     // Every time the location changes, currentLocation is updated.
     let location = useLocation()
     React.useEffect(() => {
-        setCurrentLocation(location.pathname)
+        setCurrentLocation(`/${location.pathname.split("/")[1]}`)
     }, [location])
 
     /**
