@@ -33,7 +33,7 @@ const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
             <div className={"card"} style={{marginLeft: 0, marginTop: 0}}>
                 <h3 className={"card-title"}>Categories</h3>
 
-                <TotalPerWeekCategoriesTable totalPerWeek={totalPerWeek}/>
+                <TotalPerWeekCategoriesTable totalPerWeek={totalPerWeek} totalCount={672}/>
 
                 <TotalPerWeekCategoriesPieChart totalPerWeek={totalPerWeek}/>
             </div>
@@ -41,7 +41,10 @@ const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
             <div className={"card"} style={{marginTop: 0}}>
                 <h3 className={"card-title"}>Activities</h3>
 
-                <TotalPerWeekActivitiesWrapper totalPerWeek={totalPerWeek}/>
+                <TotalPerWeekActivitiesWrapper
+                    totalPerWeek={totalPerWeek}
+                    totalCount={672}
+                />
             </div>
         </div>
     )

@@ -11,6 +11,7 @@ import TotalPerWeekCategoriesPieChart
     from "../../TotalPerWeek/TotalPerWeekCategories/TotalPerWeekCategoriesPieChart/TotalPerWeekCategoriesPieChart";
 import TotalPerWeekActivitiesWrapper
     from "../../TotalPerWeek/TotalPerWeekActivities/TotalPerWeekActivitiesWrapper/TotalPerWeekActivitiesWrapper";
+import {DateTime} from "luxon";
 
 type TotalPerMonthDashboardProps = {
     loading: boolean
@@ -19,6 +20,7 @@ type TotalPerMonthDashboardProps = {
 const TotalPerMonthDashboard:React.FC<TotalPerMonthDashboardProps> = ({loading}) => {
     // Store state
     const totalPerMonth = useStoreState(state => state.analytics.totalPerMonth)
+    const currentMonthDate = useStoreState(state => state.settings.currentMonthDate)
 
     if (loading) {
         return (
@@ -34,14 +36,20 @@ const TotalPerMonthDashboard:React.FC<TotalPerMonthDashboardProps> = ({loading})
             <div className={"card"} style={{marginLeft: 0, marginTop: 0}}>
                 <h3 className={"card-title"}>Categories</h3>
 
-                <TotalPerWeekCategoriesTable totalPerWeek={totalPerMonth}/>
+                <TotalPerWeekCategoriesTable
+                    totalPerWeek={totalPerMonth}
+                    totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}
+                />
                 <TotalPerWeekCategoriesPieChart totalPerWeek={totalPerMonth}/>
             </div>
 
             <div className={"card"} style={{marginTop: 0}}>
                 <h3 className={"card-title"}>Activities</h3>
 
-                <TotalPerWeekActivitiesWrapper totalPerWeek={totalPerMonth}/>
+                <TotalPerWeekActivitiesWrapper
+                    totalPerWeek={totalPerMonth}
+                    totalCount={(DateTime.fromObject({month: currentMonthDate.month, year: currentMonthDate.year}).daysInMonth * 24 * 4)}
+                />
             </div>
         </div>
     )

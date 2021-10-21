@@ -2,6 +2,7 @@
 import React from "react"
 
 // Internal imports
+import "./total-per-day-dashboard.scss"
 import {ReactComponent as Loader} from "../../../../svgIcons/spinner.svg";
 import TotalPerDayCategoriesChart from "../TotalPerDayCategoriesChart/TotalPerDayCategoriesChart";
 import {TotalPerDay} from "../../../../store/analytics";
@@ -22,10 +23,12 @@ const TotalPerDayDashboard = ({loading, totalPerDay}: TotalPerDayDashboardProps)
     }
 
     return (
-        <div className={"total-per-day card"} style={{marginLeft: 0, marginTop: "40px"}}>
-            <h3 className={"card-title"}>Categories</h3>
-            <TotalPerDayCategoriesChart totalPerDay={totalPerDay}/>
-        </div>
+        <section className={"total-per-day"}>
+            <div className={"card"} style={{marginLeft: 0, marginTop: "40px"}}>
+                <h3 className={"card-title"}>Categories</h3>
+                <TotalPerDayCategoriesChart totalPerDay={totalPerDay}/>
+            </div>
+        </section>
     )
 }
 

@@ -10,9 +10,10 @@ import {TotalPerWeek} from "../../../../../store/analytics";
 
 type TotalPerWeekActivitiesWrapperProps = {
     totalPerWeek: TotalPerWeek
+    totalCount: number
 }
 
-const TotalPerWeekActivitiesWrapper = ({totalPerWeek}: TotalPerWeekActivitiesWrapperProps) => {
+const TotalPerWeekActivitiesWrapper = ({totalPerWeek, totalCount}: TotalPerWeekActivitiesWrapperProps) => {
 
     const [pickedCategoryIndex, setPickedCategoryIndex] = React.useState(0)
 
@@ -32,9 +33,17 @@ const TotalPerWeekActivitiesWrapper = ({totalPerWeek}: TotalPerWeekActivitiesWra
                 />
             </div>
 
-            <TotalPerWeekActivitiesTable color={totalPerWeek.categoryTypes[pickedCategoryIndex].color} totalPerWeek={totalPerWeek} pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}/>
+            <TotalPerWeekActivitiesTable
+                color={totalPerWeek.categoryTypes[pickedCategoryIndex].color}
+                totalPerWeek={totalPerWeek}
+                pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}
+                totalCount={totalCount}
+            />
 
-            <TotalPerWeekActivitiesPieChart color={totalPerWeek.categoryTypes[pickedCategoryIndex].color} totalPerWeek={totalPerWeek} pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}/>
+            <TotalPerWeekActivitiesPieChart
+                color={totalPerWeek.categoryTypes[pickedCategoryIndex].color}
+                totalPerWeek={totalPerWeek} pickedCategoryid={totalPerWeek.categoryTypes[pickedCategoryIndex].categoryid}
+            />
         </>
     )
 }
