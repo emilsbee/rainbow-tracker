@@ -27,6 +27,9 @@ const AppRouter = () => {
                         <PublicRoute path="/" component={LoginPage} exact={true}/>
                         <PublicRoute path="/internal-error" component={BackendError} exact={false}/>
                         <PrivateRoute path="/analytics" component={AnalyticsDashboardWrapper}/>
+                        <PrivateRoute path={"/analytics/monthly"} component={AnalyticsDashboardWrapper}/>
+                        <PrivateRoute path={"/analytics/weekly"} component={AnalyticsDashboardWrapper}/>
+                        <PrivateRoute path={"/analytics/daily"} component={AnalyticsDashboardWrapper}/>
                         <PrivateRoute path="/dashboard" component={MainDashboardWrapper}/>
                         <PrivateRoute path="/settings/category/:categoryid/edit-activity/:activityid" component={EditActivityForm}/>
                         <PrivateRoute path="/settings" component={SettingsDashboardWrapper}/>

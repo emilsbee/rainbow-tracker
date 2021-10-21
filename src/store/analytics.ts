@@ -73,7 +73,7 @@ const analyticsModel: AnalyticsModel = {
         state.totalPerWeek = payload.totalPerWeek
     }),
     fetchTotalPerWeek: thunk(async (actions, payload) => {
-        const res = await fetch(`api/user/${payload.userid}/analytics/total-per-week?week_number=${payload.weekNr}&week_year=${payload.year}`, {
+        const res = await fetch(`/api/user/${payload.userid}/analytics/total-per-week?week_number=${payload.weekNr}&week_year=${payload.year}`, {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -96,7 +96,7 @@ const analyticsModel: AnalyticsModel = {
         state.totalPerDay = payload.totalPerDay
     }),
     fetchTotalPerDay: thunk(async (actions, payload) => {
-        const res = await fetch(`api/user/${payload.userid}/analytics/total-per-day?week_number=${payload.weekNr}&week_year=${payload.year}`, {
+        const res = await fetch(`/api/user/${payload.userid}/analytics/total-per-day?week_number=${payload.weekNr}&week_year=${payload.year}`, {
             method: "GET",
             mode: "cors",
             credentials: "include",
@@ -119,7 +119,7 @@ const analyticsModel: AnalyticsModel = {
         state.availableDates = payload.availableDates
     }),
     fetchAvailableDates: thunk(async (actions, payload) => {
-        const res = await fetch(`api/user/${payload.userid}/analytics/available-dates`, {
+        const res = await fetch(`/api/user/${payload.userid}/analytics/available-dates`, {
             method: "GET",
             mode: "cors",
             credentials: "include",

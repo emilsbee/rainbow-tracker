@@ -1,5 +1,6 @@
 // External imports
 import React from "react"
+import {useHistory, useLocation} from "react-router-dom";
 
 // Internal imports
 import './analytics-dashboard-wrapper.scss'
@@ -14,8 +15,29 @@ import TotalPerMonthWrapper from "../TotalPerMonth/TotalPerMonthWrapper/TotalPer
 const AnalyticsDashboardWrapper = () => {
     const tabs = ["Monthly", "Weekly", "Daily"]
 
+    const location = useLocation()
+    const history = useHistory()
+
     // Local state
     const [selectedTabIndex, setSelectedTabIndex] = React.useState(0)
+
+    React.useEffect(() => {
+        const currentPath = location.pathname.split("/")
+
+        if (currentPath.length === 3) {
+
+            const tab = currentPath[2]
+
+            for (let i = 0; i < tabs.length; i++) {
+                if (tab === tabs[i].toLowerCase()) {
+                    setSelectedTabIndex(i)
+                }
+            }
+        } else {
+            setSelectedTabIndex(0)
+            history.push("/analytics/monthly")
+        }
+    }, [location])
 
     return (
         <div className={"analytics-dashboard-wrapper"}>
