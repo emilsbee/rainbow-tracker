@@ -1,6 +1,13 @@
 // External imports
 import {thunk, action, Thunk, Action} from "easy-peasy"
+
+// Internal imports
 import {history} from "../../routers/AppRouter";
+
+export type User = {
+    userid:string
+    email:string
+}
 
 /**
  * Authentication model. Stores state and functionality to change it
@@ -28,28 +35,22 @@ const authModel:AuthModel = {
     uid: "",
 
     login: thunk(async (actions, payload) => {
-        try {
-            let res = await fetch(`api/auth/login`, {
-                method: "POST",
-                mode: "cors",
-                credentials: "include",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({email: payload.email, password: payload.password})
-            })
+        const res = await fetch(`/api/auth/login`, {
+            method: "POST",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({email: payload.email, password: payload.password})
+        })
 
-            if (res.ok) {
-                let user = await res.json()
-                window.localStorage.setItem("userid", user[0].userid)
-                actions.setuid({userid: user[0].userid})
-            } else {
-                if (res.status !== 401) {
-                    history.push("/internal-error")
-                }
-            }
-        } catch (e) {
-            history.push("/internal-error")
+        if (res.ok) {
+            let user = await res.json() as User
+            window.localStorage.setItem("userid", user.userid)
+            actions.setuid({userid: user.userid})
+        } else {
+            throw new Error("Failed to log in.")
         }
     }),
 

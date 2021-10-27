@@ -13,13 +13,19 @@ const LoginPage = () => {
     // Local state
     const [email, setEmail] = React.useState("")
     const [password, setPassword] = React.useState("")
+    const [error, setError] = React.useState<string>("")
 
-
-    const handleSubmit = (e:  React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e:  React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         if (email && email.length > 0 && password && password.length > 0) {
-            login({email, password})
+            try {
+                await login({email, password})
+            } catch (e: any) {
+                setError(e.message)
+                setEmail("")
+                setPassword("")
+            }
         }
     }
 
@@ -28,6 +34,13 @@ const LoginPage = () => {
             <h2 className={"login-header"}>
                 Welcome, curious person!
             </h2>
+
+            <div className={"login-error__container"}>
+                <p className={"login-error_message"}>
+                    {error}
+                </p>
+            </div>
+
             <form onSubmit={handleSubmit}>
                 <label htmlFor={"email"}>
                     <p className={"login-input-label"}>Email</p>

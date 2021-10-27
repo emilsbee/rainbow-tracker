@@ -18,6 +18,15 @@
     align-items: center;
 }
 
+.login-error__container {
+    height: 16px;
+    margin-bottom: 16px;
+}
+
+.login-error_message {
+    color: $error;
+}
+
 .login-header {
     color: $accent-2;
     margin-bottom: 10px;
