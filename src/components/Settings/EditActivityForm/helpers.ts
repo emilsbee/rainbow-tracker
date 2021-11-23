@@ -1,9 +1,8 @@
-// Internal imports
-import { ActivityType, CategoryType } from "../../../store/settings/settings";
+import * as i from "types";
 
-export const checkIfCategoryExists = (categoryTypes:CategoryType[], categoryid: string): { exists: boolean, categoryType:CategoryType } => {
+export const checkIfCategoryExists = (categoryTypes: i.CategoryType[], categoryid: string): { exists: boolean, categoryType: i.CategoryType } => {
   let exists = false;
-  let categoryType = {} as CategoryType;
+  let categoryType = {} as i.CategoryType;
 
   for (let i = 0; i < categoryTypes.length; i++) {
     if (categoryTypes[i].categoryid === categoryid) {
@@ -16,9 +15,9 @@ export const checkIfCategoryExists = (categoryTypes:CategoryType[], categoryid: 
   return { exists, categoryType };
 };
 
-export const checkIfActivityExists = (activityTypes: ActivityType[], activityid: string): { exists: boolean, activityType: ActivityType } => {
+export const checkIfActivityExists = (activityTypes: i.ActivityType[], activityid: string): { exists: boolean, activityType: i.ActivityType } => {
   let exists = false;
-  let activityType = {} as ActivityType;
+  let activityType = {} as i.ActivityType;
 
   for (let i = 0; i < activityTypes.length; i++) {
     if (activityTypes[i].activityid === activityid) {

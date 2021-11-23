@@ -1,20 +1,18 @@
-// External imports
+import * as i from "types";
 import React from "react";
 
-// Internal imports
 import "./Note.scss";
-import { Note } from "../../../../store/notes/notes";
 import { useStoreActions } from "../../../../store/hookSetup";
 import { getStackHeight, CONSTANTS } from "./helpers";
 
 type NoteComponentProps = {
-  note: Note;
+  note: i.Note;
   max: number;
   min: number;
-  onDragStart: (e: React.DragEvent<HTMLDivElement>, note: Note) => void;
-  onDragEnter: (note: Note) => void;
-  onClick: (note: Note) => void;
-  onMouseDown: (e: React.MouseEvent<HTMLDivElement>, note: Note) => void;
+  onDragStart: (e: React.DragEvent<HTMLDivElement>, note: i.Note) => void;
+  onDragEnter: (note: i.Note) => void;
+  onClick: (note: i.Note) => void;
+  onMouseDown: (e: React.MouseEvent<HTMLDivElement>, note: i.Note) => void;
 };
 
 const NoteComponent = ({

@@ -1,15 +1,13 @@
-// External imports
+import * as i from "types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Internal imports
 import "./activity-list.scss";
-import { ActivityType } from "../../../store/settings/settings";
 import { ReactComponent as Add } from "../../../svgIcons/add.svg";
 import ActivityListItem from "./ActivityListItem/ActivityListItem";
 
 type ActivityListProps = {
-  activityTypes:ActivityType[],
+  activityTypes: i.ActivityType[],
   categoryid:string,
   viewArchived: boolean
 }

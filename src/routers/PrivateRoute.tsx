@@ -1,8 +1,6 @@
-// External imports
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-// Internal imports
 import NavBar from "../components/BasicComponents/NavBar/NavBar";
 import { useStoreActions, useStoreState } from "../store/hookSetup";
 import { checkIfLoggedIn } from "../store/auth/helpers";
@@ -54,15 +52,13 @@ const PrivateRoute = (props: {path: string, component: any }) => {
   return (
     <>
       {!!uid && <NavBar />}
-      <Route path={props.path} component={() => (
-        !!uid ? (
-          <>
-            <Component props={{ ...props }} />
-          </>
+      <Route path={props.path}>
+        {!!uid ? (
+          <Component props={{ ...props }} />
         ) : (
           <Redirect to="/" />
-        )
-      )} />
+        )}
+      </Route>
     </>
   );
 };

@@ -1,22 +1,19 @@
-// External imports
+import * as i from "types";
 import React, { useState } from "react";
 import { DateTime, Info } from "luxon";
 
-// Internal imports
 import CategoryItem from "../Category/CategoryItem";
 import NoteItem from "../Note/NoteItem";
 import NoteModal from "../Note/NoteModal/NoteModal";
 import "./Day.scss";
 import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
-import { Note } from "../../../../store/notes/notes";
-import { Category } from "../../../../store/categories/categories";
 import AnalyticsPopover from "../AnalyticsPopover/AnalyticsPopover";
 import { useKeyPress } from "../../../../hooks/useKeyPress";
 import { findStackExtremes } from "./helpers";
 
 type DayProps = {
-  categories:Category[],
-  notes:Note[],
+  categories: i.Category[],
+  notes: i.Note[],
   weekDay: number
 }
 
@@ -48,9 +45,9 @@ function Day({ categories, notes, weekDay }: DayProps) {
   const [hoveringOverDayHeader, setHoveringOverDayHeader] = React.useState<boolean>(false);
 
   // Note modal logic
-  const [noteModalData, setNoteModalData] = useState<Note | null>(null);
+  const [noteModalData, setNoteModalData] = useState<i.Note | null>(null);
 
-  const onNoteClick = (note: Note):void => {
+  const onNoteClick = (note: i.Note):void => {
     if (controlPress) {
       deleteNoteText(note);
     } else {
@@ -58,17 +55,17 @@ function Day({ categories, notes, weekDay }: DayProps) {
     }
   };
 
-  const onNoteSave = (note: Note):void => {
+  const onNoteSave = (note: i.Note):void => {
     setNoteText(note);
     setNoteModalData(null);
   };
 
-  const onNoteDeleteText = (note: Note):void => {
+  const onNoteDeleteText = (note: i.Note):void => {
     deleteNoteText(note);
     setNoteModalData(null);
   };
 
-  const onNoteDeleteStack = (note: Note) => {
+  const onNoteDeleteStack = (note: i.Note) => {
     deleteNoteStack(note);
     setNoteModalData(null);
   };
@@ -82,16 +79,16 @@ function Day({ categories, notes, weekDay }: DayProps) {
   };
 
   // CategoryType logic
-  const [dragCategory, setDragCategory] = useState<Category | null>(null);
+  const [dragCategory, setDragCategory] = useState<i.Category | null>(null);
 
-  const onCategoryDragStart = (e:  React.DragEvent<HTMLDivElement>, category: Category) => {
+  const onCategoryDragStart = (e:  React.DragEvent<HTMLDivElement>, category: i.Category) => {
     e.dataTransfer.setDragImage(initDragImageState(), 1, 1); // Sets the ghost image
 
     setDragCategory(category); // Sets the category
     setHoverIndex({ timeHoverIndex: category.categoryPosition - 1 });
   };
 
-  const onCategoryDragEnter = (category: Category) => {
+  const onCategoryDragEnter = (category: i.Category) => {
     if (dragCategory) {
       categoryDragSet({
         dragPosition: dragCategory.categoryPosition,
@@ -105,16 +102,16 @@ function Day({ categories, notes, weekDay }: DayProps) {
   };
 
   // Note logic
-  const [dragNote, setDragNote] = useState<Note | null>(null);
+  const [dragNote, setDragNote] = useState<i.Note | null>(null);
 
-  const onNoteDragStart = (e: React.DragEvent<HTMLDivElement>, note: Note) => {
+  const onNoteDragStart = (e: React.DragEvent<HTMLDivElement>, note: i.Note) => {
     e.dataTransfer.setDragImage(initDragImageState(), 1, 1); // Sets the ghost image
 
     setDragNote(note); // Sets the initial drag note (local state)
     setHoverIndex({ timeHoverIndex: note.notePosition - 1 });
   };
 
-  const onNoteDragEnter = (note: Note) => {
+  const onNoteDragEnter = (note: i.Note) => {
     if (dragNote) { // Checks if the dragging comes from a note rather than a category
       const noteExtremes = findStackExtremes(notes, note.stackid);
       const dragExtremes = findStackExtremes(notes, dragNote.stackid);
@@ -143,7 +140,7 @@ function Day({ categories, notes, weekDay }: DayProps) {
   };
 
   // Delete note stack when mouse wheel is pressed on a stack
-  const onNoteMouseDown = (e: React.MouseEvent, note: Note) => {
+  const onNoteMouseDown = (e: React.MouseEvent, note: i.Note) => {
     const { max, min } = findStackExtremes(notes, note.stackid);
     if (e.button === 1 && controlPress && (max !== min)) {
       deleteNoteText(note);
@@ -190,7 +187,7 @@ function Day({ categories, notes, weekDay }: DayProps) {
 
         <div className="note-outer-container">
 
-          {notes.map((note: Note) => { // Iterates over all notes from the day
+          {notes.map((note: i.Note) => { // Iterates over all notes from the day
 
             const { max, min } = findStackExtremes(notes, note.stackid); // Extremes of the note about to be rendered
 

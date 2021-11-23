@@ -1,19 +1,17 @@
-// External imports
+import * as i from "types";
 import React, { useState, DragEvent } from "react";
 
-// Internal imports
 import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
 import ActivityPopover from "../Activity/ActivityItemPopover/ActivityItemPopover";
 import Activity from "../Activity/Activity";
 import "./Category.scss";
-import { Category } from "../../../../store/categories/categories";
 import CategoryPopover from "./CategoryItemPopover/CategoryItemPopover";
 import { hasActivities } from "./helpers";
 
 type CategoryProps = {
-  category:Category;
-  onDragStart: (e:DragEvent<HTMLDivElement>, category:Category) => void;
-  onDragEnter: (category:Category) => void;
+  category: i.Category;
+  onDragStart: (e:DragEvent<HTMLDivElement>, category: i.Category) => void;
+  onDragEnter: (category: i.Category) => void;
 }
 
 function CategoryComponent({ category, onDragStart, onDragEnter }: CategoryProps) {

@@ -1,8 +1,5 @@
-// External imports
+import * as i from "types";
 import { DateTime } from "luxon";
-
-// Internal imports
-import { AvailableDate } from "../../../../store/analytics";
 
 /**
  * Extracts the week numbers for a given year
@@ -10,7 +7,7 @@ import { AvailableDate } from "../../../../store/analytics";
  * @param availableDates
  * @param year for which to find weeks.
  */
-export const getWeekDropdownWeeks = (availableDates: AvailableDate[], year: number): number[] => {
+export const getWeekDropdownWeeks = (availableDates: i.AvailableDate[], year: number): number[] => {
   let weeks:  number[] = [];
 
   for (let i = 0; i < availableDates.length; i++) {

@@ -1,15 +1,13 @@
-// External imports
+import * as i from "types";
 import React from "react";
 
-// Internal imports
 import "./category-list.scss";
-import { CategoryType } from "../../../../store/settings/settings";
 import { ReactComponent as Add } from "../../../../svgIcons/add.svg";
 import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
 import { useKeyPress } from "../../../../hooks/useKeyPress";
 
 type CategoryListProps = {
-  categoryTypes:CategoryType[],
+  categoryTypes: i.CategoryType[],
   setCategory: (categoryid:string) => void,
   selectedCategoryid:string
   viewArchived:boolean

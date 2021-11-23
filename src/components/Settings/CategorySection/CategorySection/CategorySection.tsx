@@ -1,17 +1,15 @@
-// External imports
+import * as i from "types";
 import React from "react";
 
-// Internal imports
 import "./category-section.scss";
-import { ActivityType, CategoryType } from "../../../../store/settings/settings";
 import SectionTitle from "../../SectionTitle/SectionTitle";
 import CategoryList from "../CategoryList/CategoryList";
 import CategorySectionForm from "../CategorySectionForm/CategorySectionForm/CategorySectionForm";
 import { findCategoryForForm } from "./helpers";
 
 type CategorySectionProps = {
-  categoryTypes:CategoryType[],
-  activityTypes:ActivityType[],
+  categoryTypes: i.CategoryType[],
+  activityTypes: i.ActivityType[],
   setLoading:(loading:boolean) => void
 }
 

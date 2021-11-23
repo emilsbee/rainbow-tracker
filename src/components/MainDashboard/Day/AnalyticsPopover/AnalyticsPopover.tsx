@@ -1,10 +1,9 @@
-// External imports
+import * as i from "types";
 import React from "react";
 import { Duration } from "luxon";
 
-// Internal imports
 import "./analytics-popover.scss";
-import { getTotalPerDaySpecific, TotalPerDaySpecific } from "../../../../dao/analytics";
+import { getTotalPerDaySpecific } from "../../../../dao/analytics/analytics";
 import { useStoreState } from "../../../../store/hookSetup";
 
 type AnalyticsPopoverProps = {
@@ -19,7 +18,7 @@ const AnalyticsPopover:React.FC<AnalyticsPopoverProps> = ({ day, weekNr, year })
 
   // Local state
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [totalPerDaySpecific, setTotalPerDaySpecific] = React.useState<TotalPerDaySpecific | null>(null);
+  const [totalPerDaySpecific, setTotalPerDaySpecific] = React.useState<i.TotalPerDaySpecific | null>(null);
   const [position, setPosition] = React.useState<{top:number, right:number, bottom:number, left:number}>({ top: 0, right: 0, left: 0, bottom: 0 });
 
   React.useEffect(() => {

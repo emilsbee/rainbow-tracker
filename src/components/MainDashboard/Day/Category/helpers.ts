@@ -1,5 +1,4 @@
-// Internal imports
-import { ActivityType } from "../../../../store/settings/settings";
+import * as i from "types";
 
 /**
  * Checks whether a given category has any activities associated to it.
@@ -7,9 +6,9 @@ import { ActivityType } from "../../../../store/settings/settings";
  * @param activityTypes The object containing all activities.
  * @return Boolean indicating whether the category has any activities.
  */
-export const hasActivities = (categoryid:string | null, activityTypes:ActivityType[]):boolean => {
+export const hasActivities = (categoryid:string | null, activityTypes: i.ActivityType[]):boolean => {
   for (let i = 0; i < activityTypes.length; i++) {
-    const activityType: ActivityType = activityTypes[i];
+    const activityType: i.ActivityType = activityTypes[i];
 
     if (activityType.categoryid === categoryid) {
       return true;

@@ -1,14 +1,12 @@
-// External imports
+import * as i from "types";
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Internal imports
 import "./activity-list-item.scss";
-import { ActivityType } from "../../../../store/settings/settings";
 import { ReactComponent as Edit } from "../../../../svgIcons/edit.svg";
 
 type ActivityListItemProps = {
-  activity: ActivityType
+  activity: i.ActivityType
 }
 
 const ActivityListItem:React.FC<ActivityListItemProps> = ({ activity }) => {

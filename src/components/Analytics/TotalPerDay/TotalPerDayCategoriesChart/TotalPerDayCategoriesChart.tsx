@@ -1,4 +1,4 @@
-// External imports
+import * as i from "types";
 import React from "react";
 import {
   BarChart,
@@ -10,20 +10,18 @@ import {
   ResponsiveContainer,
   TooltipProps,
 } from "recharts";
-
-// Internal imports
 import { Duration, Info } from "luxon";
+
 import { useStoreState } from "../../../../store/hookSetup";
-import { TotalPerDay } from "../../../../store/analytics";
 
 type TotalPerDayCategoriesChartProps = {
-  totalPerDay: TotalPerDay[]
+  totalPerDay: i.TotalPerDay[]
 }
 
 const TotalPerDayCategoriesChart = ({ totalPerDay }: TotalPerDayCategoriesChartProps) => {
   const categoryTypes = useStoreState((state) => state.settings.categoryTypes);
 
-  const formatData = (totalPerDay: TotalPerDay[]) => {
+  const formatData = (totalPerDay: i.TotalPerDay[]) => {
     const data = [];
 
     for (let i = 0; i < totalPerDay.length; i++) {

@@ -1,15 +1,13 @@
-// External imports
+import * as i from "types";
 import React from "react";
 
-// Internal imports
 import "./settingsDashboard.scss";
 import CategorySection from "../CategorySection/CategorySection/CategorySection";
-import { ActivityType, CategoryType } from "../../../store/settings/settings";
 import { ReactComponent as Loader } from "../../../svgIcons/spinner.svg";
 
 type SettingsDashboardProps = {
-  categoryTypes: CategoryType[],
-  activityTypes: ActivityType[],
+  categoryTypes: i.CategoryType[],
+  activityTypes: i.ActivityType[],
   loading: boolean,
   setLoading: (loading: boolean) => void
 }

@@ -1,9 +1,7 @@
-// External imports
+import * as i from "types";
 import React from "react";
 
-// Internal imports
 import "./category-section-form.scss";
-import { ActivityType, CategoryType } from "../../../../../store/settings/settings";
 import Section from "../Section/Section";
 import ActivityList from "../../../ActivityList/ActivityList";
 import { validateCategorySubmission } from "../../../../../store/categories/helpers";
@@ -11,8 +9,8 @@ import { useStoreActions, useStoreState } from "../../../../../store/hookSetup";
 import { archiveCategory, restoreCategoryType } from "../../../../../dao/settingsDao";
 
 type CategorySectionFormProps = {
-  category: CategoryType,
-  activityTypes: ActivityType[],
+  category: i.CategoryType,
+  activityTypes: i.ActivityType[],
   setLoading: (loading: boolean) => void,
   viewArchived:boolean
 }

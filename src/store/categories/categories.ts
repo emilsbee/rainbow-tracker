@@ -1,80 +1,11 @@
-// External imports
+import * as i from "types";
 import { debounce } from "debounce";
-import { Action, action, thunkOn, ThunkOn } from "easy-peasy";
+import { action, thunkOn } from "easy-peasy";
 
-// Internal imports
 import store from "../storeSetup";
-import { Note } from "../notes/notes";
 import { history } from "../../routers/AppRouter";
 
-export type Week = {
-  weekid: string,
-  userid: string,
-  weekNr: number,
-  weekYear: number
-}
-
-export type FullWeek = Week & { categories: Category[][], notes: Note[][] }
-
-export type Category = {
-  weekid: string,
-  weekDay: number,
-  categoryPosition: number,
-  userid: string,
-  categoryid: string | null,
-  activityid: string | null,
-  weekDayDate: string
-}
-
-export interface CategoriesModel {
-  // Current week's categories.
-  categories:Category[][],
-
-  /**
-     * Sets categories.
-     * @param Category[][ Categories to set.
-     */
-  setCategories: Action<CategoriesModel, {categories:Category[][]}>
-
-  /**
-     * Updates a category in state with the given category.
-     * Also, sets the category's activity to empty string.
-     * @param Category The category to be updated.
-     */
-  setCategory: Action<CategoriesModel, Category>,
-
-  /**
-     * Updates a category's activity.
-     * @param categoryPosition of the category for which to update activity.
-     * @param weekDay of the category to update.
-     * @param activityid of the activity to update with.
-     */
-  setActivity: Action<CategoriesModel, { categoryPosition: number, weekDay: number, activityid: string | null}>,
-
-  /**
-     * Debounced function that runs when 200ms have passed
-     * since the last call of either categoryDragSet, setCategory or setActivity.
-     * Once it runs, it updates auth with the latest category updates.
-     * @param day The day that is to be updated from the current week.
-     */
-  syncToDb: ThunkOn<CategoriesModel>,
-
-  /**
-     * Updates categories and their respective activities between the drag
-     * category and the category that was dragged onto.
-     * Works for both dragging upwards and downwards. The dragging can occur without touching
-     * categories between the drag category and the dragged onto category. This method will "fill"
-     * in the missed categories as if they were dragged onto.
-     * @param  dragPosition Position of the category currently being dragged (drag category).
-     * @param  draggedIntoPosition Position of the category that was dragged onto.
-     * @param  weekDay The day in which dragging occurs.
-     * @param  dragCategoryid The categoryid of the drag category.
-     * @param  dragActivityid The activityid of the drag category.
-     */
-  categoryDragSet: Action<CategoriesModel, { dragPosition:number, draggedIntoPosition:number, weekDay: number, dragCategoryid:string | null, dragActivityid:string | null }>
-}
-
-const categoriesModel:CategoriesModel = {
+const categoriesModel: i.CategoriesModel = {
   categories: [],
   setCategories: action((state, payload) => {
     state.categories = payload.categories;
@@ -126,7 +57,7 @@ const categoriesModel:CategoriesModel = {
     debounce(
       async function (actions, target) {
         const userid: string = store.getState().auth.uid; // User's id
-        const categories: Category[][] = store.getState().categories.categories; // All current week's categories
+        const categories: i.Category[][] = store.getState().categories.categories; // All current week's categories
         const weekDay: number = target.payload.weekDay;
 
         try {

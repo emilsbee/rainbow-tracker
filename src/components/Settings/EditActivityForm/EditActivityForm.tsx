@@ -1,11 +1,9 @@
-// External imports
+import * as i from "types";
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 
-// Internal imports
 import "./edit-activity-form.scss";
 import { useStoreActions, useStoreState } from "../../../store/hookSetup";
-import { CategoryType } from "../../../store/settings/settings";
 import { ReactComponent as Loader } from "../../../svgIcons/spinner.svg";
 import Switch from "../../BasicComponents/Switch/Switch";
 import { checkIfActivityExists, checkIfCategoryExists } from "./helpers";
@@ -15,7 +13,7 @@ const EditActivityForm:React.FC = () => {
   const history = useHistory();
 
   // URL parameters
-  const { categoryid, activityid } = useParams<{categoryid:string, activityid:string}>();
+  const { categoryid, activityid } = useParams<{ categoryid: string, activityid: string }>();
 
   const title = activityid === "new" ? "Create new activity" : "Edit activity";
 
@@ -33,7 +31,7 @@ const EditActivityForm:React.FC = () => {
   const [activityLong, setActivityLong] = React.useState<string>("");
   const [activityShort, setActivityShort] = React.useState<string>("");
   const [activityArchived, setActivityArchived] = React.useState<boolean>(false);
-  const [categoryType, setCategoryType] = React.useState<CategoryType>({} as CategoryType);
+  const [categoryType, setCategoryType] = React.useState<i.CategoryType>({} as i.CategoryType);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {

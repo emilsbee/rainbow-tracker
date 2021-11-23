@@ -1,8 +1,6 @@
-// External imports
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-// Internal imports
 import { useStoreState } from "../store/hookSetup";
 
 /**
@@ -19,13 +17,13 @@ const PublicRoute = (props:{path:string, component: React.FC, exact: boolean}) =
   const Component = props.component;
 
   return (
-    <Route path={props.path} component={() => (
-      isAuthenticated ? (
+    <Route path={props.path}>
+      {isAuthenticated ? (
         <Redirect to="/dashboard" />
       ) : (
         <Component />
-      )
-    )} />
+      )}
+    </Route>
   );
 };
 

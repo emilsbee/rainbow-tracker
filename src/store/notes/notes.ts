@@ -1,60 +1,13 @@
-// External imports
-import { Action, action, debug, ThunkOn, thunkOn, TargetPayload } from "easy-peasy";
+import * as i from "types";
+import { action, debug, thunkOn, TargetPayload } from "easy-peasy";
 import { v4 as uuidv4 } from "uuid";
 import { debounce } from "debounce";
 
-// Internal imports
 import { findStackExtremes } from "../../components/MainDashboard/Day/Day/helpers";
 import store from "../storeSetup";
 import { history } from "../../routers/AppRouter";
 
-export type Note = {
-  weekid: string,
-  weekDay: number,
-  notePosition: number,
-  stackid: string,
-  userid: string,
-  note: string,
-  weekDayDate: string
-}
-
-export interface NotesModel {
-  notes:Note[][],
-  setNotes: Action<NotesModel, {notes:Note[][]}>,
-  syncToDb: ThunkOn<NotesModel>,
-
-  // Cache values for above difference action
-  aboveDifferenceCache: { draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, dragNoteText:string },
-
-  /**
-     * Updates notes above the drag note.
-     * @param  draggedIntoPosition The position of the note that was dragged into.
-     * @param  dragPosition The position of the note currently being dragged (drag note).
-     * @param  weekDay The day of both note dragged into and drag note.
-     * @param  dragStackid The stackid of the drag note.
-     * @param  dragNoteText The note text of the drag note.
-     */
-  aboveDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, dragNoteText:string}>,
-
-  // Cache values for belowDifference action
-  belowDifferenceCache: { draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, oldStackid:string, oldNote:string},
-  /**
-     * Updates notes below the drag note.
-     * @param  draggedIntoPosition The position of the note that was dragged into.
-     * @param  dragPosition The position of the note currently being dragged (drag note).
-     * @param  weekDay Day of both note dragged into and drag note.
-     * @param  dragStackid The stackid of the drag note.
-     * @param  oldStackid The stackid of note that was dragged into.
-     * @param  oldNote The note text of note that was dragged into.
-     */
-  belowDifference: Action<NotesModel, {draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, oldStackid:string, oldNote:string }>,
-
-  setNoteText: Action<NotesModel, Note>,
-  deleteNoteText: Action<NotesModel, Note>,
-  deleteNoteStack: Action<NotesModel, {stackid:string, weekDay:number}>
-}
-
-const notesModel:NotesModel = {
+const notesModel: i.NotesModel = {
   notes: [],
   setNotes: action((state, payload) => {
     state.notes = payload.notes;
@@ -72,7 +25,7 @@ const notesModel:NotesModel = {
     debounce(
       async function (actions, target:TargetPayload<{ weekDay:number }>) {
         const userid = store.getState().auth.uid; // User id
-        const notes: Note[][] = store.getState().notes.notes; // All current week's notes
+        const notes: i.Note[][] = store.getState().notes.notes; // All current week's notes
         const weekDay = target.payload.weekDay;
 
         try {
@@ -126,7 +79,7 @@ const notesModel:NotesModel = {
 
       for (let i = 0; i < state.notes.length; i++) {
         for (let k = 0; k < state.notes[i].length; k++) {
-          const note: Note = state.notes[i][k];
+          const note: i.Note = state.notes[i][k];
 
           if (notesToUpdate.includes(note.notePosition) && note.weekDay === weekDay) { // If current iteration note is one of the notes to update
             state.notes[i][k].stackid = dragStackid; // Updates stackid of the current iteration note to drag note stackid
@@ -189,7 +142,7 @@ const notesModel:NotesModel = {
 
       for (let i = 0; i < state.notes.length; i++) {
         for (let j = 0; j < state.notes[i].length; j++) {
-          const note: Note = state.notes[i][j];
+          const note: i.Note = state.notes[i][j];
 
           if (notesToUpdate.includes(note.notePosition) && note.weekDay === weekDay) { // If current iteration note is one of the notes to update
 
@@ -217,7 +170,7 @@ const notesModel:NotesModel = {
               // the stack note text is passed onto the next highest note from the stack.
               for (let p = 0; p < state.notes.length; p++) {
                 for (let l = 0; l < state.notes[p].length; l++) {
-                  const nt: Note = state.notes[p][l];
+                  const nt: i.Note = state.notes[p][l];
 
                   if (nt.stackid === oldStackid && nt.weekDay === weekDay && nt.notePosition === min + 1) {
                     state.notes[p][l].note = oldNote;
@@ -242,7 +195,7 @@ const notesModel:NotesModel = {
   setNoteText: action((state, payload) => {
     for (let i = 0; i < state.notes.length; i++) {
       for (let j = 0; j < state.notes[i].length; j++) {
-        const note: Note = state.notes[i][j];
+        const note: i.Note = state.notes[i][j];
 
         if (note.notePosition === payload.notePosition && note.weekDay === payload.weekDay) {
           state.notes[i][j].note = payload.note;
@@ -255,7 +208,7 @@ const notesModel:NotesModel = {
   deleteNoteText: action((state, payload) => {
     for (let i = 0; i < state.notes.length; i++) {
       for (let j = 0; j < state.notes[i].length; j++) {
-        const note: Note =  state.notes[i][j];
+        const note: i.Note =  state.notes[i][j];
 
         if (note.notePosition === payload.notePosition && note.weekDay === payload.weekDay) {
           state.notes[i][j].note = "";
@@ -270,7 +223,7 @@ const notesModel:NotesModel = {
 
     for (let i = 0; i < state.notes.length; i++) {
       for (let j = 0; j < state.notes[i].length; j++) {
-        const note: Note = state.notes[i][j];
+        const note: i.Note = state.notes[i][j];
 
         if (note.stackid === payload.stackid && note.weekDay === payload.weekDay) {
           state.notes[i][j].stackid = uuidv4();

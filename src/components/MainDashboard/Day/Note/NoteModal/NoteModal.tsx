@@ -1,15 +1,13 @@
-// External imports
+import * as i from "types";
 import React, { useState } from "react";
 
-// Internal imports
 import "./NoteModal.scss";
-import { Note } from "../../../../../store/notes/notes";
 
 type NoteModalProps = {
-  note: Note,
-  saveNote: (note: Note) => void,
-  deleteText: (note: Note) => void,
-  deleteStack: (note: Note) => void,
+  note: i.Note,
+  saveNote: (note: i.Note) => void,
+  deleteText: (note: i.Note) => void,
+  deleteStack: (note: i.Note) => void,
   stack: boolean
 }
 
@@ -57,18 +55,18 @@ function NoteModal({ note, saveNote, deleteText, deleteStack, stack }: NoteModal
       <div>
         <div id="note-modal-button-container">
           {stack &&
-                                <div
-                                  id="note-modal-delete-button"
-                                  onClick={() => deleteStack(note)}
-                                >
-                                    Delete stack
-                                </div>
+            <div
+              id="note-modal-delete-button"
+              onClick={() => deleteStack(note)}
+            >
+                Delete stack
+            </div>
           }
           <div
             id="note-modal-delete-button"
             onClick={() => deleteText(note)}
           >
-                                    Delete text
+            Delete text
           </div>
 
         </div>

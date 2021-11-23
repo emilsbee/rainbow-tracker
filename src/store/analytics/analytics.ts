@@ -1,73 +1,9 @@
-// External imports
-import { Action, action, thunk, Thunk } from "easy-peasy";
+import * as i from "types";
+import { action, thunk } from "easy-peasy";
 
-// Internal imports
-import { history } from "../routers/AppRouter";
-import { ActivityType, CategoryType } from "./settings/settings";
+import { history } from "../../routers/AppRouter";
 
-export type TotalPerDay = {
-  weekDay: number
-  categories: {
-    categoryid: string | null
-    count: number
-    weekDay: number
-    name: string
-  }[]
-  activities: {
-    activityid: string | null
-    count: number
-    weekDay: number
-  }[]
-}
-
-type TotalPerWeekActivityType = ActivityType & { count: number }
-type TotalPerWeekCategoryType = CategoryType & {count: number }
-export type TotalPerWeek = {
-  categoryTypes: TotalPerWeekCategoryType[],
-  activityTypes: TotalPerWeekActivityType[]
-}
-
-type TotalPerMonthActivityType = ActivityType & { count: number }
-type TotalPerMonthCategoryType = CategoryType & {count: number }
-export type TotalPerMonth = {
-  categoryTypes: TotalPerMonthCategoryType[],
-  activityTypes: TotalPerMonthActivityType[]
-}
-
-export type AvailableDate = {
-  year: number,
-  weeks: number[]
-}
-
-export type AvailableMonth = {
-  year: number
-  month: number // 1-12
-  weekNr: number
-}
-
-export interface AnalyticsModel {
-  totalPerWeek: TotalPerWeek,
-  setTotalPerWeek: Action<AnalyticsModel, {totalPerWeek: TotalPerWeek}>,
-  fetchTotalPerWeek: Thunk<AnalyticsModel, {userid: string, weekNr: number, year: number}>,
-
-  totalPerDay: TotalPerDay[],
-  setTotalPerDay: Action<AnalyticsModel, {totalPerDay: TotalPerDay[]}>,
-  fetchTotalPerDay: Thunk<AnalyticsModel, {userid: string, weekNr: number, year: number}>,
-
-  availableDates: AvailableDate[],
-  setAvailableDates: Action<AnalyticsModel, {availableDates: AvailableDate[]}>,
-  fetchAvailableDates: Thunk<AnalyticsModel, {userid: string}>,
-
-  availableMonths: AvailableMonth[],
-  setAvailableMonths: Action<AnalyticsModel, {availableMonths: AvailableMonth[]}>,
-  fetchAvailableMonths: Thunk<AnalyticsModel, {userid: string}>,
-
-  totalPerMonth: TotalPerMonth,
-  setTotalPerMonth: Action<AnalyticsModel, {totalPerMonth: TotalPerMonth}>,
-  fetchTotalPerMonth: Thunk<AnalyticsModel, {userid: string, month: number, year: number}>
-}
-
-const analyticsModel: AnalyticsModel = {
+const analyticsModel: i.AnalyticsModel = {
   totalPerWeek: { activityTypes: [], categoryTypes: [] },
   setTotalPerWeek: action((state, payload) => {
     state.totalPerWeek = payload.totalPerWeek;
@@ -80,7 +16,7 @@ const analyticsModel: AnalyticsModel = {
     });
 
     if (res.ok) {
-      const totalPerWeek: TotalPerWeek = await res.json();
+      const totalPerWeek: i.TotalPerWeek = await res.json();
       actions.setTotalPerWeek({ totalPerWeek });
     } else if (res.status === 401) {
       history.push("/login");
@@ -103,7 +39,7 @@ const analyticsModel: AnalyticsModel = {
     });
 
     if (res.ok) {
-      const totalPerDay: TotalPerDay[] = await res.json();
+      const totalPerDay: i.TotalPerDay[] = await res.json();
       actions.setTotalPerDay({ totalPerDay });
     } else if (res.status === 401) {
       history.push("/login");
@@ -126,7 +62,7 @@ const analyticsModel: AnalyticsModel = {
     });
 
     if (res.ok) {
-      const availableDates: AvailableDate[] = await res.json();
+      const availableDates: i.AvailableDate[] = await res.json();
       actions.setAvailableDates({ availableDates });
     } else if (res.status === 401) {
       history.push("/login");
@@ -147,7 +83,7 @@ const analyticsModel: AnalyticsModel = {
     });
 
     if (res.ok) {
-      const availableMonths: AvailableMonth[] = await res.json();
+      const availableMonths: i.AvailableMonth[] = await res.json();
       actions.setAvailableMonths({ availableMonths });
     } else if (res.status === 401) {
       history.push("/login");
@@ -171,7 +107,7 @@ const analyticsModel: AnalyticsModel = {
     });
 
     if (res.ok) {
-      const totalPerMonth: TotalPerMonth = await res.json();
+      const totalPerMonth: i.TotalPerMonth = await res.json();
       actions.setTotalPerMonth({ totalPerMonth });
     } else if (res.status === 401) {
       history.push("/login");

@@ -1,17 +1,15 @@
-// External imports
+import * as i from "types";
 import React from "react";
 
-// Internal imports
 import "./total-per-day-dashboard.scss";
 import { ReactComponent as Loader } from "../../../../svgIcons/spinner.svg";
 import TotalPerDayCategoriesChart from "../TotalPerDayCategoriesChart/TotalPerDayCategoriesChart";
-import { TotalPerDay } from "../../../../store/analytics";
 import Card from "../../BasicComponents/Card/Card";
 import CardTitle from "../../BasicComponents/Card/CardTitle/CardTitle";
 
 type TotalPerDayDashboardProps = {
   loading: boolean,
-  totalPerDay: TotalPerDay[]
+  totalPerDay: i.TotalPerDay[]
 }
 
 const TotalPerDayDashboard = ({ loading, totalPerDay }: TotalPerDayDashboardProps) => {

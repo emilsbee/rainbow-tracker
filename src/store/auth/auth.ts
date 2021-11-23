@@ -1,37 +1,9 @@
-// External imports
-import { thunk, action, Thunk, Action } from "easy-peasy";
+import * as i from "types";
+import { thunk, action } from "easy-peasy";
 
-// Internal imports
 import { history } from "../../routers/AppRouter";
 
-export type User = {
-  userid:string
-  email:string
-}
-
-/**
- * Authentication model. Stores state and functionality to change it
- * related to user authentication.
- */
-export interface AuthModel {
-  // User id, if present indicates that user has logged in.
-  uid:string,
-
-  /**
-     * Performs login with the given email and password.
-     */
-  login: Thunk<AuthModel, {email:string, password:string}>,
-  /**
-     * Sets the user as logged in.
-     */
-  setuid: Action<AuthModel, {userid:string}>,
-  /**
-     * Performs logout.
-     */
-  logout: Thunk<AuthModel, {userid:string}>,
-}
-
-const authModel:AuthModel = {
+const authModel: i.AuthModel = {
   uid: "",
 
   login: thunk(async (actions, payload) => {
@@ -46,7 +18,7 @@ const authModel:AuthModel = {
     });
 
     if (res.ok) {
-      const user = await res.json() as User;
+      const user = await res.json() as i.User;
       window.localStorage.setItem("userid", user.userid);
       actions.setuid({ userid: user.userid });
     } else {

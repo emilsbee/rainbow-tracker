@@ -1,9 +1,7 @@
-// External imports
 import React from "react";
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-// Internal imports
 import MainDashboardWrapper from "../components/MainDashboard/MainDashboardWrapper";
 import LoginPage from "../components/LoginPage/LoginPage";
 import NotFound from "../components/NotFoundPage/NotFound";
@@ -22,7 +20,7 @@ export const history = createBrowserHistory();
 const AppRouter = () => {
 
   return (
-    <Router history={history}>
+    <BrowserRouter>
       <Switch>
         <PublicRoute path="/" component={LoginPage} exact={true} />
         <PublicRoute path="/internal-error" component={BackendError} exact={false} />
@@ -33,9 +31,11 @@ const AppRouter = () => {
         <PrivateRoute path="/dashboard" component={MainDashboardWrapper} />
         <PrivateRoute path="/settings/category/:categoryid/edit-activity/:activityid" component={EditActivityForm} />
         <PrivateRoute path="/settings" component={SettingsDashboardWrapper} />
-        <Route component={NotFound} />
+        <Route>
+          <NotFound />
+        </Route>
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 };
 

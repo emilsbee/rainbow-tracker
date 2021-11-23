@@ -1,6 +1,5 @@
-// Internal imports
+import * as i from "types";
 import { history } from "../../routers/AppRouter";
-import { FullWeek } from "./categories";
 
 /**
  * Fetches a week by week number and year for a specific user from the api.
@@ -8,7 +7,7 @@ import { FullWeek } from "./categories";
  * @param weekNr of the week to fetch.
  * @param year of the week to fetch.
  */
-export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
+export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<i.FullWeek[]> => {
   try {
     const res = await fetch(`api/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
       method: "GET",
@@ -37,7 +36,7 @@ export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, yea
  * @param weekNr of the week to create.
  * @param year of the week to create.
  */
-export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<FullWeek[]> => {
+export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<i.FullWeek[]> => {
   try {
     const res = await fetch(`api/user/${userid}/weeks`, {
       method: "POST",

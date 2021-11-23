@@ -1,18 +1,15 @@
-// External imports
+import * as i from "types";
 import React from "react";
 
-// Internal imports
 import Day from "../Day/Day/Day";
 import { timeValues } from "../../../utils/dataGenerators";
 import "./MainDashboardTable.scss";
 import { ReactComponent as Loader } from "../../../svgIcons/spinner.svg";
-import { Category } from "../../../store/categories/categories";
-import { Note } from "../../../store/notes/notes";
 import TimeCell from "./TimeCell/TimeCell";
 
 type MainDashboardTableProps = {
-  categories:Category[][],
-  notes:Note[][],
+  categories: i.Category[][],
+  notes: i.Note[][],
   loading:boolean
 }
 

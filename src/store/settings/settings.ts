@@ -1,85 +1,11 @@
-// External imports
-import { Action, action, computed, Computed, thunk, Thunk } from "easy-peasy";
+import * as i from "types";
+import { action, computed, thunk } from "easy-peasy";
 import { DateTime } from "luxon";
 
-// Internal imports
 import { history } from "../../routers/AppRouter";
 import { sortCategoryTypesByArchived } from "./helpers";
 
-// New ones
-export type CategoryType = {
-  categoryid:string,
-  userid:string,
-  color:string,
-  name:string,
-  archived:boolean
-}
-
-export type ActivityType = {
-  activityid:string,
-  categoryid:string,
-  userid:string,
-  long:string,
-  short:string,
-  archived:boolean
-}
-
-export interface Date {
-  weekNr:number,
-  year:number
-}
-
-export interface MonthDate {
-  year: number,
-  month: number,
-  weekNr: number
-}
-
-export interface SettingsModel {
-  /**
-     * Indicates which time slot should be highlighted.
-     */
-  timeHoverIndex:number,
-  /**
-     * Sets the hover index.
-     * @param timeHoverIndex The index that is set as the timeHoverIndex.
-     */
-  setHoverIndex: Action<SettingsModel, {timeHoverIndex:number}>,
-
-  activityTypes:ActivityType[],
-  setActivityTypes: Action<SettingsModel, { activityTypes:ActivityType[]}>,
-  setActivityType: Action<SettingsModel, { activityType: ActivityType }>,
-  createActivityType: Thunk<SettingsModel, { userid: string, activityType: ActivityType }>,
-  updateActivityType: Thunk<SettingsModel, {userid: string, activityType:ActivityType}>,
-
-  categoryTypes:CategoryType[],
-  setCategoryTypes: Action<SettingsModel, { categoryTypes:CategoryType[]}>,
-  setCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
-  createCategoryType: Thunk<SettingsModel, {userid: string, name: string, color: string}>,
-  fetchCategoryTypesFull: Thunk<SettingsModel, {userid: string}>,
-  /**
-     * Updates a category type's name and color.
-     */
-  updateCategoryType: Thunk<SettingsModel, {userid: string, categoryType:CategoryType}>,
-  /**
-     * Removes a given category type from stores category type array.
-     */
-  archiveCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
-  /**
-     * Restores a category type and its activities from archived.
-     */
-  restoreCategoryType: Action<SettingsModel, {categoryType:CategoryType}>,
-
-
-  currentDate: Date,
-  setDate: Action<SettingsModel, {date:Date}>,
-  currentMonthDate: Computed<SettingsModel, MonthDate>,
-
-  featurePopupViewed: boolean
-  setFeaturePopupViewed: Action<SettingsModel, {featurePopupViewed: boolean}>
-}
-
-const settingsModel:SettingsModel = {
+const settingsModel: i.SettingsModel = {
   timeHoverIndex: 0,
   setHoverIndex: action((state, payload) => {
     state.timeHoverIndex = payload.timeHoverIndex;
@@ -108,7 +34,7 @@ const settingsModel:SettingsModel = {
     });
 
     if (res.ok) {
-      const activityType: ActivityType = await res.json();
+      const activityType: i.ActivityType = await res.json();
       actions.setActivityType({ activityType });
     } else if (res.status === 401) {
       history.push("/login");
@@ -126,7 +52,7 @@ const settingsModel:SettingsModel = {
     });
 
     if (res.ok) {
-      const activityType: ActivityType = await res.json();
+      const activityType: i.ActivityType = await res.json();
       actions.setActivityType({ activityType });
     } else if (res.status === 401) {
       history.push("/login");
@@ -163,7 +89,7 @@ const settingsModel:SettingsModel = {
     });
 
     if (res.ok) {
-      const categoryType: CategoryType = await res.json();
+      const categoryType: i.CategoryType = await res.json();
       actions.setCategoryType({ categoryType });
     } else if (res.status === 401) {
       history.push("/login");
@@ -183,7 +109,7 @@ const settingsModel:SettingsModel = {
     });
 
     if (res.ok) {
-      const categoryTypesFull: {activityTypes: ActivityType[], categoryTypes: CategoryType[]} = await res.json();
+      const categoryTypesFull: {activityTypes: i.ActivityType[], categoryTypes: i.CategoryType[]} = await res.json();
       actions.setActivityTypes({ activityTypes: categoryTypesFull.activityTypes });
       actions.setCategoryTypes({ categoryTypes: categoryTypesFull.categoryTypes });
     } else if (res.status === 401) {
@@ -239,7 +165,7 @@ const settingsModel:SettingsModel = {
     });
 
     if (res.ok) {
-      const categoryType: CategoryType = await res.json();
+      const categoryType: i.CategoryType = await res.json();
       actions.setCategoryType({ categoryType });
     } else if (res.status === 401) {
       history.push("/login");

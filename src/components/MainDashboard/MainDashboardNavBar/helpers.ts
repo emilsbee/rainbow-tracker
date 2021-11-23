@@ -1,10 +1,7 @@
-// External imports
+import * as i from "types";
 import { DateTime } from "luxon";
 
-// Internal imports
-import { Date } from "../../../store/settings/settings";
-
-export const getPreviousWeek = (currentWeekNr: number, currentYear: number):Date => {
+export const getPreviousWeek = (currentWeekNr: number, currentYear: number): i.Date => {
   let newWeekNr, newYear;
 
   if (currentWeekNr === 1) { // If current week is first week of the year
@@ -18,7 +15,7 @@ export const getPreviousWeek = (currentWeekNr: number, currentYear: number):Date
   return { weekNr: newWeekNr, year: newYear };
 };
 
-export const getNextWeek = (currentWeekNr: number, currentYear: number):Date => {
+export const getNextWeek = (currentWeekNr: number, currentYear: number): i.Date => {
   const weeksInCurrentYear = DateTime.fromObject({ weekYear: currentYear }).weeksInWeekYear;
 
   let newWeekNr, newYear;
@@ -34,7 +31,7 @@ export const getNextWeek = (currentWeekNr: number, currentYear: number):Date => 
   return  { weekNr: newWeekNr, year: newYear };
 };
 
-export const getCurrentWeek = ():Date => {
+export const getCurrentWeek = (): i.Date => {
   return  {
     weekNr: DateTime.now().weekNumber,
     year: DateTime.now().startOf("week").year,

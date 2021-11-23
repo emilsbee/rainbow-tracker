@@ -1,7 +1,6 @@
-// Internal imports
-import { AvailableMonth } from "../../../../store/analytics";
+import * as i from "types";
 
-export const isNewMonthDateAvailable = (availableMonths: AvailableMonth[], year: number, month: number):boolean => {
+export const isNewMonthDateAvailable = (availableMonths: i.AvailableMonth[], year: number, month: number):boolean => {
   let isAvailable = false;
 
   for (let i = 0; i < availableMonths.length; i++) {

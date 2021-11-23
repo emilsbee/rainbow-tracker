@@ -1,27 +1,14 @@
-// External imports
-import { Action, action, createStore, EasyPeasyConfig, Store } from "easy-peasy";
+import * as i from "types";
+import { action, createStore, EasyPeasyConfig, Store } from "easy-peasy";
 
-// Internal imports
-import authModel, { AuthModel } from "./auth/auth";
-import notesModel, { NotesModel } from "./notes/notes";
-import settingsModel, { SettingsModel } from "./settings/settings";
-import categoriesModel, { CategoriesModel } from "./categories/categories";
-import analyticsModel, { AnalyticsModel } from "./analytics";
-
-export interface StoreModel {
-  settings:SettingsModel,
-  auth:AuthModel,
-  notes:NotesModel,
-  categories:CategoriesModel,
-  analytics: AnalyticsModel
-  /**
-     * Used to reset store state to the initial state empty state.
-     */
-  reset: Action<StoreModel>
-}
+import authModel from "./auth/auth";
+import notesModel from "./notes/notes";
+import settingsModel from "./settings/settings";
+import categoriesModel from "./categories/categories";
+import analyticsModel from "./analytics/analytics";
 
 
-const store: Store<StoreModel, EasyPeasyConfig<undefined, {}>> = createStore<StoreModel>({
+const store: Store<i.StoreModel, EasyPeasyConfig<undefined, {}>> = createStore<i.StoreModel>({
   auth: authModel,
   settings: settingsModel,
   notes: notesModel,
