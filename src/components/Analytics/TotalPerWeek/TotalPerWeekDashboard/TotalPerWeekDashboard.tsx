@@ -1,10 +1,10 @@
 // External imports
-import React from "react"
+import React from "react";
 
 // Internal imports
-import "./total-per-week-dashboard.scss"
-import {ReactComponent as Loader} from "../../../../svgIcons/spinner.svg";
-import {useStoreState} from "../../../../store/hookSetup";
+import "./total-per-week-dashboard.scss";
+import { ReactComponent as Loader } from "../../../../svgIcons/spinner.svg";
+import { useStoreState } from "../../../../store/hookSetup";
 import Card from "../../BasicComponents/Card/Card";
 import CardTitle from "../../BasicComponents/Card/CardTitle/CardTitle";
 import CategoryTable from "../../BasicComponents/CategoryTable/CategoryTable";
@@ -12,57 +12,57 @@ import CategoryPieChart from "../../BasicComponents/CategoryPieChart/CategoryPie
 import ActivityCardContent from "../../BasicComponents/ActivityCardContent/ActivityCardContent";
 
 type TotalPerWeekDashboardProps = {
-    loading: boolean
+  loading: boolean
 }
 
-const TotalPerWeekDashboard = ({ loading}: TotalPerWeekDashboardProps) => {
-    // Store state
-    const totalPerWeek = useStoreState(state => state.analytics.totalPerWeek)
+const TotalPerWeekDashboard = ({ loading }: TotalPerWeekDashboardProps) => {
+  // Store state
+  const totalPerWeek = useStoreState((state) => state.analytics.totalPerWeek);
 
-    React.useLayoutEffect(() => {
-        const categoryTable = document.getElementById("total-per-week-dashboard__categories")
-        const activityTable = document.getElementById("total-per-week-dashboard__activities")
+  React.useLayoutEffect(() => {
+    const categoryTable = document.getElementById("total-per-week-dashboard__categories");
+    const activityTable = document.getElementById("total-per-week-dashboard__activities");
 
-        if (categoryTable && activityTable) {
+    if (categoryTable && activityTable) {
 
-            if (categoryTable.clientHeight > activityTable.clientHeight) {
-                activityTable.style.height = `${categoryTable.clientHeight}px`
-            } else if (categoryTable.clientHeight < activityTable.clientHeight) {
-                categoryTable.style.height = `${activityTable.clientHeight}px`
-            }
-        }
-    })
-
-    if (loading) {
-        return (
-            <div id="main-dashboard-table__loading">
-                <Loader style={{height: '6rem', width: '6rem'}}/>
-            </div>
-        )
+      if (categoryTable.clientHeight > activityTable.clientHeight) {
+        activityTable.style.height = `${categoryTable.clientHeight}px`;
+      } else if (categoryTable.clientHeight < activityTable.clientHeight) {
+        categoryTable.style.height = `${activityTable.clientHeight}px`;
+      }
     }
+  });
 
+  if (loading) {
     return (
-        <section className={"total-per-week"}>
+      <div id="main-dashboard-table__loading">
+        <Loader style={{ height: "6rem", width: "6rem" }} />
+      </div>
+    );
+  }
 
-            <Card style={{marginLeft: 0}} id={"total-per-week-dashboard__categories"}>
-                <CardTitle title={"Categories"}/>
+  return (
+    <section className={"total-per-week"}>
 
-                <CategoryTable categoryTypes={totalPerWeek.categoryTypes} totalCount={672}/>
+      <Card style={{ marginLeft: 0 }} id={"total-per-week-dashboard__categories"}>
+        <CardTitle title={"Categories"} />
 
-                <CategoryPieChart categoryTypes={totalPerWeek.categoryTypes} totalCount={672}/>
-            </Card>
+        <CategoryTable categoryTypes={totalPerWeek.categoryTypes} totalCount={672} />
 
-            <Card id={"total-per-week-dashboard__activities"}>
-                <CardTitle title={"Activities"}/>
+        <CategoryPieChart categoryTypes={totalPerWeek.categoryTypes} totalCount={672} />
+      </Card>
 
-                <ActivityCardContent
-                    categoryTypes={totalPerWeek.categoryTypes}
-                    activityTypes={totalPerWeek.activityTypes}
-                    totalCount={672}
-                />
-            </Card>
-        </section>
-    )
-}
+      <Card id={"total-per-week-dashboard__activities"}>
+        <CardTitle title={"Activities"} />
 
-export default TotalPerWeekDashboard
+        <ActivityCardContent
+          categoryTypes={totalPerWeek.categoryTypes}
+          activityTypes={totalPerWeek.activityTypes}
+          totalCount={672}
+        />
+      </Card>
+    </section>
+  );
+};
+
+export default TotalPerWeekDashboard;

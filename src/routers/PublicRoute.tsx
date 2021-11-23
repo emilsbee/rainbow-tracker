@@ -1,9 +1,9 @@
 // External imports
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 
 // Internal imports
-import {useStoreState} from "../store/hookSetup";
+import { useStoreState } from "../store/hookSetup";
 
 /**
  * The public route requires no authentication so can be access by anyone.
@@ -14,20 +14,19 @@ import {useStoreState} from "../store/hookSetup";
  */
 const PublicRoute = (props:{path:string, component: React.FC, exact: boolean}) => {
 
-    const uid = useStoreState(state => state.auth.uid)
-    const isAuthenticated = !!uid
-    const Component = props.component
+  const uid = useStoreState((state) => state.auth.uid);
+  const isAuthenticated = !!uid;
+  const Component = props.component;
 
-    return (
-        <Route path={props.path} component={() => (
-            isAuthenticated ? (
-                <Redirect to="/dashboard"/>
-            ) : (
-                <Component/>
-            )
-        )}>
-        </Route>
-    )
-}
+  return (
+    <Route path={props.path} component={() => (
+      isAuthenticated ? (
+        <Redirect to="/dashboard" />
+      ) : (
+        <Component />
+      )
+    )} />
+  );
+};
 
-export default PublicRoute
+export default PublicRoute;

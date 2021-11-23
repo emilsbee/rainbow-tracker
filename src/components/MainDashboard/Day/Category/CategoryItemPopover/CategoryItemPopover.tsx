@@ -1,54 +1,54 @@
 // External imports
-import React from 'react'
+import React from "react";
 
-// Internal imports 
-import './CategoryItemPopover.scss'
-import {useStoreState} from "../../../../../store/hookSetup";
+// Internal imports
+import "./CategoryItemPopover.scss";
+import { useStoreState } from "../../../../../store/hookSetup";
 
 type CategoryItemPopoverType = {
-    onClick: (categoryid:string | null) => void,
-    handleCloseModal: () => void
+  onClick: (categoryid:string | null) => void,
+  handleCloseModal: () => void
 }
 
 
 const CategoryItemPopover  = ({ onClick, handleCloseModal }:CategoryItemPopoverType) => {
-    const categoryTypes = useStoreState(state => state.settings.categoryTypes)
-    
-    return (
-        <div>
-            <div 
-                className="popover-container" 
-                onMouseLeave={handleCloseModal} 
+  const categoryTypes = useStoreState((state) => state.settings.categoryTypes);
+
+  return (
+    <div>
+      <div
+        className="popover-container"
+        onMouseLeave={handleCloseModal}
+        style={{
+          cursor: "pointer", // To immediately set the cursor to pointer
+        }}
+      >
+        {categoryTypes.map((categoryType, index) => {
+          if (!categoryType.archived) {
+            return (
+              <div
+                className="color-square"
+                key={categoryType.categoryid}
+                onClick={() => onClick(categoryType.categoryid)}
                 style={{
-                    cursor: 'pointer' // To immediately set the cursor to pointer
+                  "backgroundColor": categoryType.color,
+                  "borderTopLeftRadius": index === 0  ? "3px" : "0",
+                  "borderTopRightRadius": index === 0  ? "3px" : "0",
                 }}
-            >
-                {categoryTypes.map((categoryType, index) => {
-                    if (!categoryType.archived) {
-                        return (
-                            <div
-                                className="color-square"
-                                key={categoryType.categoryid}
-                                onClick={() => onClick(categoryType.categoryid)}
-                                style={{
-                                    "backgroundColor": categoryType.color,
-                                    "borderTopLeftRadius": index === 0  ? '3px' : "0",
-                                    "borderTopRightRadius": index === 0  ? '3px' : "0"
-                                }}
-                            />
-                        )
-                    } else return null
-                })}
+              />
+            );
+          } else return null;
+        })}
 
-                {/* The default square at the bottom*/}
-                <div
-                    className="default-color-square"  
-                    onClick={() => onClick(null)}
-                />
+        {/* The default square at the bottom*/}
+        <div
+          className="default-color-square"
+          onClick={() => onClick(null)}
+        />
 
-            </div>
-        </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default CategoryItemPopover
+export default CategoryItemPopover;

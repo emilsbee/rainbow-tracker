@@ -1,8 +1,8 @@
 // External imports
-import {DateTime} from "luxon";
+import { DateTime } from "luxon";
 
 // Internal imports
-import {AvailableDate} from "../../../../store/analytics";
+import { AvailableDate } from "../../../../store/analytics";
 
 /**
  * Extracts the week numbers for a given year
@@ -11,16 +11,16 @@ import {AvailableDate} from "../../../../store/analytics";
  * @param year for which to find weeks.
  */
 export const getWeekDropdownWeeks = (availableDates: AvailableDate[], year: number): number[] => {
-    let weeks:  number[] = []
+  let weeks:  number[] = [];
 
-    for (let i = 0; i < availableDates.length; i++) {
-        if (availableDates[i].year === year) {
-            weeks = availableDates[i].weeks
-        }
+  for (let i = 0; i < availableDates.length; i++) {
+    if (availableDates[i].year === year) {
+      weeks = availableDates[i].weeks;
     }
+  }
 
-    return weeks
-}
+  return weeks;
+};
 
 /**
  * Formats an array of week numbers and a year to array of dates represented as
@@ -29,7 +29,7 @@ export const getWeekDropdownWeeks = (availableDates: AvailableDate[], year: numb
  * @param year to format.
  */
 export const formatWeeks = (weeks: number[], year: number) => {
-    return weeks.map(week => `${DateTime.fromObject({weekNumber: week, weekYear: year}).startOf("week").toLocaleString({month: "short", day: "numeric"})} - 
-        ${DateTime.fromObject({weekNumber: week, weekYear: year}).endOf("week").toLocaleString({month: "short", day: "numeric"})}
-        `)
-}
+  return weeks.map((week) => `${DateTime.fromObject({ weekNumber: week, weekYear: year }).startOf("week").toLocaleString({ month: "short", day: "numeric" })} - 
+        ${DateTime.fromObject({ weekNumber: week, weekYear: year }).endOf("week").toLocaleString({ month: "short", day: "numeric" })}
+        `);
+};

@@ -1,19 +1,19 @@
 // Internal imports
-import {AvailableDate} from "../../../../store/analytics";
+import { AvailableDate } from "../../../../store/analytics";
 
 export const isNewDateAvailable = (availableDates: AvailableDate[], year: number, weekNr: number):boolean => {
-    let isAvailable = false
+  let isAvailable = false;
 
-    for (let i = 0; i < availableDates.length; i++) {
-        if (availableDates[i].year === year) {
-            for (let j = 0; j < availableDates[i].weeks.length; j++) {
-                if (availableDates[i].weeks[j] === weekNr) {
-                    isAvailable = true
-                    break;
-                }
-            }
+  for (let i = 0; i < availableDates.length; i++) {
+    if (availableDates[i].year === year) {
+      for (let j = 0; j < availableDates[i].weeks.length; j++) {
+        if (availableDates[i].weeks[j] === weekNr) {
+          isAvailable = true;
+          break;
         }
+      }
     }
+  }
 
-    return isAvailable
-}
+  return isAvailable;
+};

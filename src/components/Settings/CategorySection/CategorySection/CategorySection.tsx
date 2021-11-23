@@ -1,68 +1,68 @@
 // External imports
-import React from 'react'
+import React from "react";
 
-// Internal imports 
-import './category-section.scss'
-import {ActivityType, CategoryType} from "../../../../store/settings/settings";
+// Internal imports
+import "./category-section.scss";
+import { ActivityType, CategoryType } from "../../../../store/settings/settings";
 import SectionTitle from "../../SectionTitle/SectionTitle";
 import CategoryList from "../CategoryList/CategoryList";
 import CategorySectionForm from "../CategorySectionForm/CategorySectionForm/CategorySectionForm";
-import {findCategoryForForm} from "./helpers";
+import { findCategoryForForm } from "./helpers";
 
 type CategorySectionProps = {
-    categoryTypes:CategoryType[],
-    activityTypes:ActivityType[],
-    setLoading:(loading:boolean) => void
+  categoryTypes:CategoryType[],
+  activityTypes:ActivityType[],
+  setLoading:(loading:boolean) => void
 }
 
-function CategorySection ({categoryTypes, activityTypes, setLoading}:CategorySectionProps) {
-    // Local state
-    const [viewArchived, setViewArchived] = React.useState<boolean>(false)
-    const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes.length === 0 ? "" : categoryTypes[0].categoryid)
+function CategorySection({ categoryTypes, activityTypes, setLoading }:CategorySectionProps) {
+  // Local state
+  const [viewArchived, setViewArchived] = React.useState<boolean>(false);
+  const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes.length === 0 ? "" : categoryTypes[0].categoryid);
 
-    React.useEffect(() => {
-        const exists = localStorage.getItem("view-archived")
+  React.useEffect(() => {
+    const exists = localStorage.getItem("view-archived");
 
-        if (exists === "yes") {
-            setViewArchived(true)
-        }
-    }, [])
+    if (exists === "yes") {
+      setViewArchived(true);
+    }
+  }, []);
 
-    const handleSetViewArchived = () => {
-        const newViewArchived = !viewArchived
+  const handleSetViewArchived = () => {
+    const newViewArchived = !viewArchived;
 
-        if (newViewArchived) {
-            localStorage.setItem("view-archived", "yes")
-        } else {
-            localStorage.setItem("view-archived", "no")
-        }
-
-        setViewArchived(newViewArchived)
+    if (newViewArchived) {
+      localStorage.setItem("view-archived", "yes");
+    } else {
+      localStorage.setItem("view-archived", "no");
     }
 
-    return (
-        <div className="category-section-container">
-            <SectionTitle title={"Categories"} viewArchived={viewArchived} setViewArchived={handleSetViewArchived}/>
+    setViewArchived(newViewArchived);
+  };
 
-            <div className={"category-section-content-container"}>
-                <CategoryList
-                    viewArchived={viewArchived}
-                    categoryTypes={categoryTypes}
-                    setCategory={(categoryid) => setSelectedCategoryid(categoryid)}
-                    selectedCategoryid={selectedCategoryid}
-                />
+  return (
+    <div className="category-section-container">
+      <SectionTitle title={"Categories"} viewArchived={viewArchived} setViewArchived={handleSetViewArchived} />
 
-                {selectedCategoryid.length !== 0 &&
+      <div className={"category-section-content-container"}>
+        <CategoryList
+          viewArchived={viewArchived}
+          categoryTypes={categoryTypes}
+          setCategory={(categoryid) => setSelectedCategoryid(categoryid)}
+          selectedCategoryid={selectedCategoryid}
+        />
+
+        {selectedCategoryid.length !== 0 &&
                     <CategorySectionForm
-                        viewArchived={viewArchived}
-                        category={findCategoryForForm(categoryTypes, selectedCategoryid)}
-                        activityTypes={activityTypes}
-                        setLoading={setLoading}
+                      viewArchived={viewArchived}
+                      category={findCategoryForForm(categoryTypes, selectedCategoryid)}
+                      activityTypes={activityTypes}
+                      setLoading={setLoading}
                     />
-                }
-            </div>
-        </div>
-    )
+        }
+      </div>
+    </div>
+  );
 }
 
-export default CategorySection
+export default CategorySection;

@@ -1,20 +1,20 @@
 // External imports
-import React from "react"
+import React from "react";
 
 // Internal imports
-import './tool-bar.scss'
+import "./tool-bar.scss";
 
 type ToolBarProps = {
-    children: React.ReactNode
+  children: React.ReactNode
 }
 
-const ToolBar = ({children}: ToolBarProps) => {
+const ToolBar = ({ children }: ToolBarProps) => {
 
-    return (
-        <div className={"tool-bar"}>
-            {children}
-        </div>
-    )
-}
+  return (
+    <div className={"tool-bar"}>
+      {children}
+    </div>
+  );
+};
 
-export default ToolBar
+export default ToolBar;

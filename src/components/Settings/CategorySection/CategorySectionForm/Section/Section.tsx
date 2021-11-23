@@ -2,22 +2,22 @@
 import React from "react";
 
 // Internal imports
-import "./section.scss"
+import "./section.scss";
 
 type SectionProps = {
-    title:string,
+  title:string,
 }
 
-const Section:React.FC<SectionProps> = ({children,title}) => {
+const Section:React.FC<SectionProps> = ({ children, title }) => {
 
-    return (
-        <div id="category-section-section-container">
-            <h5 id={"category-section-section-title"}>
-                {title}
-            </h5>
-            {children}
-        </div>
-    )
-}
+  return (
+    <div id="category-section-section-container">
+      <h5 id={"category-section-section-title"}>
+        {title}
+      </h5>
+      {children}
+    </div>
+  );
+};
 
-export  default Section
+export  default Section;

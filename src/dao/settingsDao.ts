@@ -1,6 +1,6 @@
 // Internal imports
-import {ActivityType, CategoryType} from "../store/settings/settings";
-import {history} from "../routers/AppRouter";
+import { ActivityType, CategoryType } from "../store/settings/settings";
+import { history } from "../routers/AppRouter";
 
 /**
  * Restores a category type and its activities from being archived.
@@ -8,29 +8,29 @@ import {history} from "../routers/AppRouter";
  * @param categoryid
  */
 export const restoreCategoryType = async (userid: string, categoryid: string):Promise<boolean> => {
-    try {
-        let success = true
+  try {
+    let success = true;
 
-        let res = await fetch(`api/user/${userid}/category-type/restore/${categoryid}`, {
-            method: "PATCH",
-            mode: "cors",
-            credentials: "include"
-        })
+    const res = await fetch(`api/user/${userid}/category-type/restore/${categoryid}`, {
+      method: "PATCH",
+      mode: "cors",
+      credentials: "include",
+    });
 
-        if (res.status === 401) {
-            history.push("/login")
-            success = false
-        } else if (!res.ok) {
-            history.push("/internal-error")
-            success = false
-        }
-
-        return success
-    } catch (e) {
-        history.push("/internal-error")
-        return false
+    if (res.status === 401) {
+      history.push("/login");
+      success = false;
+    } else if (!res.ok) {
+      history.push("/internal-error");
+      success = false;
     }
-}
+
+    return success;
+  } catch (e) {
+    history.push("/internal-error");
+    return false;
+  }
+};
 
 /**
  * Deletes a category type.
@@ -38,51 +38,51 @@ export const restoreCategoryType = async (userid: string, categoryid: string):Pr
  * @param categoryid
  */
 export const archiveCategory = async (userid:string, categoryid:string):Promise<boolean> => {
-    try {
-        let success = true
+  try {
+    let success = true;
 
-        let res = await fetch(`api/user/${userid}/category-type/${categoryid}`, {
-            method: "DELETE",
-            mode: "cors",
-            credentials: "include",
-        })
+    const res = await fetch(`api/user/${userid}/category-type/${categoryid}`, {
+      method: "DELETE",
+      mode: "cors",
+      credentials: "include",
+    });
 
-        if (res.status === 401) {
-            history.push("/login")
-            success = false
-        } else if (!res.ok) {
-            history.push("/internal-error")
-            success = false
-        }
-
-        return success
-    } catch (e) {
-        history.push("/internal-error")
-        return false
+    if (res.status === 401) {
+      history.push("/login");
+      success = false;
+    } else if (!res.ok) {
+      history.push("/internal-error");
+      success = false;
     }
-}
+
+    return success;
+  } catch (e) {
+    history.push("/internal-error");
+    return false;
+  }
+};
 
 /**
  * Fetches all category and activity types for a user.
  * @param userid of the user for which to fetch the category types full.
  */
 export const getCategoryTypesFull = async (userid: string):Promise<{activityTypes: ActivityType[], categoryTypes: CategoryType[]}> => {
-    try {
-        let res = await fetch(`api/user/${userid}/category-types-full`, {
-            method: "GET",
-            mode: "cors",
-            credentials: "include",
-        })
+  try {
+    const res = await fetch(`api/user/${userid}/category-types-full`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    });
 
-        if (res.status === 401) {
-            history.push("/login")
-        } else if (!res.ok) {
-            history.push("/internal-error")
-        }
-
-        return  await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]}
-    } catch (e) {
-        history.push("/internal-error")
-        return {categoryTypes: [], activityTypes: []}
+    if (res.status === 401) {
+      history.push("/login");
+    } else if (!res.ok) {
+      history.push("/internal-error");
     }
-}
+
+    return  await res.json() as {activityTypes: ActivityType[], categoryTypes: CategoryType[]};
+  } catch (e) {
+    history.push("/internal-error");
+    return { categoryTypes: [], activityTypes: [] };
+  }
+};

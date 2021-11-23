@@ -3,9 +3,9 @@ import React from "react";
 
 // Internal imports
 import "./Note.scss";
-import { getStackHeight, CONSTANTS } from "./helpers";
 import { Note } from "../../../../store/notes/notes";
 import { useStoreActions } from "../../../../store/hookSetup";
+import { getStackHeight, CONSTANTS } from "./helpers";
 
 type NoteComponentProps = {
   note: Note;
@@ -27,7 +27,7 @@ const NoteComponent = ({
   onMouseDown,
 }: NoteComponentProps) => {
   const setHoverIndex = useStoreActions(
-    (actions) => actions.settings.setHoverIndex
+    (actions) => actions.settings.setHoverIndex,
   );
 
   if (max === min) {
@@ -54,7 +54,7 @@ const NoteComponent = ({
           max,
           min,
           CONSTANTS.NOTE_HEIGHT,
-          CONSTANTS.NOTE_MARGIN_BOTTOM
+          CONSTANTS.NOTE_MARGIN_BOTTOM,
         ),
         // WebkitLineClamp: max-min+1
       }}
