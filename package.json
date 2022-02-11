@@ -23,7 +23,7 @@
     "debounce": "1.2.1",
     "easy-peasy": "5.0.4",
     "luxon": "2.1.1",
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-onclickoutside": "6.12.0",
