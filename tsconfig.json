@@ -7,9 +7,6 @@
       "esnext"
     ],
     "baseUrl": ".",
-    "paths": {
-      "types": ["src/types/index"],
-    },
     "allowJs": false,
     "skipLibCheck": false,
     "esModuleInterop": true,
