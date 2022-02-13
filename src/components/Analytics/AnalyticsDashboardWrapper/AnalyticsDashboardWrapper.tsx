@@ -1,6 +1,6 @@
 // External imports
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // Internal imports
 import "./analytics-dashboard-wrapper.scss";
@@ -16,7 +16,7 @@ const AnalyticsDashboardWrapper = () => {
   const tabs = ["Monthly", "Weekly", "Daily"];
 
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Local state
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
@@ -35,7 +35,7 @@ const AnalyticsDashboardWrapper = () => {
       }
     } else {
       setSelectedTabIndex(0);
-      history.push("/analytics/monthly");
+      navigate("/analytics/monthly");
     }
   }, [location]);
 

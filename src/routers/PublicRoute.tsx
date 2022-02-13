@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate, Outlet } from "react-router-dom";
 
 import { useStoreState } from "../store/hookSetup";
 
@@ -10,20 +10,18 @@ import { useStoreState } from "../store/hookSetup";
  * logged in there's no reason to display it.
  * @param props The component to render and current path.
  */
-const PublicRoute = (props:{path:string, component: React.FC, exact: boolean}) => {
-
+const PublicRoute = () => {
   const uid = useStoreState((state) => state.auth.uid);
   const isAuthenticated = !!uid;
-  const Component = props.component;
 
   return (
-    <Route path={props.path}>
+    <>
       {isAuthenticated ? (
-        <Redirect to="/dashboard" />
+        <Navigate to="/dashboard" />
       ) : (
-        <Component />
+        <Outlet />
       )}
-    </Route>
+    </>
   );
 };
 
