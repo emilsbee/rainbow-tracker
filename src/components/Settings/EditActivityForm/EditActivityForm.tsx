@@ -1,6 +1,6 @@
 import * as i from "types";
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import "./edit-activity-form.scss";
 import { useStoreActions, useStoreState } from "../../../store/hookSetup";
@@ -10,7 +10,7 @@ import { checkIfActivityExists, checkIfCategoryExists } from "./helpers";
 
 
 const EditActivityForm:React.FC = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // URL parameters
   const { categoryid, activityid } = useParams<{ categoryid: string, activityid: string }>();
@@ -44,7 +44,7 @@ const EditActivityForm:React.FC = () => {
         if (activityid === "new") {
           const { exists, categoryType } = checkIfCategoryExists(categoryTypes, categoryid);
           if (!exists) {
-            history.goBack();
+            navigate(-1);
           } else {
             setCategoryType(categoryType);
           }
@@ -53,7 +53,7 @@ const EditActivityForm:React.FC = () => {
           const activityExists = checkIfActivityExists(activityTypes, activityid);
 
           if (!categoryExists.exists || !activityExists.exists) {
-            history.goBack();
+            navigate(-1);
           } else {
             setActivityLong(activityExists.activityType.long);
             setActivityShort(activityExists.activityType.short);
@@ -106,11 +106,11 @@ const EditActivityForm:React.FC = () => {
             },
           });
 
-          history.push("/settings");
+          navigate("/settings");
         } catch (e: any) {
           console.error(e.message);
         } finally {
-          history.push("/settings");
+          navigate("/settings");
         }
 
       }

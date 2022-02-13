@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 import { createBrowserHistory } from "history";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MainDashboardWrapper from "../components/MainDashboard/MainDashboardWrapper";
 import LoginPage from "../components/LoginPage/LoginPage";
@@ -14,27 +14,40 @@ import PrivateRoute from "./PrivateRoute";
 
 export const history = createBrowserHistory();
 
-/**
- * This component defines private and public routes.
- */
 const AppRouter = () => {
 
   return (
     <BrowserRouter>
-      <Switch>
-        <PublicRoute path="/" component={LoginPage} exact={true} />
-        <PublicRoute path="/internal-error" component={BackendError} exact={false} />
-        <PrivateRoute path="/analytics" component={AnalyticsDashboardWrapper} />
-        <PrivateRoute path={"/analytics/monthly"} component={AnalyticsDashboardWrapper} />
-        <PrivateRoute path={"/analytics/weekly"} component={AnalyticsDashboardWrapper} />
-        <PrivateRoute path={"/analytics/daily"} component={AnalyticsDashboardWrapper} />
-        <PrivateRoute path="/dashboard" component={MainDashboardWrapper} />
-        <PrivateRoute path="/settings/category/:categoryid/edit-activity/:activityid" component={EditActivityForm} />
-        <PrivateRoute path="/settings" component={SettingsDashboardWrapper} />
-        <Route>
-          <NotFound />
+      <Routes>
+        <Route path="/" element={<PublicRoute />}>
+          <Route path="/" element={<LoginPage />} />
         </Route>
-      </Switch>
+        <Route path="/internal-error" element={<PublicRoute />}>
+          <Route path="/internal-error" element={<BackendError />} />
+        </Route>
+        <Route path="/analytics" element={<PrivateRoute />}>
+          <Route path="/analytics" element={<AnalyticsDashboardWrapper />} />
+        </Route>
+        <Route path="/analytics/monthly" element={<PrivateRoute />}>
+          <Route path="/analytics/monthly" element={<AnalyticsDashboardWrapper />} />
+        </Route>
+        <Route path="/analytics/weekly" element={<PrivateRoute />}>
+          <Route path="/analytics/weekly" element={<AnalyticsDashboardWrapper />} />
+        </Route>
+        <Route path="/analytics/daily" element={<PrivateRoute />}>
+          <Route path="/analytics/daily" element={<AnalyticsDashboardWrapper />} />
+        </Route>
+        <Route path="/dashboard" element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<MainDashboardWrapper />} />
+        </Route>
+        <Route path="/settings/category/:categoryid/edit-activity/:activityid" element={<PrivateRoute />}>
+          <Route path="/settings/category/:categoryid/edit-activity/:activityid" element={<EditActivityForm />} />
+        </Route>
+        <Route path="/settings" element={<PrivateRoute />}>
+          <Route path="/settings" element={<SettingsDashboardWrapper />} />
+        </Route>
+        <Route path="/*" element={<NotFound />} />
+      </Routes>
     </BrowserRouter>
   );
 };
