@@ -25,17 +25,8 @@ const AppRouter = () => {
         <Route path="/internal-error" element={<PublicRoute />}>
           <Route path="/internal-error" element={<BackendError />} />
         </Route>
-        <Route path="/analytics" element={<PrivateRoute />}>
-          <Route path="/analytics" element={<AnalyticsDashboardWrapper />} />
-        </Route>
-        <Route path="/analytics/monthly" element={<PrivateRoute />}>
-          <Route path="/analytics/monthly" element={<AnalyticsDashboardWrapper />} />
-        </Route>
-        <Route path="/analytics/weekly" element={<PrivateRoute />}>
-          <Route path="/analytics/weekly" element={<AnalyticsDashboardWrapper />} />
-        </Route>
-        <Route path="/analytics/daily" element={<PrivateRoute />}>
-          <Route path="/analytics/daily" element={<AnalyticsDashboardWrapper />} />
+        <Route path="/analytics/*" element={<PrivateRoute />}>
+          <Route path="/analytics/*" element={<AnalyticsDashboardWrapper />} />
         </Route>
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="/dashboard" element={<MainDashboardWrapper />} />
