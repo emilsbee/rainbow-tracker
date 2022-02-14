@@ -1,11 +1,11 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./activity-card-content.scss";
-import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
-import ActivityTable from "../ActivityTable/ActivityTable";
-import ActivityPieChart from "../ActivityPieChart/ActivityPieChart";
+import './activity-card-content.scss';
+import Dropdown from '../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown';
+import ActivityTable from '../ActivityTable/ActivityTable';
+import ActivityPieChart from '../ActivityPieChart/ActivityPieChart';
 
 type ActivityCardContentProps = {
   totalCount: number
@@ -30,14 +30,14 @@ const ActivityCardContent:React.FC<ActivityCardContentProps> = ({ categoryTypes,
 
   return (
     <>
-      <div className={"analytics-activity-card-content__description"}>
-        <p className={"analytics-activity-card-content__description-text"}>
+      <div className={'analytics-activity-card-content__description'}>
+        <p className={'analytics-activity-card-content__description-text'}>
                     For category
         </p>
 
         <Dropdown
-          styleSelect={{ marginTop: 0, marginBottom: "10px" }}
-          label={""}
+          styleSelect={{ marginTop: 0, marginBottom: '10px' }}
+          label={''}
           options={categoryTypes.flatMap((categoryType) => categoryType.name)}
           onSelect={(selected, selectedIndex) => setPickedCategoryIndex(selectedIndex)}
           selected={categoryTypes[pickedCategoryIndex].name}

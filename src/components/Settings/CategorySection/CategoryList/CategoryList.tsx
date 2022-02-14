@@ -1,10 +1,10 @@
-import * as i from "types";
-import React from "react";
+import * as i from 'types';
+import React from 'react';
 
-import "./category-list.scss";
-import { ReactComponent as Add } from "../../../../svgIcons/add.svg";
-import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
-import { useKeyPress } from "../../../../hooks/useKeyPress";
+import './category-list.scss';
+import { ReactComponent as Add } from '../../../../svgIcons/add.svg';
+import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
+import { useKeyPress } from '../../../../hooks/useKeyPress';
 
 type CategoryListProps = {
   categoryTypes: i.CategoryType[],
@@ -22,13 +22,13 @@ function CategoryList({ categoryTypes, setCategory, selectedCategoryid, viewArch
 
   // Local state
   const [newCategory, setNewCategory] = React.useState<boolean>(false);
-  const [newCategoryName, setNewCategoryName] = React.useState<string>("");
+  const [newCategoryName, setNewCategoryName] = React.useState<string>('');
 
-  const escapeKeyPress = useKeyPress("Escape");
+  const escapeKeyPress = useKeyPress('Escape');
 
   React.useEffect(() => {
     setNewCategory(false);
-    setNewCategoryName("");
+    setNewCategoryName('');
   }, [escapeKeyPress]);
 
   const handleSubmit = async (e:React.FormEvent) => {
@@ -37,13 +37,13 @@ function CategoryList({ categoryTypes, setCategory, selectedCategoryid, viewArch
     if (newCategory && newCategoryName.length > 0) {
 
       try {
-        await createCategoryType({ userid, name: newCategoryName, color: "#CBC3E3" });
+        await createCategoryType({ userid, name: newCategoryName, color: '#CBC3E3' });
       } catch (e: any) {
         console.error(e.message);
       } finally {
         setNewCategory(false);
-        setNewCategoryName("");
-        setCategory("");
+        setNewCategoryName('');
+        setCategory('');
       }
     }
   };
@@ -54,9 +54,9 @@ function CategoryList({ categoryTypes, setCategory, selectedCategoryid, viewArch
 
         if (viewArchived || (!viewArchived && !categoryType.archived)) {
           return (
-            <div key={categoryType.categoryid} className={"category-section-category-list-item-container"}>
+            <div key={categoryType.categoryid} className={'category-section-category-list-item-container'}>
               <p
-                className={`category-section-category-list-item${categoryType.categoryid === selectedCategoryid ? "-selected" : ""}`}
+                className={`category-section-category-list-item${categoryType.categoryid === selectedCategoryid ? '-selected' : ''}`}
                 onClick={() => setCategory(categoryType.categoryid)}
                 style={{ opacity: categoryType.archived ? 0.5 : 1 }}
               >
@@ -71,16 +71,16 @@ function CategoryList({ categoryTypes, setCategory, selectedCategoryid, viewArch
                 <form onSubmit={handleSubmit}>
                   <input
                     autoFocus={true}
-                    type={"text"}
+                    type={'text'}
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
-                    className={"category-section-category-list-add-input"}
+                    className={'category-section-category-list-add-input'}
                   />
                 </form>
       }
 
       {!newCategory &&
-                <Add height={16} width={16} fill={"white"} className={"category-section-category-list-add"} onClick={() => setNewCategory(true)} />
+                <Add height={16} width={16} fill={'white'} className={'category-section-category-list-add'} onClick={() => setNewCategory(true)} />
       }
     </div>
   );

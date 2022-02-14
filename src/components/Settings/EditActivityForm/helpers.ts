@@ -1,4 +1,4 @@
-import * as i from "types";
+import * as i from 'types';
 
 export const checkIfCategoryExists = (categoryTypes: i.CategoryType[], categoryid: string): { exists: boolean, categoryType: i.CategoryType } => {
   let exists = false;
@@ -37,14 +37,14 @@ export const checkIfActivityExists = (activityTypes: i.ActivityType[], activityi
  * @return {valid, message} Valid indicates whether input is valid, and message is present if the input is invalid.
  */
 export const validateActivitySubmission = (long:string, short:string):{valid:boolean, message:string} => {
-  const returnVal = { valid: true, message: "" };
+  const returnVal = { valid: true, message: '' };
 
   if (!long || long.trim().length <= 0 || long.trim().length > 100) {
     returnVal.valid = false;
-    returnVal.message = "Activity long name must be of length 1-18.";
+    returnVal.message = 'Activity long name must be of length 1-18.';
   } else if (!short || short.length <= 0 || short.length > 2) {
     returnVal.valid = false;
-    returnVal.message = "Activity short name must be of length 1-2.";
+    returnVal.message = 'Activity short name must be of length 1-2.';
   }
   return returnVal;
 };

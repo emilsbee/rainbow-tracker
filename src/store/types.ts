@@ -1,5 +1,5 @@
-import * as i from "types";
-import { Action } from "easy-peasy";
+import * as i from 'types';
+import { Action } from 'easy-peasy';
 
 export interface StoreModel {
   settings: i.SettingsModel,
@@ -11,8 +11,8 @@ export interface StoreModel {
   reset: Action<i.StoreModel>
 }
 
-export * from "./notes/types";
-export * from "./auth/types";
-export * from "./categories/types";
-export * from "./settings/types";
-export * from "./analytics/types";
+export * from './notes/types';
+export * from './auth/types';
+export * from './categories/types';
+export * from './settings/types';
+export * from './analytics/types';

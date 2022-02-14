@@ -1,14 +1,14 @@
 // External imports
-import React from "react";
-import { DateTime } from "luxon";
+import React from 'react';
+import { DateTime } from 'luxon';
 
 // Internal imports
-import "./MainDashboardNavBar.scss";
-import { ReactComponent as BackArrow } from "../../../svgIcons/back.svg";
-import { ReactComponent as NextArrow } from "../../../svgIcons/next.svg";
-import { useStoreActions } from "../../../store/hookSetup";
-import { useKeyPress } from "../../../hooks/useKeyPress";
-import { getCurrentWeek, getNextWeek, getPreviousWeek } from "./helpers";
+import './MainDashboardNavBar.scss';
+import { ReactComponent as BackArrow } from '../../../svgIcons/back.svg';
+import { ReactComponent as NextArrow } from '../../../svgIcons/next.svg';
+import { useStoreActions } from '../../../store/hookSetup';
+import { useKeyPress } from '../../../hooks/useKeyPress';
+import { getCurrentWeek, getNextWeek, getPreviousWeek } from './helpers';
 
 type MainDashboardNavBarProps = {
   weekNr: number
@@ -22,11 +22,11 @@ const MainDashboardNavBar = ({ weekNr, year }: MainDashboardNavBarProps) => {
   const currentWeekNr = DateTime.now().weekNumber; // Current real life week number
   // It is important to get the year from the start of the current week because there can be a scenario when a week
   // is the last week of a year, however the current year could already be a new year so it would show the last week of the next year.
-  const currentYear = DateTime.now().startOf("week").year; // Current real life year
+  const currentYear = DateTime.now().startOf('week').year; // Current real life year
 
-  const arrowLeftPress = useKeyPress("ArrowLeft");
-  const arrowRightPress = useKeyPress("ArrowRight");
-  const cPress = useKeyPress("c");
+  const arrowLeftPress = useKeyPress('ArrowLeft');
+  const arrowRightPress = useKeyPress('ArrowRight');
+  const cPress = useKeyPress('c');
 
   /**
      * Handles to current week button press.
@@ -84,8 +84,8 @@ const MainDashboardNavBar = ({ weekNr, year }: MainDashboardNavBarProps) => {
 
       <div
         style={{
-          width: "33%",
-          height: "60px",
+          width: '33%',
+          height: '60px',
         }}
       />
 

@@ -1,15 +1,15 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import { DateTime } from "luxon";
-import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
-import TotalPerDayDashboard from "../TotalPerDayDashboard/TotalPerDayDashboard";
-import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
-import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
-import { useKeyPress } from "../../../../hooks/useKeyPress";
-import { isNewDateAvailable } from "../../TotalPerWeek/TotalPerWeekWrapper/helpers";
-import { formatWeeks, getWeekDropdownWeeks } from "./helpers";
+import { DateTime } from 'luxon';
+import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
+import TotalPerDayDashboard from '../TotalPerDayDashboard/TotalPerDayDashboard';
+import ToolBar from '../../../BasicComponents/ToolBar/ToolBar';
+import Dropdown from '../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown';
+import { useKeyPress } from '../../../../hooks/useKeyPress';
+import { isNewDateAvailable } from '../../TotalPerWeek/TotalPerWeekWrapper/helpers';
+import { formatWeeks, getWeekDropdownWeeks } from './helpers';
 
 const TotalPerDayWrapper = () => {
   // Store actions
@@ -28,9 +28,9 @@ const TotalPerDayWrapper = () => {
   const [loading, setLoading] = React.useState(true);
 
   // Document key press listeners
-  const arrowLeftPress = useKeyPress("ArrowLeft");
-  const arrowRightPress = useKeyPress("ArrowRight");
-  const cPress = useKeyPress("c");
+  const arrowLeftPress = useKeyPress('ArrowLeft');
+  const arrowRightPress = useKeyPress('ArrowRight');
+  const cPress = useKeyPress('c');
 
   React.useEffect(() => {
 
@@ -44,7 +44,7 @@ const TotalPerDayWrapper = () => {
           await changeWeek(currentDate.weekNr + 1, currentDate.year);
         }
       } else if (cPress) {
-        await changeWeek(DateTime.now().weekNumber, DateTime.now().startOf("week").year);
+        await changeWeek(DateTime.now().weekNumber, DateTime.now().startOf('week').year);
       }
     })();
 
@@ -109,13 +109,13 @@ const TotalPerDayWrapper = () => {
     <>
       <ToolBar>
         <Dropdown
-          label={"Year"}
+          label={'Year'}
           options={availableDates.flatMap((availableDate) => availableDate.year)}
           onSelect={(data) => changeYear(parseInt(data.toString()))}
           selected={currentDate.year}
         />
         <Dropdown
-          label={"Week"}
+          label={'Week'}
           options={getWeekDropdownWeeks(availableDates, currentDate.year)}
           onSelect={(data) => changeWeek(parseInt(data.toString()), currentDate.year)}
           selected={currentDate.weekNr}

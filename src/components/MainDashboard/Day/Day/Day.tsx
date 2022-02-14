@@ -1,15 +1,15 @@
-import * as i from "types";
-import React, { useState } from "react";
-import { DateTime, Info } from "luxon";
+import * as i from 'types';
+import React, { useState } from 'react';
+import { DateTime, Info } from 'luxon';
 
-import CategoryItem from "../Category/CategoryItem";
-import NoteItem from "../Note/NoteItem";
-import NoteModal from "../Note/NoteModal/NoteModal";
-import "./Day.scss";
-import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
-import AnalyticsPopover from "../AnalyticsPopover/AnalyticsPopover";
-import { useKeyPress } from "../../../../hooks/useKeyPress";
-import { findStackExtremes } from "./helpers";
+import CategoryItem from '../Category/CategoryItem';
+import NoteItem from '../Note/NoteItem';
+import NoteModal from '../Note/NoteModal/NoteModal';
+import './Day.scss';
+import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
+import AnalyticsPopover from '../AnalyticsPopover/AnalyticsPopover';
+import { useKeyPress } from '../../../../hooks/useKeyPress';
+import { findStackExtremes } from './helpers';
 
 type DayProps = {
   categories: i.Category[],
@@ -27,7 +27,7 @@ type DayProps = {
  * @param weekDay The day.
  */
 function Day({ categories, notes, weekDay }: DayProps) {
-  const controlPress = useKeyPress("Control");
+  const controlPress = useKeyPress('Control');
 
   // Store state
   const currentDate = useStoreState((state) => state.settings.currentDate);
@@ -74,7 +74,7 @@ function Day({ categories, notes, weekDay }: DayProps) {
   const initDragImageState = ():HTMLImageElement => {
     // Initialise the drag "ghost" transparent image
     const dragImg: HTMLImageElement = new Image(0, 0);
-    dragImg.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+    dragImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     return dragImg;
   };
 
@@ -158,7 +158,7 @@ function Day({ categories, notes, weekDay }: DayProps) {
 
   return (
     <div
-      className={"day-container"}
+      className={'day-container'}
       onDragEndCapture={() => {
         setDragNote(null);
         setDragCategory(null);
@@ -167,8 +167,8 @@ function Day({ categories, notes, weekDay }: DayProps) {
       {hoveringOverDayHeader && <AnalyticsPopover day={weekDay} weekNr={currentDate.weekNr} year={currentDate.year} />}
 
       <div className={`day-header ${weekDay}`} onMouseOver={() => setHoveringOverDayHeader(true)} onMouseLeave={() => setHoveringOverDayHeader(false)}>
-        <p className={"day-header__day"}>{`${Info.weekdays()[weekDay]}`}</p>
-        <p className={"day-header__date"}>{`${DateTime.fromISO(categories[0].weekDayDate).toLocaleString({ month: "long", day: "numeric" })}`}</p>
+        <p className={'day-header__day'}>{`${Info.weekdays()[weekDay]}`}</p>
+        <p className={'day-header__date'}>{`${DateTime.fromISO(categories[0].weekDayDate).toLocaleString({ month: 'long', day: 'numeric' })}`}</p>
       </div>
 
       <div className="composition-container">

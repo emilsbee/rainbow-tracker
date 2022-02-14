@@ -1,8 +1,8 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./dropdown.scss";
+import './dropdown.scss';
 
 type DropdownProps = {
   label: string,
@@ -16,12 +16,12 @@ type DropdownProps = {
 const Dropdown = ({ label, options, onSelect, selected, styleSelect, text }: DropdownProps) => {
 
   return (
-    <div className={"tool-bar-item__dropdown"}>
-      <label className={"tool-bar-item__label"} htmlFor="dropdown">{label}</label>
+    <div className={'tool-bar-item__dropdown'}>
+      <label className={'tool-bar-item__label'} htmlFor="dropdown">{label}</label>
       <select
         style={styleSelect}
         value={selected}
-        className={"tool-bar-item__dropdown__select"}
+        className={'tool-bar-item__dropdown__select'}
         name="dropdown"
         onChange={(e) => onSelect(e.target.value, e.target.selectedIndex)}
       >

@@ -1,16 +1,16 @@
-import * as React from "react";
-import { createBrowserHistory } from "history";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import * as React from 'react';
+import { createBrowserHistory } from 'history';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import MainDashboardWrapper from "../components/MainDashboard/MainDashboardWrapper";
-import LoginPage from "../components/LoginPage/LoginPage";
-import NotFound from "../components/NotFoundPage/NotFound";
-import SettingsDashboardWrapper from "../components/Settings/SettingsDashboardWrapper/SettingsDashboardWrapper";
-import BackendError from "../components/BackendErrorPage/BackendError";
-import AnalyticsDashboardWrapper from "../components/Analytics/AnalyticsDashboardWrapper/AnalyticsDashboardWrapper";
-import EditActivityForm from "../components/Settings/EditActivityForm/EditActivityForm";
-import PublicRoute from "./PublicRoute";
-import PrivateRoute from "./PrivateRoute";
+import MainDashboardWrapper from '../components/MainDashboard/MainDashboardWrapper';
+import LoginPage from '../components/LoginPage/LoginPage';
+import NotFound from '../components/NotFoundPage/NotFound';
+import SettingsDashboardWrapper from '../components/Settings/SettingsDashboardWrapper/SettingsDashboardWrapper';
+import BackendError from '../components/BackendErrorPage/BackendError';
+import AnalyticsDashboardWrapper from '../components/Analytics/AnalyticsDashboardWrapper/AnalyticsDashboardWrapper';
+import EditActivityForm from '../components/Settings/EditActivityForm/EditActivityForm';
+import PublicRoute from './PublicRoute';
+import PrivateRoute from './PrivateRoute';
 
 export const history = createBrowserHistory();
 

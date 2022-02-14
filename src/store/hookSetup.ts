@@ -1,5 +1,5 @@
-import * as i from "types";
-import { createTypedHooks } from "easy-peasy";
+import * as i from 'types';
+import { createTypedHooks } from 'easy-peasy';
 
 const typedHooks = createTypedHooks<i.StoreModel>();
 

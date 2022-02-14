@@ -1,11 +1,11 @@
-import * as i from "types";
-import { action, createStore, EasyPeasyConfig, Store } from "easy-peasy";
+import * as i from 'types';
+import { action, createStore, EasyPeasyConfig, Store } from 'easy-peasy';
 
-import authModel from "./auth/auth";
-import notesModel from "./notes/notes";
-import settingsModel from "./settings/settings";
-import categoriesModel from "./categories/categories";
-import analyticsModel from "./analytics/analytics";
+import authModel from './auth/auth';
+import notesModel from './notes/notes';
+import settingsModel from './settings/settings';
+import categoriesModel from './categories/categories';
+import analyticsModel from './analytics/analytics';
 
 
 const store: Store<i.StoreModel, EasyPeasyConfig<undefined, {}>> = createStore<i.StoreModel>({

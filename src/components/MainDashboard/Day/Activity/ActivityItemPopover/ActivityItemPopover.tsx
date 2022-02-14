@@ -1,9 +1,9 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./ActivityItemPopover.scss";
-import { useStoreState } from "../../../../../store/hookSetup";
+import './ActivityItemPopover.scss';
+import { useStoreState } from '../../../../../store/hookSetup';
 
 type ActivityItemPopoverProps = {
   onClick: (activityid: string | null) => void,
@@ -20,7 +20,7 @@ const ActivityItemPopover = ({ onClick, handleCloseModal, categoryid }: Activity
         id="activity-popover-container"
         onMouseLeave={handleCloseModal}
         style={{
-          cursor: "pointer", // To immediately set the cursor to pointer,
+          cursor: 'pointer', // To immediately set the cursor to pointer,
         }}
       >
         {activityTypes.map((activityType, index) => {
@@ -31,8 +31,8 @@ const ActivityItemPopover = ({ onClick, handleCloseModal, categoryid }: Activity
                 onClick={() => onClick(activityType.activityid)}
                 key={activityType.activityid}
                 style={{
-                  "borderTopLeftRadius": index === 0 ? "5px" : "0",
-                  "borderTopRightRadius": index === 0 ? "5px" : "0",
+                  'borderTopLeftRadius': index === 0 ? '5px' : '0',
+                  'borderTopRightRadius': index === 0 ? '5px' : '0',
                 }}
               >
                 {activityType.short}

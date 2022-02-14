@@ -1,9 +1,9 @@
 // External imports
-import React  from "react";
+import React  from 'react';
 
 // Internal imports
-import { useStoreActions, useStoreState } from "../../../store/hookSetup";
-import SettingsDashboard from "../SettingsDashboard/SettingsDashboard";
+import { useStoreActions, useStoreState } from '../../../store/hookSetup';
+import SettingsDashboard from '../SettingsDashboard/SettingsDashboard';
 
 const SettingsDashboardWrapper  = () => {
   // Store tate

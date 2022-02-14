@@ -1,19 +1,19 @@
 // External imports
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // Internal imports
-import "./analytics-dashboard-wrapper.scss";
-import TabBar from "../../BasicComponents/TabBar/TabBar";
-import TotalPerWeekWrapper from "../TotalPerWeek/TotalPerWeekWrapper/TotalPerWeekWrapper";
-import TotalPerDayWrapper from "../TotalPerDay/TotalPerDayWrapper/TotalPerDayWrapper";
-import TotalPerMonthWrapper from "../TotalPerMonth/TotalPerMonthWrapper/TotalPerMonthWrapper";
+import './analytics-dashboard-wrapper.scss';
+import TabBar from '../../BasicComponents/TabBar/TabBar';
+import TotalPerWeekWrapper from '../TotalPerWeek/TotalPerWeekWrapper/TotalPerWeekWrapper';
+import TotalPerDayWrapper from '../TotalPerDay/TotalPerDayWrapper/TotalPerDayWrapper';
+import TotalPerMonthWrapper from '../TotalPerMonth/TotalPerMonthWrapper/TotalPerMonthWrapper';
 
 /**
  * The wrapper component for all analytics tabs.
  */
 const AnalyticsDashboardWrapper = () => {
-  const tabs = ["Monthly", "Weekly", "Daily"];
+  const tabs = ['Monthly', 'Weekly', 'Daily'];
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const AnalyticsDashboardWrapper = () => {
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
 
   React.useEffect(() => {
-    const currentPath = location.pathname.split("/");
+    const currentPath = location.pathname.split('/');
 
     if (currentPath.length === 3) {
 
@@ -35,12 +35,12 @@ const AnalyticsDashboardWrapper = () => {
       }
     } else {
       setSelectedTabIndex(0);
-      navigate("/analytics/monthly");
+      navigate('/analytics/monthly');
     }
   }, [location]);
 
   return (
-    <div className={"analytics-dashboard-wrapper"}>
+    <div className={'analytics-dashboard-wrapper'}>
       <TabBar tabs={tabs} selectedIndex={selectedTabIndex} onSelect={(selected) => setSelectedTabIndex(selected)} />
 
       {tabs.map((tab, index) => {

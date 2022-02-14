@@ -1,10 +1,10 @@
 // External imports
-import React from "react";
-import { Cell, Pie, PieChart, Tooltip, TooltipProps } from "recharts";
-import { Duration } from "luxon";
+import React from 'react';
+import { Cell, Pie, PieChart, Tooltip, TooltipProps } from 'recharts';
+import { Duration } from 'luxon';
 
 // Internal imports
-import "./category-pie-chart.scss";
+import './category-pie-chart.scss';
 
 type CategoryPieChartProps = {
   categoryTypes: {
@@ -24,7 +24,7 @@ const CategoryPieChart:React.FC<CategoryPieChartProps> = ({ categoryTypes, total
         <div className="category-pie-chart__custom-tooltip">
           {payload.map((entry) => (
             <p style={{ color: entry.payload.stroke }}>
-              {entry.name}: {entry.value && Duration.fromObject({ minutes: entry.value * 15 }).toFormat("h:mm")}h ({((entry.payload.count / totalCount) * 100).toPrecision(2)}%)
+              {entry.name}: {entry.value && Duration.fromObject({ minutes: entry.value * 15 }).toFormat('h:mm')}h ({((entry.payload.count / totalCount) * 100).toPrecision(2)}%)
             </p>
           ))}
         </div>
@@ -54,7 +54,7 @@ const CategoryPieChart:React.FC<CategoryPieChartProps> = ({ categoryTypes, total
           <Cell
             key={`cell-${index}`}
             fill={entry.color}
-            stroke={"black"}
+            stroke={'black'}
           />
         ))}
       </Pie>

@@ -1,9 +1,9 @@
 // External imports
-import React from "react";
-import { Duration } from "luxon";
+import React from 'react';
+import { Duration } from 'luxon';
 
 // Internal imports
-import "./category-table.scss";
+import './category-table.scss';
 
 type CategoryTableProps = {
   categoryTypes: {
@@ -18,22 +18,22 @@ type CategoryTableProps = {
 const CategoryTable:React.FC<CategoryTableProps> = ({ categoryTypes, totalCount }) => {
 
   return (
-    <table className={"analytics-category-table"}>
+    <table className={'analytics-category-table'}>
 
       <thead>
         <tr>
-          <th className={"analytics-category-table__header"} style={{ textAlign: "left" }}>Category</th>
-          <th className={"analytics-category-table__header"}>Hours</th>
-          <th className={"analytics-category-table__header"}>% of total</th>
+          <th className={'analytics-category-table__header'} style={{ textAlign: 'left' }}>Category</th>
+          <th className={'analytics-category-table__header'}>Hours</th>
+          <th className={'analytics-category-table__header'}>% of total</th>
         </tr>
       </thead>
 
       <tbody>
         {categoryTypes.map((categoryType) => (
           <tr key={categoryType.categoryid}>
-            <td className={"analytics-category-table__cell"}>
+            <td className={'analytics-category-table__cell'}>
               <div
-                className={"analytics-category-table__color"}
+                className={'analytics-category-table__color'}
                 style={{
                   backgroundColor: categoryType.color,
                 }}
@@ -42,11 +42,11 @@ const CategoryTable:React.FC<CategoryTableProps> = ({ categoryTypes, totalCount 
               {categoryType.name}
             </td>
 
-            <td className={"analytics-category-table__cell-count"}>
-              {Duration.fromObject({ minutes: categoryType.count * 15 }).toFormat("h:mm")}
+            <td className={'analytics-category-table__cell-count'}>
+              {Duration.fromObject({ minutes: categoryType.count * 15 }).toFormat('h:mm')}
             </td>
 
-            <td className={"analytics-category-table__cell-count"}>
+            <td className={'analytics-category-table__cell-count'}>
               {((categoryType.count / totalCount) * 100).toPrecision(2)}%
             </td>
           </tr>

@@ -1,12 +1,12 @@
-import * as i from "types";
-import React from "react";
+import * as i from 'types';
+import React from 'react';
 
-import "./category-section-form.scss";
-import Section from "../Section/Section";
-import ActivityList from "../../../ActivityList/ActivityList";
-import { validateCategorySubmission } from "../../../../../store/categories/helpers";
-import { useStoreActions, useStoreState } from "../../../../../store/hookSetup";
-import { archiveCategory, restoreCategoryType } from "../../../../../dao/settingsDao";
+import './category-section-form.scss';
+import Section from '../Section/Section';
+import ActivityList from '../../../ActivityList/ActivityList';
+import { validateCategorySubmission } from '../../../../../store/categories/helpers';
+import { useStoreActions, useStoreState } from '../../../../../store/hookSetup';
+import { archiveCategory, restoreCategoryType } from '../../../../../dao/settingsDao';
 
 type CategorySectionFormProps = {
   category: i.CategoryType,
@@ -27,7 +27,7 @@ function CategorySectionForm({ category, activityTypes, setLoading, viewArchived
   // Local state
   const [colorValue, setColorValue] = React.useState(category.color);
   const [nameValue, setNameValue] = React.useState(category.name);
-  const [error, setError] = React.useState({ message: "" });
+  const [error, setError] = React.useState({ message: '' });
 
   React.useEffect(() => {
     setColorValue(category.color);
@@ -85,15 +85,15 @@ function CategorySectionForm({ category, activityTypes, setLoading, viewArchived
   };
 
   return (
-    <div className={"category-section-form-container"}>
-      <div className={"category-section-form-error"}>
+    <div className={'category-section-form-container'}>
+      <div className={'category-section-form-error'}>
         {error.message}
       </div>
 
       <Section title="Name">
         <input
-          type={"text"}
-          className={"category-section-form__category-name"}
+          type={'text'}
+          className={'category-section-form__category-name'}
           value={nameValue}
           onChange={(e) => setNameValue(e.target.value)}
           maxLength={18}
@@ -101,8 +101,8 @@ function CategorySectionForm({ category, activityTypes, setLoading, viewArchived
       </Section>
 
       <Section title="Color">
-        <div className={"color-section-container"}>
-          <div style={{ backgroundColor: colorValue }} className={"color-section-color"} />
+        <div className={'color-section-container'}>
+          <div style={{ backgroundColor: colorValue }} className={'color-section-color'} />
           <input
             style={{ color: colorValue }}
             type="text"
@@ -114,7 +114,7 @@ function CategorySectionForm({ category, activityTypes, setLoading, viewArchived
         </div>
       </Section>
 
-      <Section title={"Activities"}>
+      <Section title={'Activities'}>
         <ActivityList
           viewArchived={viewArchived}
           categoryid={category.categoryid}
@@ -122,15 +122,15 @@ function CategorySectionForm({ category, activityTypes, setLoading, viewArchived
         />
       </Section>
 
-      <Section title={""}>
+      <Section title={''}>
         <div>
           {!category.archived &&
-                        <button className={"button-dlt"} onClick={handleArchiveCategory} style={{ marginRight: 40 }}>Archive</button>
+                        <button className={'button-dlt'} onClick={handleArchiveCategory} style={{ marginRight: 40 }}>Archive</button>
           }
           {category.archived &&
-                        <button className={"button-pos"} onClick={handleRestoreCategory} style={{ marginRight: 40 }}>Restore</button>
+                        <button className={'button-pos'} onClick={handleRestoreCategory} style={{ marginRight: 40 }}>Restore</button>
           }
-          <button className={"button-pos"} onClick={handleFormSubmit}>Save</button>
+          <button className={'button-pos'} onClick={handleFormSubmit}>Save</button>
         </div>
       </Section>
 

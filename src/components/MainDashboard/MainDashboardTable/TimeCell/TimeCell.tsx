@@ -1,9 +1,9 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./TimeCell.scss";
-import { useStoreState } from "../../../../store/hookSetup";
+import './TimeCell.scss';
+import { useStoreState } from '../../../../store/hookSetup';
 
 type TimeCellProps = {
   timeValues: () => string[]
@@ -19,7 +19,7 @@ const TimeCell  = ({ timeValues }: TimeCellProps) => {
           <div
             className="time-cell"
             key={index}
-            style={{ "backgroundColor": timeHoverIndex === index ? "#314149" : "transparent" }}
+            style={{ 'backgroundColor': timeHoverIndex === index ? '#314149' : 'transparent' }}
           >
             {timeVal}
           </div>

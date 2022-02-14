@@ -1,4 +1,4 @@
-import * as i from "types";
+import * as i from 'types';
 
 /**
  * Checks whether a given category has any activities associated to it.

@@ -1,10 +1,10 @@
 // External imports
-import { Cell, Pie, PieChart, Tooltip, TooltipProps } from "recharts";
-import { Duration } from "luxon";
-import React from "react";
+import { Cell, Pie, PieChart, Tooltip, TooltipProps } from 'recharts';
+import { Duration } from 'luxon';
+import React from 'react';
 
 // Internal imports
-import "./activity-pie-chart.scss";
+import './activity-pie-chart.scss';
 
 
 type ActivityPieChartProps = {
@@ -29,7 +29,7 @@ const ActivityPieChart:React.FC<ActivityPieChartProps> = ({ activityTypes, picke
         <div className="activity-pie-chart__custom-tooltip">
           {payload.map((entry) => (
             <p style={{ color: entry.payload.stroke }}>
-              {entry.name}: {entry.value && Duration.fromObject({ minutes: entry.value * 15 }).toFormat("h:mm")}h ({((entry.payload.count / totalCount) * 100).toPrecision(2)}%)
+              {entry.name}: {entry.value && Duration.fromObject({ minutes: entry.value * 15 }).toFormat('h:mm')}h ({((entry.payload.count / totalCount) * 100).toPrecision(2)}%)
             </p>
           ))}
         </div>
@@ -55,7 +55,7 @@ const ActivityPieChart:React.FC<ActivityPieChartProps> = ({ activityTypes, picke
         dataKey="count"
         animationBegin={10}
         animationDuration={900}
-        nameKey={"long"}
+        nameKey={'long'}
       >
         {activityTypes.map((entry, index) => {
           if (entry.categoryid === pickedCategoryid) {
@@ -63,7 +63,7 @@ const ActivityPieChart:React.FC<ActivityPieChartProps> = ({ activityTypes, picke
               <Cell
                 key={`cell-${index}`}
                 fill={color}
-                stroke={"black"}
+                stroke={'black'}
               />
             );
           } else return null;

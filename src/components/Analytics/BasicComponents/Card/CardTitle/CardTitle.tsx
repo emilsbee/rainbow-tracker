@@ -1,8 +1,8 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./card-title.scss";
+import './card-title.scss';
 
 type CardTitleProps = {
   title: string
@@ -11,7 +11,7 @@ type CardTitleProps = {
 const CardTitle:React.FC<CardTitleProps> = ({ title }) => {
 
   return (
-    <h3 className={"analytics-card-title"}>
+    <h3 className={'analytics-card-title'}>
       {title}
     </h3>
   );

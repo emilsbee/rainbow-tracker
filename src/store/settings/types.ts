@@ -1,5 +1,5 @@
-import * as i from "types";
-import { Action,  Computed, Thunk } from "easy-peasy";
+import * as i from 'types';
+import { Action,  Computed, Thunk } from 'easy-peasy';
 
 export type CategoryType = {
   categoryid:string,

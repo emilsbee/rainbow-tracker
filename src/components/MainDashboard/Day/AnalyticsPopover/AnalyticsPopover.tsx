@@ -1,10 +1,10 @@
-import * as i from "types";
-import React from "react";
-import { Duration } from "luxon";
+import * as i from 'types';
+import React from 'react';
+import { Duration } from 'luxon';
 
-import "./analytics-popover.scss";
-import { getTotalPerDaySpecific } from "../../../../dao/analytics/analytics";
-import { useStoreState } from "../../../../store/hookSetup";
+import './analytics-popover.scss';
+import { getTotalPerDaySpecific } from '../../../../dao/analytics/analytics';
+import { useStoreState } from '../../../../store/hookSetup';
 
 type AnalyticsPopoverProps = {
   day: number
@@ -44,13 +44,13 @@ const AnalyticsPopover:React.FC<AnalyticsPopoverProps> = ({ day, weekNr, year })
   if (loading || !totalPerDaySpecific) return null;
 
   return (
-    <table className={"main-dashboard__day-analytics-popover"} style={{ top: position.bottom, left: position.left + 30 }}>
+    <table className={'main-dashboard__day-analytics-popover'} style={{ top: position.bottom, left: position.left + 30 }}>
       {totalPerDaySpecific.categories.map((category) => {
         return (
-          <tr className={"main-dashboard__day-analytics-popover__row"}>
+          <tr className={'main-dashboard__day-analytics-popover__row'}>
             <td>
               <div
-                className={"main-dashboard__day-analytics-popover__category-color"}
+                className={'main-dashboard__day-analytics-popover__category-color'}
                 style={{
                   backgroundColor: category.color,
                 }}
@@ -61,8 +61,8 @@ const AnalyticsPopover:React.FC<AnalyticsPopoverProps> = ({ day, weekNr, year })
               {category.name}
             </td>
 
-            <td style={{ paddingLeft: "15px" }}>
-              {Duration.fromObject({ minutes: category.count * 15 }).toFormat("h:mm")}h
+            <td style={{ paddingLeft: '15px' }}>
+              {Duration.fromObject({ minutes: category.count * 15 }).toFormat('h:mm')}h
             </td>
           </tr>
         );

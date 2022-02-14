@@ -1,4 +1,4 @@
-import * as i from "types";
+import * as i from 'types';
 
 export const findCategoryForForm = (categoryTypes: i.CategoryType[], selectedCategoryid: string): i.CategoryType => {
   for (let i = 0; i < categoryTypes.length; i++) {
@@ -7,5 +7,5 @@ export const findCategoryForForm = (categoryTypes: i.CategoryType[], selectedCat
     }
   }
 
-  return { categoryid: "", userid: "", color: "", name: "", archived: false };
+  return { categoryid: '', userid: '', color: '', name: '', archived: false };
 };

@@ -1,8 +1,8 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./Toggle.scss";
+import './Toggle.scss';
 
 type ToggleProps = {
   values: string[] | number[] | boolean[],
@@ -20,7 +20,7 @@ const Toggle = ({ values, activeValue, setActiveValue }: ToggleProps) => {
           <div
             key={index}
             onClick={() => setActiveValue(value)}
-            id={value === activeValue ? "toggle-active" : "toggle-inactive"}
+            id={value === activeValue ? 'toggle-active' : 'toggle-inactive'}
           >
             {value}
           </div>

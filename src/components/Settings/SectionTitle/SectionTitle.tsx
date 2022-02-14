@@ -1,8 +1,8 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./section-title.scss";
+import './section-title.scss';
 
 type SectionTitleProps = {
   title:string
@@ -17,8 +17,8 @@ function SectionTitle({ title, viewArchived, setViewArchived }:SectionTitleProps
       {title}
 
       <div>
-        <label className={"label"} htmlFor={"archived"}>View archived</label>
-        <input name={"archived"} checked={viewArchived} type={"checkbox"} onChange={setViewArchived} />
+        <label className={'label'} htmlFor={'archived'}>View archived</label>
+        <input name={'archived'} checked={viewArchived} type={'checkbox'} onChange={setViewArchived} />
       </div>
     </div>
   );

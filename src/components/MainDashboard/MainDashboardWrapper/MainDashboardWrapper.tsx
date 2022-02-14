@@ -1,14 +1,14 @@
-import * as i from "types";
-import React from "react";
+import * as i from 'types';
+import React from 'react';
 
-import "./MainDashboardWrapper.scss";
-import MainDashboardTable from "../MainDashboardTable/MainDashboardTable";
-import MainDashboardNavBar from "../MainDashboardNavBar/MainDashboardNavBar";
-import { useStoreState, useStoreActions } from "../../../store/hookSetup";
-import { getCategoryTypesFull } from "../../../dao/settingsDao";
-import { getWeekByWeekNrAndYear } from "../../../store/categories/helpers";
-import NewFeaturePopup from "../../NewFeaturePopup/NewFeaturePopup";
-import { getPopupViewed } from "../../NewFeaturePopup/helpers";
+import './MainDashboardWrapper.scss';
+import MainDashboardTable from '../MainDashboardTable/MainDashboardTable';
+import MainDashboardNavBar from '../MainDashboardNavBar/MainDashboardNavBar';
+import { useStoreState, useStoreActions } from '../../../store/hookSetup';
+import { getCategoryTypesFull } from '../../../dao/settingsDao';
+import { getWeekByWeekNrAndYear } from '../../../store/categories/helpers';
+import NewFeaturePopup from '../../NewFeaturePopup/NewFeaturePopup';
+import { getPopupViewed } from '../../NewFeaturePopup/helpers';
 
 const MainDashboardWrapper = () => {
   // Store state
