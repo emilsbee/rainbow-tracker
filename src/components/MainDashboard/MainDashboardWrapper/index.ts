@@ -1,3 +1,3 @@
-import MainDashboardWrapper from "./MainDashboardWrapper";
+import MainDashboardWrapper from './MainDashboardWrapper';
 
 export default MainDashboardWrapper;

@@ -1,8 +1,8 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./switch.scss";
+import './switch.scss';
 
 type SwitchProps = {
   onChange: (value: boolean) => void,

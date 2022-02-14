@@ -16,12 +16,12 @@ export const getStackHeight = (max: number, min: number, height: string, marginB
 
 // These values also have to be changed in the ./Styles.scss file
 export const CONSTANTS = {
-  NOTE_HEIGHT: "22px",
-  NOTE_WIDTH: "115px",
-  NOTE_MARGIN_BOTTOM: "2px",
-  NOTE_MARGIN_LEFT: "6px",
-  NOTE_MARGIN_LEFT_RIGHT: "4px",
-  NOTE_BORDER: "#D3D3D3 0.5px solid",
-  NOTE_BORDER_RADIUS: "4px",
+  NOTE_HEIGHT: '22px',
+  NOTE_WIDTH: '115px',
+  NOTE_MARGIN_BOTTOM: '2px',
+  NOTE_MARGIN_LEFT: '6px',
+  NOTE_MARGIN_LEFT_RIGHT: '4px',
+  NOTE_BORDER: '#D3D3D3 0.5px solid',
+  NOTE_BORDER_RADIUS: '4px',
 };
 

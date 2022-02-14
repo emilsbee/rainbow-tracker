@@ -1,9 +1,9 @@
-import * as i from "types";
-import { debounce } from "debounce";
-import { action, thunkOn } from "easy-peasy";
+import * as i from 'types';
+import { debounce } from 'debounce';
+import { action, thunkOn } from 'easy-peasy';
 
-import store from "../storeSetup";
-import { history } from "../../routers/AppRouter";
+import store from '../storeSetup';
+import { history } from '../../routers/AppRouter';
 
 const categoriesModel: i.CategoriesModel = {
   categories: [],
@@ -62,21 +62,21 @@ const categoriesModel: i.CategoriesModel = {
 
         try {
           const res = await fetch(`api/user/${userid}/week/${categories[0][0].weekid}/day/${weekDay}/categories `, {
-            method: "PATCH",
-            mode: "cors",
-            credentials: "include",
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-              "Accept": "application/json",
-              "Content-Type": "application/json",
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(categories[weekDay]),
           });
 
           if (!res.ok) {
-            history.push("/internal-error");
+            history.push('/internal-error');
           }
         } catch (e) {
-          history.push("/internal-error");
+          history.push('/internal-error');
         }
       },
       200,

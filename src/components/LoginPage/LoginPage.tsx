@@ -1,9 +1,9 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./login-page.scss";
-import { useStoreActions } from "../../store/hookSetup";
+import './login-page.scss';
+import { useStoreActions } from '../../store/hookSetup';
 
 
 const LoginPage = () => {
@@ -11,9 +11,9 @@ const LoginPage = () => {
   const login = useStoreActions((actions) => actions.auth.login);
 
   // Local state
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState<string>("");
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState<string>('');
 
   const handleSubmit = async (e:  React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,49 +23,49 @@ const LoginPage = () => {
         await login({ email, password });
       } catch (e: any) {
         setError(e.message);
-        setEmail("");
-        setPassword("");
+        setEmail('');
+        setPassword('');
       }
     }
   };
 
   return (
     <section className="login-container">
-      <h2 className={"login-header"}>
+      <h2 className={'login-header'}>
                 Welcome, curious person!
       </h2>
 
-      <div className={"login-error__container"}>
-        <p className={"login-error_message"}>
+      <div className={'login-error__container'}>
+        <p className={'login-error_message'}>
           {error}
         </p>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor={"email"}>
-          <p className={"login-input-label"}>Email</p>
+        <label htmlFor={'email'}>
+          <p className={'login-input-label'}>Email</p>
         </label>
         <input
-          name={"email"}
-          type={"text"}
+          name={'email'}
+          type={'text'}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="login-input"
         />
 
-        <label htmlFor={"password"}>
-          <p className={"login-input-label"}>Password</p>
+        <label htmlFor={'password'}>
+          <p className={'login-input-label'}>Password</p>
         </label>
         <input
-          name={"password"}
-          type={"password"}
+          name={'password'}
+          type={'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="login-input"
         />
 
-        <section className={"login-button-container"}>
-          <button className="login-button" type={"submit"}>Login</button>
+        <section className={'login-button-container'}>
+          <button className="login-button" type={'submit'}>Login</button>
         </section>
       </form>
     </section>

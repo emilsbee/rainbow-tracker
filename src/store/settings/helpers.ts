@@ -1,4 +1,4 @@
-import * as i from "types";
+import * as i from 'types';
 
 /**
  * Sorts given category types such that unarchived ones come first and then archived ones.

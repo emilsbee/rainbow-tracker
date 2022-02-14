@@ -1,12 +1,12 @@
 // External imports
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 // Internal imports
-import "./new-feature-popup.scss";
-import { ReactComponent as Close } from "../../svgIcons/close.svg";
-import { useStoreActions } from "../../store/hookSetup";
-import { setPopupViewed } from "./helpers";
+import './new-feature-popup.scss';
+import { ReactComponent as Close } from '../../svgIcons/close.svg';
+import { useStoreActions } from '../../store/hookSetup';
+import { setPopupViewed } from './helpers';
 
 const NewFeaturePopup = () => {
   // Store actions
@@ -18,16 +18,16 @@ const NewFeaturePopup = () => {
   };
 
   return (
-    <div  className={"new-feature-popup__container"}>
-      <div className={"new-feature-popup"}>
+    <div  className={'new-feature-popup__container'}>
+      <div className={'new-feature-popup'}>
         <p>
                     New Daily analytics available.
         </p>
-        <NavLink onClick={setPopupViewed} style={{ textDecoration: "none" }} to={"/analytics"}>Check out</NavLink>
+        <NavLink onClick={setPopupViewed} style={{ textDecoration: 'none' }} to={'/analytics'}>Check out</NavLink>
       </div>
 
-      <div className={"new-feature-popup__header"}>
-        <Close className={"close-icon"} onClick={handleClose} />
+      <div className={'new-feature-popup__header'}>
+        <Close className={'close-icon'} onClick={handleClose} />
       </div>
     </div>
   );

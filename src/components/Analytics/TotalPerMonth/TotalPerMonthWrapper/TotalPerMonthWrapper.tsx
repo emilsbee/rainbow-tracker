@@ -1,15 +1,15 @@
 // External imports
-import React from "react";
-import { DateTime, Info } from "luxon";
+import React from 'react';
+import { DateTime, Info } from 'luxon';
 
 // Internal imports
-import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
-import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
-import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
-import NoAnalyticsBanner from "../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner";
-import TotalPerMonthDashboard from "../TotalPerMonthDashboard/TotalPerMonthDashboard";
-import { useKeyPress } from "../../../../hooks/useKeyPress";
-import { isNewMonthDateAvailable } from "./helpers";
+import ToolBar from '../../../BasicComponents/ToolBar/ToolBar';
+import Dropdown from '../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown';
+import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
+import NoAnalyticsBanner from '../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner';
+import TotalPerMonthDashboard from '../TotalPerMonthDashboard/TotalPerMonthDashboard';
+import { useKeyPress } from '../../../../hooks/useKeyPress';
+import { isNewMonthDateAvailable } from './helpers';
 
 
 const TotalPerMonthWrapper:React.FC = () => {
@@ -28,9 +28,9 @@ const TotalPerMonthWrapper:React.FC = () => {
   const [error, setError] = React.useState<string | null>(null);
 
   // Document key press listeners
-  const arrowLeftPress = useKeyPress("ArrowLeft");
-  const arrowRightPress = useKeyPress("ArrowRight");
-  const cPress = useKeyPress("c");
+  const arrowLeftPress = useKeyPress('ArrowLeft');
+  const arrowRightPress = useKeyPress('ArrowRight');
+  const cPress = useKeyPress('c');
 
 
   React.useEffect(() => {
@@ -45,7 +45,7 @@ const TotalPerMonthWrapper:React.FC = () => {
           await changeMonth(currentMonthDate.month + 1, currentMonthDate.year);
         }
       } else if (cPress) {
-        await changeMonth(DateTime.now().month, DateTime.now().startOf("week").year);
+        await changeMonth(DateTime.now().month, DateTime.now().startOf('week').year);
       }
     })();
 
@@ -58,7 +58,7 @@ const TotalPerMonthWrapper:React.FC = () => {
       try {
         await fetchTotalPerMonth({ userid, month: currentMonthDate.month, year: currentMonthDate.year });
         await fetchAvailableMonths({ userid });
-        setError("");
+        setError('');
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -72,7 +72,7 @@ const TotalPerMonthWrapper:React.FC = () => {
 
     try {
       await fetchTotalPerMonth({ userid, month, year });
-      setError("");
+      setError('');
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -93,7 +93,7 @@ const TotalPerMonthWrapper:React.FC = () => {
 
     try {
       await fetchTotalPerMonth({ userid, month, year });
-      setError("");
+      setError('');
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -111,13 +111,13 @@ const TotalPerMonthWrapper:React.FC = () => {
     <>
       <ToolBar>
         <Dropdown
-          label={"Year"}
+          label={'Year'}
           options={[...new Set(availableMonths.flatMap((availableDate) => availableDate.year))]}
           onSelect={(data) => changeYear(parseInt(data.toString()))}
           selected={currentMonthDate.year}
         />
         <Dropdown
-          label={"Month"}
+          label={'Month'}
           options={[...new Set(availableMonths.filter((availableMonth) => availableMonth.year === currentMonthDate.year).flatMap((availableMonth) => availableMonth.month))].sort((a, b) => a > b ? -1 : 1)}
           onSelect={(data) => changeMonth(parseInt(data.toString()), currentMonthDate.year)}
           selected={currentMonthDate.month}

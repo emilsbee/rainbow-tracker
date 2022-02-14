@@ -1,4 +1,4 @@
-import * as i from "types";
+import * as i from 'types';
 
 /**
  * Finds the top and bottom note's position of a give note stack.

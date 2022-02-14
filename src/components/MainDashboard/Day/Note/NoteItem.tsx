@@ -1,9 +1,9 @@
-import * as i from "types";
-import React from "react";
+import * as i from 'types';
+import React from 'react';
 
-import "./Note.scss";
-import { useStoreActions } from "../../../../store/hookSetup";
-import { getStackHeight, CONSTANTS } from "./helpers";
+import './Note.scss';
+import { useStoreActions } from '../../../../store/hookSetup';
+import { getStackHeight, CONSTANTS } from './helpers';
 
 type NoteComponentProps = {
   note: i.Note;

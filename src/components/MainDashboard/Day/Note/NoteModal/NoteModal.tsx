@@ -1,7 +1,7 @@
-import * as i from "types";
-import React, { useState } from "react";
+import * as i from 'types';
+import React, { useState } from 'react';
 
-import "./NoteModal.scss";
+import './NoteModal.scss';
 
 type NoteModalProps = {
   note: i.Note,
@@ -30,11 +30,11 @@ function NoteModal({ note, saveNote, deleteText, deleteStack, stack }: NoteModal
      */
   const handleKeyDown = (e:  React.KeyboardEvent<HTMLDivElement>) => {
     e.stopPropagation();
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) {
       note.note = localNote;
       saveNote(note);
       e.preventDefault();
-    } else if (e.key === "Escape") {
+    } else if (e.key === 'Escape') {
       note.note = localNote;
       saveNote(note);
     }

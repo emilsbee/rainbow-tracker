@@ -1,5 +1,5 @@
-import * as i from "types";
-import { Thunk, Action } from "easy-peasy";
+import * as i from 'types';
+import { Thunk, Action } from 'easy-peasy';
 
 export type User = {
   userid:string

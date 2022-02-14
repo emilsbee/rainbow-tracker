@@ -1,4 +1,4 @@
-import * as i from "types";
+import * as i from 'types';
 
 export const isNewMonthDateAvailable = (availableMonths: i.AvailableMonth[], year: number, month: number):boolean => {
   let isAvailable = false;

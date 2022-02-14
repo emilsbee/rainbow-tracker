@@ -1,9 +1,9 @@
 // External imports
-import React from "react";
-import { Duration } from "luxon";
+import React from 'react';
+import { Duration } from 'luxon';
 
 // Internal imports
-import "./activity-table.scss";
+import './activity-table.scss';
 
 type ActivityTableProps = {
   categoryTypes: {
@@ -27,13 +27,13 @@ const ActivityTable:React.FC<ActivityTableProps> = ({ categoryTypes, activityTyp
   const totalInCategory = categoryTypes.filter((categoryType) => categoryType.categoryid === pickedCategoryid).flatMap((categoryType) => categoryType.count).reduce((prev, next) => prev + next);
 
   return (
-    <table className={"analytics-activity-table-table"}>
+    <table className={'analytics-activity-table-table'}>
       <thead>
         <tr>
-          <th className={"analytics-activity-table__header"} style={{ textAlign: "left" }}>Activity  </th>
-          <th className={"analytics-activity-table__header"}>Hours total</th>
-          <th className={"analytics-activity-table__header"}>% of total</th>
-          <th className={"analytics-activity-table__header"}>% of category</th>
+          <th className={'analytics-activity-table__header'} style={{ textAlign: 'left' }}>Activity  </th>
+          <th className={'analytics-activity-table__header'}>Hours total</th>
+          <th className={'analytics-activity-table__header'}>% of total</th>
+          <th className={'analytics-activity-table__header'}>% of category</th>
         </tr>
       </thead>
 
@@ -43,27 +43,27 @@ const ActivityTable:React.FC<ActivityTableProps> = ({ categoryTypes, activityTyp
 
             return (
               <tr key={activityType.activityid}>
-                <td className={"analytics-activity-table__cell"}>
+                <td className={'analytics-activity-table__cell'}>
                   <div
-                    className={"analytics-activity-table__color"}
+                    className={'analytics-activity-table__color'}
                     style={{
                       backgroundColor: color,
                     }}
                   />
-                  <p className={"analytics-activity-table__long"}>
+                  <p className={'analytics-activity-table__long'}>
                     {activityType.long}
                   </p>
                 </td>
 
-                <td className={"analytics-activity-table__cell-count"}>
-                  {Duration.fromObject({ minutes: activityType.count * 15 }).toFormat("h:mm")}
+                <td className={'analytics-activity-table__cell-count'}>
+                  {Duration.fromObject({ minutes: activityType.count * 15 }).toFormat('h:mm')}
                 </td>
 
-                <td className={"analytics-activity-table__cell-count"}>
+                <td className={'analytics-activity-table__cell-count'}>
                   {((activityType.count / totalCount) * 100).toPrecision(2)}%
                 </td>
 
-                <td className={"analytics-activity-table__cell-count"}>
+                <td className={'analytics-activity-table__cell-count'}>
                   {((activityType.count / totalInCategory) * 100).toPrecision((activityType.count / totalInCategory) * 100 === 100 ? 3 : 2)}%
                 </td>
               </tr>

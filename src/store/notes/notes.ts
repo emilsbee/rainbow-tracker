@@ -1,11 +1,11 @@
-import * as i from "types";
-import { action, debug, thunkOn, TargetPayload } from "easy-peasy";
-import { v4 as uuidv4 } from "uuid";
-import { debounce } from "debounce";
+import * as i from 'types';
+import { action, debug, thunkOn, TargetPayload } from 'easy-peasy';
+import { v4 as uuidv4 } from 'uuid';
+import { debounce } from 'debounce';
 
-import { findStackExtremes } from "../../components/MainDashboard/Day/Day/helpers";
-import store from "../storeSetup";
-import { history } from "../../routers/AppRouter";
+import { findStackExtremes } from '../../components/MainDashboard/Day/Day/helpers';
+import store from '../storeSetup';
+import { history } from '../../routers/AppRouter';
 
 const notesModel: i.NotesModel = {
   notes: [],
@@ -30,28 +30,28 @@ const notesModel: i.NotesModel = {
 
         try {
           const res = await fetch(`api/user/${userid}/week/${notes[0][0].weekid}/day/${weekDay}/notes `, {
-            method: "PATCH",
-            mode: "cors",
-            credentials: "include",
+            method: 'PATCH',
+            mode: 'cors',
+            credentials: 'include',
             headers: {
-              "Accept": "application/json",
-              "Content-Type": "application/json",
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(notes[weekDay]),
           });
 
           if (!res.ok) {
-            history.push("/internal-error");
+            history.push('/internal-error');
           }
         } catch (e) {
-          history.push("/internal-error");
+          history.push('/internal-error');
         }
       },
       200,
     ),
   ),
 
-  aboveDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, weekDay: -1, dragStackid: "", dragNoteText: "" },
+  aboveDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, weekDay: -1, dragStackid: '', dragNoteText: '' },
 
   aboveDifference: action((state, payload) => {
 
@@ -94,7 +94,7 @@ const notesModel: i.NotesModel = {
                                     noteToRemoveText.weekDay === weekDay &&
                                     noteToRemoveText.notePosition !== draggedIntoPosition
                 ) {
-                  state.notes[m][n].note = "";
+                  state.notes[m][n].note = '';
                 }
               }
             }
@@ -111,7 +111,7 @@ const notesModel: i.NotesModel = {
     }
   }),
 
-  belowDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, weekDay: -1, dragStackid: "", oldStackid: "", oldNote: "" },
+  belowDifferenceCache: { draggedIntoPosition: 0, dragPosition: 0, weekDay: -1, dragStackid: '', oldStackid: '', oldNote: '' },
 
   belowDifference: action((state, payload) => {
 
@@ -157,7 +157,7 @@ const notesModel: i.NotesModel = {
                                     noteToRemoveText.weekDay === weekDay &&
                                     noteToRemoveText.notePosition !== dragPosition
                 ) {
-                  state.notes[m][n].note = "";
+                  state.notes[m][n].note = '';
                 }
               }
             }
@@ -211,7 +211,7 @@ const notesModel: i.NotesModel = {
         const note: i.Note =  state.notes[i][j];
 
         if (note.notePosition === payload.notePosition && note.weekDay === payload.weekDay) {
-          state.notes[i][j].note = "";
+          state.notes[i][j].note = '';
           break;
         }
       }
@@ -229,7 +229,7 @@ const notesModel: i.NotesModel = {
           state.notes[i][j].stackid = uuidv4();
 
           if (note.notePosition !== min) {
-            state.notes[i][j].note = "";
+            state.notes[i][j].note = '';
           }
         }
       }

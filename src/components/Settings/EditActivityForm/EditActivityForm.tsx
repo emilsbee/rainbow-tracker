@@ -1,12 +1,12 @@
-import * as i from "types";
-import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import * as i from 'types';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import "./edit-activity-form.scss";
-import { useStoreActions, useStoreState } from "../../../store/hookSetup";
-import { ReactComponent as Loader } from "../../../svgIcons/spinner.svg";
-import Switch from "../../BasicComponents/Switch/Switch";
-import { checkIfActivityExists, checkIfCategoryExists } from "./helpers";
+import './edit-activity-form.scss';
+import { useStoreActions, useStoreState } from '../../../store/hookSetup';
+import { ReactComponent as Loader } from '../../../svgIcons/spinner.svg';
+import Switch from '../../BasicComponents/Switch/Switch';
+import { checkIfActivityExists, checkIfCategoryExists } from './helpers';
 
 
 const EditActivityForm:React.FC = () => {
@@ -15,7 +15,7 @@ const EditActivityForm:React.FC = () => {
   // URL parameters
   const { categoryid, activityid } = useParams<{ categoryid: string, activityid: string }>();
 
-  const title = activityid === "new" ? "Create new activity" : "Edit activity";
+  const title = activityid === 'new' ? 'Create new activity' : 'Edit activity';
 
   // Store state
   const categoryTypes = useStoreState((state) => state.settings.categoryTypes);
@@ -28,8 +28,8 @@ const EditActivityForm:React.FC = () => {
   const createActivityType = useStoreActions((actions) => actions.settings.createActivityType);
 
   // Local state
-  const [activityLong, setActivityLong] = React.useState<string>("");
-  const [activityShort, setActivityShort] = React.useState<string>("");
+  const [activityLong, setActivityLong] = React.useState<string>('');
+  const [activityShort, setActivityShort] = React.useState<string>('');
   const [activityArchived, setActivityArchived] = React.useState<boolean>(false);
   const [categoryType, setCategoryType] = React.useState<i.CategoryType>({} as i.CategoryType);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -41,7 +41,7 @@ const EditActivityForm:React.FC = () => {
       try {
         await fetchCategoryTypesFull({ userid });
 
-        if (activityid === "new") {
+        if (activityid === 'new') {
           const { exists, categoryType } = checkIfCategoryExists(categoryTypes, categoryid);
           if (!exists) {
             navigate(-1);
@@ -73,7 +73,7 @@ const EditActivityForm:React.FC = () => {
     e.preventDefault();
 
     if (activityLong.length > 0 && activityShort.length > 0) {
-      if (activityid === "new") {
+      if (activityid === 'new') {
         try {
           await createActivityType({
             userid,
@@ -89,7 +89,7 @@ const EditActivityForm:React.FC = () => {
         } catch (e: any) {
           console.error(e.message);
         } finally {
-          history.push("/settings");
+          navigate('/settings');
         }
 
       } else {
@@ -106,11 +106,11 @@ const EditActivityForm:React.FC = () => {
             },
           });
 
-          navigate("/settings");
+          navigate('/settings');
         } catch (e: any) {
           console.error(e.message);
         } finally {
-          navigate("/settings");
+          navigate('/settings');
         }
 
       }
@@ -120,59 +120,59 @@ const EditActivityForm:React.FC = () => {
   if (loading) {
     return (
       <div id="main-dashboard-table__loading">
-        <Loader style={{ height: "6rem", width: "6rem" }} />
+        <Loader style={{ height: '6rem', width: '6rem' }} />
       </div>
     );
   }
 
   return (
-    <section className={"edit-activity-form__container"}>
-      <div className={"edit-activity-form__title-container"}>
+    <section className={'edit-activity-form__container'}>
+      <div className={'edit-activity-form__title-container'}>
         <h1>{title}</h1>
       </div>
 
-      <form className={"edit-activity-form__form"} onSubmit={handleSave}>
-        <section className={"edit-activity-form__form-section"}>
-          <label htmlFor={"category"} className={"edit-activity-form__label"}>Part of category</label>
-          <section className={"edit-activity-form__category-section"}>
-            <p className={"edit-activity-form__category"}>
+      <form className={'edit-activity-form__form'} onSubmit={handleSave}>
+        <section className={'edit-activity-form__form-section'}>
+          <label htmlFor={'category'} className={'edit-activity-form__label'}>Part of category</label>
+          <section className={'edit-activity-form__category-section'}>
+            <p className={'edit-activity-form__category'}>
               {categoryType.name}
             </p>
-            <div style={{ backgroundColor: categoryType.color }} className={"edit-activity-form__category-color"} />
+            <div style={{ backgroundColor: categoryType.color }} className={'edit-activity-form__category-color'} />
           </section>
         </section>
 
-        <section className={"edit-activity-form__form-section"}>
-          <label htmlFor={"long"} className={"edit-activity-form__label"}>Long description</label>
+        <section className={'edit-activity-form__form-section'}>
+          <label htmlFor={'long'} className={'edit-activity-form__label'}>Long description</label>
           <textarea
-            name={"long"}
+            name={'long'}
             value={activityLong}
             onChange={(e) => setActivityLong(e.target.value)}
-            className={"edit-activity-form__long-input"}
+            className={'edit-activity-form__long-input'}
             maxLength={100}
           />
         </section>
 
-        <section className={"edit-activity-form__form-section"}>
-          <label htmlFor={"short"} className={"edit-activity-form__label"}>Short abbreviation</label>
+        <section className={'edit-activity-form__form-section'}>
+          <label htmlFor={'short'} className={'edit-activity-form__label'}>Short abbreviation</label>
           <input
-            name={"short"}
+            name={'short'}
             type="text"
             value={activityShort}
             onChange={(e) => setActivityShort(e.target.value)}
-            className={"edit-activity-form__short-input"}
+            className={'edit-activity-form__short-input'}
             maxLength={2}
           />
         </section>
 
-        <section className={"edit-activity-form__form-section"}>
-          <label htmlFor={"archived"} className={"edit-activity-form__label"}>Archived</label>
+        <section className={'edit-activity-form__form-section'}>
+          <label htmlFor={'archived'} className={'edit-activity-form__label'}>Archived</label>
           <Switch onChange={setActivityArchived} value={activityArchived} />
         </section>
 
-        <section className={"edit-activity-form__form-section"}>
+        <section className={'edit-activity-form__form-section'}>
           <div />
-          <button className={"button-pos"}>Save</button>
+          <button className={'button-pos'}>Save</button>
         </section>
       </form>
     </section>

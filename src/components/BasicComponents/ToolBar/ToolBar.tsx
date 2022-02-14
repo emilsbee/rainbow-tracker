@@ -1,8 +1,8 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import "./tool-bar.scss";
+import './tool-bar.scss';
 
 type ToolBarProps = {
   children: React.ReactNode
@@ -11,7 +11,7 @@ type ToolBarProps = {
 const ToolBar = ({ children }: ToolBarProps) => {
 
   return (
-    <div className={"tool-bar"}>
+    <div className={'tool-bar'}>
       {children}
     </div>
   );

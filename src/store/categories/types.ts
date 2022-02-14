@@ -1,5 +1,5 @@
-import * as i from "types";
-import { Action, ThunkOn } from "easy-peasy";
+import * as i from 'types';
+import { Action, ThunkOn } from 'easy-peasy';
 
 export type Week = {
   weekid: string,

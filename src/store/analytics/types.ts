@@ -1,5 +1,5 @@
-import * as i from "types";
-import { Action, Thunk } from "easy-peasy";
+import * as i from 'types';
+import { Action, Thunk } from 'easy-peasy';
 
 export type TotalPerDay = {
   weekDay: number

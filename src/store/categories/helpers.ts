@@ -1,5 +1,5 @@
-import * as i from "types";
-import { history } from "../../routers/AppRouter";
+import * as i from 'types';
+import { history } from '../../routers/AppRouter';
 
 /**
  * Fetches a week by week number and year for a specific user from the api.
@@ -10,22 +10,22 @@ import { history } from "../../routers/AppRouter";
 export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<i.FullWeek[]> => {
   try {
     const res = await fetch(`api/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
     });
 
     if (res.ok) {
       return await res.json();
     } else {
       if (res.status === 400) {
-        history.push("/internal-error");
+        history.push('/internal-error');
       }
 
       return await createWeekByWeekNrAndYear(userid, weekNr, year);
     }
   } catch (e) {
-    history.push("/internal-error");
+    history.push('/internal-error');
     return await createWeekByWeekNrAndYear(userid, weekNr, year);
   }
 };
@@ -39,10 +39,10 @@ export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, yea
 export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<i.FullWeek[]> => {
   try {
     const res = await fetch(`api/user/${userid}/weeks`, {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: new Headers({ "content-type": "application/json" }),
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify({
         weekNr,
         weekYear: year,
@@ -52,11 +52,11 @@ export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, 
     if (res.ok) {
       return await res.json();
     } else {
-      history.push("/internal-error");
+      history.push('/internal-error');
       return [];
     }
   } catch (e) {
-    history.push("/internal-error");
+    history.push('/internal-error');
     return [];
   }
 };
@@ -70,14 +70,14 @@ export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, 
  * @return {valid, message} Valid indicates whether input is valid, and message is present if the input is invalid.
  */
 export const validateCategorySubmission = (categoryid:string, name:string, color:string):{valid:boolean, message:string} => {
-  const returnVal = { valid: true, message: "" };
+  const returnVal = { valid: true, message: '' };
 
   if (!name || name.trim().length <= 0 || name.trim().length > 50) {
     returnVal.valid = false;
-    returnVal.message = "You must provide a category name of length 1-50.";
-  } else if (!color || color.length <= 0 || color.length > 7 || color[0] !== "#") {
+    returnVal.message = 'You must provide a category name of length 1-50.';
+  } else if (!color || color.length <= 0 || color.length > 7 || color[0] !== '#') {
     returnVal.valid = false;
-    returnVal.message = "You must provide a valid hex color value.";
+    returnVal.message = 'You must provide a valid hex color value.';
   }
 
   return returnVal;

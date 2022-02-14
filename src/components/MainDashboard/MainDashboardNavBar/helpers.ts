@@ -1,5 +1,5 @@
-import * as i from "types";
-import { DateTime } from "luxon";
+import * as i from 'types';
+import { DateTime } from 'luxon';
 
 export const getPreviousWeek = (currentWeekNr: number, currentYear: number): i.Date => {
   let newWeekNr, newYear;
@@ -34,6 +34,6 @@ export const getNextWeek = (currentWeekNr: number, currentYear: number): i.Date 
 export const getCurrentWeek = (): i.Date => {
   return  {
     weekNr: DateTime.now().weekNumber,
-    year: DateTime.now().startOf("week").year,
+    year: DateTime.now().startOf('week').year,
   };
 };

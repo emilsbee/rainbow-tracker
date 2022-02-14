@@ -1,9 +1,9 @@
-import * as i from "types";
-import React from "react";
+import * as i from 'types';
+import React from 'react';
 
-import "./settingsDashboard.scss";
-import CategorySection from "../CategorySection/CategorySection/CategorySection";
-import { ReactComponent as Loader } from "../../../svgIcons/spinner.svg";
+import './settingsDashboard.scss';
+import CategorySection from '../CategorySection/CategorySection/CategorySection';
+import { ReactComponent as Loader } from '../../../svgIcons/spinner.svg';
 
 type SettingsDashboardProps = {
   categoryTypes: i.CategoryType[],
@@ -17,7 +17,7 @@ const SettingsDashboard  = ({ categoryTypes, activityTypes, loading, setLoading 
   if (loading) {
     return (
       <div className="settings-dashboard__loading">
-        <Loader style={{ height: "6rem", width: "6rem" }} />
+        <Loader style={{ height: '6rem', width: '6rem' }} />
       </div>
     );
   }

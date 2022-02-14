@@ -1,5 +1,5 @@
-import * as i from "types";
-import React from "react";
+import * as i from 'types';
+import React from 'react';
 import {
   BarChart,
   Bar,
@@ -9,10 +9,10 @@ import {
   Legend,
   ResponsiveContainer,
   TooltipProps,
-} from "recharts";
-import { Duration, Info } from "luxon";
+} from 'recharts';
+import { Duration, Info } from 'luxon';
 
-import { useStoreState } from "../../../../store/hookSetup";
+import { useStoreState } from '../../../../store/hookSetup';
 
 type TotalPerDayCategoriesChartProps = {
   totalPerDay: i.TotalPerDay[]
@@ -46,7 +46,7 @@ const TotalPerDayCategoriesChart = ({ totalPerDay }: TotalPerDayCategoriesChartP
         <div className="custom-tooltip">
           {payload.map((entry) => (
             <p style={{ color: entry.color }}>
-              {entry.dataKey}: {entry.value && Duration.fromObject({ minutes: entry.value * 15 }).toFormat("h:mm")}h
+              {entry.dataKey}: {entry.value && Duration.fromObject({ minutes: entry.value * 15 }).toFormat('h:mm')}h
             </p>
           ))}
         </div>
@@ -56,7 +56,7 @@ const TotalPerDayCategoriesChart = ({ totalPerDay }: TotalPerDayCategoriesChartP
 
 
   return (
-    <div style={{ width: "800px", height: "500px" }}>
+    <div style={{ width: '800px', height: '500px' }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={500}
@@ -69,12 +69,12 @@ const TotalPerDayCategoriesChart = ({ totalPerDay }: TotalPerDayCategoriesChartP
             bottom: 5,
           }}
         >
-          <XAxis dataKey="weekDay" stroke={"white"} />
+          <XAxis dataKey="weekDay" stroke={'white'} />
           <YAxis />
           <Tooltip
             content={<CustomTooltip />}
             animationDuration={100}
-            contentStyle={{ backgroundColor: "white", borderRadius: "7px" }}
+            contentStyle={{ backgroundColor: 'white', borderRadius: '7px' }}
             // cursor={<CustomCursor />}
             cursor={false}
           />

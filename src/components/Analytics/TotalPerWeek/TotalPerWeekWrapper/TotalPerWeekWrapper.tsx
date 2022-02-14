@@ -1,16 +1,16 @@
 // External imports
-import React from "react";
+import React from 'react';
 
 // Internal imports
-import { DateTime } from "luxon";
-import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
-import TotalPerWeekDashboard from "../TotalPerWeekDashboard/TotalPerWeekDashboard";
-import ToolBar from "../../../BasicComponents/ToolBar/ToolBar";
-import Dropdown from "../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown";
-import { formatWeeks, getWeekDropdownWeeks } from "../../TotalPerDay/TotalPerDayWrapper/helpers";
-import { useKeyPress } from "../../../../hooks/useKeyPress";
-import NoAnalyticsBanner from "../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner";
-import { isNewDateAvailable } from "./helpers";
+import { DateTime } from 'luxon';
+import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
+import TotalPerWeekDashboard from '../TotalPerWeekDashboard/TotalPerWeekDashboard';
+import ToolBar from '../../../BasicComponents/ToolBar/ToolBar';
+import Dropdown from '../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown';
+import { formatWeeks, getWeekDropdownWeeks } from '../../TotalPerDay/TotalPerDayWrapper/helpers';
+import { useKeyPress } from '../../../../hooks/useKeyPress';
+import NoAnalyticsBanner from '../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner';
+import { isNewDateAvailable } from './helpers';
 
 const TotalPerWeekWrapper = () => {
   // Store state
@@ -28,9 +28,9 @@ const TotalPerWeekWrapper = () => {
   const [error, setError] = React.useState<string | null>(null);
 
   // Document key press listeners
-  const arrowLeftPress = useKeyPress("ArrowLeft");
-  const arrowRightPress = useKeyPress("ArrowRight");
-  const cPress = useKeyPress("c");
+  const arrowLeftPress = useKeyPress('ArrowLeft');
+  const arrowRightPress = useKeyPress('ArrowRight');
+  const cPress = useKeyPress('c');
 
 
   React.useEffect(() => {
@@ -45,7 +45,7 @@ const TotalPerWeekWrapper = () => {
           await changeWeek(currentDate.weekNr + 1, currentDate.year);
         }
       } else if (cPress) {
-        await changeWeek(DateTime.now().weekNumber, DateTime.now().startOf("week").year);
+        await changeWeek(DateTime.now().weekNumber, DateTime.now().startOf('week').year);
       }
     })();
 
@@ -58,7 +58,7 @@ const TotalPerWeekWrapper = () => {
       try {
         await fetchTotalPerWeek({ userid, weekNr: currentDate.weekNr, year: currentDate.year });
         await fetchAvailableDates({ userid });
-        setError("");
+        setError('');
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -72,7 +72,7 @@ const TotalPerWeekWrapper = () => {
 
     try {
       await fetchTotalPerWeek({ userid, weekNr, year });
-      setError("");
+      setError('');
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -97,7 +97,7 @@ const TotalPerWeekWrapper = () => {
 
       try {
         await fetchTotalPerWeek({ userid, weekNr: currentDate.weekNr, year: currentDate.year });
-        setError("");
+        setError('');
       } catch (e: any) {
         setError(e.message);
       } finally {
@@ -111,13 +111,13 @@ const TotalPerWeekWrapper = () => {
     <>
       <ToolBar>
         <Dropdown
-          label={"Year"}
+          label={'Year'}
           options={availableDates.flatMap((availableDate) => availableDate.year)}
           onSelect={(data) => changeYear(parseInt(data.toString()))}
           selected={currentDate.year}
         />
         <Dropdown
-          label={"Week"}
+          label={'Week'}
           options={getWeekDropdownWeeks(availableDates, currentDate.year)}
           onSelect={(data) => changeWeek(parseInt(data.toString()), currentDate.year)}
           selected={currentDate.weekNr}

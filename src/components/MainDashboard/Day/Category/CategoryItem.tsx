@@ -1,12 +1,12 @@
-import * as i from "types";
-import React, { useState, DragEvent } from "react";
+import * as i from 'types';
+import React, { useState, DragEvent } from 'react';
 
-import { useStoreActions, useStoreState } from "../../../../store/hookSetup";
-import ActivityPopover from "../Activity/ActivityItemPopover/ActivityItemPopover";
-import Activity from "../Activity/Activity";
-import "./Category.scss";
-import CategoryPopover from "./CategoryItemPopover/CategoryItemPopover";
-import { hasActivities } from "./helpers";
+import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
+import ActivityPopover from '../Activity/ActivityItemPopover/ActivityItemPopover';
+import Activity from '../Activity/Activity';
+import './Category.scss';
+import CategoryPopover from './CategoryItemPopover/CategoryItemPopover';
+import { hasActivities } from './helpers';
 
 type CategoryProps = {
   category: i.Category;
@@ -74,7 +74,7 @@ function CategoryComponent({ category, onDragStart, onDragEnter }: CategoryProps
       }
     }
 
-    return "#2A353C";
+    return '#2A353C';
   };
 
   const getActivityTypeShort = ():string => {
@@ -85,13 +85,13 @@ function CategoryComponent({ category, onDragStart, onDragEnter }: CategoryProps
         }
       }
     }
-    return "";
+    return '';
   };
 
   return (
     <div id="category-activity-container" onMouseOver={() => setHoverIndex({ timeHoverIndex: category.categoryPosition - 1 })}>
       <div
-        id={"category-container"}
+        id={'category-container'}
         onDragEnter={() => onDragEnter(category)}
         onDragStart={(e) => onDragStart(e, category)}
         draggable={true}

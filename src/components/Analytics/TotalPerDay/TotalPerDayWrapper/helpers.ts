@@ -1,5 +1,5 @@
-import * as i from "types";
-import { DateTime } from "luxon";
+import * as i from 'types';
+import { DateTime } from 'luxon';
 
 /**
  * Extracts the week numbers for a given year
@@ -26,7 +26,7 @@ export const getWeekDropdownWeeks = (availableDates: i.AvailableDate[], year: nu
  * @param year to format.
  */
 export const formatWeeks = (weeks: number[], year: number) => {
-  return weeks.map((week) => `${DateTime.fromObject({ weekNumber: week, weekYear: year }).startOf("week").toLocaleString({ month: "short", day: "numeric" })} - 
-        ${DateTime.fromObject({ weekNumber: week, weekYear: year }).endOf("week").toLocaleString({ month: "short", day: "numeric" })}
+  return weeks.map((week) => `${DateTime.fromObject({ weekNumber: week, weekYear: year }).startOf('week').toLocaleString({ month: 'short', day: 'numeric' })} - 
+        ${DateTime.fromObject({ weekNumber: week, weekYear: year }).endOf('week').toLocaleString({ month: 'short', day: 'numeric' })}
         `);
 };

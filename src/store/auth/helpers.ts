@@ -1,13 +1,13 @@
-import { history } from "../../routers/AppRouter";
+import { history } from '../../routers/AppRouter';
 
 export const checkIfLoggedIn = async (userid: string):Promise<boolean> => {
   let res;
   try {
     res = await fetch(`api/user/${userid}/auth/is-logged-in`,
       {
-        method: "GET",
-        mode: "cors",
-        credentials: "include",
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
       },
     );
 
@@ -15,14 +15,14 @@ export const checkIfLoggedIn = async (userid: string):Promise<boolean> => {
       return res.ok;
     } else {
       if (res.status !== 401) {
-        history.push("/internal-error");
+        history.push('/internal-error');
       }
 
       return false;
     }
 
   } catch (e) {
-    history.push("/internal-error");
+    history.push('/internal-error');
     return false;
   }
 };

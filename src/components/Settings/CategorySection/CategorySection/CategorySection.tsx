@@ -1,11 +1,11 @@
-import * as i from "types";
-import React from "react";
+import * as i from 'types';
+import React from 'react';
 
-import "./category-section.scss";
-import SectionTitle from "../../SectionTitle/SectionTitle";
-import CategoryList from "../CategoryList/CategoryList";
-import CategorySectionForm from "../CategorySectionForm/CategorySectionForm/CategorySectionForm";
-import { findCategoryForForm } from "./helpers";
+import './category-section.scss';
+import SectionTitle from '../../SectionTitle/SectionTitle';
+import CategoryList from '../CategoryList/CategoryList';
+import CategorySectionForm from '../CategorySectionForm/CategorySectionForm/CategorySectionForm';
+import { findCategoryForForm } from './helpers';
 
 type CategorySectionProps = {
   categoryTypes: i.CategoryType[],
@@ -16,12 +16,12 @@ type CategorySectionProps = {
 function CategorySection({ categoryTypes, activityTypes, setLoading }:CategorySectionProps) {
   // Local state
   const [viewArchived, setViewArchived] = React.useState<boolean>(false);
-  const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes.length === 0 ? "" : categoryTypes[0].categoryid);
+  const [selectedCategoryid, setSelectedCategoryid] = React.useState<string>(categoryTypes.length === 0 ? '' : categoryTypes[0].categoryid);
 
   React.useEffect(() => {
-    const exists = localStorage.getItem("view-archived");
+    const exists = localStorage.getItem('view-archived');
 
-    if (exists === "yes") {
+    if (exists === 'yes') {
       setViewArchived(true);
     }
   }, []);
@@ -30,9 +30,9 @@ function CategorySection({ categoryTypes, activityTypes, setLoading }:CategorySe
     const newViewArchived = !viewArchived;
 
     if (newViewArchived) {
-      localStorage.setItem("view-archived", "yes");
+      localStorage.setItem('view-archived', 'yes');
     } else {
-      localStorage.setItem("view-archived", "no");
+      localStorage.setItem('view-archived', 'no');
     }
 
     setViewArchived(newViewArchived);
@@ -40,9 +40,9 @@ function CategorySection({ categoryTypes, activityTypes, setLoading }:CategorySe
 
   return (
     <div className="category-section-container">
-      <SectionTitle title={"Categories"} viewArchived={viewArchived} setViewArchived={handleSetViewArchived} />
+      <SectionTitle title={'Categories'} viewArchived={viewArchived} setViewArchived={handleSetViewArchived} />
 
-      <div className={"category-section-content-container"}>
+      <div className={'category-section-content-container'}>
         <CategoryList
           viewArchived={viewArchived}
           categoryTypes={categoryTypes}

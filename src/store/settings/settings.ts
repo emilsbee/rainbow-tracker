@@ -1,9 +1,9 @@
-import * as i from "types";
-import { action, computed, thunk } from "easy-peasy";
-import { DateTime } from "luxon";
+import * as i from 'types';
+import { action, computed, thunk } from 'easy-peasy';
+import { DateTime } from 'luxon';
 
-import { history } from "../../routers/AppRouter";
-import { sortCategoryTypesByArchived } from "./helpers";
+import { history } from '../../routers/AppRouter';
+import { sortCategoryTypesByArchived } from './helpers';
 
 const settingsModel: i.SettingsModel = {
   timeHoverIndex: 0,
@@ -26,10 +26,10 @@ const settingsModel: i.SettingsModel = {
   }),
   createActivityType: thunk(async (actions, payload) => {
     const res = await fetch(`/api/user/${payload.userid}/activity-types`, {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: new Headers({ "content-type": "application/json" }),
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(payload.activityType),
     });
 
@@ -37,17 +37,17 @@ const settingsModel: i.SettingsModel = {
       const activityType: i.ActivityType = await res.json();
       actions.setActivityType({ activityType });
     } else if (res.status === 401) {
-      history.push("/login");
+      history.push('/login');
     } else {
-      throw new Error("Activity could not be created.");
+      throw new Error('Activity could not be created.');
     }
   }),
   updateActivityType: thunk(async (actions, payload) => {
     const res = await fetch(`/api/user/${payload.userid}/activity-type/${payload.activityType.activityid}`, {
-      method: "PATCH",
-      mode: "cors",
-      credentials: "include",
-      headers: new Headers({ "content-type": "application/json" }),
+      method: 'PATCH',
+      mode: 'cors',
+      credentials: 'include',
+      headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(payload.activityType),
     });
 
@@ -55,11 +55,11 @@ const settingsModel: i.SettingsModel = {
       const activityType: i.ActivityType = await res.json();
       actions.setActivityType({ activityType });
     } else if (res.status === 401) {
-      history.push("/login");
+      history.push('/login');
     } else if (res.status === 404) {
-      throw new Error("Could not find the activity to update.");
+      throw new Error('Could not find the activity to update.');
     } else {
-      throw new Error("Error occurred while updating the activity.");
+      throw new Error('Error occurred while updating the activity.');
     }
   }),
 
@@ -78,10 +78,10 @@ const settingsModel: i.SettingsModel = {
   }),
   createCategoryType: thunk(async (actions, payload) => {
     const res = await fetch(`/api/user/${payload.userid}/category-types`, {
-      method: "POST",
-      mode: "cors",
-      credentials: "include",
-      headers: new Headers({ "content-type": "application/json" }),
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify({
         color: payload.color,
         name: payload.name,
@@ -92,19 +92,19 @@ const settingsModel: i.SettingsModel = {
       const categoryType: i.CategoryType = await res.json();
       actions.setCategoryType({ categoryType });
     } else if (res.status === 401) {
-      history.push("/login");
+      history.push('/login');
     } else {
-      throw new Error("Could not create the given category.");
+      throw new Error('Could not create the given category.');
     }
   }),
   fetchCategoryTypesFull: thunk(async (actions, payload) => {
     const res = await fetch(`/api/user/${payload.userid}/category-types-full`, {
-      method: "GET",
-      mode: "cors",
-      credentials: "include",
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
     });
 
@@ -113,9 +113,9 @@ const settingsModel: i.SettingsModel = {
       actions.setActivityTypes({ activityTypes: categoryTypesFull.activityTypes });
       actions.setCategoryTypes({ categoryTypes: categoryTypesFull.categoryTypes });
     } else if (res.status === 401) {
-      history.push("/login");
+      history.push('/login');
     } else {
-      throw new Error("Could not fetch category types full");
+      throw new Error('Could not fetch category types full');
     }
   }),
   archiveCategoryType: action((state, payload) => {
@@ -154,12 +154,12 @@ const settingsModel: i.SettingsModel = {
   }),
   updateCategoryType: thunk(async (actions, payload) => {
     const res = await fetch(`api/user/${payload.userid}/category-type/${payload.categoryType.categoryid}`, {
-      method: "PATCH",
-      mode: "cors",
-      credentials: "include",
+      method: 'PATCH',
+      mode: 'cors',
+      credentials: 'include',
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(payload.categoryType),
     });
@@ -168,11 +168,11 @@ const settingsModel: i.SettingsModel = {
       const categoryType: i.CategoryType = await res.json();
       actions.setCategoryType({ categoryType });
     } else if (res.status === 401) {
-      history.push("/login");
+      history.push('/login');
     }  else if (res.status === 404) {
-      throw new Error("Could not find category to update.");
+      throw new Error('Could not find category to update.');
     } else {
-      throw new Error("Could not update the category.");
+      throw new Error('Could not update the category.');
     }
   }),
 
@@ -185,7 +185,7 @@ const settingsModel: i.SettingsModel = {
   }),
   currentDate: {
     weekNr: DateTime.now().weekNumber,
-    year: DateTime.now().startOf("week").year,
+    year: DateTime.now().startOf('week').year,
   },
   setDate: action((state, payload) => {
     state.currentDate = payload.date;

@@ -1,10 +1,10 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-import NavBar from "../components/BasicComponents/NavBar/NavBar";
-import { useStoreActions, useStoreState } from "../store/hookSetup";
-import { checkIfLoggedIn } from "../store/auth/helpers";
-import { ReactComponent as Loader } from "../svgIcons/spinner.svg";
+import NavBar from '../components/BasicComponents/NavBar/NavBar';
+import { useStoreActions, useStoreState } from '../store/hookSetup';
+import { checkIfLoggedIn } from '../store/auth/helpers';
+import { ReactComponent as Loader } from '../svgIcons/spinner.svg';
 
 /**
  * useEffect hook checks whether the current user is logged in. See
@@ -21,7 +21,7 @@ const PrivateRoute = () => {
   React.useEffect(() => {
 
     (async function () {
-      const userid = window.localStorage.getItem("userid");
+      const userid = window.localStorage.getItem('userid');
 
       if (userid) {
         const loggedIn: boolean = await checkIfLoggedIn(userid);
@@ -42,7 +42,7 @@ const PrivateRoute = () => {
   if (loading) {
     return (
       <div className="login-loading">
-        <Loader style={{ height: "6rem", width: "6rem" }} />
+        <Loader style={{ height: '6rem', width: '6rem' }} />
       </div>
     );
   }
