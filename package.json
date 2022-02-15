@@ -27,6 +27,7 @@
     "react-onclickoutside": "6.12.1",
     "react-router-dom": "6.2.1",
     "react-scripts": "5.0.0",
+    "react-toastify": "^8.2.0",
     "recharts": "2.1.9",
     "sass": "^1.49.7",
     "uuid": "^8.3.2"

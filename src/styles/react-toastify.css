@@ -1,0 +1,30 @@
+@import 'react-toastify/dist/ReactToastify.min.css';
+
+.Toastify__toast-container {
+  width: 450px;
+}
+
+/* .Toastify__toast {
+  border-radius: 4px;
+  font-family: 'noto-sans', sans-serif;
+}
+
+.Toastify__toast-body {
+  font-size: 14px;
+  margin: auto 10px;
+}
+
+
+.Toastify__toast--success {
+  background-color: #00CCB2;
+  color: #E9FBF9;
+} */
+
+.Toastify__toast--error {
+  background-color: #E5193D;
+  color: #FFE5EA;
+}
+
+:root {
+  --toastify-icon-color-error: white;
+}
