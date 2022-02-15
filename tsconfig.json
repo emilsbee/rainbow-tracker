@@ -23,6 +23,10 @@
     "sourceMap": true,
     "paths": {
       "types": ["src/types/index"],
+      "services/*": ["src/services/*"],
+      "services": ["src/services/index"],
+      "styles/*": ["src/styles/*"],
+      "styles": ["src/styles/index"],
     }
   },
   "include": [
