@@ -27,6 +27,8 @@
       "services": ["src/services/index"],
       "styles/*": ["src/styles/*"],
       "styles": ["src/styles/index"],
+      "hooks/*": ["src/services/hooks/*"],
+      "hooks": ["src/services/hooks/index"],
     }
   },
   "include": [
