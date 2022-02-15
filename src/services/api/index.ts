@@ -1,4 +1,10 @@
-import { apiHelper } from './api';
+import ApiHelper from './api';
+import { authMiddleware } from './authMiddleware';
 
-export const api = apiHelper;
+const apiHelper = new ApiHelper();
+apiHelper.applyMiddleware([authMiddleware]);
+
+const api = apiHelper.api;
+
+export { api };
 export * from './getApiUrl';

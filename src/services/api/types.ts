@@ -23,7 +23,7 @@ type RequestInitWithObjectBody = Omit<RequestInit, 'body'> & {
   body?: Body;
 };
 
-type RequestOptions = {
+export type RequestOptions = {
   path: string;
   options: RequestInitWithObjectBody;
   file: any;
@@ -31,7 +31,7 @@ type RequestOptions = {
   withAuth?: boolean;
 };
 
-type Options = {
+export type Options = {
   path: string;
   withAuth?: boolean;
   body?: any;
@@ -51,6 +51,10 @@ export type RequestApi = {
   patch: FetchCall;
 };
 
+export type RunMiddleware = (options: RequestOptions, middlewares: Middleware[]) => Promise<RequestOptions>;
+export type Middleware = (next: NextMiddleware) => (options: RequestOptions, ...args: any) => void;
+export type NextMiddleware = (options: RequestOptions, ...args: any) => void;
+
 export type FetchOptions = Omit<Options, 'method'>;
 
 export type Request = <T = any>(options: RequestOptions) => Promise<T>;
@@ -59,4 +63,4 @@ export type FetchCall = <T = any>(args: FetchOptions) => Promise<T>;
 
 export type GenerateOptions = (options: Options) => RequestOptions;
 
-export type SetupRequest = (options: Options) => Promise<any>;
+export type SetupRequest = (middlewares: Middleware[], options: Options) => Promise<any>;
