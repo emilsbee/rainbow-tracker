@@ -15,9 +15,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@testing-library/jest-dom": "5.16.2",
-    "@testing-library/react": "12.1.2",
-    "@testing-library/user-event": "13.5.0",
     "debounce": "1.2.1",
     "easy-peasy": "5.0.4",
     "isomorphic-fetch": "^3.0.0",
