@@ -1,6 +1,11 @@
 import * as i from 'types';
 import { Action,  Computed, Thunk } from 'easy-peasy';
 
+export type CategoryTypesFull = {
+  categoryTypes: i.CategoryType[];
+  activityTypes: i.ActivityType[];
+}
+
 export type CategoryType = {
   categoryid:string,
   userid:string,
@@ -51,7 +56,4 @@ export interface SettingsModel {
   currentDate: i.Date,
   setDate: Action<i.SettingsModel, {date: i.Date}>,
   currentMonthDate: Computed<i.SettingsModel, i.MonthDate>,
-
-  featurePopupViewed: boolean
-  setFeaturePopupViewed: Action<i.SettingsModel, {featurePopupViewed: boolean}>
 }

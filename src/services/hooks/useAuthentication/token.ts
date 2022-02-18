@@ -36,19 +36,19 @@ export const removeAuthenticationTokens = () => {
 export const getAuthenticationToken = () => new Promise<string>(
   async (resolve, reject) => {
     const refresh = getRefreshToken();
+
     if (refresh) {
       const current = getCurrentTimestamp();
-
       // Check if refresh needs refreshing by comparing timestamps
       if (!token || current >= token.expires_at) {
         await Auth.post({
           path: '/jwt/refresh',
           body: {
-            refresh,
+            refreshToken: refresh,
           },
         })
           .then((newToken) => {
-            setAccessToken(newToken.access);
+            setAccessToken(newToken.accessToken);
           })
           .catch(() => {
             removeAuthenticationTokens();

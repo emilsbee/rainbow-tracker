@@ -1,4 +1,7 @@
 import * as i from 'types';
+
+import { api } from 'services/api';
+
 import { history } from '../routers/AppRouter';
 
 /**
@@ -61,27 +64,16 @@ export const archiveCategory = async (userid:string, categoryid:string):Promise<
   }
 };
 
-/**
- * Fetches all category and activity types for a user.
- * @param userid of the user for which to fetch the category types full.
- */
-export const getCategoryTypesFull = async (userid: string):Promise<{activityTypes: i.ActivityType[], categoryTypes: i.CategoryType[]}> => {
-  try {
-    const res = await fetch(`api/user/${userid}/category-types-full`, {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'include',
-    });
-
-    if (res.status === 401) {
-      history.push('/login');
-    } else if (!res.ok) {
-      history.push('/internal-error');
-    }
-
-    return  await res.json() as {activityTypes: i.ActivityType[], categoryTypes: i.CategoryType[]};
-  } catch (e) {
-    history.push('/internal-error');
-    return { categoryTypes: [], activityTypes: [] };
-  }
+export const getCategoryTypesFull = async ():Promise<i.CategoryTypesFull> => {
+  return new Promise((resolve, reject) => {
+    api.get({
+      path: '/category-types-full',
+    })
+      .then((res: i.CategoryTypesFull) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err.message);
+      });
+  });
 };
