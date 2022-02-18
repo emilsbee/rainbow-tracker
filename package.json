@@ -9,7 +9,7 @@
   "license": "ISC",
   "proxy": "http://localhost:3000",
   "engines": {
-    "node": "16.0.0"
+    "node": ">=16.x"
   },
   "scripts": {
     "start": "vite",
