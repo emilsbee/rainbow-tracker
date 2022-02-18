@@ -1,7 +1,7 @@
 # Rainbow tracker
 
 ## Setup environment
-# Environment variables
+### Environment variables
 `VITE_APP_ENV='develop' | 'production'`
 
 ## About the app
