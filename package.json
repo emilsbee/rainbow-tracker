@@ -8,6 +8,9 @@
   "author": "Emils Bernhards",
   "license": "ISC",
   "proxy": "http://localhost:3000",
+  "engines": {
+    "node": "16.0.0"
+  },
   "scripts": {
     "start": "vite",
     "build": "vite build",
