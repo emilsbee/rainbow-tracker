@@ -1,7 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { useStoreState } from '../store/hookSetup';
+import { useAuthenticationUser } from 'services/hooks';
+import { ReactComponent as Loader } from '../svgIcons/spinner.svg';
 
 /**
  * The public route requires no authentication so can be access by anyone.
@@ -11,12 +12,18 @@ import { useStoreState } from '../store/hookSetup';
  * @param props The component to render and current path.
  */
 const PublicRoute = () => {
-  const uid = useStoreState((state) => state.auth.uid);
-  const isAuthenticated = !!uid;
+  const { authenticated, determined } = useAuthenticationUser();
 
+  if (!determined) {
+    return (
+      <div className="login-loading">
+        <Loader style={{ height: '6rem', width: '6rem' }} />
+      </div>
+    );
+  }
   return (
     <>
-      {isAuthenticated ? (
+      {authenticated ? (
         <Navigate to="/dashboard" />
       ) : (
         <Outlet />

@@ -190,10 +190,6 @@ const settingsModel: i.SettingsModel = {
   setDate: action((state, payload) => {
     state.currentDate = payload.date;
   }),
-  featurePopupViewed: false,
-  setFeaturePopupViewed: action((state, payload) => {
-    state.featurePopupViewed = payload.featurePopupViewed;
-  }),
 };
 
 

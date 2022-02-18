@@ -1,14 +1,14 @@
 // External imports
 import React from 'react';
 
-// Internal imports
-import './login-page.scss';
-import { useStoreActions } from '../../store/hookSetup';
+import { useAuthenticationActions } from 'hooks';
 
+import './login-page.scss';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
-  // Store actions
-  const login = useStoreActions((actions) => actions.auth.login);
+  const { login } = useAuthenticationActions();
+  const navigate = useNavigate();
 
   // Local state
   const [email, setEmail] = React.useState('');
@@ -19,13 +19,13 @@ const LoginPage = () => {
     e.preventDefault();
 
     if (email && email.length > 0 && password && password.length > 0) {
-      try {
-        await login({ email, password });
-      } catch (e: any) {
-        setError(e.message);
-        setEmail('');
-        setPassword('');
-      }
+      login(email, password)
+        .then((res) => {
+          navigate('/dashboard');
+        })
+        .catch((err) => {
+          setError(err.message);
+        });
     }
   };
 

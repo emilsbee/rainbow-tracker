@@ -1,64 +1,41 @@
 import * as i from 'types';
-import { history } from '../../routers/AppRouter';
 
-/**
- * Fetches a week by week number and year for a specific user from the api.
- * @param userid for which to fetch the week.
- * @param weekNr of the week to fetch.
- * @param year of the week to fetch.
- */
-export const getWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<i.FullWeek[]> => {
-  try {
-    const res = await fetch(`api/user/${userid}/week?week_number=${weekNr}&week_year=${year}`, {
-      method: 'GET',
-      mode: 'cors',
-      credentials: 'include',
-    });
+import { api } from 'services/api';
 
-    if (res.ok) {
-      return await res.json();
-    } else {
-      if (res.status === 400) {
-        history.push('/internal-error');
-      }
-
-      return await createWeekByWeekNrAndYear(userid, weekNr, year);
-    }
-  } catch (e) {
-    history.push('/internal-error');
-    return await createWeekByWeekNrAndYear(userid, weekNr, year);
-  }
+export const getWeekByWeekNrAndYear = async (weekNr: number, year: number):Promise<i.FullWeek> => {
+  return new Promise((resolve, reject) => {
+    api.get({
+      path: '/week',
+      query: {
+        week_number: weekNr,
+        week_year: year,
+      },
+    })
+      .then((res: i.FullWeek) => {
+        resolve(res);
+      })
+      .catch(async (err) => {
+        reject(err.message);
+      });
+  });
 };
 
-/**
- * Creates a week with a given week number and year for a given user.
- * @param userid for which to create the week.
- * @param weekNr of the week to create.
- * @param year of the week to create.
- */
-export const createWeekByWeekNrAndYear = async (userid: string, weekNr: number, year: number):Promise<i.FullWeek[]> => {
-  try {
-    const res = await fetch(`api/user/${userid}/weeks`, {
-      method: 'POST',
-      mode: 'cors',
-      credentials: 'include',
-      headers: new Headers({ 'content-type': 'application/json' }),
-      body: JSON.stringify({
+export const createWeekByWeekNrAndYear = async (weekNr: number, year: number):Promise<i.FullWeek> => {
+  return new Promise((resolve, reject) => {
+    api.post({
+      path: '/weeks',
+      body: {
         weekNr,
         weekYear: year,
-      }),
-    });
-
-    if (res.ok) {
-      return await res.json();
-    } else {
-      history.push('/internal-error');
-      return [];
-    }
-  } catch (e) {
-    history.push('/internal-error');
-    return [];
-  }
+      },
+    })
+      .then((res: i.FullWeek) => {
+        resolve(res);
+      })
+      .catch((err) => {
+        reject(err.message);
+      });
+  });
 };
 
 /**

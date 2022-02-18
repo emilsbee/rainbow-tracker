@@ -27,7 +27,6 @@ function MainDashboardTable({ categories, notes, loading }:MainDashboardTablePro
     <div id="main-dashboard-table__container">
 
       <TimeCell timeValues={timeValues} />
-
       {categories.map((dayArr, dayIndex) => {
         return (
           <Day
