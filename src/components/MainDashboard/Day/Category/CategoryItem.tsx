@@ -1,7 +1,7 @@
 import * as i from 'types';
 import React, { useState, DragEvent } from 'react';
 
-import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
+import { useStoreActions } from '../../../../store/hookSetup';
 import ActivityPopover from '../Activity/ActivityItemPopover/ActivityItemPopover';
 import Activity from '../Activity/Activity';
 import './Category.scss';
@@ -12,22 +12,20 @@ type CategoryProps = {
   category: i.Category;
   onDragStart: (e:DragEvent<HTMLDivElement>, category: i.Category) => void;
   onDragEnter: (category: i.Category) => void;
+  categoryTypeData: i.CategoryTypesFull;
 }
 
-function CategoryComponent({ category, onDragStart, onDragEnter }: CategoryProps) {
+function CategoryComponent({ category, onDragStart, onDragEnter, categoryTypeData }: CategoryProps) {
   // Store actions
   const setHoverIndex = useStoreActions((actions) => actions.settings.setHoverIndex);
   const setCategory = useStoreActions((actions) => actions.categories.setCategory);
   const setActivity = useStoreActions((actions) => actions.categories.setActivity);
 
-  // Store state
-  const activityTypes = useStoreState((state) => state.settings.activityTypes);
-  const categoryTypes = useStoreState((state) => state.settings.categoryTypes);
-
   // Local state
   const [showActivityPopover, setShowActivityPopover] = useState(false);
   const [showPopover, setShowPopover] = useState(false);
 
+  const { categoryTypes, activityTypes } = categoryTypeData;
 
   /**
      * Handles category picking from the category popover.

@@ -9,9 +9,6 @@ import { history } from '../../routers/AppRouter';
 
 const notesModel: i.NotesModel = {
   notes: [],
-  setNotes: action((state, payload) => {
-    state.notes = payload.notes;
-  }),
 
   syncToDb: thunkOn(
     (actions) => [

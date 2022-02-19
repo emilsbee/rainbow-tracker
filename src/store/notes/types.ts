@@ -1,19 +1,8 @@
 import * as i from 'types';
 import { Action, ThunkOn } from 'easy-peasy';
 
-export type Note = {
-  weekid: string,
-  weekDay: number,
-  notePosition: number,
-  stackid: string,
-  userid: string,
-  note: string,
-  weekDayDate: string
-};
-
 export interface NotesModel {
   notes: i.Note[][],
-  setNotes: Action<NotesModel, {notes: i.Note[][]}>,
   syncToDb: ThunkOn<NotesModel>,
 
   aboveDifferenceCache: { draggedIntoPosition:number, dragPosition:number, weekDay:number, dragStackid:string, dragNoteText:string },

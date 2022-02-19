@@ -1,27 +1,19 @@
 import * as i from 'types';
-import React from 'react';
+import * as React from 'react';
 
 import Day from '../Day/Day/Day';
 import { timeValues } from '../../../utils/dataGenerators';
 import './MainDashboardTable.scss';
-import { ReactComponent as Loader } from '../../../svgIcons/spinner.svg';
 import TimeCell from './TimeCell/TimeCell';
 
 type MainDashboardTableProps = {
-  categories: i.Category[][],
-  notes: i.Note[][],
-  loading:boolean
+  categories: i.Category[][];
+  notes: i.Note[][];
+  loading: boolean;
+  categoryTypeData: i.CategoryTypesFull;
 }
 
-function MainDashboardTable({ categories, notes, loading }:MainDashboardTableProps) {
-
-  if (loading) {
-    return (
-      <div id="main-dashboard-table__loading">
-        <Loader style={{ height: '6rem', width: '6rem' }} />
-      </div>
-    );
-  }
+function MainDashboardTable({ categories, notes, loading, categoryTypeData }:MainDashboardTableProps) {
 
   return (
     <div id="main-dashboard-table__container">
@@ -34,6 +26,7 @@ function MainDashboardTable({ categories, notes, loading }:MainDashboardTablePro
             categories={dayArr}
             notes={notes[dayIndex]}
             weekDay={dayIndex}
+            categoryTypeData={categoryTypeData}
           />
         );
       })}

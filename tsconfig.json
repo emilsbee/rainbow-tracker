@@ -30,6 +30,9 @@
       "styles": ["src/styles/index"],
       "hooks/*": ["src/services/hooks/*"],
       "hooks": ["src/services/hooks/index"],
+      "client": ["src/queryClient"],
+      "queries/*": ["src/queries/*"],
+      "queries": ["src/queries/index"],
     }
   },
   "include": [
