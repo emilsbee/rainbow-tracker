@@ -1,8 +1,9 @@
 import * as i from 'types';
 import * as React from 'react';
 
+import { timeValues } from 'services';
+
 import Day from '../Day/Day/Day';
-import { timeValues } from '../../../../utils/dataGenerators';
 import './MainDashboardTable.scss';
 import TimeCell from './TimeCell/TimeCell';
 
