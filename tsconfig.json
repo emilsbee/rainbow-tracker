@@ -33,6 +33,7 @@
       "client": ["src/queryClient"],
       "queries/*": ["src/queries/*"],
       "queries": ["src/queries/index"],
+      "pages/*": ["src/components/pages/*"]
     }
   },
   "include": [

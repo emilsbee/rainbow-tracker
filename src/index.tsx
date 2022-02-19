@@ -5,7 +5,7 @@ import { ToastContainer, Slide } from 'react-toastify';
 import { QueryClientProvider } from 'react-query';
 import 'styles/react-toastify.css';
 
-import { AuthenticationProvider } from 'hooks/useAuthentication';
+import { AuthenticationProvider, DateProvider } from 'hooks';
 import client from 'client';
 
 import store from './store/storeSetup';
@@ -16,15 +16,17 @@ ReactDOM.render(
   <StoreProvider store={store}>
     <QueryClientProvider client={client}>
       <AuthenticationProvider>
-        <ToastContainer
-          position="bottom-center"
-          autoClose={5000}
-          hideProgressBar
-          pauseOnHover
-          draggable={false}
-          transition={Slide}
-        />
-        <AppRouter />
+        <DateProvider>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar
+            pauseOnHover
+            draggable={false}
+            transition={Slide}
+          />
+          <AppRouter />
+        </DateProvider>
       </AuthenticationProvider>
     </QueryClientProvider>
   </StoreProvider>,

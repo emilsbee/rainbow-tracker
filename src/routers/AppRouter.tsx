@@ -2,7 +2,8 @@ import * as React from 'react';
 import { createBrowserHistory } from 'history';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import MainDashboardWrapper from '../components/MainDashboard/MainDashboardWrapper';
+import { MainDashboard } from 'pages/MainDashboard';
+
 import LoginPage from '../components/LoginPage/LoginPage';
 import NotFound from '../components/NotFoundPage/NotFound';
 import SettingsDashboardWrapper from '../components/Settings/SettingsDashboardWrapper/SettingsDashboardWrapper';
@@ -14,8 +15,7 @@ import PrivateRoute from './PrivateRoute';
 
 export const history = createBrowserHistory();
 
-const AppRouter = () => {
-
+const AppRouter: React.FC = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -29,7 +29,7 @@ const AppRouter = () => {
           <Route path="/analytics/*" element={<AnalyticsDashboardWrapper />} />
         </Route>
         <Route path="/dashboard" element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<MainDashboardWrapper />} />
+          <Route path="/dashboard" element={<MainDashboard />} />
         </Route>
         <Route path="/settings/category/:categoryid/edit-activity/:activityid" element={<PrivateRoute />}>
           <Route path="/settings/category/:categoryid/edit-activity/:activityid" element={<EditActivityForm />} />

@@ -1,0 +1,87 @@
+@import "../../../../../styles/base/settings";
+
+// Constants
+$noteHeight: 22px;
+$noteWidth: 115px;
+
+$noteMarginBottom: 2px;
+$noteMarginLeft: 6px;
+
+$notePaddingLeftRight: 4px;
+
+$noteBorder: #d3d3d3 0.5px solid;
+$noteBorderRadius: 4px;
+
+@mixin note {
+  border: 0.5px solid rgba(196, 136, 82, 0.65);
+  border-radius: $noteBorderRadius;
+
+  width: $noteWidth;
+
+  margin-bottom: $noteMarginBottom;
+  margin-left: $noteMarginLeft;
+
+  padding-left: $notePaddingLeftRight;
+  padding-right: $notePaddingLeftRight;
+
+  text-align: center;
+
+  color: darken($accent-2, 20%);
+  font-weight: 300;
+  font-size: 13px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.note-container {
+  @include note();
+
+  line-height: $noteHeight;
+  height: $noteHeight;
+
+  white-space: nowrap;
+}
+
+.note-container:hover {
+  cursor: pointer;
+}
+.note-text {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stack-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+}
+
+.stack-container {
+  @include note();
+
+  // This odd combination (with WebkitLineClamp in NoteItem.tsx)
+  // produces the ellipsis in multiline text. The WebkitLineClamp
+  // specifies how many lines of text should the text take, which
+  // is basically the amount of notes since 1 line is set to be
+  // the same height as a note.
+  overflow-wrap: break-word;
+  overflow: hidden;
+}
+
+.stack-container:hover {
+  cursor: pointer;
+}
+
+:export {
+  noteHeight: $noteHeight;
+  noteWidth: $noteWidth;
+  noteMarginBottom: $noteMarginBottom;
+  noteBorder: $noteBorder;
+  noteBorderRadius: $noteBorderRadius;
+  noteMarginLeft: $noteMarginLeft;
+  notePaddingLeftRight: $notePaddingLeftRight;
+}

@@ -1,0 +1,27 @@
+@import '../../../../../styles/base/settings';
+
+.time-cell-container {
+    width: $sizing-7;
+    margin-right: $sizing-5;
+    margin-left: $sizing-5;
+    margin-top: 55px;
+}
+
+.time-cell {
+    color: $accent-2;
+    border-radius: $sizing-1;
+    height: 22px;
+    width: $sizing-7;
+    font-weight: 300;
+    font-size: $type-sizing-2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+    transition: 0.15s;
+}
+
+
+
+

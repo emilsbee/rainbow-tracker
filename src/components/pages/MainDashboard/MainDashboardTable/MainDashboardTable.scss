@@ -1,0 +1,18 @@
+@import '../../../../styles/base/settings.scss';
+
+#main-dashboard-table__loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //background-color: $primary;
+    height: 100vh;
+}
+
+#main-dashboard-table__container {
+    margin: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}

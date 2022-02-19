@@ -1,0 +1,63 @@
+@import '../../../../../../styles/base/settings';
+
+#note-modal-container {
+    display: flex;
+    flex-direction: column;
+
+    width: $sizing-14;
+    height: $sizing-11;
+    border-radius: $sizing-3;
+
+    background-color: $dark-primary;
+    box-shadow: $modal-shadow;
+    border: solid 0.8px $dark-primary;
+}
+
+#modal-textarea {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 2;
+}
+
+#note-modal-input {
+    border: 1px solid $accent;
+    border-radius: $sizing-2;
+    padding: $sizing-2;
+    width: 95%;
+    height: 85%;
+
+    outline: none;
+    resize: none;
+    font-family: Helvetica;
+    font-weight: 300;
+    font-size: $type-sizing-2;
+    background-color: $primary;
+    color: $accent-2;
+}
+
+#note-modal-button-container {
+    flex-grow: 1;
+    width: 100%;
+    height: 38px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#note-modal-delete-button {
+    display: inline-block;
+    color: $accent-2;
+    font-size: $type-sizing-3;
+    font-weight: 300;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#note-modal-delete-button:hover {
+    cursor: pointer;
+    color: $accent;
+}
