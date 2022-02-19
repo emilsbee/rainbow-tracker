@@ -11,7 +11,7 @@ export const useGetWeek = (weekNr: number, weekYear: number): UseQueryResult<i.F
       query: {
         week_number: weekNr,
         week_year: weekYear,
-      }
+      },
     }),
     {
       select: (res: i.FullWeek) => {

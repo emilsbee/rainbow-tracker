@@ -7,7 +7,7 @@ export type Week = {
   weekYear: number;
 };
 
-export type FullWeek = i.Week & { 
+export type FullWeek = i.Week & {
   categories: i.Category[][];
   notes: i.Note[][];
 };
