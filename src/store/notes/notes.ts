@@ -3,7 +3,8 @@ import { action, debug, thunkOn, TargetPayload } from 'easy-peasy';
 import { v4 as uuidv4 } from 'uuid';
 import { debounce } from 'debounce';
 
-import { findStackExtremes } from '../../components/MainDashboard/Day/Day/helpers';
+import { findNoteStackExtremes } from 'services';
+
 import store from '../storeSetup';
 import { history } from '../../routers/AppRouter';
 
@@ -159,7 +160,7 @@ const notesModel: i.NotesModel = {
               }
             }
 
-            const { min, max } = findStackExtremes(state.notes.flat(1), oldStackid); // Finds extremes of the note that was dragged into
+            const { min, max } = findNoteStackExtremes(state.notes.flat(1), oldStackid); // Finds extremes of the note that was dragged into
             if (min !== max) { // If the note that was dragged into is a stack note
 
               // Since the note that was dragged into is the topmost note of its stack,
@@ -216,7 +217,7 @@ const notesModel: i.NotesModel = {
   }),
 
   deleteNoteStack: action((state, payload) => {
-    const { min } = findStackExtremes(debug(state.notes.flat(1)), payload.stackid);
+    const { min } = findNoteStackExtremes(debug(state.notes.flat(1)), payload.stackid);
 
     for (let i = 0; i < state.notes.length; i++) {
       for (let j = 0; j < state.notes[i].length; j++) {
