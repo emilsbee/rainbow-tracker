@@ -12,9 +12,10 @@ import { useKeyPress } from '../../../../hooks/useKeyPress';
 import { findStackExtremes } from './helpers';
 
 type DayProps = {
-  categories: i.Category[],
-  notes: i.Note[],
-  weekDay: number
+  categories: i.Category[];
+  notes: i.Note[];
+  weekDay: number;
+  categoryTypeData: i.CategoryTypesFull;
 }
 
 /**
@@ -26,7 +27,7 @@ type DayProps = {
  * @param notes The notes to display.
  * @param weekDay The day.
  */
-function Day({ categories, notes, weekDay }: DayProps) {
+function Day({ categories, notes, weekDay, categoryTypeData }: DayProps) {
   const controlPress = useKeyPress('Control');
 
   // Store state
@@ -180,6 +181,7 @@ function Day({ categories, notes, weekDay }: DayProps) {
                 category={category}
                 onDragStart={onCategoryDragStart}
                 onDragEnter={onCategoryDragEnter}
+                categoryTypeData={categoryTypeData}
               />
             );
           })}

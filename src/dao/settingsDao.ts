@@ -1,7 +1,3 @@
-import * as i from 'types';
-
-import { api } from 'services/api';
-
 import { history } from '../routers/AppRouter';
 
 /**
@@ -62,18 +58,4 @@ export const archiveCategory = async (userid:string, categoryid:string):Promise<
     history.push('/internal-error');
     return false;
   }
-};
-
-export const getCategoryTypesFull = async ():Promise<i.CategoryTypesFull> => {
-  return new Promise((resolve, reject) => {
-    api.get({
-      path: '/category-types-full',
-    })
-      .then((res: i.CategoryTypesFull) => {
-        resolve(res);
-      })
-      .catch((err) => {
-        reject(err.message);
-      });
-  });
 };

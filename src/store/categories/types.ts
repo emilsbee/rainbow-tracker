@@ -1,28 +1,8 @@
 import * as i from 'types';
 import { Action, ThunkOn } from 'easy-peasy';
 
-export type Week = {
-  weekid: string,
-  userid: string,
-  weekNr: number,
-  weekYear: number
-}
-
-export type FullWeek = i.Week & { categories: i.Category[][], notes: i.Note[][] }
-
-export type Category = {
-  weekid: string,
-  weekDay: number,
-  categoryPosition: number,
-  userid: string,
-  categoryid: string | null,
-  activityid: string | null,
-  weekDayDate: string
-}
-
 export interface CategoriesModel {
   categories: i.Category[][],
-  setCategories: Action<i.CategoriesModel, {categories: i.Category[][]}>
   setCategory: Action<i.CategoriesModel, i.Category>,
   setActivity: Action<i.CategoriesModel, { categoryPosition: number, weekDay: number, activityid: string | null}>,
   syncToDb: ThunkOn<i.CategoriesModel>,

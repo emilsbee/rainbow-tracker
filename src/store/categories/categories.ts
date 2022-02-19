@@ -7,9 +7,6 @@ import { history } from '../../routers/AppRouter';
 
 const categoriesModel: i.CategoriesModel = {
   categories: [],
-  setCategories: action((state, payload) => {
-    state.categories = payload.categories;
-  }),
   setCategory: action((state, payload) => {
     let dayIndex = -1;
     let categoryIndex = -1;
