@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { DateTime, Info } from 'luxon';
 
 import { findNoteStackExtremes } from 'services';
+import { useKeyPress } from 'hooks';
 
 import CategoryItem from '../Category/CategoryItem';
 import NoteItem from '../Note/NoteItem';
@@ -10,7 +11,6 @@ import NoteModal from '../Note/NoteModal/NoteModal';
 import './Day.scss';
 import { useStoreActions, useStoreState } from '../../../../../store/hookSetup';
 import AnalyticsPopover from '../AnalyticsPopover/AnalyticsPopover';
-import { useKeyPress } from '../../../../../hooks/useKeyPress';
 
 type DayProps = {
   categories: i.Category[];

@@ -1,10 +1,11 @@
 import * as i from 'types';
 import React from 'react';
 
+import { useKeyPress } from 'hooks';
+
 import './category-list.scss';
 import { ReactComponent as Add } from '../../../../svgIcons/add.svg';
 import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
-import { useKeyPress } from '../../../../hooks/useKeyPress';
 
 type CategoryListProps = {
   categoryTypes: i.CategoryType[],

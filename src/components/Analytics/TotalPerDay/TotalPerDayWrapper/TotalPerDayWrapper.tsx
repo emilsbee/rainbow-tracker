@@ -1,13 +1,12 @@
-// External imports
 import React from 'react';
-
-// Internal imports
 import { DateTime } from 'luxon';
+
+import { useKeyPress } from 'hooks';
+
 import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
 import TotalPerDayDashboard from '../TotalPerDayDashboard/TotalPerDayDashboard';
 import ToolBar from '../../../BasicComponents/ToolBar/ToolBar';
 import Dropdown from '../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown';
-import { useKeyPress } from '../../../../hooks/useKeyPress';
 import { isNewDateAvailable } from '../../TotalPerWeek/TotalPerWeekWrapper/helpers';
 import { formatWeeks, getWeekDropdownWeeks } from './helpers';
 

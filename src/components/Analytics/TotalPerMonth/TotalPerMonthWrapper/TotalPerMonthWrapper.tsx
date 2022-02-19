@@ -1,14 +1,13 @@
-// External imports
 import React from 'react';
 import { DateTime, Info } from 'luxon';
 
-// Internal imports
+import { useKeyPress } from 'hooks';
+
 import ToolBar from '../../../BasicComponents/ToolBar/ToolBar';
 import Dropdown from '../../../BasicComponents/ToolBar/ToolBarItems/Dropdown/Dropdown';
 import { useStoreActions, useStoreState } from '../../../../store/hookSetup';
 import NoAnalyticsBanner from '../../BasicComponents/NoAnalyticsBanner/NoAnalyticsBanner';
 import TotalPerMonthDashboard from '../TotalPerMonthDashboard/TotalPerMonthDashboard';
-import { useKeyPress } from '../../../../hooks/useKeyPress';
 import { isNewMonthDateAvailable } from './helpers';
 
 

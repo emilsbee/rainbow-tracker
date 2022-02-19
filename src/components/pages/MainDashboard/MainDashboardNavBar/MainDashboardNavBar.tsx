@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { useDate, useDateActions } from 'hooks';
+import { useKeyPress, useDate, useDateActions } from 'hooks';
 
 import './MainDashboardNavBar.scss';
 import { ReactComponent as BackArrow } from '../../../../svgIcons/back.svg';
 import { ReactComponent as NextArrow } from '../../../../svgIcons/next.svg';
-import { useKeyPress } from '../../../../hooks/useKeyPress';
 
 const MainDashboardNavBar = () => {
   const {  weekNr, year, realWeekNr, realYear } = useDate();
