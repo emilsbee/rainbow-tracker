@@ -152,8 +152,8 @@ const notesModel: i.NotesModel = {
                 const noteToRemoveText = state.notes[m][n];
 
                 if (noteToRemoveText.stackid === dragStackid &&
-                                    noteToRemoveText.weekDay === weekDay &&
-                                    noteToRemoveText.notePosition !== dragPosition
+                  noteToRemoveText.weekDay === weekDay &&
+                  noteToRemoveText.notePosition !== dragPosition
                 ) {
                   state.notes[m][n].note = '';
                 }

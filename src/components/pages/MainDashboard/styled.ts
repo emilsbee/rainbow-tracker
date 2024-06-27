@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
 export const MainDashboardWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 40px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.gray.background};
+  justify-content: flex-start;
+  align-items: center;
 `;

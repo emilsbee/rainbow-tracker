@@ -34,6 +34,9 @@
       "queries/*": ["src/queries/*"],
       "queries": ["src/queries/index"],
       "pages/*": ["src/components/pages/*"],
+      "common/*": ["src/components/common/*"],
+      "common": ["src/components/common/index"],
+      "icons/*": ["src/svgIcons/*"],
     }
   },
   "include": [

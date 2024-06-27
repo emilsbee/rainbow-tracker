@@ -1,12 +1,25 @@
 import * as i from 'types';
 import * as React from 'react';
-import { DateTime, WeekNumbers } from 'luxon';
+import { DateTime } from 'luxon';
+
+import { NumberParam, useQueryParam } from 'use-query-params';
+
+import { WEEK_QUERY_STRING, YEAR_QUERY_STRING } from './constants';
 
 export const DateContext = React.createContext<i.DateContextType>(undefined);
 
 export const DateProvider: React.FC = ({ children }) => {
-  const [weekNr, setWeekNr] = React.useState<WeekNumbers>(DateTime.now().weekNumber);
-  const [year, setYear] = React.useState<number>(DateTime.now().startOf('week').year);
+  const [queryWeekNr] = useQueryParam(WEEK_QUERY_STRING, NumberParam);
+  const [queryYear] = useQueryParam(YEAR_QUERY_STRING, NumberParam);
+
+  const initialState = {
+    weekNr: queryWeekNr || DateTime.now().weekNumber,
+    year: queryYear || DateTime.now().startOf('week').year,
+  };
+
+  const [weekNr, setWeekNr] = React.useState<number>(initialState.weekNr);
+  const [year, setYear] = React.useState<number>(initialState.year);
+
 
   const updateDate: i.DateContextDispatch = ({ weekNr, year }) => {
     const weekNumber = weekNr as any;
@@ -19,8 +32,8 @@ export const DateProvider: React.FC = ({ children }) => {
   return (
     <DateContext.Provider
       value={{
-        weekNr,
-        year,
+        weekNr: 2,
+        year: 2022,
         updateDate,
         realWeekNr: DateTime.now().weekNumber,
         realYear: DateTime.now().startOf('week').year,
